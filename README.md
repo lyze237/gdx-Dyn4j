@@ -40,7 +40,7 @@ project(":core") {
 
     dependencies {
         // ...
-        implementation "com.github.lyze237:gdx-Dyn4j:$gdxDyn4jVersion"
+        api "com.github.lyze237:gdx-Dyn4j:$gdxDyn4jVersion"
     }
 }
 ```
@@ -50,7 +50,7 @@ project(":core") {
 
 1. Add the gradle dependency to your html module:
 ```gradle
-implementation "com.github.lyze237:gdx-Dyn4j:$gdxDyn4jVersion:sources"
+api "com.github.lyze237:gdx-Dyn4j:$gdxDyn4jVersion:sources"
 ```
 
 2. Inherit the `.gwt.xml` file
