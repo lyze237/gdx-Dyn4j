@@ -6,6 +6,15 @@
 [![javadoc](https://javadoc.io/badge2/org.dyn4j/dyn4j/javadoc.svg?kill_cache=1)](https://javadoc.io/doc/org.dyn4j/dyn4j)
 ![Code Coverage](https://img.shields.io/badge/coverage-96.7%25-brightgreen)
 
+# This is a fork for libGDX
+
+I've adjusted a couple of things to make it work with libGDX, and it's html module (=> GWT).
+
+Mainly:
+* Replaced all `String.format()` calls with `String.format()` from [Formic](https://github.com/tommyettinger/formic)
+* Added the `gwt.xml` file
+
+
 ## Java Collision Detection and Physics Engine
 
 A 100% Java 2D collision detection and physics engine.  Designed to be fast, stable, extensible, and easy to use.  dyn4j is free for use in commercial and non-commercial applications.
