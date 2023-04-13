@@ -1,10 +1,8 @@
 ![alt tag](https://github.com/dyn4j/dyn4j/blob/master/dyn4j.png)
 
+[![Jitpack](https://jitpack.io/v/lyze237/gdx-Dyn4j.svg)](https://jitpack.io/#lyze237/gdx-Dyn4j)
 ![Actions Status](https://github.com/dyn4j/dyn4j/workflows/Maven%20CI/badge.svg)
 ![License](https://img.shields.io/github/license/dyn4j/dyn4j)
-![Language](https://img.shields.io/github/languages/top/dyn4j/dyn4j)
-![Java](https://img.shields.io/badge/java-6+-orange)
-![Maven Central](https://img.shields.io/maven-central/v/org.dyn4j/dyn4j)
 [![javadoc](https://javadoc.io/badge2/org.dyn4j/dyn4j/javadoc.svg?kill_cache=1)](https://javadoc.io/doc/org.dyn4j/dyn4j)
 ![Code Coverage](https://img.shields.io/badge/coverage-96.7%25-brightgreen)
 
@@ -15,8 +13,50 @@ A 100% Java 2D collision detection and physics engine.  Designed to be fast, sta
 The project is comprised of the main project and tests managed here and a samples project:
 - [dyn4j-samples](https://github.com/dyn4j/dyn4j-samples) A collection of samples to help get started
 
-### Requirements
-* Java 1.6+
+### libGDX installation instructions
+
+1. Open or create `gradle.properties` in the root folder of your project, add the following line:
+```properties
+gdxDyn4jVersion=VERSION
+```
+Check [JitPack](https://jitpack.io/#lyze237/gdx-Dyn4j) for the latest version and replacew `VERSION` with that one.
+
+
+2. Add the JitPack repo to your build file.
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+
+3. Add the library to the core module inside your `build.gradle` file.
+```gradle
+project(":core") {
+    // ...
+
+    dependencies {
+        // ...
+        implementation "com.github.lyze237:gdx-Dyn4j:$gdxDyn4jVersion"
+    }
+}
+```
+
+
+#### Html/Gwt Project
+
+1. Add the gradle dependency to your html module:
+```gradle
+implementation "com.github.lyze237:gdx-Dyn4j:$gdxDyn4jVersion:sources"
+```
+
+2. Inherit the `.gwt.xml` file
+```xml
+<inherits name="org.dyn4j.dyn4j" />
+```
 
 ### Getting Started
 dyn4j comes with a lot of features and extensibility, but getting started is easy.  If you are looking for a quick start, take a look at the following video.
