@@ -24,6 +24,8 @@
  */
 package org.dyn4j.exception;
 
+import text.formic.Stringf;
+
 /**
  * Represents an exception when an object is added to an object, but is already owned by another object.
  * @author William Bittle
@@ -40,6 +42,6 @@ public class ObjectAlreadyOwnedException extends IllegalArgumentException {
 	 * @param owner the current owner of the object
 	 */
 	public ObjectAlreadyOwnedException(String argumentName, Object object, Object owner) {
-		super(String.format("The object given for %1$s: %2$s is already owned by another object: %2$s", argumentName, object, owner));
+		super(Stringf.format("The object given for %1$s: %2$s is already owned by another object: %2$s", argumentName, object, owner));
 	}
 }

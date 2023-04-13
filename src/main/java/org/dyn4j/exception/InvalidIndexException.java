@@ -24,6 +24,8 @@
  */
 package org.dyn4j.exception;
 
+import text.formic.Stringf;
+
 /**
  * Represents an exception when a out of bounds index is used.
  * <p>
@@ -41,6 +43,6 @@ public class InvalidIndexException extends IndexOutOfBoundsException {
 	 * @param index the invalid index
 	 */
 	public InvalidIndexException(int index) {
-		super(String.format("The index %1$d is out of bounds", index));
+		super(Stringf.format("The index %1$d is out of bounds", index));
 	}
 }

@@ -24,6 +24,8 @@
  */
 package org.dyn4j.exception;
 
+import text.formic.Stringf;
+
 /**
  * Represents an exception when two arguments are the same object.
  * @author William Bittle
@@ -40,6 +42,6 @@ public class SameObjectException extends IllegalArgumentException {
 	 * @param object the object
 	 */
 	public SameObjectException(String argumentName1, String argumentName2, Object object) {
-		super(String.format("%1$s and %2$s cannot be the same object. Both were: %3$s", argumentName1, argumentName2, object));
+		super(Stringf.format("%1$s and %2$s cannot be the same object. Both were: %3$s", argumentName1, argumentName2, object));
 	}
 }

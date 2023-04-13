@@ -24,6 +24,8 @@
  */
 package org.dyn4j.exception;
 
+import text.formic.Stringf;
+
 /**
  * Represents an exception when an method or constuctor argument is null.
  * @author William Bittle
@@ -38,6 +40,6 @@ public class ArgumentNullException extends NullPointerException {
 	 * @param argumentName the name of the argument that was null
 	 */
 	public ArgumentNullException(String argumentName) {
-		super(String.format("%1$s cannot be null", argumentName));
+		super(Stringf.format("%1$s cannot be null", argumentName));
 	}
 }

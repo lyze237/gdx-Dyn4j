@@ -24,6 +24,8 @@
  */
 package org.dyn4j.exception;
 
+import text.formic.Stringf;
+
 /**
  * Represents an exception when a collection has a null element.
  * @author William Bittle
@@ -39,7 +41,7 @@ public class NullElementException extends NullPointerException {
 	 * @param index the index of the null element
 	 */
 	public NullElementException(String argumentName, int index) {
-		super(String.format("%1$s contains a null element at index %2$d", argumentName, index));
+		super(Stringf.format("%1$s contains a null element at index %2$d", argumentName, index));
 	}
 
 	/**
@@ -47,6 +49,6 @@ public class NullElementException extends NullPointerException {
 	 * @param argumentName the name of the argument that contains the null element
 	 */
 	public NullElementException(String argumentName) {
-		super(String.format("%1$s contains a null element", argumentName));
+		super(Stringf.format("%1$s contains a null element", argumentName));
 	}
 }

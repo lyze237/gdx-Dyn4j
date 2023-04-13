@@ -24,6 +24,8 @@
  */
 package org.dyn4j.exception;
 
+import text.formic.Stringf;
+
 /**
  * Represents an exception when a collection was supplied with zero elements.
  * @author William Bittle
@@ -38,6 +40,6 @@ public class EmptyCollectionException extends IllegalArgumentException {
 	 * @param argumentName the name of the argument that is empty
 	 */
 	public EmptyCollectionException(String argumentName) {
-		super(String.format("%1$s cannot be empty", argumentName));
+		super(Stringf.format("%1$s cannot be empty", argumentName));
 	}
 }

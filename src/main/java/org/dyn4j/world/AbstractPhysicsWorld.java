@@ -73,6 +73,7 @@ import org.dyn4j.world.listener.ContactListener;
 import org.dyn4j.world.listener.DestructionListener;
 import org.dyn4j.world.listener.StepListener;
 import org.dyn4j.world.listener.TimeOfImpactListener;
+import text.formic.Stringf;
 
 /**
  * Abstract implementation of the {@link PhysicsWorld} interface.
@@ -365,7 +366,7 @@ public abstract class AbstractPhysicsWorld<T extends PhysicsBody, V extends Cont
 		for (int i = 0; i < bSize; i++) {
 			T body = joint.getBody(i);
 			if (!this.constraintGraph.containsBody(body)) {
-				throw new IllegalArgumentException(String.format("All bodies must be added to the world before the joint is added. The body %1$s doesn't exist.", body));
+				throw new IllegalArgumentException(Stringf.format("All bodies must be added to the world before the joint is added. The body %1$s doesn't exist.", body));
 			}
 		}
 		

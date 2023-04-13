@@ -24,6 +24,8 @@
  */
 package org.dyn4j.exception;
 
+import text.formic.Stringf;
+
 /**
  * Represents an exception when two arguments are the same object.
  * @author William Bittle
@@ -53,7 +55,7 @@ public class ValueOutOfRangeException extends IllegalArgumentException {
 	 * @param boundType the bound type (less than, greater than, etc)
 	 */
 	public ValueOutOfRangeException(String argumentName, double value, String boundType, double bound) {
-		super(String.format("%2$f was supplied for %1$s: %1$s must be %4$s %3$f", argumentName, value, bound, boundType));
+		super(Stringf.format("%2$f was supplied for %1$s: %1$s must be %4$s %3$f", argumentName, value, bound, boundType));
 	}
 	
 	/**
@@ -64,7 +66,7 @@ public class ValueOutOfRangeException extends IllegalArgumentException {
 	 * @param boundType the bound type (less than, greater than, etc)
 	 */
 	public ValueOutOfRangeException(String argumentName, int value, String boundType, int bound) {
-		super(String.format("%2$d was supplied for %1$s: %1$s must be %4$s %3$d", argumentName, value, bound, boundType));
+		super(Stringf.format("%2$d was supplied for %1$s: %1$s must be %4$s %3$d", argumentName, value, bound, boundType));
 	}
 	
 	/**
@@ -76,7 +78,7 @@ public class ValueOutOfRangeException extends IllegalArgumentException {
 	 * @param boundType the bound type (less than, greater than, etc)
 	 */
 	public ValueOutOfRangeException(String argumentName1, double value1, String boundType, String argumentName2, double value2) {
-		super(String.format("%1$s must be %5$s %3$s: %1$s was %2$f and %3$s was %4$f", argumentName1, value1, argumentName2, value2, boundType));
+		super(Stringf.format("%1$s must be %5$s %3$s: %1$s was %2$f and %3$s was %4$f", argumentName1, value1, argumentName2, value2, boundType));
 	}
 	
 	/**
@@ -88,7 +90,7 @@ public class ValueOutOfRangeException extends IllegalArgumentException {
 	 * @param boundType the bound type (less than, greater than, etc)
 	 */
 	public ValueOutOfRangeException(String argumentName1, int value1, String boundType, String argumentName2, int value2) {
-		super(String.format("%1$s must be %5$s %3$s: %1$s was %2$d and %3$s was %4$d", argumentName1, value1, argumentName2, value2, boundType));
+		super(Stringf.format("%1$s must be %5$s %3$s: %1$s was %2$d and %3$s was %4$d", argumentName1, value1, argumentName2, value2, boundType));
 	}
 	
 	/**
@@ -97,7 +99,7 @@ public class ValueOutOfRangeException extends IllegalArgumentException {
 	 * @param value the value given
 	 */
 	public ValueOutOfRangeException(String argumentName, double value) {
-		super(String.format("%1$s cannot be %2$f", argumentName, value));
+		super(Stringf.format("%1$s cannot be %2$f", argumentName, value));
 	}
 	
 	/**
@@ -106,6 +108,6 @@ public class ValueOutOfRangeException extends IllegalArgumentException {
 	 * @param value the value given
 	 */
 	public ValueOutOfRangeException(String argumentName, int value) {
-		super(String.format("%1$s cannot be %2$d", argumentName, value));
+		super(Stringf.format("%1$s cannot be %2$d", argumentName, value));
 	}
 }
