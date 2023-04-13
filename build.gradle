@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+apply from: 'utils.gradle'
+group 'org.dyn4j'
+version '1.0.' + getGitHash()
+apply from: 'publishing.gradle'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    api "com.github.tommyettinger:formic:$formicVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+}
+
+java {
+    sourceCompatibility = 8
+    targetCompatibility = 8
+}
+
+compileTestJava {
+    sourceCompatibility = 8
+    targetCompatibility = 8
+}
+
+compileJava {
+    options.incremental = true
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

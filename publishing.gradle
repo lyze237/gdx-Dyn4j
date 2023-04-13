@@ -1,0 +1,26 @@
+javadoc {
+    failOnError = false
+}
+
+java {
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        gdxDyn4j(MavenPublication) {
+            pom {
+                name = "gdx-Dyn4j"
+                description = "A fork of Dyn4j for libGDX"
+                url = "https://github.com/lyze237/gdx-Dyn4j"
+                licenses {
+                    license {
+                        name = "BSD 3-Clause \"New\" or \"Revised\" License"
+                        url = "https://joinup.ec.europa.eu/licence/bsd-3-clause-new-or-revised-license"
+                    }
+                }
+            }
+            from components.java
+        }
+    }
+}
