@@ -24,7 +24,7 @@
  */
 package org.dyn4j.geometry.simplify;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -41,7 +41,7 @@ public class SimplePolygonVertexTest {
 	 */
 	@Test
 	public void create() {
-		Vector2 p1 = new Vector2(1.0, 2.0);
+		DynVector2 p1 = new DynVector2(1.0, 2.0);
 		SimplePolygonVertex vertex = new SimplePolygonVertex(2, p1);
 		
 		TestCase.assertSame(p1, vertex.point);

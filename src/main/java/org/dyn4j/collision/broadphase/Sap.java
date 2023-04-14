@@ -36,7 +36,7 @@ import org.dyn4j.collision.CollisionPair;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Ray;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Sweep and Prune broad-phase collision detection algorithm.
@@ -370,7 +370,7 @@ public final class Sap<T> extends AbstractBroadphaseDetector<T> implements Broad
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// loop over all the proxies and translate their aabb
 		Iterator<AABBBroadphaseProxy<T>> it = this.tree.iterator();
 		while (it.hasNext()) {
@@ -657,8 +657,8 @@ public final class Sap<T> extends AbstractBroadphaseDetector<T> implements Broad
 			this.iterator = Sap.this.tree.inOrderIterator();
 			
 			// create an aabb from the ray
-			Vector2 s = ray.getStart();
-			Vector2 d = ray.getDirectionVector();
+			DynVector2 s = ray.getStart();
+			DynVector2 d = ray.getDirectionVector();
 			
 			// get the length
 			double l = length;

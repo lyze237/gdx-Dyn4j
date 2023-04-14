@@ -30,7 +30,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 import org.dyn4j.exception.ValueOutOfRangeException;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Simple polygon (without holes) simplifier that reduces the number of vertices by 
@@ -80,13 +80,13 @@ public final class Visvalingam extends VertexClusterReduction implements Simplif
 	/* (non-Javadoc)
 	 * @see org.dyn4j.geometry.simplify.VertexClusterReduction#simplify(java.util.List)
 	 */
-	public List<Vector2> simplify(List<Vector2> vertices) {
+	public List<DynVector2> simplify(List<DynVector2> vertices) {
 		if (vertices == null) {
 			return vertices;
 		}
 		
 		// reduce based on vertex clustering first
-		List<Vector2> reduced =  super.simplify(vertices);
+		List<DynVector2> reduced =  super.simplify(vertices);
 		
 		// check the total vertex size
 		if (reduced.size() < 4) {
@@ -104,9 +104,9 @@ public final class Visvalingam extends VertexClusterReduction implements Simplif
 	 * from least area to greatest. Then, iterate the queue until a vertex is removed
 	 * who's area is greater than or equal to the configured area.
 	 * @param polygon the polygon to simplify
-	 * @return List&lt;{@link Vector2}&gt;
+	 * @return List&lt;{@link DynVector2}&gt;
 	 */
-	private final List<Vector2> visvalingam(List<Vector2> polygon) {
+	private final List<DynVector2> visvalingam(List<DynVector2> polygon) {
 		// 1. compute the triangle area of each triplet of vertices
 		// 2. put all of them into a priority queue sorted by least area
 		// 3. iterate through all triangles
@@ -153,7 +153,7 @@ public final class Visvalingam extends VertexClusterReduction implements Simplif
 		} while (!queue.isEmpty());
 		
 		// return the result
-		return new ArrayList<Vector2>();
+		return new ArrayList<DynVector2>();
 	}
 	
 	/**
@@ -161,13 +161,13 @@ public final class Visvalingam extends VertexClusterReduction implements Simplif
 	 * @param polygon the polygon vertices
 	 * @return Queue&lt;{@link AreaTrackedVertex}&gt;
 	 */
-	private final Queue<AreaTrackedVertex> buildTriangleAreaQueue(List<Vector2> polygon) {
+	private final Queue<AreaTrackedVertex> buildTriangleAreaQueue(List<DynVector2> polygon) {
 		int size = polygon.size();
 		Queue<AreaTrackedVertex> queue = new PriorityQueue<AreaTrackedVertex>();
 		
-		Vector2 v0 = polygon.get(size - 1);
-		Vector2 v1 = polygon.get(0);
-		Vector2 v2 = polygon.get(1);
+		DynVector2 v0 = polygon.get(size - 1);
+		DynVector2 v1 = polygon.get(0);
+		DynVector2 v2 = polygon.get(1);
 		
 		AreaTrackedVertex vertex = new AreaTrackedVertex(0, v1);
 		vertex.area = this.getTriangleArea(v0, v1, v2);
@@ -214,9 +214,9 @@ public final class Visvalingam extends VertexClusterReduction implements Simplif
 	 * @param tree the segment tree to remove the vertex from
 	 */
 	private final boolean removeVertex(AreaTrackedVertex v, Queue<AreaTrackedVertex> queue, SegmentTree tree) {
-		Vector2 v0 = null;
-		Vector2 v1 = null;
-		Vector2 v2 = null;
+		DynVector2 v0 = null;
+		DynVector2 v1 = null;
+		DynVector2 v2 = null;
 		
 		AreaTrackedVertex tprev = (AreaTrackedVertex)v.prev;
 		AreaTrackedVertex tnext = (AreaTrackedVertex)v.next;
@@ -269,7 +269,7 @@ public final class Visvalingam extends VertexClusterReduction implements Simplif
 	 * @param v2 the third vertex
 	 * @return double
 	 */
-	private final double getTriangleArea(Vector2 v0, Vector2 v1, Vector2 v2) {
+	private final double getTriangleArea(DynVector2 v0, DynVector2 v1, DynVector2 v2) {
 		double area = v0.x * (v1.y - v2.y) + v1.x * (v2.y - v0.y) + v2.x * (v0.y - v1.y);
 		area *= 0.5;
 		// abs to account for winding
@@ -295,7 +295,7 @@ public final class Visvalingam extends VertexClusterReduction implements Simplif
 		 * @param index the vertex index
 		 * @param point the vertex point
 		 */
-		public AreaTrackedVertex(int index, Vector2 point) {
+		public AreaTrackedVertex(int index, DynVector2 point) {
 			super(index, point);
 		}
 		

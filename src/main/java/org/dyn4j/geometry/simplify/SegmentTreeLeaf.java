@@ -25,7 +25,7 @@
 package org.dyn4j.geometry.simplify;
 
 import org.dyn4j.geometry.AABB;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Leaf node for the {@link SegmentTree} representing a line segment.
@@ -35,10 +35,10 @@ import org.dyn4j.geometry.Vector2;
  */
 final class SegmentTreeLeaf extends SegmentTreeNode {
 	/** The first segment point */
-	final Vector2 point1;
+	final DynVector2 point1;
 	
 	/** The second segment point */
-	final Vector2 point2;
+	final DynVector2 point2;
 
 	/** The first segment point index */
 	final int index1;
@@ -53,7 +53,7 @@ final class SegmentTreeLeaf extends SegmentTreeNode {
 	 * @param index1 the first segment point index
 	 * @param index2 the second segment point index
 	 */
-	public SegmentTreeLeaf(Vector2 point1, Vector2 point2, int index1, int index2) {
+	public SegmentTreeLeaf(DynVector2 point1, DynVector2 point2, int index1, int index2) {
 		AABB.setFromPoints(point1, point2, this.aabb);
 		this.point1 = point1;
 		this.point2 = point2;

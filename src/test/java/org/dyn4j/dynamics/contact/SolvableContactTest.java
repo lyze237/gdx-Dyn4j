@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.contact;
 
 import org.dyn4j.collision.manifold.ManifoldPointId;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -43,10 +43,10 @@ public class SolvableContactTest {
 	@Test
 	public void create() {
 		ManifoldPointId id = ManifoldPointId.DISTANCE;
-		Vector2 p = new Vector2(1, 3);
+		DynVector2 p = new DynVector2(1, 3);
 		double d = 5.0;
-		Vector2 p1 = new Vector2(3, 4);
-		Vector2 p2 = new Vector2(5, 6);
+		DynVector2 p1 = new DynVector2(3, 4);
+		DynVector2 p2 = new DynVector2(5, 6);
 		SolvableContact c = new SolvableContact(id, p, d, p1, p2);
 		
 		TestCase.assertEquals(id, c.getId());
@@ -77,10 +77,10 @@ public class SolvableContactTest {
 	@Test
 	public void isSolved() {
 		ManifoldPointId id = ManifoldPointId.DISTANCE;
-		Vector2 p = new Vector2(1, 3);
+		DynVector2 p = new DynVector2(1, 3);
 		double d = 5.0;
-		Vector2 p1 = new Vector2(3, 4);
-		Vector2 p2 = new Vector2(5, 6);
+		DynVector2 p1 = new DynVector2(3, 4);
+		DynVector2 p2 = new DynVector2(5, 6);
 		SolvableContact c = new SolvableContact(id, p, d, p1, p2);
 		
 		TestCase.assertEquals(false, c.ignored);

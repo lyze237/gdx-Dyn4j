@@ -24,7 +24,7 @@
  */
 package org.dyn4j.dynamics;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -56,7 +56,7 @@ public class ForceTest {
 		TestCase.assertEquals(2.0, f2.getForce().y);
 		TestCase.assertNotSame(f.getForce(), f2.getForce());
 		
-		f = new Force(new Vector2(2.0, 1.0));
+		f = new Force(new DynVector2(2.0, 1.0));
 		TestCase.assertEquals(2.0, f.force.x);
 		TestCase.assertEquals(1.0, f.force.y);
 		TestCase.assertEquals(2.0, f.getForce().x);
@@ -73,7 +73,7 @@ public class ForceTest {
 		TestCase.assertEquals(3.0, f.force.x);
 		TestCase.assertEquals(-2.0, f.force.y);
 		
-		f.set(new Vector2(2.0, 1.0));
+		f.set(new DynVector2(2.0, 1.0));
 		TestCase.assertEquals(2.0, f.force.x);
 		TestCase.assertEquals(1.0, f.force.y);
 		
@@ -97,7 +97,7 @@ public class ForceTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullVector() {
-		new Force((Vector2) null);
+		new Force((DynVector2) null);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class ForceTest {
 	@Test(expected = NullPointerException.class)
 	public void setNullVector() {
 		Force f = new Force();
-		f.set((Vector2) null);
+		f.set((DynVector2) null);
 	}
 	
 	/**

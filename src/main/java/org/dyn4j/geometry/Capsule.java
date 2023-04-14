@@ -45,7 +45,7 @@ import org.dyn4j.exception.ValueOutOfRangeException;
  */
 public class Capsule extends AbstractShape implements Convex, Shape, Transformable, DataContainer {
 	/** 
-	 * The Capsule shape has two edge features which could be returned from the {@link #getFarthestFeature(Vector2, Transform)}
+	 * The Capsule shape has two edge features which could be returned from the {@link #getFarthestFeature(DynVector2, Transform)}
 	 * method. Under normal floating point conditions the edges will never be selected as the farthest features. Due to this,
 	 * stacking of capsule shapes is very unstable (or any resting contact that involves the edge). We introduce this factor
 	 * (% of projected normal) to help select the edge in cases where the collision normal is nearly parallel to the edge normal.
@@ -66,10 +66,10 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	final double capRadius;
 	
 	/** The focal points for the caps */
-	final Vector2[] foci;
+	final DynVector2[] foci;
 	
 	/** The local x-axis */
-	final Vector2 localXAxis;
+	final DynVector2 localXAxis;
 	
 	/**
 	 * Validated constructor.
@@ -101,19 +101,19 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 		// generate the cap focal points on the
 		// major axis
 		double f = (major - minor) * 0.5;
-		this.foci = new Vector2[2];
+		this.foci = new DynVector2[2];
 		if (vertical) {
-			this.foci[0] = new Vector2(0, -f);
-			this.foci[1] = new Vector2(0,  f);
+			this.foci[0] = new DynVector2(0, -f);
+			this.foci[1] = new DynVector2(0,  f);
 			
 			// set the local x-axis (to the y-axis)
-			this.localXAxis = new Vector2(0.0, 1.0);
+			this.localXAxis = new DynVector2(0.0, 1.0);
 		} else {
-			this.foci[0] = new Vector2(-f, 0);
-			this.foci[1] = new Vector2( f, 0);
+			this.foci[0] = new DynVector2(-f, 0);
+			this.foci[1] = new DynVector2( f, 0);
 			
 			// set the local x-axis
-			this.localXAxis = new Vector2(1.0, 0.0);
+			this.localXAxis = new DynVector2(1.0, 0.0);
 		}
 	}
 	
@@ -168,23 +168,23 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Convex#getAxes(org.dyn4j.geometry.Vector2[], org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// check for given foci
 		if (foci != null) {
 			// we need to include the shortest vector from foci to foci
-			Vector2[] axes = new Vector2[2 + foci.length];
+			DynVector2[] axes = new DynVector2[2 + foci.length];
 			
 			axes[0] = transform.getTransformedR(this.localXAxis);
 			axes[1] = transform.getTransformedR(this.localXAxis.getRightHandOrthogonalVector());
 			
-			Vector2 f1 = transform.getTransformed(this.foci[0]);
-			Vector2 f2 = transform.getTransformed(this.foci[1]);
+			DynVector2 f1 = transform.getTransformed(this.foci[0]);
+			DynVector2 f2 = transform.getTransformed(this.foci[1]);
 			for (int i = 0; i < foci.length; i++) {
 				// get the one closest to the given focus
 				double d1 = f1.distanceSquared(foci[i]);
 				double d2 = f2.distanceSquared(foci[i]);
 				
-				Vector2 v = null;
+				DynVector2 v = null;
 				if (d1 < d2) {
 					v = f1.to(foci[i]);
 				} else {
@@ -198,7 +198,7 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 		}
 		// if there were no foci given then just return the normal axes for the
 		// rectangular region
-		return new Vector2[] {
+		return new DynVector2[] {
 			transform.getTransformedR(this.localXAxis),
 			transform.getTransformedR(this.localXAxis.getRightHandOrthogonalVector())
 		};
@@ -208,9 +208,9 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Convex#getFoci(org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2[] getFoci(Transform transform) {
+	public DynVector2[] getFoci(Transform transform) {
 		// return the cap foci
-		return new Vector2[] {
+		return new DynVector2[] {
 			transform.getTransformed(this.foci[0]),
 			transform.getTransformed(this.foci[1])
 		};
@@ -220,11 +220,11 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Convex#getFarthestPoint(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2 getFarthestPoint(Vector2 vector, Transform transform) {
+	public DynVector2 getFarthestPoint(DynVector2 vector, Transform transform) {
 		// make sure the given direction is normalized
 		vector.normalize();
 		// a capsule is just a radially expanded line segment
-		Vector2 p = Segment.getFarthestPoint(this.foci[0], this.foci[1], vector, transform);
+		DynVector2 p = Segment.getFarthestPoint(this.foci[0], this.foci[1], vector, transform);
 		// apply the radial expansion
 		return p.add(vector.product(this.capRadius));
 	}
@@ -233,11 +233,11 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Convex#getFarthestFeature(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Feature getFarthestFeature(Vector2 vector, Transform transform) {
+	public Feature getFarthestFeature(DynVector2 vector, Transform transform) {
 		// test whether the given direction is within a certain angle of the
 		// local x axis. if so, use the edge feature rather than the point
-		Vector2 localAxis = transform.getInverseTransformedR(vector);
-		Vector2 n1 = this.localXAxis.getLeftHandOrthogonalVector();
+		DynVector2 localAxis = transform.getInverseTransformedR(vector);
+		DynVector2 n1 = this.localXAxis.getLeftHandOrthogonalVector();
 		
 		// get the squared length of the localaxis and add the fudge factor
 		// should always 1.0 * factor since localaxis is normalized
@@ -249,21 +249,21 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 		// we can later determine which direction by the sign of the projection
 		if (Math.abs(d1) < d) {
 			// then its the farthest point
-			Vector2 point = this.getFarthestPoint(vector, transform);
+			DynVector2 point = this.getFarthestPoint(vector, transform);
 			return new PointFeature(point);
 		} else {
 			// compute the vector to add/sub from the foci
-			Vector2 v = n1.multiply(this.capRadius);
+			DynVector2 v = n1.multiply(this.capRadius);
 			// compute an expansion amount based on the width of the shape
-			Vector2 e = this.localXAxis.product(this.length * 0.5 * EDGE_FEATURE_EXPANSION_FACTOR);
+			DynVector2 e = this.localXAxis.product(this.length * 0.5 * EDGE_FEATURE_EXPANSION_FACTOR);
 			if (d1 > 0) {
-				Vector2 p1 = this.foci[0].sum(v).subtract(e);
-				Vector2 p2 = this.foci[1].sum(v).add(e);
+				DynVector2 p1 = this.foci[0].sum(v).subtract(e);
+				DynVector2 p2 = this.foci[1].sum(v).add(e);
 				// return the full bottom side
 				return Segment.getFarthestFeature(p1, p2, vector, transform);
 			} else {
-				Vector2 p1 = this.foci[0].difference(v).subtract(e);
-				Vector2 p2 = this.foci[1].difference(v).add(e);
+				DynVector2 p1 = this.foci[0].difference(v).subtract(e);
+				DynVector2 p2 = this.foci[1].difference(v).add(e);
 				return Segment.getFarthestFeature(p1, p2, vector, transform);
 			}
 		}
@@ -273,11 +273,11 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		// get the world space farthest point
-		Vector2 p1 = this.getFarthestPoint(vector, transform);
+		DynVector2 p1 = this.getFarthestPoint(vector, transform);
 		// get the center in world space
-		Vector2 center = transform.getTransformed(this.center);
+		DynVector2 center = transform.getTransformed(this.center);
 		// project the center onto the axis
 		double c = center.dot(vector);
 		// project the point onto the axis
@@ -293,14 +293,14 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	public void computeAABB(Transform transform, AABB aabb) {
 		// Inlined projection of x axis
 		// Interval x = this.project(Vector2.X_AXIS, transform);
-		Vector2 p1 = this.getFarthestPoint(Vector2.X_AXIS, transform);
+		DynVector2 p1 = this.getFarthestPoint(DynVector2.X_AXIS, transform);
 		double c = transform.getTransformedX(this.center);
 		double minX = 2 * c - p1.x;
 		double maxX = p1.x;
 		
 		// Inlined projection of y axis
 		// Interval y = this.project(Vector2.Y_AXIS, transform);
-		p1 = this.getFarthestPoint(Vector2.Y_AXIS, transform);
+		p1 = this.getFarthestPoint(DynVector2.Y_AXIS, transform);
 		c = transform.getTransformedY(this.center);
 		double minY = 2 * c - p1.y;
 		double maxY = p1.y;
@@ -365,7 +365,7 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Shape#getRadius(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public double getRadius(Vector2 center) {
+	public double getRadius(DynVector2 center) {
 		return Geometry.getRotationRadius(center, this.foci) + this.capRadius;
 	}
 
@@ -373,9 +373,9 @@ public class Capsule extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform, boolean)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform, boolean inclusive) {
+	public boolean contains(DynVector2 point, Transform transform, boolean inclusive) {
 		// a capsule is just a radially expanded line segment
-		Vector2 p = Segment.getPointOnSegmentClosestToPoint(point, transform.getTransformed(this.foci[0]), transform.getTransformed(this.foci[1]));
+		DynVector2 p = Segment.getPointOnSegmentClosestToPoint(point, transform.getTransformed(this.foci[0]), transform.getTransformed(this.foci[1]));
 		double r2 = this.capRadius * this.capRadius;
 		double d2 = p.distanceSquared(point);
 		return inclusive ? d2 <= r2 : d2 < r2;

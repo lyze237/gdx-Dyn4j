@@ -57,7 +57,7 @@ import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.listener.ContactListener;
 import org.dyn4j.world.listener.ContactListenerAdapter;
 import org.dyn4j.world.listener.DestructionListener;
@@ -578,7 +578,7 @@ public class AbstractPhysicsWorldTest {
 		w.addBody(b2);
 		
 		// create a joint
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		j.setCollisionAllowed(true);
 		w.addJoint(j);
 		
@@ -624,7 +624,7 @@ public class AbstractPhysicsWorldTest {
 		w.addBody(b2);
 		
 		// create a joint
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		j.setCollisionAllowed(true);
 		w.addJoint(j);
 		
@@ -1010,7 +1010,7 @@ public class AbstractPhysicsWorldTest {
 		
 		TestCase.assertEquals(PhysicsWorld.EARTH_GRAVITY, w.getGravity());
 		
-		Vector2 g = new Vector2(0.0, -10.0);
+		DynVector2 g = new DynVector2(0.0, -10.0);
 		w.setGravity(g);
 		TestCase.assertEquals(g, w.getGravity());
 	}
@@ -1087,7 +1087,7 @@ public class AbstractPhysicsWorldTest {
 		// test no connections
 		TestCase.assertFalse(w.isJoined(b1, b2));
 				
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		
 		w.addJoint(j);
 		
@@ -1114,7 +1114,7 @@ public class AbstractPhysicsWorldTest {
 		w.addBody(b1);
 		w.addBody(b2);
 		
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		AngleJoint<Body> aj = new AngleJoint<Body>(b1, b2);
 		
 		w.addJoint(rj);
@@ -1146,7 +1146,7 @@ public class AbstractPhysicsWorldTest {
 		TestCase.assertNotNull(bodies);
 		TestCase.assertTrue(bodies.isEmpty());
 		
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		
 		w.addJoint(j);
 		
@@ -1173,7 +1173,7 @@ public class AbstractPhysicsWorldTest {
 		TestCase.assertNotNull(joints);
 		TestCase.assertTrue(joints.isEmpty());
 		
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		
 		w.addJoint(j);
 		
@@ -1426,7 +1426,7 @@ public class AbstractPhysicsWorldTest {
 		
 		Body b1 = new Body();
 		Body b2 = new Body();
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		
 		w.addBody(b1);
 		TestCase.assertFalse(w.isEmpty());
@@ -1479,11 +1479,11 @@ public class AbstractPhysicsWorldTest {
 		w.addBody(b1);
 		w.addBody(b2);
 		
-		PinJoint<Body> joint = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> joint = new PinJoint<Body>(b1, new DynVector2());
 		
 		w.addJoint(joint);
 		
-		w.shift(new Vector2(5.0, 6.0));
+		w.shift(new DynVector2(5.0, 6.0));
 		
 		TestCase.assertEquals(5.0, joint.getAnchor().x);
 		TestCase.assertEquals(6.0, joint.getAnchor().y);
@@ -1638,7 +1638,7 @@ public class AbstractPhysicsWorldTest {
 		TestCase.assertTrue(w.broadphaseDetector.contains(b1));
 		
 		// create a joint
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		j.setCollisionAllowed(true);
 		w.addJoint(j);
 		
@@ -1754,7 +1754,7 @@ public class AbstractPhysicsWorldTest {
 		TestCase.assertTrue(w.broadphaseDetector.contains(b1));
 		
 		// create a joint
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		j.setCollisionAllowed(true);
 		w.addJoint(j);
 		
@@ -1878,7 +1878,7 @@ public class AbstractPhysicsWorldTest {
 		TestCase.assertTrue(w.broadphaseDetector.contains(b1));
 		
 		// create a joint
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		j.setCollisionAllowed(true);
 		w.addJoint(j);
 		
@@ -1942,7 +1942,7 @@ public class AbstractPhysicsWorldTest {
 		Body b2 = new Body(); b2.addFixture(c2); b2.setMass(MassType.NORMAL);
 		
 		// setup the joint
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		j.setCollisionAllowed(true);
 		
 		w.addBody(b1);
@@ -1986,7 +1986,7 @@ public class AbstractPhysicsWorldTest {
 		Body b2 = new Body(); b2.addFixture(c2); b2.setMass(MassType.NORMAL);
 		
 		// setup the joint
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		j.setCollisionAllowed(true);
 		
 		w.addBody(b1);

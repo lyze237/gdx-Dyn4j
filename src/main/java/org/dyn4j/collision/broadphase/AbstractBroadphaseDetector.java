@@ -35,7 +35,7 @@ import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Abstract implementation of a {@link BroadphaseDetector}.
@@ -194,7 +194,7 @@ public abstract class AbstractBroadphaseDetector<T> implements BroadphaseDetecto
 	 * @param aabb the AABB to test
 	 * @return true if the AABB and ray intersect
 	 */
-	static boolean raycast(Vector2 start, double length, double invDx, double invDy, AABB aabb) {
+	static boolean raycast(DynVector2 start, double length, double invDx, double invDy, AABB aabb) {
 		// see here for implementation details
 		// http://tavianator.com/2011/05/fast-branchless-raybounding-box-intersections/
 		double tx1 = (aabb.getMinX() - start.x) * invDx;

@@ -24,7 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -49,8 +49,8 @@ public class RaycastTest {
 		TestCase.assertEquals(0.0, raycast.getPoint().x);
 		TestCase.assertEquals(0.0, raycast.getPoint().y);
 		
-		Vector2 p = new Vector2(2.0, 2.0);
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 p = new DynVector2(2.0, 2.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		raycast = new Raycast(p, n, 2.0);
 		
 		TestCase.assertEquals(2.0, raycast.getDistance());
@@ -77,7 +77,7 @@ public class RaycastTest {
 		TestCase.assertEquals(0.0, raycast.getPoint().x);
 		TestCase.assertEquals(0.0, raycast.getPoint().y);
 		
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		raycast.setNormal(n);
 		
 		TestCase.assertEquals(0.0, raycast.getDistance());
@@ -87,7 +87,7 @@ public class RaycastTest {
 		TestCase.assertEquals(0.0, raycast.getPoint().x);
 		TestCase.assertEquals(0.0, raycast.getPoint().y);
 		
-		Vector2 p = new Vector2(2.0, 2.0);
+		DynVector2 p = new DynVector2(2.0, 2.0);
 		raycast.setPoint(p);
 		
 		TestCase.assertEquals(0.0, raycast.getDistance());
@@ -114,8 +114,8 @@ public class RaycastTest {
 	 */
 	@Test
 	public void clear() {
-		Vector2 p = new Vector2(2.0, 2.0);
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 p = new DynVector2(2.0, 2.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		Raycast raycast = new Raycast(p, n, 2.0);
 		
 		TestCase.assertEquals(2.0, raycast.getDistance());
@@ -140,8 +140,8 @@ public class RaycastTest {
 	 */
 	@Test
 	public void copy() {
-		Vector2 p = new Vector2(2.0, 2.0);
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 p = new DynVector2(2.0, 2.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		Raycast raycast1 = new Raycast(p, n, 2.0);
 		Raycast raycast2 = new Raycast();
 		
@@ -181,8 +181,8 @@ public class RaycastTest {
 	 */
 	@Test
 	public void shift() {
-		Vector2 p = new Vector2(2.0, 2.0);
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 p = new DynVector2(2.0, 2.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		Raycast raycast = new Raycast(p, n, 2.0);
 		
 		TestCase.assertEquals(2.0, raycast.getDistance());
@@ -194,7 +194,7 @@ public class RaycastTest {
 		TestCase.assertNotSame(p, raycast.getPoint());
 		
 		// only the point should change
-		raycast.shift(new Vector2(3.0, -2.0));
+		raycast.shift(new DynVector2(3.0, -2.0));
 		
 		TestCase.assertEquals(2.0, raycast.getDistance());
 		TestCase.assertEquals(1.0, raycast.getNormal().x);

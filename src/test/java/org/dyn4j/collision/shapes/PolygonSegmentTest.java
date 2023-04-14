@@ -35,7 +35,7 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,7 +60,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 	@Before
 	public void setup() {
 		this.poly = Geometry.createUnitCirclePolygon(5, 1.0);
-		this.seg = new Segment(new Vector2(-0.5, 0.0), new Vector2(0.0, 0.5));
+		this.seg = new Segment(new DynVector2(-0.5, 0.0), new DynVector2(0.0, 0.5));
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.sat.detect(poly, t1, seg, t2, p));
@@ -142,7 +142,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.gjk.detect(poly, t1, seg, t2, p));
@@ -213,7 +213,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n, p1, p2;
+		DynVector2 n, p1, p2;
 		
 		// test containment
 		TestCase.assertFalse(this.gjk.distance(poly, t1, seg, t2, s));
@@ -302,7 +302,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp = null;
-		Vector2 p1 = null;
+		DynVector2 p1 = null;
 		
 		// test containment gjk
 		this.gjk.detect(poly, t1, seg, t2, p);
@@ -401,7 +401,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp1, mp2;
-		Vector2 p1, p2;
+		DynVector2 p1, p2;
 		
 		t1.translate(-1.0, 0.0);
 		t2.translate(-0.6484375, -0.9375);
@@ -469,7 +469,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 	@Test
 	public void testBadPoints1() {
 		Polygon p = Geometry.createUnitCirclePolygon(5, 1.0);
-		Segment s = new Segment(new Vector2(-0.5, 0.0), new Vector2(0.5, 0.0));
+		Segment s = new Segment(new DynVector2(-0.5, 0.0), new DynVector2(0.5, 0.0));
 		
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
@@ -492,7 +492,7 @@ public class PolygonSegmentTest extends AbstractNarrowphaseShapeTest {
 		TestCase.assertTrue(this.cmfs.getManifold(penetration, s, t2, p, t1, manifold));
 		
 		ManifoldPoint mp1 = manifold.getPoints().get(0);
-		Vector2 p1 = mp1.getPoint();
+		DynVector2 p1 = mp1.getPoint();
 		TestCase.assertEquals(0.671, p1.x, 1.0e-3);
 		TestCase.assertEquals(1.000, p1.y, 1.0e-3);
 		TestCase.assertEquals(0.113, mp1.getDepth(), 1.0e-3);

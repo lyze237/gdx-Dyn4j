@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.WheelJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -68,14 +68,14 @@ public class WheelJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, b.getWorldCenter(), new Vector2(1.0, 0.0));
+		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, b.getWorldCenter(), new DynVector2(1.0, 0.0));
 		w.addJoint(dj);
 
 		w.step(4);
 		
 		// because the allowed axis is the x-axis and the position of the axis is at body2's world center
 		// gravity is applied but has no effect
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(0.0, v2.x, 1e-3);
 		TestCase.assertEquals(2.0, v2.y, 1e-3);
 		
@@ -139,15 +139,15 @@ public class WheelJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter();
-		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, p, new Vector2(0.0, 1.0));
+		DynVector2 p = b.getWorldCenter();
+		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, p, new DynVector2(0.0, 1.0));
 		
 		// NOTE: that I've set the rest distance to more than the limits
 		dj.setLimitsEnabled(-1.0, 5.0);
 		dj.setSpringEnabled(false);
 		w.addJoint(dj);
 		
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(0.0, p.distance(v2));
 		
 		double invdt = w.getTimeStep().getInverseDeltaTime();
@@ -217,14 +217,14 @@ public class WheelJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter();
-		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, p, new Vector2(0.0, 1.0));
+		DynVector2 p = b.getWorldCenter();
+		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, p, new DynVector2(0.0, 1.0));
 		
 		// NOTE: that I've set the rest distance to more than the limits
 		dj.setLimitsEnabled(-1.0, 5.0);
 		w.addJoint(dj);
 		
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(0.0, p.distance(v2));
 		
 		w.step(20);
@@ -297,8 +297,8 @@ public class WheelJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter();
-		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, p, new Vector2(-1.0, 0.0));
+		DynVector2 p = b.getWorldCenter();
+		WheelJoint<Body> dj = new WheelJoint<Body>(g, b, p, new DynVector2(-1.0, 0.0));
 		
 		// NOTE: that I've set the rest distance to more than the limits
 		dj.setMaximumMotorTorqueEnabled(true);
@@ -309,8 +309,8 @@ public class WheelJointSimulationTest {
 		
 		double invdt = w.getTimeStep().getInverseDeltaTime();
 		
-		Vector2 v2 = b.getWorldCenter();
-		Vector2 v = b.getLinearVelocity();
+		DynVector2 v2 = b.getWorldCenter();
+		DynVector2 v = b.getLinearVelocity();
 		TestCase.assertEquals(0.0, p.distance(v2));
 		TestCase.assertEquals(0.0, dj.getAngularTranslation());
 		TestCase.assertEquals(0.0, v.x);

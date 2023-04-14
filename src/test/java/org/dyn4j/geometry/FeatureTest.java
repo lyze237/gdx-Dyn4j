@@ -40,8 +40,8 @@ public class FeatureTest {
 	 */
 	@Test
 	public void create() {
-		PointFeature pf1 = new PointFeature(new Vector2(1.0, 1.0), 1);
-		PointFeature pf2 = new PointFeature(new Vector2(1.0, 2.0), 0);
+		PointFeature pf1 = new PointFeature(new DynVector2(1.0, 1.0), 1);
+		PointFeature pf2 = new PointFeature(new DynVector2(1.0, 2.0), 0);
 		EdgeFeature ef = new EdgeFeature(pf1, pf2, pf1, pf1.point.to(pf2.point), 2);
 		
 		TestCase.assertEquals(1.0, pf1.getPoint().x);
@@ -68,7 +68,7 @@ public class FeatureTest {
 	 */
 	@Test
 	public void createNonIndexed() {
-		PointFeature pf1 = new PointFeature(new Vector2(1.0, 1.0), Feature.NOT_INDEXED);
+		PointFeature pf1 = new PointFeature(new DynVector2(1.0, 1.0), Feature.NOT_INDEXED);
 		
 		TestCase.assertEquals(1.0, pf1.getPoint().x);
 		TestCase.assertEquals(1.0, pf1.getPoint().y);

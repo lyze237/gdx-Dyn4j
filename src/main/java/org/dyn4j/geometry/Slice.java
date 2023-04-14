@@ -49,10 +49,10 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	final double sliceRadius;
 	
 	/** The vertices of the slice */
-	final Vector2[] vertices;
+	final DynVector2[] vertices;
 	
 	/** The normals of the polygonal sides */
-	final Vector2[] normals;
+	final DynVector2[] normals;
 	
 	/** The local rotation in radians */
 	final Rotation rotation;
@@ -67,8 +67,8 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @param theta the angular extent in radians; must be greater than zero and less than or equal to &pi;
 	 * @param center the center
 	 */
-	private Slice(boolean valid, double radius, double theta, Vector2 center) {
-		super(center, Math.max(center.x, center.distance(new Vector2(radius, 0).rotate(0.5*theta))));
+	private Slice(boolean valid, double radius, double theta, DynVector2 center) {
+		super(center, Math.max(center.x, center.distance(new DynVector2(radius, 0).rotate(0.5*theta))));
 		
 		this.sliceRadius = radius;
 		this.alpha = theta * 0.5;
@@ -76,20 +76,20 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 		// compute the triangular section of the pie (and cache cos(alpha))
 		double x = radius * (this.cosAlpha = Math.cos(this.alpha));
 		double y = radius * Math.sin(this.alpha);
-		this.vertices = new Vector2[] {
+		this.vertices = new DynVector2[] {
 			// the origin
-			new Vector2(),
+			new DynVector2(),
 			// the top point
-			new Vector2(x, y),
+			new DynVector2(x, y),
 			// the bottom point
-			new Vector2(x, -y)
+			new DynVector2(x, -y)
 		};
 		
-		Vector2 v1 = this.vertices[1].to(this.vertices[0]);
-		Vector2 v2 = this.vertices[0].to(this.vertices[2]);
+		DynVector2 v1 = this.vertices[1].to(this.vertices[0]);
+		DynVector2 v2 = this.vertices[0].to(this.vertices[2]);
 		v1.left().normalize();
 		v2.left().normalize();
-		this.normals = new Vector2[] { v1, v2 };
+		this.normals = new DynVector2[] { v1, v2 };
 		
 		// Initially the slice is aligned to the world space x axis
 		this.rotation = new Rotation();
@@ -105,7 +105,7 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @throws IllegalArgumentException throw if 1) radius is less than or equal to zero or 2) theta is less than or equal to zero or 3) theta is greater than 180 degrees
 	 */
 	public Slice(double radius, double theta) {
-		this(validate(radius, theta), radius, theta, new Vector2(2.0 * radius * Math.sin(theta * 0.5) / (1.5 * theta), 0));
+		this(validate(radius, theta), radius, theta, new DynVector2(2.0 * radius * Math.sin(theta * 0.5) / (1.5 * theta), 0));
 	}
 
 	/**
@@ -147,14 +147,14 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @see org.dyn4j.geometry.Convex#getAxes(org.dyn4j.geometry.Vector2[], org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// get the size of the foci list
 		int fociSize = foci != null ? foci.length : 0;
 		// get the number of vertices this polygon has
 		int size = this.vertices.length;
 		// the axes of a polygon are created from the normal of the edges
 		// plus the closest point to each focus
-		Vector2[] axes = new Vector2[2 + fociSize];
+		DynVector2[] axes = new DynVector2[2 + fociSize];
 		int n = 0;
 		
 		// add the normals of the sides
@@ -163,17 +163,17 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 		
 		// loop over the focal points and find the closest
 		// points on the polygon to the focal points
-		Vector2 focus = transform.getTransformed(this.vertices[0]);
+		DynVector2 focus = transform.getTransformed(this.vertices[0]);
 		for (int i = 0; i < fociSize; i++) {
 			// get the current focus
-			Vector2 f = foci[i];
+			DynVector2 f = foci[i];
 			// create a place for the closest point
-			Vector2 closest = focus;
+			DynVector2 closest = focus;
 			double d = f.distanceSquared(closest);
 			// find the minimum distance vertex
 			for (int j = 1; j < size; j++) {
 				// get the vertex
-				Vector2 p = this.vertices[j];
+				DynVector2 p = this.vertices[j];
 				// transform it into world space
 				p = transform.getTransformed(p);
 				// get the squared distance to the focus
@@ -187,7 +187,7 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 			}
 			// once we have found the closest point create 
 			// a vector from the focal point to the point
-			Vector2 axis = f.to(closest);
+			DynVector2 axis = f.to(closest);
 			// normalize it
 			axis.normalize();
 			// add it to the array
@@ -203,8 +203,8 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * Returns a single point, the circle center.
 	 */
 	@Override
-	public Vector2[] getFoci(Transform transform) {
-		return new Vector2[] {
+	public DynVector2[] getFoci(Transform transform) {
+		return new DynVector2[] {
 			transform.getTransformed(this.vertices[0])	
 		};
 	}
@@ -213,9 +213,9 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @see org.dyn4j.geometry.Convex#getFarthestPoint(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2 getFarthestPoint(Vector2 vector, Transform transform) {
-		Vector2 localn = transform.getInverseTransformedR(vector);
-		Vector2 localnRotated;
+	public DynVector2 getFarthestPoint(DynVector2 vector, Transform transform) {
+		DynVector2 localn = transform.getInverseTransformedR(vector);
+		DynVector2 localnRotated;
 		
 		// We need to normalize localn in order for localnRotated.x < cosAlpha to work
 		// and we also use that to compute the farthest point in the circle part of the slice
@@ -245,7 +245,7 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 				}
 			}
 			
-			Vector2 point = new Vector2(this.vertices[maxIndex]);
+			DynVector2 point = new DynVector2(this.vertices[maxIndex]);
 			
 			// transform the point into world space
 			transform.transform(point);
@@ -264,9 +264,9 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @see org.dyn4j.geometry.Convex#getFarthestFeature(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Feature getFarthestFeature(Vector2 vector, Transform transform) {
-		Vector2 localn = transform.getInverseTransformedR(vector);
-		Vector2 localnRotated;
+	public Feature getFarthestFeature(DynVector2 vector, Transform transform) {
+		DynVector2 localn = transform.getInverseTransformedR(vector);
+		DynVector2 localnRotated;
 		
 		// We need to normalize localn in order for localnRotated.x < cosAlpha to work
 		// and we also use that to compute the farthest point in the circle part of the slice
@@ -312,10 +312,10 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		// get the world space farthest point
-		Vector2 p1 = this.getFarthestPoint(vector, transform);
-		Vector2 p2 = this.getFarthestPoint(vector.getNegative(), transform);
+		DynVector2 p1 = this.getFarthestPoint(vector, transform);
+		DynVector2 p2 = this.getFarthestPoint(vector.getNegative(), transform);
 		// project the point onto the axis
 		double d1 = p1.dot(vector);
 		double d2 = p2.dot(vector);
@@ -330,13 +330,13 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	public void computeAABB(Transform transform, AABB aabb) {
 		// Inlined projection of x axis
 		// Interval x = this.project(Vector2.X_AXIS, transform);
-		double minX = this.getFarthestPoint(Vector2.INV_X_AXIS, transform).x;
-		double maxX = this.getFarthestPoint(Vector2.X_AXIS, transform).x;
+		double minX = this.getFarthestPoint(DynVector2.INV_X_AXIS, transform).x;
+		double maxX = this.getFarthestPoint(DynVector2.X_AXIS, transform).x;
 		
 		// Inlined projection of y axis
 		// Interval y = this.project(Vector2.Y_AXIS, transform);
-		double minY = this.getFarthestPoint(Vector2.INV_Y_AXIS, transform).y;
-		double maxY = this.getFarthestPoint(Vector2.Y_AXIS, transform).y;
+		double minY = this.getFarthestPoint(DynVector2.INV_Y_AXIS, transform).y;
+		double maxY = this.getFarthestPoint(DynVector2.Y_AXIS, transform).y;
 		
 		aabb.maxX = maxX;
 		aabb.maxY = maxY;
@@ -371,7 +371,7 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @see org.dyn4j.geometry.Shape#getRadius(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public double getRadius(Vector2 center) {
+	public double getRadius(DynVector2 center) {
 		// is the given center in region A?
 		// \    /)
 		//  \  /  )
@@ -394,14 +394,14 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform, boolean)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform, boolean inclusive) {
+	public boolean contains(DynVector2 point, Transform transform, boolean inclusive) {
 		// see if the point is in the circle
 		// transform the point into local space
-		Vector2 lp = transform.getInverseTransformed(point);
+		DynVector2 lp = transform.getInverseTransformed(point);
 		// get the transformed radius squared
 		double radiusSquared = this.sliceRadius * this.sliceRadius;
 		// create a vector from the circle center to the given point
-		Vector2 v = this.vertices[0].to(lp);
+		DynVector2 v = this.vertices[0].to(lp);
 		
 		// is it within the circle bounds?
 		if (inclusive) {
@@ -496,9 +496,9 @@ public class Slice extends AbstractShape implements Convex, Shape, Transformable
 	 * Returns the tip of the pie shape.
 	 * <p>
 	 * This is the center of the circle.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getCircleCenter() {
+	public DynVector2 getCircleCenter() {
 		return this.vertices[0];
 	}
 }

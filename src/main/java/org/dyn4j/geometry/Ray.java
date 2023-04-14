@@ -36,10 +36,10 @@ import org.dyn4j.exception.ArgumentNullException;
  */
 public class Ray {
 	/** The start point */
-	protected Vector2 start;
+	protected DynVector2 start;
 	
 	/** The direction */
-	protected Vector2 direction;
+	protected DynVector2 direction;
 	
 	/**
 	 * Creates a ray from the origin in the given direction.
@@ -47,15 +47,15 @@ public class Ray {
 	 * @since 3.0.2
 	 */
 	public Ray(double direction) {
-		this(new Vector2(direction));
+		this(new DynVector2(direction));
 	}
 	
 	/**
 	 * Creates a ray from the origin in the given direction.
 	 * @param direction the direction
 	 */
-	public Ray(Vector2 direction) {
-		this(new Vector2(), direction);
+	public Ray(DynVector2 direction) {
+		this(new DynVector2(), direction);
 	}
 	
 	/**
@@ -64,8 +64,8 @@ public class Ray {
 	 * @param direction the direction in radians
 	 * @since 3.0.2
 	 */
-	public Ray(Vector2 start, double direction) {
-		this(start, new Vector2(direction));
+	public Ray(DynVector2 start, double direction) {
+		this(start, new DynVector2(direction));
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class Ray {
 	 * @throws NullPointerException if start or direction is null
 	 * @throws IllegalArgumentException if direction is the zero vector
 	 */
-	public Ray(Vector2 start, Vector2 direction) {
+	public Ray(DynVector2 start, DynVector2 direction) {
 		if (start == null) 
 			throw new ArgumentNullException("start");
 		
@@ -103,9 +103,9 @@ public class Ray {
 	
 	/**
 	 * Returns the start point.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getStart() {
+	public DynVector2 getStart() {
 		return this.start;
 	}
 
@@ -114,7 +114,7 @@ public class Ray {
 	 * @param start the start point
 	 * @throws NullPointerException if start is null
 	 */
-	public void setStart(Vector2 start) {
+	public void setStart(DynVector2 start) {
 		if (start == null) 
 			throw new ArgumentNullException("start");
 		
@@ -127,7 +127,7 @@ public class Ray {
 	 * @since 3.0.2
 	 */
 	public void setDirection(double direction) {
-		this.direction = new Vector2(direction);
+		this.direction = new DynVector2(direction);
 	}
 	
 	/**
@@ -145,7 +145,7 @@ public class Ray {
 	 * @throws NullPointerException if direction is null
 	 * @throws IllegalArgumentException if direction is the zero vector
 	 */
-	public void setDirection(Vector2 direction) {
+	public void setDirection(DynVector2 direction) {
 		if (direction == null) 
 			throw new ArgumentNullException("direction");
 		
@@ -157,10 +157,10 @@ public class Ray {
 
 	/**
 	 * Returns the direction.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.0.2
 	 */
-	public Vector2 getDirectionVector() {
+	public DynVector2 getDirectionVector() {
 		return this.direction;
 	}
 }

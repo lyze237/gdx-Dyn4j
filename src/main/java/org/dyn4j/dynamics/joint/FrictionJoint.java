@@ -37,7 +37,7 @@ import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Matrix22;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a friction joint.
@@ -66,10 +66,10 @@ import org.dyn4j.geometry.Vector2;
  */
 public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The local anchor point on the first {@link PhysicsBody} */
-	protected final Vector2 localAnchor1;
+	protected final DynVector2 localAnchor1;
 	
 	/** The local anchor point on the second {@link PhysicsBody} */
-	protected final Vector2 localAnchor2;
+	protected final DynVector2 localAnchor2;
 	
 	/** The maximum force the constraint can apply */
 	protected double maximumForce;
@@ -88,7 +88,7 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	// output
 	
 	/** The impulse applied to reduce linear motion */
-	private Vector2 linearImpulse;
+	private DynVector2 linearImpulse;
 	
 	/** The impulse applied to reduce angular motion */
 	private double angularImpulse;
@@ -101,7 +101,7 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @throws NullPointerException if body1, body2, or anchor is null
 	 * @throws IllegalArgumentException if body1 == body2
 	 */
-	public FrictionJoint(T body1, T body2, Vector2 anchor) {
+	public FrictionJoint(T body1, T body2, DynVector2 anchor) {
 		// default no collision allowed
 		super(body1, body2);
 		
@@ -119,7 +119,7 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		this.K = new Matrix22();
 		this.angularMass = 0.0;
 		
-		this.linearImpulse = new Vector2();
+		this.linearImpulse = new DynVector2();
 		this.angularImpulse = 0.0;
 	}
 	
@@ -153,8 +153,8 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
 		// compute the K inverse matrix
 		this.K.m00 = invM1 + invM2 + r1.y * r1.y * invI1 + r2.y * r2.y * invI2;
@@ -221,17 +221,17 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		}
 		
 		// solve the point-to-point constraint
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
-		Vector2 v1 = this.body1.getLinearVelocity().sum(r1.cross(this.body1.getAngularVelocity()));
-		Vector2 v2 = this.body2.getLinearVelocity().sum(r2.cross(this.body2.getAngularVelocity()));
-		Vector2 pivotV = v1.subtract(v2);
+		DynVector2 v1 = this.body1.getLinearVelocity().sum(r1.cross(this.body1.getAngularVelocity()));
+		DynVector2 v2 = this.body2.getLinearVelocity().sum(r2.cross(this.body2.getAngularVelocity()));
+		DynVector2 pivotV = v1.subtract(v2);
 		
-		Vector2 stepImpulse = this.K.solve(pivotV.negate());
+		DynVector2 stepImpulse = this.K.solve(pivotV.negate());
 		
 		// clamp by the maxforce
-		Vector2 currentAccumulatedImpulse = this.linearImpulse.copy();
+		DynVector2 currentAccumulatedImpulse = this.linearImpulse.copy();
 		this.linearImpulse.add(stepImpulse);
 		double maxImpulse = this.maximumForce * step.getDeltaTime();
 		if (this.linearImpulse.getMagnitudeSquared() > maxImpulse * maxImpulse) {
@@ -257,17 +257,17 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	
 	/**
 	 * Returns the anchor point in world space on the first {@link PhysicsBody}.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor1() {
+	public DynVector2 getAnchor1() {
 		return this.body1.getWorldPoint(this.localAnchor1);
 	}
 	
 	/**
 	 * Returns the anchor point in world space on the second {@link PhysicsBody}.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor2() {
+	public DynVector2 getAnchor2() {
 		return this.body2.getWorldPoint(this.localAnchor2);
 	}
 	
@@ -275,7 +275,7 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
+	public DynVector2 getReactionForce(double invdt) {
 		return this.linearImpulse.product(invdt);
 	}
 	
@@ -291,7 +291,7 @@ public class FrictionJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to translate here since the anchor points are in local coordinates
 		// they will move with the bodies
 	}

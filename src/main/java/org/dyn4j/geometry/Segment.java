@@ -40,10 +40,10 @@ import org.dyn4j.exception.ArgumentNullException;
  */
 public class Segment extends AbstractShape implements Convex, Wound, Shape, Transformable, DataContainer {
 	/** The segment vertices */
-	final Vector2[] vertices;
+	final DynVector2[] vertices;
 	
 	/** The segment normals */
-	final Vector2[] normals;
+	final DynVector2[] normals;
 	
 	/** The segment length */
 	double length;
@@ -57,12 +57,12 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param point1 the first point
 	 * @param point2 the second point
 	 */
-	private Segment(boolean valid, Vector2[] vertices, Vector2 segment, double length) {
+	private Segment(boolean valid, DynVector2[] vertices, DynVector2 segment, double length) {
 		super(Geometry.getAverageCenter(vertices), length * 0.5);
 		// assign the verices
 		this.vertices = vertices;
 		// create the normals
-		this.normals = new Vector2[2];
+		this.normals = new DynVector2[2];
 		this.normals[0] = segment.copy();
 		this.normals[0].normalize();
 		this.normals[1] = segment.right();
@@ -83,9 +83,9 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @throws NullPointerException if point1 or point2 is null
 	 * @throws IllegalArgumentException if point1 == point2
 	 */
-	public Segment(Vector2 point1, Vector2 point2) {
+	public Segment(DynVector2 point1, DynVector2 point2) {
 		this(validate(point1, point2),
-			 new Vector2[] {
+			 new DynVector2[] {
 				point1,
 				point2
 			 },
@@ -101,7 +101,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @throws NullPointerException if point1 or point2 is null
 	 * @throws IllegalArgumentException if point1 == point2
 	 */
-	private static final boolean validate(Vector2 point1, Vector2 point2) {
+	private static final boolean validate(DynVector2 point1, DynVector2 point2) {
 		// make sure either point is not null
 		if (point1 == null) 
 			throw new ArgumentNullException("point1");
@@ -133,7 +133,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getVertices()
 	 */
 	@Override
-	public Vector2[] getVertices() {
+	public DynVector2[] getVertices() {
 		return this.vertices;
 	}
 	
@@ -141,7 +141,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getNormals()
 	 */
 	@Override
-	public Vector2[] getNormals() {
+	public DynVector2[] getNormals() {
 		return this.normals;
 	}
 
@@ -149,7 +149,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getVertexIterator()
 	 */
 	@Override
-	public Iterator<Vector2> getVertexIterator() {
+	public Iterator<DynVector2> getVertexIterator() {
 		return new WoundIterator(this.vertices);
 	}
 	
@@ -157,7 +157,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getNormalIterator()
 	 */
 	@Override
-	public Iterator<Vector2> getNormalIterator() {
+	public Iterator<DynVector2> getNormalIterator() {
 		return new WoundIterator(this.normals);
 	}
 	
@@ -165,23 +165,23 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Shape#getRadius(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public double getRadius(Vector2 center) {
+	public double getRadius(DynVector2 center) {
 		return Geometry.getRotationRadius(center, this.vertices);
 	}
 	
 	/**
 	 * Returns point1 in local coordinates.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPoint1() {
+	public DynVector2 getPoint1() {
 		return this.vertices[0];
 	}
 	
 	/**
 	 * Returns point2 in local coordinates.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPoint2() {
+	public DynVector2 getPoint2() {
 		return this.vertices[1];
 	}
 	
@@ -210,7 +210,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @throws NullPointerException if point, linePoint1, or linePoint2 is null
 	 * @return double
 	 */
-	public static final double getLocation(Vector2 point, Vector2 linePoint1, Vector2 linePoint2) {
+	public static final double getLocation(DynVector2 point, DynVector2 linePoint1, DynVector2 linePoint2) {
 		return (linePoint2.x - linePoint1.x) * (point.y - linePoint1.y) -
 			  (point.x - linePoint1.x) * (linePoint2.y - linePoint1.y);
 	}
@@ -223,18 +223,18 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * V<sub>point</sub> = P<sub>0</sub> - P
 	 * P<sub>closest</sub> = V<sub>point</sub>.project(V<sub>line</sub>)</p>
 	 * Assumes all points are in world space.
-	 * @see Vector2#project(Vector2)
+	 * @see DynVector2#project(DynVector2)
 	 * @param point the point
 	 * @param linePoint1 the first point of the line
 	 * @param linePoint2 the second point of the line
 	 * @throws NullPointerException if point, linePoint1, or linePoint2 is null
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public static final Vector2 getPointOnLineClosestToPoint(Vector2 point, Vector2 linePoint1, Vector2 linePoint2) {
+	public static final DynVector2 getPointOnLineClosestToPoint(DynVector2 point, DynVector2 linePoint1, DynVector2 linePoint2) {
 		// create a vector from the point to the first line point
-		Vector2 p1ToP = point.difference(linePoint1);
+		DynVector2 p1ToP = point.difference(linePoint1);
 		// create a vector representing the line
-	    Vector2 line = linePoint2.difference(linePoint1);
+	    DynVector2 line = linePoint2.difference(linePoint1);
 	    // get the length squared of the line
 	    double ab2 = line.dot(line);
 	    // check ab2 for zero (linePoint1 == linePoint2)
@@ -253,12 +253,12 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * <p>
 	 * This method works in this {@link Segment}'s local space.
 	 * @param point the local space point
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @throws NullPointerException if the given point is null
 	 * @since 3.1.5
-	 * @see #getPointOnLineClosestToPoint(Vector2, Vector2, Vector2)
+	 * @see #getPointOnLineClosestToPoint(DynVector2, DynVector2, DynVector2)
 	 */
-	public Vector2 getPointOnLineClosestToPoint(Vector2 point) {
+	public DynVector2 getPointOnLineClosestToPoint(DynVector2 point) {
 		return Segment.getPointOnLineClosestToPoint(point, this.vertices[0], this.vertices[1]);
 	}
 	
@@ -270,18 +270,18 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * end points will be returned.
 	 * <p>
 	 * Assumes all points are in world space.
-	 * @see Segment#getPointOnLineClosestToPoint(Vector2, Vector2, Vector2)
+	 * @see Segment#getPointOnLineClosestToPoint(DynVector2, DynVector2, DynVector2)
 	 * @param point the point
 	 * @param linePoint1 the first point of the line
 	 * @param linePoint2 the second point of the line
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @throws NullPointerException if point, linePoint1, or linePoint2 is null
 	 */
-	public static final Vector2 getPointOnSegmentClosestToPoint(Vector2 point, Vector2 linePoint1, Vector2 linePoint2) {
+	public static final DynVector2 getPointOnSegmentClosestToPoint(DynVector2 point, DynVector2 linePoint1, DynVector2 linePoint2) {
 		// create a vector from the point to the first line point
-		Vector2 p1ToP = point.difference(linePoint1);
+		DynVector2 p1ToP = point.difference(linePoint1);
 		// create a vector representing the line
-	    Vector2 line = linePoint2.difference(linePoint1);
+	    DynVector2 line = linePoint2.difference(linePoint1);
 	    // get the length squared of the line
 	    double ab2 = line.dot(line);
 	    // get the projection of AP on AB
@@ -301,12 +301,12 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * <p>
 	 * This method works in this {@link Segment}'s local space.
 	 * @param point the local space point
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @throws NullPointerException if the given point is null
 	 * @since 3.1.5
-	 * @see #getPointOnSegmentClosestToPoint(Vector2, Vector2, Vector2)
+	 * @see #getPointOnSegmentClosestToPoint(DynVector2, DynVector2, DynVector2)
 	 */
-	public Vector2 getPointOnSegmentClosestToPoint(Vector2 point) {
+	public DynVector2 getPointOnSegmentClosestToPoint(DynVector2 point) {
 		return Segment.getPointOnSegmentClosestToPoint(point, this.vertices[0], this.vertices[1]);
 	}
 	
@@ -335,13 +335,13 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param bp1 the first point of the second line
 	 * @param bp2 the second point of the second line
 	 * @return Vector2 the intersection point; null if the lines are parallel or coincident
-	 * @see #getSegmentIntersection(Vector2, Vector2, Vector2, Vector2)
+	 * @see #getSegmentIntersection(DynVector2, DynVector2, DynVector2, DynVector2)
 	 * @throws NullPointerException if ap1, ap2, bp1 or bp2 is null
 	 * @since 3.1.1
 	 */
-	public static final Vector2 getLineIntersection(Vector2 ap1, Vector2 ap2, Vector2 bp1, Vector2 bp2) {
-		Vector2 A = ap1.to(ap2);
-		Vector2 B = bp1.to(bp2);
+	public static final DynVector2 getLineIntersection(DynVector2 ap1, DynVector2 ap2, DynVector2 bp1, DynVector2 bp2) {
+		DynVector2 A = ap1.to(ap2);
+		DynVector2 B = bp1.to(bp2);
 		
 		// compute the bottom
 		double BxA = B.cross(A);
@@ -373,12 +373,12 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * <p>
 	 * If the lines are parallel or coincident, null is returned.
 	 * @param segment the other segment
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @throws NullPointerException if the given segment is null
 	 * @since 3.1.5
-	 * @see #getLineIntersection(Vector2, Vector2, Vector2, Vector2)
+	 * @see #getLineIntersection(DynVector2, DynVector2, DynVector2, DynVector2)
 	 */
-	public Vector2 getLineIntersection(Segment segment) {
+	public DynVector2 getLineIntersection(Segment segment) {
 		return Segment.getLineIntersection(this.vertices[0], this.vertices[1], segment.vertices[0], segment.vertices[1]);
 	}
 	
@@ -410,11 +410,11 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param bp1 the first point of the second line segment
 	 * @param bp2 the second point of the second line segment
 	 * @return Vector2 the intersection point; null if the line segments don't intersect, are parallel, or are coincident
-	 * @see #getLineIntersection(Vector2, Vector2, Vector2, Vector2)
+	 * @see #getLineIntersection(DynVector2, DynVector2, DynVector2, DynVector2)
 	 * @throws NullPointerException if ap1, ap2, bp1, or bp2 is null
 	 * @since 3.1.1
 	 */
-	public static final Vector2 getSegmentIntersection(Vector2 ap1, Vector2 ap2, Vector2 bp1, Vector2 bp2) {
+	public static final DynVector2 getSegmentIntersection(DynVector2 ap1, DynVector2 ap2, DynVector2 bp1, DynVector2 bp2) {
 		return Segment.getSegmentIntersection(ap1, ap2, bp1, bp2, true);
 	}
 
@@ -431,13 +431,13 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param bp2 the second point of the second line segment
 	 * @param inclusive see method documentation for more detail
 	 * @return Vector2 the intersection point; null if the line segments don't intersect, are parallel, or are coincident
-	 * @see #getSegmentIntersection(Vector2, Vector2, Vector2, Vector2)
+	 * @see #getSegmentIntersection(DynVector2, DynVector2, DynVector2, DynVector2)
 	 * @throws NullPointerException if ap1, ap2, bp1, or bp2 is null
 	 * @since 4.2.1
 	 */
-	public static final Vector2 getSegmentIntersection(Vector2 ap1, Vector2 ap2, Vector2 bp1, Vector2 bp2, boolean inclusive) {
-		Vector2 A = ap1.to(ap2);
-		Vector2 B = bp1.to(bp2);
+	public static final DynVector2 getSegmentIntersection(DynVector2 ap1, DynVector2 ap2, DynVector2 bp1, DynVector2 bp2, boolean inclusive) {
+		DynVector2 A = ap1.to(ap2);
+		DynVector2 B = bp1.to(bp2);
 		
 		// compute the bottom
 		double BxA = B.cross(A);
@@ -462,7 +462,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 		}
 		
 		// compute the intersection point
-		Vector2 ip = B.product(tb).add(bp1);
+		DynVector2 ip = B.product(tb).add(bp1);
 		
 		// since both are segments we need to verify that
 		// ta is also valid.
@@ -485,12 +485,12 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * <p>
 	 * If the segments do not intersect, are parallel, or are coincident, null is returned.
 	 * @param segment the other segment
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @throws NullPointerException if the given segment is null
 	 * @since 3.1.5
-	 * @see #getSegmentIntersection(Vector2, Vector2, Vector2, Vector2)
+	 * @see #getSegmentIntersection(DynVector2, DynVector2, DynVector2, DynVector2)
 	 */
-	public Vector2 getSegmentIntersection(Segment segment) {
+	public DynVector2 getSegmentIntersection(Segment segment) {
 		return Segment.getSegmentIntersection(this.vertices[0], this.vertices[1], segment.vertices[0], segment.vertices[1], true);
 	}
 	
@@ -507,12 +507,12 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @throws NullPointerException if v1, v2, vector, or transform is null
 	 * @since 3.1.5
 	 */
-	public static final EdgeFeature getFarthestFeature(Vector2 v1, Vector2 v2, Vector2 vector, Transform transform) {
+	public static final EdgeFeature getFarthestFeature(DynVector2 v1, DynVector2 v2, DynVector2 vector, Transform transform) {
 		// the farthest feature for a line is always the line itself
-		Vector2 max = null;
+		DynVector2 max = null;
 		// get the vertices
-		Vector2 p1 = transform.getTransformed(v1);
-		Vector2 p2 = transform.getTransformed(v2);
+		DynVector2 p1 = transform.getTransformed(v1);
+		DynVector2 p2 = transform.getTransformed(v2);
 		// project them onto the vector
 		double dot1 = vector.dot(p1);
 		double dot2 = vector.dot(p2);
@@ -544,14 +544,14 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param v2 the second point of the segment
 	 * @param vector the direction
 	 * @param transform the local to world space {@link Transform} of this {@link Convex} {@link Shape}
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @throws NullPointerException if v1, v2, vector, or transform is null
 	 * @since 3.1.5
 	 */
-	public static final Vector2 getFarthestPoint(Vector2 v1, Vector2 v2, Vector2 vector, Transform transform) {
+	public static final DynVector2 getFarthestPoint(DynVector2 v1, DynVector2 v2, DynVector2 vector, Transform transform) {
 		// get the vertices and the center
-		Vector2 p1 = transform.getTransformed(v1);
-		Vector2 p2 = transform.getTransformed(v2);
+		DynVector2 p1 = transform.getTransformed(v1);
+		DynVector2 p2 = transform.getTransformed(v2);
 		// project them onto the vector
 		double dot1 = vector.dot(p1);
 		double dot2 = vector.dot(p2);
@@ -567,23 +567,23 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Convex#getAxes(java.util.List, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// get the number of foci
 		int size = foci != null ? foci.length : 0;
 		// create an array to hold the axes
-		Vector2[] axes = new Vector2[2 + size];
+		DynVector2[] axes = new DynVector2[2 + size];
 		int n = 0;
 		// get the vertices
-		Vector2 p1 = transform.getTransformed(this.vertices[0]);
-		Vector2 p2 = transform.getTransformed(this.vertices[1]);
+		DynVector2 p1 = transform.getTransformed(this.vertices[0]);
+		DynVector2 p2 = transform.getTransformed(this.vertices[1]);
 		// use both the edge and its normal
 		axes[n++] = transform.getTransformedR(this.normals[1]);
 		axes[n++] = transform.getTransformedR(this.normals[0]);
-		Vector2 axis;
+		DynVector2 axis;
 		// add the voronoi region axes if point is supplied
 		for (int i = 0; i < size; i++) {
 			// get the focal point
-			Vector2 f = foci[i];
+			DynVector2 f = foci[i];
 			// find the closest point
 			if (p1.distanceSquared(f) < p2.distanceSquared(f)) {
 				axis = p1.to(f);
@@ -606,7 +606,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @return null
 	 */
 	@Override
-	public Vector2[] getFoci(Transform transform) {
+	public DynVector2[] getFoci(Transform transform) {
 		return null;
 	}
 
@@ -614,11 +614,11 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * {@inheritDoc}
 	 * <p>
 	 * Should almost always return false since this shape represents an infinitely
-	 * thin line segment. Use the {@link #contains(Vector2, Transform, double)}
+	 * thin line segment. Use the {@link #contains(DynVector2, Transform, double)}
 	 * method instead for better, though technically inaccurate, results.
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform, boolean inclusive) {
+	public boolean contains(DynVector2 point, Transform transform, boolean inclusive) {
 		// if we don't consider the point on the segment
 		// contains, then nothing can possibly be contained
 		// in this segment
@@ -627,10 +627,10 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 		}
 		
 		// put the point in local coordinates
-		Vector2 p = transform.getInverseTransformed(point);
+		DynVector2 p = transform.getInverseTransformed(point);
 		// create a reference to the end points
-		Vector2 p1 = this.vertices[0];
-		Vector2 p2 = this.vertices[1];
+		DynVector2 p1 = this.vertices[0];
+		DynVector2 p2 = this.vertices[1];
 		// get the location of the given point relative to this segment
 		double value = Segment.getLocation(p, p1, p2);
 		// see if the point is on the line created by this line segment
@@ -664,13 +664,13 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param radius the expansion radius; in the range [0, &infin;]
 	 * @return boolean
 	 */
-	public boolean contains(Vector2 point, Transform transform, double radius) {
+	public boolean contains(DynVector2 point, Transform transform, double radius) {
 		// if the radius is zero or less then perform the normal procedure
 		if (radius <= 0) {
 			return contains(point, transform);
 		} else {
 			// put the point in local coordinates
-			Vector2 p = transform.getInverseTransformed(point);
+			DynVector2 p = transform.getInverseTransformed(point);
 			// otherwise act like the segment is two circles and a rectangle
 			if (this.vertices[0].distanceSquared(p) <= radius * radius) {
 				return true;
@@ -678,9 +678,9 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 				return true;
 			} else {
 				// see if the point is in the rectangle portion
-				Vector2 l = this.vertices[0].to(this.vertices[1]);
-				Vector2 p1 = this.vertices[0].to(p);
-				Vector2 p2 = this.vertices[1].to(p);
+				DynVector2 l = this.vertices[0].to(this.vertices[1]);
+				DynVector2 p1 = this.vertices[0].to(p);
+				DynVector2 p2 = this.vertices[1].to(p);
 				if (l.dot(p1) > 0 && -l.dot(p2) > 0) {
 					double dist = p1.project(l.getRightHandOrthogonalVector()).getMagnitudeSquared();
 					if (dist <= radius * radius) {
@@ -696,11 +696,11 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		double v = 0.0;
 		// get the vertices
-		Vector2 p1 = transform.getTransformed(this.vertices[0]);
-		Vector2 p2 = transform.getTransformed(this.vertices[1]);
+		DynVector2 p1 = transform.getTransformed(this.vertices[0]);
+		DynVector2 p2 = transform.getTransformed(this.vertices[1]);
 		// project the first
     	double min = vector.dot(p1);
     	double max = min;
@@ -719,7 +719,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Convex#getFurthestPoint(org.dyn4j.geometry.Vector, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2 getFarthestPoint(Vector2 vector, Transform transform) {
+	public DynVector2 getFarthestPoint(DynVector2 vector, Transform transform) {
 		return Segment.getFarthestPoint(this.vertices[0], this.vertices[1], vector, transform);
 	}
 	
@@ -732,7 +732,7 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @return {@link EdgeFeature}
 	 */
 	@Override
-	public EdgeFeature getFarthestFeature(Vector2 vector, Transform transform) {
+	public EdgeFeature getFarthestFeature(DynVector2 vector, Transform transform) {
 		return Segment.getFarthestFeature(this.vertices[0], this.vertices[1], vector, transform);
 	}
 	
@@ -820,8 +820,8 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	@Override
 	public void computeAABB(Transform transform, AABB aabb) {
     	// get the transformed points
-		Vector2 p0 = transform.getTransformed(this.vertices[0]);
-		Vector2 p1 = transform.getTransformed(this.vertices[1]);
+		DynVector2 p0 = transform.getTransformed(this.vertices[0]);
+		DynVector2 p1 = transform.getTransformed(this.vertices[1]);
 		
 		double maxX = p0.x;
 		double minX = p1.x;
@@ -851,8 +851,8 @@ public class Segment extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @return Vector2
 	 * @since 4.2.0
 	 */
-	public Vector2 getEdgeVector() {
-		Vector2 edge = this.vertices[0].to(this.vertices[1]);
+	public DynVector2 getEdgeVector() {
+		DynVector2 edge = this.vertices[0].to(this.vertices[1]);
 		edge.normalize();
 		return edge;
 	}

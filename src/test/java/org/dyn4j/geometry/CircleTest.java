@@ -70,7 +70,7 @@ public class CircleTest {
 	public void contains() {
 		Circle c = new Circle(2.0);
 		Transform t = new Transform();
-		Vector2 p = new Vector2(2.0, 4.0);
+		DynVector2 p = new DynVector2(2.0, 4.0);
 		
 		// shouldn't be in the circle
 		TestCase.assertTrue(!c.contains(p, t));
@@ -97,8 +97,8 @@ public class CircleTest {
 	public void project() {
 		Circle c = new Circle(1.5);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, 1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, 1.0);
 		
 		t.translate(1.0, 0.5);
 		
@@ -123,13 +123,13 @@ public class CircleTest {
 	public void getFarthest() {
 		Circle c = new Circle(1.5);
 		Transform t = new Transform();
-		Vector2 y = new Vector2(0.0, -1.0);
+		DynVector2 y = new DynVector2(0.0, -1.0);
 		
 		PointFeature f = c.getFarthestFeature(y, t);
 		TestCase.assertEquals( 0.000, f.point.x, 1.0e-3);
 		TestCase.assertEquals(-1.500, f.point.y, 1.0e-3);
 		
-		Vector2 p = c.getFarthestPoint(y, t);
+		DynVector2 p = c.getFarthestPoint(y, t);
 		TestCase.assertEquals( 0.000, p.x, 1.0e-3);
 		TestCase.assertEquals(-1.500, p.y, 1.0e-3);
 		
@@ -153,7 +153,7 @@ public class CircleTest {
 		Circle c = new Circle(1.5);
 		Transform t = new Transform();
 		// a cicle has infinite axes so it should be null
-		Vector2[] axes = c.getAxes(null, t);
+		DynVector2[] axes = c.getAxes(null, t);
 		TestCase.assertNull(axes);
 	}
 	
@@ -165,7 +165,7 @@ public class CircleTest {
 		Circle c = new Circle(1.5);
 		Transform t = new Transform();
 		// should only return one
-		Vector2[] foci = c.getFoci(t);
+		DynVector2[] foci = c.getFoci(t);
 		TestCase.assertEquals(1, foci.length);
 	}
 	
@@ -250,8 +250,8 @@ public class CircleTest {
 	public void getRadius() {
 		Circle c = new Circle(3.0);
 		TestCase.assertEquals(3.0, c.getRadius());
-		TestCase.assertEquals(4.0, c.getRadius(new Vector2(-1.0, 0.0)));
-		TestCase.assertEquals(8.0, c.getRadius(new Vector2(-3.0, 4.0)), 1e-3);
+		TestCase.assertEquals(4.0, c.getRadius(new DynVector2(-1.0, 0.0)));
+		TestCase.assertEquals(8.0, c.getRadius(new DynVector2(-3.0, 4.0)), 1e-3);
 	}
 
 	/**

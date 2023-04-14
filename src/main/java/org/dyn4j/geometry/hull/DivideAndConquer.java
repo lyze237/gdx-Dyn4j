@@ -28,7 +28,7 @@ import java.util.Arrays;
 
 import org.dyn4j.exception.ArgumentNullException;
 import org.dyn4j.exception.NullElementException;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Divide and Conquer convex hull algorithm.
@@ -46,7 +46,7 @@ public class DivideAndConquer extends AbstractHullGenerator implements HullGener
 	 * @see org.dyn4j.geometry.hull.HullGenerator#generate(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public Vector2[] generate(Vector2... points) {
+	public DynVector2[] generate(DynVector2... points) {
 		// check for a null array of points
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -81,7 +81,7 @@ public class DivideAndConquer extends AbstractHullGenerator implements HullGener
 	 * @param last the last index exclusive
 	 * @return {@link LinkedVertexHull} the convex hull created
 	 */
-	final LinkedVertexHull divide(Vector2[] points, int first, int last) {
+	final LinkedVertexHull divide(DynVector2[] points, int first, int last) {
 		// compute the size of the hull we need to create
 		int size = last - first;
 		if (size == 1) {

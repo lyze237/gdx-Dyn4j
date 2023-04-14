@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.AngleJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -82,7 +82,7 @@ public class AngleJointSimulationTest {
 		// the angular velocity is split between them
 		TestCase.assertEquals(Math.toRadians(15), g.getAngularVelocity());
 		TestCase.assertEquals(Math.toRadians(15), b.getAngularVelocity());
-		TestCase.assertEquals(new Vector2(0.0, 0.0), aj.getReactionForce(invdt));
+		TestCase.assertEquals(new DynVector2(0.0, 0.0), aj.getReactionForce(invdt));
 		TestCase.assertEquals(1.542, aj.getReactionTorque(invdt), 1e-3);
 		
 		aj.setRatio(0.5);
@@ -91,7 +91,7 @@ public class AngleJointSimulationTest {
 		// since limits are enabled, they will continue to move at the same rate
 		TestCase.assertEquals(Math.toRadians(15), g.getAngularVelocity());
 		TestCase.assertEquals(Math.toRadians(15), b.getAngularVelocity());
-		TestCase.assertEquals(new Vector2(0.0, 0.0), aj.getReactionForce(invdt));
+		TestCase.assertEquals(new DynVector2(0.0, 0.0), aj.getReactionForce(invdt));
 		TestCase.assertEquals(0.0, aj.getReactionTorque(invdt), 1e-3);
 		
 		aj.setLimitsEnabled(false);
@@ -101,7 +101,7 @@ public class AngleJointSimulationTest {
 		// move at half the rate of body2
 		TestCase.assertEquals(Math.toRadians(10), g.getAngularVelocity(), 1e-8);
 		TestCase.assertEquals(Math.toRadians(20), b.getAngularVelocity(), 1e-8);
-		TestCase.assertEquals(new Vector2(0.0, 0.0), aj.getReactionForce(invdt));
+		TestCase.assertEquals(new DynVector2(0.0, 0.0), aj.getReactionForce(invdt));
 		TestCase.assertEquals(-0.514, aj.getReactionTorque(invdt), 1e-3);
 	}
 	

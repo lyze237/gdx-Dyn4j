@@ -134,7 +134,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @throws UnsupportedOperationException when called
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// this shape is not supported by SAT
 		throw new UnsupportedOperationException("SAT does not support the Ellipse shape.");
 	}
@@ -146,7 +146,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @throws UnsupportedOperationException when called
 	 */
 	@Override
-	public Vector2[] getFoci(Transform transform) {
+	public DynVector2[] getFoci(Transform transform) {
 		// this shape is not supported by SAT
 		throw new UnsupportedOperationException("SAT does not support the Ellipse shape.");
 	}
@@ -155,9 +155,9 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Convex#getFarthestPoint(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2 getFarthestPoint(Vector2 vector, Transform transform) {
+	public DynVector2 getFarthestPoint(DynVector2 vector, Transform transform) {
 		// convert the world space vector(n) to local space
-		Vector2 localAxis = transform.getInverseTransformedR(vector);
+		DynVector2 localAxis = transform.getInverseTransformedR(vector);
 		
 		// private implementation
 		localAxis = this.getFarthestPoint(localAxis);
@@ -172,10 +172,10 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * Modifies the given local space axis into the farthest point along that axis and
 	 * additionally returns it.
 	 * @param localAxis the direction vector in local space
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.4.0
 	 */
-	private Vector2 getFarthestPoint(Vector2 localAxis) {
+	private DynVector2 getFarthestPoint(DynVector2 localAxis) {
 		// localAxis is already in local coordinates
 		if (this.rotation.isIdentity()) {
 			// This is the case most of the time, and saves a lot of computations
@@ -205,7 +205,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * has been rotated to match the alignment of the ellipse.
 	 * @since 3.4.0
 	 */
-	private void getFarthestPointOnAlignedEllipse(Vector2 localAxis) {
+	private void getFarthestPointOnAlignedEllipse(DynVector2 localAxis) {
 		// an ellipse is a circle with a non-uniform scaling transformation applied
 		// so we can achieve that by scaling the input axis by the major and minor
 		// axis lengths
@@ -222,9 +222,9 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Convex#getFarthestFeature(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Feature getFarthestFeature(Vector2 vector, Transform transform) {
+	public Feature getFarthestFeature(DynVector2 vector, Transform transform) {
 		// obtain the farthest point along the given vector
-		Vector2 farthest = this.getFarthestPoint(vector, transform);
+		DynVector2 farthest = this.getFarthestPoint(vector, transform);
 		// for an ellipse the farthest feature along a vector will always be a vertex
 		return new PointFeature(farthest);
 	}
@@ -233,11 +233,11 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		// get the world space farthest point
-		Vector2 p1 = this.getFarthestPoint(vector, transform);
+		DynVector2 p1 = this.getFarthestPoint(vector, transform);
 		// get the center in world space
-		Vector2 center = transform.getTransformed(this.center);
+		DynVector2 center = transform.getTransformed(this.center);
 		// project the center onto the axis
 		double c = center.dot(vector);
 		// project the point onto the axis
@@ -255,7 +255,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 		// Also see http://www.iquilezles.org/www/articles/ellipses/ellipses.htm
 		
 		// u is a unit vector with the world and local rotation
-		Vector2 u = this.rotation.toVector();
+		DynVector2 u = this.rotation.toVector();
 		transform.transformR(u);
 		
 		double x2 = u.x * u.x;
@@ -304,7 +304,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Shape#getRadius(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public double getRadius(Vector2 center) {
+	public double getRadius(DynVector2 center) {
 		// annoyingly, finding the radius of a rotated/translated ellipse
 		// about another point is the same as finding the farthest point
 		// from an arbitrary point. The solution to this is a quartic function
@@ -315,10 +315,10 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 		// we need to translate/rotate the point so that this ellipse is
 		// considered centered at the origin with it's semi-major axis aligned
 		// with the x-axis and its semi-minor axis aligned with the y-axis
-		Vector2 p = center.difference(this.center).inverseRotate(this.rotation);
+		DynVector2 p = center.difference(this.center).inverseRotate(this.rotation);
 		
 		// get the farthest point.
-		Vector2 fp = Ellipse.getFarthestPointOnEllipse(this.halfWidth, this.halfHeight, p);
+		DynVector2 fp = Ellipse.getFarthestPointOnEllipse(this.halfWidth, this.halfHeight, p);
 		
 		// get the distance between the two points. The distance will be the
 		// same if we translate/rotate the points back to the real position
@@ -338,10 +338,10 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @param a the half width of the ellipse
 	 * @param b the half height of the ellipse
 	 * @param point the query point
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.4.0
 	 */
-	static final Vector2 getFarthestPointOnEllipse(double a, double b, Vector2 point) 
+	static final DynVector2 getFarthestPointOnEllipse(double a, double b, DynVector2 point)
 	{
 		double px = point.x;
 		double py = point.y;
@@ -381,12 +381,12 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 			py = -py;
 		}
 		
-		Vector2 p = null;
+		DynVector2 p = null;
 		if (py == 0.0) {
 			// then its on the x-axis and the farthest point is easy to calculate
-			p = new Vector2(px < 0 ? a : -a, 0);
+			p = new DynVector2(px < 0 ? a : -a, 0);
 		} else {
-			p = Ellipse.getFarthestPointOnBoundedEllipse(0, a, a, b, new Vector2(px, py));
+			p = Ellipse.getFarthestPointOnBoundedEllipse(0, a, a, b, new DynVector2(px, py));
 		}
 		
 		// translate the point to the correct quadrant
@@ -422,10 +422,10 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @param a the half width of the ellipse
 	 * @param b the half height of the ellipse
 	 * @param point the query point
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.4.0
 	 */
-	static final Vector2 getFarthestPointOnBoundedEllipse(double xmin, double xmax, double a, double b, Vector2 point) 
+	static final DynVector2 getFarthestPointOnBoundedEllipse(double xmin, double xmax, double a, double b, DynVector2 point)
 	{
 		double px = point.x;
 		double py = point.y;
@@ -434,8 +434,8 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 		double x0 = xmin;
 		double x1 = xmax;
 
-		final Vector2 q = new Vector2(px, py);
-		final Vector2 p = new Vector2();
+		final DynVector2 q = new DynVector2(px, py);
+		final DynVector2 p = new DynVector2();
 		
 		final double aa = a * a;
 		final double ba = b / a;
@@ -483,7 +483,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @return double
 	 * @since 3.4.0
 	 */
-	private static double getSquaredDistance(double a2, double ba, double x, Vector2 q, Vector2 p) {
+	private static double getSquaredDistance(double a2, double ba, double x, DynVector2 q, DynVector2 p) {
 		// compute the y value for the given x on the ellipse:
 		// (x^2/a^2) + (y^2/b^2) = 1
 		// y^2 = (1 - (x / a)^2) * b^2
@@ -515,7 +515,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform, boolean)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform, boolean inclusive) {
+	public boolean contains(DynVector2 point, Transform transform, boolean inclusive) {
 		// equation of an ellipse:
 		// (x - h)^2/a^2 + (y - k)^2/b^2 = 1
 		// for a point to be inside the ellipse, we can plug in
@@ -523,7 +523,7 @@ public class Ellipse extends AbstractShape implements Convex, Shape, Transformab
 		// is less than or equal to one
 		
 		// get the world space point into local coordinates
-		Vector2 localPoint = transform.getInverseTransformed(point);
+		DynVector2 localPoint = transform.getInverseTransformed(point);
 		// account for local rotation
 		localPoint.inverseRotate(this.rotation, this.center);
 		

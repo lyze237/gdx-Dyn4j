@@ -68,7 +68,7 @@ import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.listener.ContactListener;
 import org.dyn4j.world.listener.DestructionListener;
 import org.dyn4j.world.listener.StepListener;
@@ -105,7 +105,7 @@ public abstract class AbstractPhysicsWorld<T extends PhysicsBody, V extends Cont
 	protected final TimeStep timeStep;
 	
 	/** The world gravity vector */
-	protected final Vector2 gravity;
+	protected final DynVector2 gravity;
 	
 	/** The {@link ValueMixer} */
 	protected ValueMixer valueMixer;
@@ -815,7 +815,7 @@ public abstract class AbstractPhysicsWorld<T extends PhysicsBody, V extends Cont
 	 * @see org.dyn4j.world.PhysicsWorld#setGravity(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void setGravity(Vector2 gravity) {
+	public void setGravity(DynVector2 gravity) {
 		if (gravity == null) {
 			return;
 		}
@@ -836,7 +836,7 @@ public abstract class AbstractPhysicsWorld<T extends PhysicsBody, V extends Cont
 	 * @see org.dyn4j.world.PhysicsWorld#getGravity()
 	 */
 	@Override
-	public Vector2 getGravity() {
+	public DynVector2 getGravity() {
 		return this.gravity;
 	}
 
@@ -1012,7 +1012,7 @@ public abstract class AbstractPhysicsWorld<T extends PhysicsBody, V extends Cont
 	 * @see org.dyn4j.world.AbstractCollisionWorld#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		super.shift(shift);
 		
 		// update the joints
@@ -1580,8 +1580,8 @@ public abstract class AbstractPhysicsWorld<T extends PhysicsBody, V extends Cont
 			// the way the bodies are advanced in the Island solving
 			// (for now they are the same, but could be changed in the
 			// future).
-			Vector2 v1 = body1.getLinearVelocity().product(dt);
-			Vector2 v2 = body2.getLinearVelocity().product(dt);
+			DynVector2 v1 = body1.getLinearVelocity().product(dt);
+			DynVector2 v2 = body2.getLinearVelocity().product(dt);
 			double av1 = body1.getAngularVelocity() * dt;
 			double av2 = body2.getAngularVelocity() * dt;
 			

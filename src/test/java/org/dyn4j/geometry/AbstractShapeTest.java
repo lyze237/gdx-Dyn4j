@@ -42,19 +42,19 @@ public class AbstractShapeTest {
 	 * @since 3.1.1
 	 */
 	private class TestShape extends AbstractShape {
-		public TestShape(Vector2 c, double r) {
+		public TestShape(DynVector2 c, double r) {
 			super(c, r);
 		}
 		@Override
-		public boolean contains(Vector2 point, Transform transform) { return false; }	
+		public boolean contains(DynVector2 point, Transform transform) { return false; }
 		@Override
-		public boolean contains(Vector2 point, Transform transform, boolean inclusive) { return false; }	
+		public boolean contains(DynVector2 point, Transform transform, boolean inclusive) { return false; }
 		@Override
 		public Mass createMass(double density) { return new Mass(); }
 		@Override
-		public double getRadius(Vector2 center) { return 0.0; }
+		public double getRadius(DynVector2 center) { return 0.0; }
 		@Override
-		public Interval project(Vector2 n, Transform transform) { return null; }
+		public Interval project(DynVector2 n, Transform transform) { return null; }
 		@Override
 		public void computeAABB(Transform transform, AABB aabb) { }
 		@Override
@@ -66,7 +66,7 @@ public class AbstractShapeTest {
 	 */
 	@Test
 	public void create() {
-		Vector2 c = new Vector2(1.0, 2.0);
+		DynVector2 c = new DynVector2(1.0, 2.0);
 		double r = 2.0;
 		Shape s = new TestShape(c, r);
 		

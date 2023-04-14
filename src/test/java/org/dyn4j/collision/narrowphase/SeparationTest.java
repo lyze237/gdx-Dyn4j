@@ -24,7 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -51,9 +51,9 @@ public class SeparationTest {
 		TestCase.assertEquals(0.0, sep.getPoint2().x);
 		TestCase.assertEquals(0.0, sep.getPoint2().y);
 		
-		Vector2 n = new Vector2(1.0, 1.0);
-		Vector2 p1 = new Vector2(2.0, 2.0);
-		Vector2 p2 = new Vector2(3.0, 3.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
+		DynVector2 p1 = new DynVector2(2.0, 2.0);
+		DynVector2 p2 = new DynVector2(3.0, 3.0);
 		sep = new Separation(n, 5.0, p1, p2);
 		
 		TestCase.assertEquals(5.0, sep.getDistance());
@@ -85,7 +85,7 @@ public class SeparationTest {
 		TestCase.assertEquals(0.0, sep.getPoint2().x);
 		TestCase.assertEquals(0.0, sep.getPoint2().y);
 		
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		sep.setNormal(n);
 		
 		TestCase.assertEquals(0.0, sep.getDistance());
@@ -97,7 +97,7 @@ public class SeparationTest {
 		TestCase.assertEquals(0.0, sep.getPoint2().x);
 		TestCase.assertEquals(0.0, sep.getPoint2().y);
 		
-		Vector2 p1 = new Vector2(2.0, 2.0);
+		DynVector2 p1 = new DynVector2(2.0, 2.0);
 		sep.setPoint1(p1);
 		
 		TestCase.assertEquals(0.0, sep.getDistance());
@@ -110,7 +110,7 @@ public class SeparationTest {
 		TestCase.assertEquals(0.0, sep.getPoint2().x);
 		TestCase.assertEquals(0.0, sep.getPoint2().y);
 		
-		Vector2 p2 = new Vector2(3.0, 3.0);
+		DynVector2 p2 = new DynVector2(3.0, 3.0);
 		sep.setPoint2(p2);
 		
 		TestCase.assertEquals(0.0, sep.getDistance());
@@ -143,9 +143,9 @@ public class SeparationTest {
 	 */
 	@Test
 	public void clear() {
-		Vector2 n = new Vector2(1.0, 1.0);
-		Vector2 p1 = new Vector2(2.0, 2.0);
-		Vector2 p2 = new Vector2(3.0, 3.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
+		DynVector2 p1 = new DynVector2(2.0, 2.0);
+		DynVector2 p2 = new DynVector2(3.0, 3.0);
 		Separation sep = new Separation(n, 5.0, p1, p2);
 		
 		TestCase.assertEquals(5.0, sep.getDistance());
@@ -175,9 +175,9 @@ public class SeparationTest {
 	 */
 	@Test
 	public void copy() {
-		Vector2 n = new Vector2(1.0, 1.0);
-		Vector2 p1 = new Vector2(2.0, 2.0);
-		Vector2 p2 = new Vector2(3.0, 3.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
+		DynVector2 p1 = new DynVector2(2.0, 2.0);
+		DynVector2 p2 = new DynVector2(3.0, 3.0);
 		Separation sep1 = new Separation(n, 5.0, p1, p2);
 		Separation sep2 = new Separation();
 		
@@ -228,9 +228,9 @@ public class SeparationTest {
 	 */
 	@Test
 	public void shift() {
-		Vector2 n = new Vector2(1.0, 1.0);
-		Vector2 p1 = new Vector2(2.0, 2.0);
-		Vector2 p2 = new Vector2(3.0, 3.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
+		DynVector2 p1 = new DynVector2(2.0, 2.0);
+		DynVector2 p2 = new DynVector2(3.0, 3.0);
 		Separation sep = new Separation(n, 5.0, p1, p2);
 		
 		TestCase.assertEquals(5.0, sep.getDistance());
@@ -245,7 +245,7 @@ public class SeparationTest {
 		TestCase.assertNotSame(p2, sep.getPoint2());
 		
 		// points should change
-		sep.shift(new Vector2(3.0, -2.0));
+		sep.shift(new DynVector2(3.0, -2.0));
 
 		TestCase.assertEquals(5.0, sep.getDistance());
 		TestCase.assertEquals(1.0, sep.getNormal().x);

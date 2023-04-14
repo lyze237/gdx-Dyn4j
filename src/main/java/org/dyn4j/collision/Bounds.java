@@ -29,7 +29,7 @@ import org.dyn4j.geometry.Rotatable;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Translatable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents the {@link Bounds} of a simulation.
@@ -51,10 +51,10 @@ import org.dyn4j.geometry.Vector2;
 public interface Bounds extends Translatable, Shiftable {
 	/**
 	 * Returns the translation of the bounds.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.2.0
 	 */
-	public abstract Vector2 getTranslation();
+	public abstract DynVector2 getTranslation();
 	
 	/**
 	 * Returns true if the given {@link CollisionBody} is <strong>fully</strong> outside the bounds.

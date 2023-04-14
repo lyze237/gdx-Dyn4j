@@ -53,12 +53,12 @@ public class Rectangle extends Polygon implements Convex, Wound, Shape, Transfor
 	 * @param height the height
 	 * @param vertices the rectangle vertices
 	 */
-	private Rectangle(boolean valid, double width, double height, Vector2[] vertices) {
-		super(new Vector2(), vertices[0].getMagnitude(), vertices, new Vector2[] {
-			new Vector2(0.0, -1.0),
-			new Vector2(1.0, 0.0),
-			new Vector2(0.0, 1.0),
-			new Vector2(-1.0, 0.0)
+	private Rectangle(boolean valid, double width, double height, DynVector2[] vertices) {
+		super(new DynVector2(), vertices[0].getMagnitude(), vertices, new DynVector2[] {
+			new DynVector2(0.0, -1.0),
+			new DynVector2(1.0, 0.0),
+			new DynVector2(0.0, 1.0),
+			new DynVector2(-1.0, 0.0)
 		});
 
 		// set the width and height
@@ -77,11 +77,11 @@ public class Rectangle extends Polygon implements Convex, Wound, Shape, Transfor
 	 * @throws IllegalArgumentException if width or height is less than or equal to zero
 	 */
 	public Rectangle(double width, double height) {
-		this(validate(width, height), width, height, new Vector2[] {
-			new Vector2(-width * 0.5, -height * 0.5),
-			new Vector2( width * 0.5, -height * 0.5),
-			new Vector2( width * 0.5,  height * 0.5),
-			new Vector2(-width * 0.5,  height * 0.5)	
+		this(validate(width, height), width, height, new DynVector2[] {
+			new DynVector2(-width * 0.5, -height * 0.5),
+			new DynVector2( width * 0.5, -height * 0.5),
+			new DynVector2( width * 0.5,  height * 0.5),
+			new DynVector2(-width * 0.5,  height * 0.5)
 		});
 	}
 	
@@ -156,11 +156,11 @@ public class Rectangle extends Polygon implements Convex, Wound, Shape, Transfor
 	 * @see org.dyn4j.geometry.Polygon#getAxes(java.util.List, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// get the number of foci
 		int fociSize = foci != null ? foci.length : 0;
 		// create an array to hold the axes
-		Vector2[] axes = new Vector2[2 + fociSize];
+		DynVector2[] axes = new DynVector2[2 + fociSize];
 		int n = 0;
 		// return the normals to the surfaces, since this is a 
 		// rectangle we only have two axes to test against
@@ -169,14 +169,14 @@ public class Rectangle extends Polygon implements Convex, Wound, Shape, Transfor
 		// get the closest point to each focus
 		for (int i = 0; i < fociSize; i++) {
 			// get the current focus
-			Vector2 focus = foci[i];
+			DynVector2 focus = foci[i];
 			// create a place for the closest point
-			Vector2 closest = transform.getTransformed(this.vertices[0]);
+			DynVector2 closest = transform.getTransformed(this.vertices[0]);
 			double d = focus.distanceSquared(closest);
 			// find the minimum distance vertex
 			for (int j = 1; j < 4; j++) {
 				// get the vertex
-				Vector2 vertex = this.vertices[j];
+				DynVector2 vertex = this.vertices[j];
 				// transform it into world space
 				vertex = transform.getTransformed(vertex);
 				// get the squared distance to the focus
@@ -190,7 +190,7 @@ public class Rectangle extends Polygon implements Convex, Wound, Shape, Transfor
 			}
 			// once we have found the closest point create 
 			// a vector from the focal point to the point
-			Vector2 axis = focus.to(closest);
+			DynVector2 axis = focus.to(closest);
 			// normalize the axis
 			axis.normalize();
 			// add it to the array
@@ -204,22 +204,22 @@ public class Rectangle extends Polygon implements Convex, Wound, Shape, Transfor
 	 * @see org.dyn4j.geometry.Polygon#contains(org.dyn4j.geometry.Vector, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform) {
+	public boolean contains(DynVector2 point, Transform transform) {
 		// put the point in local coordinates
-		Vector2 p = transform.getInverseTransformed(point);
+		DynVector2 p = transform.getInverseTransformed(point);
 		// get the center and vertices
-		Vector2 c = this.center;
-		Vector2 p1 = this.vertices[0];
-		Vector2 p2 = this.vertices[1];
-		Vector2 p4 = this.vertices[3];
+		DynVector2 c = this.center;
+		DynVector2 p1 = this.vertices[0];
+		DynVector2 p2 = this.vertices[1];
+		DynVector2 p4 = this.vertices[3];
 		// get the width and height squared
 		double widthSquared = p1.distanceSquared(p2);
 		double heightSquared = p1.distanceSquared(p4);
 		// i could call the polygon one instead of this method, but im not sure which is faster
-		Vector2 projectAxis0 = p1.to(p2);
-		Vector2 projectAxis1 = p1.to(p4);
+		DynVector2 projectAxis0 = p1.to(p2);
+		DynVector2 projectAxis1 = p1.to(p4);
 		// create a vector from the centroid to the point
-		Vector2 toPoint = c.to(p);
+		DynVector2 toPoint = c.to(p);
 		// find the projection of this vector onto the vector from the
 		// centroid to the edge
 		if (toPoint.project(projectAxis0).getMagnitudeSquared() <= (widthSquared * 0.25)) {
@@ -241,12 +241,12 @@ public class Rectangle extends Polygon implements Convex, Wound, Shape, Transfor
 	 * @see org.dyn4j.geometry.Polygon#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		// get the center and vertices
-		Vector2 center = transform.getTransformed(this.center);
+		DynVector2 center = transform.getTransformed(this.center);
 		// create the project axes
-		Vector2 projectAxis0 = transform.getTransformedR(this.normals[1]);
-		Vector2 projectAxis1 = transform.getTransformedR(this.normals[2]);
+		DynVector2 projectAxis0 = transform.getTransformedR(this.normals[1]);
+		DynVector2 projectAxis1 = transform.getTransformedR(this.normals[2]);
 		// project the shape on the axis
 		double c = center.dot(vector);
 		double e = (this.width * 0.5) * Math.abs(projectAxis0.dot(vector)) + (this.height * 0.5) * Math.abs(projectAxis1.dot(vector));

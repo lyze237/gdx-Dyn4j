@@ -35,7 +35,7 @@ import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Transformable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an object that can collide with other objects.
@@ -95,7 +95,7 @@ public interface CollisionBody<T extends Fixture> extends Transformable, Shiftab
 	 * @throws NullPointerException if point is null
 	 * @since 3.2.0
 	 */
-	public abstract T getFixture(Vector2 point);
+	public abstract T getFixture(DynVector2 point);
 
 	/**
 	 * Returns all the {@link Fixture}s in this {@link CollisionBody} that contain the given point.
@@ -106,7 +106,7 @@ public interface CollisionBody<T extends Fixture> extends Transformable, Shiftab
 	 * @throws NullPointerException if point is null
 	 * @since 3.2.0
 	 */
-	public abstract List<T> getFixtures(Vector2 point);
+	public abstract List<T> getFixtures(DynVector2 point);
 	
 	/**
 	 * Removes the given {@link Fixture} from this {@link CollisionBody}.
@@ -142,7 +142,7 @@ public interface CollisionBody<T extends Fixture> extends Transformable, Shiftab
 	 * @throws NullPointerException if point is null
 	 * @since 3.2.0
 	 */
-	public abstract T removeFixture(Vector2 point);
+	public abstract T removeFixture(DynVector2 point);
 	
 	/**
 	 * Removes all the {@link Fixture}s in this {@link CollisionBody} that contain the given point and
@@ -154,7 +154,7 @@ public interface CollisionBody<T extends Fixture> extends Transformable, Shiftab
 	 * @throws NullPointerException if point is null
 	 * @since 3.2.0
 	 */
-	public abstract List<T> removeFixtures(Vector2 point);
+	public abstract List<T> removeFixtures(DynVector2 point);
 	
 	/**
 	 * Returns the number of {@link Fixture}s attached
@@ -195,61 +195,61 @@ public interface CollisionBody<T extends Fixture> extends Transformable, Shiftab
 	 * @throws NullPointerException if point is null
 	 * @since 3.2.0
 	 */
-	public abstract boolean contains(Vector2 point);
+	public abstract boolean contains(DynVector2 point);
 
 	/**
 	 * Returns the center for this {@link CollisionBody} in local coordinates.
-	 * @return {@link Vector2} the center in local coordinates
+	 * @return {@link DynVector2} the center in local coordinates
 	 * @since 3.2.0
 	 */
-	public abstract Vector2 getLocalCenter();
+	public abstract DynVector2 getLocalCenter();
 	
 	/**
 	 * Returns the center for this {@link CollisionBody} in world coordinates.
-	 * @return {@link Vector2} the center in world coordinates
+	 * @return {@link DynVector2} the center in world coordinates
 	 * @since 3.2.0
 	 */
-	public abstract Vector2 getWorldCenter();
+	public abstract DynVector2 getWorldCenter();
 	
 	/**
 	 * Returns a new point in local coordinates of this {@link CollisionBody} given
 	 * a point in world coordinates.
 	 * @param worldPoint a world space point
-	 * @return {@link Vector2} local space point
+	 * @return {@link DynVector2} local space point
 	 * @throws NullPointerException if the given point is null
 	 * @since 3.2.0
 	 */
-	public abstract Vector2 getLocalPoint(Vector2 worldPoint);
+	public abstract DynVector2 getLocalPoint(DynVector2 worldPoint);
 	
 	/**
 	 * Returns a new point in world coordinates given a point in the
 	 * local coordinates of this {@link CollisionBody}.
 	 * @param localPoint a point in the local coordinates of this {@link CollisionBody}
-	 * @return {@link Vector2} world space point
+	 * @return {@link DynVector2} world space point
 	 * @throws NullPointerException if the given point is null
 	 * @since 3.2.0
 	 */
-	public abstract Vector2 getWorldPoint(Vector2 localPoint);
+	public abstract DynVector2 getWorldPoint(DynVector2 localPoint);
 	
 	/**
 	 * Returns a new vector in local coordinates of this {@link CollisionBody} given
 	 * a vector in world coordinates.
 	 * @param worldVector a world space vector
-	 * @return {@link Vector2} local space vector
+	 * @return {@link DynVector2} local space vector
 	 * @throws NullPointerException if the given vector is null
 	 * @since 3.2.0
 	 */
-	public abstract Vector2 getLocalVector(Vector2 worldVector);
+	public abstract DynVector2 getLocalVector(DynVector2 worldVector);
 	
 	/**
 	 * Returns a new vector in world coordinates given a vector in the
 	 * local coordinates of this {@link CollisionBody}.
 	 * @param localVector a vector in the local coordinates of this {@link CollisionBody}
-	 * @return {@link Vector2} world space vector
+	 * @return {@link DynVector2} world space vector
 	 * @throws NullPointerException if the given vector is null
 	 * @since 3.2.0
 	 */
-	public abstract Vector2 getWorldVector(Vector2 localVector);
+	public abstract DynVector2 getWorldVector(DynVector2 localVector);
 
 	/**
 	 * Returns the maximum radius of the disk that the

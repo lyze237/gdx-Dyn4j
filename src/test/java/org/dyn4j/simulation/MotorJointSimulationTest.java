@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.MotorJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -71,7 +71,7 @@ public class MotorJointSimulationTest {
 		w.addBody(b);
 		
 		MotorJoint<Body> mj = new MotorJoint<Body>(g, b);
-		mj.setLinearTarget(new Vector2(0.0, 3.0));
+		mj.setLinearTarget(new DynVector2(0.0, 3.0));
 		mj.setAngularTarget(Math.toRadians(30));
 		mj.setMaximumForce(0.0);
 		mj.setMaximumTorque(0.0);

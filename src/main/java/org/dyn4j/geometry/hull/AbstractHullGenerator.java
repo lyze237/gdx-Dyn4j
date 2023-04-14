@@ -28,7 +28,7 @@ package org.dyn4j.geometry.hull;
 import java.util.Arrays;
 import java.util.List;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Abstract implementation of the {@link HullGenerator} interface.
@@ -41,8 +41,8 @@ public abstract class AbstractHullGenerator implements HullGenerator {
 	 * @see org.dyn4j.geometry.hull.HullGenerator#generate(java.util.List)
 	 */
 	@Override
-	public List<Vector2> generate(List<Vector2> points) {
-		Vector2[] pts = new Vector2[points.size()];
+	public List<DynVector2> generate(List<DynVector2> points) {
+		DynVector2[] pts = new DynVector2[points.size()];
 		points.toArray(pts);
 		return Arrays.asList(this.generate(pts));
 	}

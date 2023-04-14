@@ -60,13 +60,13 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	final Rotation rotation;
 	
 	/** The ellipse center */
-	final Vector2 ellipseCenter;
+	final DynVector2 ellipseCenter;
 	
 	/** The first vertex of the bottom */
-	final Vector2 vertexLeft;
+	final DynVector2 vertexLeft;
 	
 	/** The second vertex of the bottom */
-	final Vector2 vertexRight;
+	final DynVector2 vertexRight;
 	
 	/**
 	 * Validated constructor.
@@ -80,7 +80,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @param vertexLeft the first vertex
 	 * @param vertexRight the second vertex
 	 */
-	private HalfEllipse(boolean valid, double width, double height, Vector2 center, Vector2 vertexLeft, Vector2 vertexRight) {
+	private HalfEllipse(boolean valid, double width, double height, DynVector2 center, DynVector2 vertexLeft, DynVector2 vertexRight) {
 		super(center, center.distance(vertexRight));
 		
 		// set height. width can be computed as halfWidth * 2 when needed
@@ -91,7 +91,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 		this.halfWidth = width * 0.5;
 
 		// set the ellipse center
-		this.ellipseCenter = new Vector2();
+		this.ellipseCenter = new DynVector2();
 		
 		// Initially the half ellipse is aligned to the world space x axis
 		this.rotation = new Rotation();
@@ -115,11 +115,11 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 			validate(width, height), 
 			width, 
 			height, 
-			new Vector2(0, (4.0 * height) / (3.0 * Math.PI)), 
+			new DynVector2(0, (4.0 * height) / (3.0 * Math.PI)),
 			// the left point
-			new Vector2(-width * 0.5, 0),
+			new DynVector2(-width * 0.5, 0),
 			// the right point
-			new Vector2( width * 0.5, 0)
+			new DynVector2( width * 0.5, 0)
 			);
 	}
 	
@@ -161,7 +161,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @throws UnsupportedOperationException when called
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// this shape is not supported by SAT
 		throw new UnsupportedOperationException("SAT does not support the HalfEllipse shape.");
 	}
@@ -173,7 +173,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @throws UnsupportedOperationException when called
 	 */
 	@Override
-	public Vector2[] getFoci(Transform transform) {
+	public DynVector2[] getFoci(Transform transform) {
 		// this shape is not supported by SAT
 		throw new UnsupportedOperationException("SAT does not support the HalfEllipse shape.");
 	}
@@ -182,9 +182,9 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @see org.dyn4j.geometry.Convex#getFarthestPoint(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2 getFarthestPoint(Vector2 vector, Transform transform) {
+	public DynVector2 getFarthestPoint(DynVector2 vector, Transform transform) {
 		// convert the world space vector(n) to local space
-		Vector2 localAxis = transform.getInverseTransformedR(vector);
+		DynVector2 localAxis = transform.getInverseTransformedR(vector);
 		
 		// private implementation
 		localAxis = this.getFarthestPoint(localAxis);
@@ -199,9 +199,9 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * Modifies the given local space axis into the farthest point along that axis and
 	 * additionally returns it.
 	 * @param localAxis the direction vector in local space
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	private Vector2 getFarthestPoint(Vector2 localAxis) {
+	private DynVector2 getFarthestPoint(DynVector2 localAxis) {
 		// localAxis is already in local coordinates
 		
 		// invert the local rotation
@@ -237,7 +237,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * has been rotated to match the alignment of the ellipse.
 	 * @since 3.4.0
 	 */
-	private void getFarthestPointOnAlignedEllipse(Vector2 localAxis) {
+	private void getFarthestPointOnAlignedEllipse(DynVector2 localAxis) {
 		// an ellipse is a circle with a non-uniform scaling transformation applied
 		// so we can achieve that by scaling the input axis by the major and minor
 		// axis lengths
@@ -256,8 +256,8 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @see org.dyn4j.geometry.Convex#getFarthestFeature(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Feature getFarthestFeature(Vector2 vector, Transform transform) {
-		Vector2 localAxis = transform.getInverseTransformedR(vector);
+	public Feature getFarthestFeature(DynVector2 vector, Transform transform) {
+		DynVector2 localAxis = transform.getInverseTransformedR(vector);
 		
 		// invert the local rotation
 		localAxis.inverseRotate(this.rotation);
@@ -279,8 +279,8 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 			// return Segment.getFarthestFeature(this.vertexLeft, this.vertexRight, vector, transform);
 			
 			// Transform the vertices to world space
-			Vector2 p1 = transform.getTransformed(this.vertexLeft);
-			Vector2 p2 = transform.getTransformed(this.vertexRight);
+			DynVector2 p1 = transform.getTransformed(this.vertexLeft);
+			DynVector2 p2 = transform.getTransformed(this.vertexRight);
 			
 			// The vector p1->p2 is always CCW winding
 			PointFeature vp1 = new PointFeature(p1, 0);
@@ -299,10 +299,10 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		// get the world space farthest point
-		Vector2 p1 = this.getFarthestPoint(vector, transform);
-		Vector2 p2 = this.getFarthestPoint(vector.getNegative(), transform);
+		DynVector2 p1 = this.getFarthestPoint(vector, transform);
+		DynVector2 p2 = this.getFarthestPoint(vector.getNegative(), transform);
 		// project the point onto the axis
 		double d1 = p1.dot(vector);
 		double d2 = p2.dot(vector);
@@ -320,7 +320,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 		
 		// First calculate the Ellipse AABB
 		// Taken from Ellipse#createAABB with slight modifications
-		Vector2 u = this.rotation.toVector();
+		DynVector2 u = this.rotation.toVector();
 		transform.transformR(u);
 		
 		double x2 = u.x * u.x;
@@ -391,7 +391,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @see org.dyn4j.geometry.Shape#getRadius(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public double getRadius(Vector2 center) {
+	public double getRadius(DynVector2 center) {
 		// it turns out that a half ellipse is even more annoying than an ellipse
 		
 		// if the half ellipse is wider than it is tall
@@ -417,7 +417,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @return double
 	 * @since 3.4.0
 	 */
-	private double getMaxDistanceToVertices(Vector2 point) {
+	private double getMaxDistanceToVertices(DynVector2 point) {
 		// find the maximum radius from the center
 		double leftR = point.distanceSquared(this.vertexLeft);
 		double rightR = point.distanceSquared(this.vertexRight);
@@ -432,14 +432,14 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @return double
 	 * @since 3.4.0
 	 */
-	private double getMaxDistanceEllipse(Vector2 point) {
+	private double getMaxDistanceEllipse(DynVector2 point) {
 		// we need to translate/rotate the point so that this ellipse is
 		// considered centered at the origin with it's semi-major axis aligned
 		// with the x-axis and its semi-minor axis aligned with the y-axis
-		Vector2 p = point.difference(this.ellipseCenter).inverseRotate(this.rotation);
+		DynVector2 p = point.difference(this.ellipseCenter).inverseRotate(this.rotation);
 		
 		// get the farthest point
-		Vector2 fp = Ellipse.getFarthestPointOnEllipse(this.halfWidth, this.height, p);
+		DynVector2 fp = Ellipse.getFarthestPointOnEllipse(this.halfWidth, this.height, p);
 		
 		// get the distance between the two points. The distance will be the
 		// same if we translate/rotate the points back to the real position
@@ -453,14 +453,14 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @return double
 	 * @since 3.4.0
 	 */
-	private double getMaxDistanceHalfEllipse(Vector2 point) {
+	private double getMaxDistanceHalfEllipse(DynVector2 point) {
 		final double a = this.halfWidth;
 		final double b = this.height;
 		
 		// we need to translate/rotate the point so that this ellipse is
 		// considered centered at the origin with it's semi-major axis aligned
 		// with the x-axis and its semi-minor axis aligned with the y-axis
-		Vector2 p = point.difference(this.ellipseCenter).inverseRotate(this.rotation);
+		DynVector2 p = point.difference(this.ellipseCenter).inverseRotate(this.rotation);
 		
 		// if the point is below the x axis, then we only need to perform the ellipse code
 		if (p.y < 0) {
@@ -544,7 +544,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 		final double xmax = 0; 
 		
 		// get the farthest point on the ellipse
-		Vector2 s = Ellipse.getFarthestPointOnBoundedEllipse(xmin, xmax, a, b, p);
+		DynVector2 s = Ellipse.getFarthestPointOnBoundedEllipse(xmin, xmax, a, b, p);
 		
 		// then compare that with the farthest point of the two vertices
 		double d1 = s.distance(p);
@@ -557,7 +557,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform, boolean inclusive) {
+	public boolean contains(DynVector2 point, Transform transform, boolean inclusive) {
 		// equation of an ellipse:
 		// (x - h)^2/a^2 + (y - k)^2/b^2 = 1
 		// for a point to be inside the ellipse, we can plug in
@@ -565,7 +565,7 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 		// is less than or equal to one
 		
 		// get the world space point into local coordinates
-		Vector2 localPoint = transform.getInverseTransformed(point);
+		DynVector2 localPoint = transform.getInverseTransformed(point);
 		// account for local rotation
 		localPoint.inverseRotate(this.rotation, this.ellipseCenter);
 		
@@ -656,9 +656,9 @@ public class HalfEllipse extends AbstractShape implements Convex, Shape, Transfo
 	
 	/**
 	 * Returns the center of the ellipse.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getEllipseCenter() {
+	public DynVector2 getEllipseCenter() {
 		return this.ellipseCenter;
 	}
 }

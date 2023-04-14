@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Transformable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Test {@link CollisionBody} class for junit test cases.
@@ -83,7 +83,7 @@ public class TestCollisionBody extends AbstractCollisionBody<Fixture> implements
 	 * @see org.dyn4j.collision.CollisionBody#getLocalCenter()
 	 */
 	@Override
-	public Vector2 getLocalCenter() {
+	public DynVector2 getLocalCenter() {
 		throw new UnsupportedOperationException();
 	}
 }

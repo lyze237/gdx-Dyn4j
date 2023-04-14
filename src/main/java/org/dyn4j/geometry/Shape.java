@@ -42,9 +42,9 @@ import org.dyn4j.DataContainer;
 public interface Shape extends Transformable, DataContainer {
 	/**
 	 * Returns the center/centroid of the {@link Shape} in local coordinates.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public abstract Vector2 getCenter();
+	public abstract DynVector2 getCenter();
 	
 	/**
 	 * Returns the maximum radius of the shape from the center.
@@ -61,7 +61,7 @@ public interface Shape extends Transformable, DataContainer {
 	 * @throws NullPointerException if the given point is null
 	 * @since 3.0.2
 	 */
-	public abstract double getRadius(Vector2 center);
+	public abstract double getRadius(DynVector2 center);
 	
 	/**
 	 * Rotates the {@link Shape} about it's center.
@@ -74,26 +74,26 @@ public interface Shape extends Transformable, DataContainer {
 	public abstract void rotateAboutCenter(double theta);
 	
 	/**
-	 * Returns the {@link Interval} of this {@link Shape} projected onto the given {@link Vector2} 
+	 * Returns the {@link Interval} of this {@link Shape} projected onto the given {@link DynVector2}
 	 * given the {@link Transform}.
 	 * <p>
-	 * This is the same as calling {@link #project(Vector2, Transform)} and passing a new {@link Transform}.
-	 * @param vector {@link Vector2} to project onto
+	 * This is the same as calling {@link #project(DynVector2, Transform)} and passing a new {@link Transform}.
+	 * @param vector {@link DynVector2} to project onto
 	 * @return {@link Interval}
 	 * @throws NullPointerException if the given vector is null
 	 * @since 3.1.5
 	 */
-	public abstract Interval project(Vector2 vector);
+	public abstract Interval project(DynVector2 vector);
 	
 	/**
-	 * Returns the {@link Interval} of this {@link Shape} projected onto the given {@link Vector2} 
+	 * Returns the {@link Interval} of this {@link Shape} projected onto the given {@link DynVector2}
 	 * given the {@link Transform}.
-	 * @param vector {@link Vector2} to project onto
+	 * @param vector {@link DynVector2} to project onto
 	 * @param transform {@link Transform} for this {@link Shape}
 	 * @return {@link Interval}
 	 * @throws NullPointerException if the given vector or transform is null
 	 */
-	public abstract Interval project(Vector2 vector, Transform transform);
+	public abstract Interval project(DynVector2 vector, Transform transform);
 
 	/**
 	 * Returns true if the given point is inside this {@link Shape}.
@@ -103,13 +103,13 @@ public interface Shape extends Transformable, DataContainer {
 	 * <p>
 	 * The given point is assumed to be in world space.
 	 * <p>
-	 * This is the same as calling {@link #contains(Vector2, Transform)} and passing a new {@link Transform}.
+	 * This is the same as calling {@link #contains(DynVector2, Transform)} and passing a new {@link Transform}.
 	 * @param point world space point
 	 * @return boolean
 	 * @throws NullPointerException if the given point is null
 	 * @since 3.1.5
 	 */
-	public abstract boolean contains(Vector2 point);
+	public abstract boolean contains(DynVector2 point);
 	
 	/**
 	 * Returns true if the given point is inside this {@link Shape}.
@@ -123,7 +123,7 @@ public interface Shape extends Transformable, DataContainer {
 	 * @throws NullPointerException if the given point or transform is null
 	 * @return boolean
 	 */
-	public abstract boolean contains(Vector2 point, Transform transform);
+	public abstract boolean contains(DynVector2 point, Transform transform);
 
 	/**
 	 * Returns true if the given point is inside this {@link Shape}.
@@ -140,7 +140,7 @@ public interface Shape extends Transformable, DataContainer {
 	 * @return boolean
 	 * @since 4.2.1
 	 */
-	public abstract boolean contains(Vector2 point, Transform transform, boolean inclusive);
+	public abstract boolean contains(DynVector2 point, Transform transform, boolean inclusive);
 	
 	/**
 	 * Returns the total area of the {@link Shape}.

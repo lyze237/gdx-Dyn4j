@@ -39,7 +39,7 @@ import org.dyn4j.collision.CollisionPair;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Ray;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a self-balancing axis-aligned bounding box tree broad-phase collision detection algorithm.
@@ -366,7 +366,7 @@ public final class DynamicAABBTree<T> extends AbstractBroadphaseDetector<T> {
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// we need to update all nodes in the tree (not just the
 		// nodes that contain the bodies)
 		DynamicAABBTreeNode node = this.root;
@@ -1259,8 +1259,8 @@ public final class DynamicAABBTree<T> extends AbstractBroadphaseDetector<T> {
 			this.currentNode = DynamicAABBTree.this.root;
 			
 			// create an aabb from the ray
-			Vector2 s = ray.getStart();
-			Vector2 d = ray.getDirectionVector();
+			DynVector2 s = ray.getStart();
+			DynVector2 d = ray.getDirectionVector();
 			
 			// get the length
 			double l = length;

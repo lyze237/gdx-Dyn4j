@@ -40,7 +40,7 @@ import org.dyn4j.dynamics.TimeStep;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.dynamics.contact.ContactConstraintSolver;
 import org.dyn4j.dynamics.joint.Joint;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an undirected graph of constraints involving {@link PhysicsBody}s with the desire
@@ -570,7 +570,7 @@ public final class ConstraintGraph<T extends PhysicsBody> {
 	 * @param step the time step information
 	 * @param settings the settings
 	 */
-	public void solve(ContactConstraintSolver<T> solver, Vector2 gravity, TimeStep step, Settings settings) {
+	public void solve(ContactConstraintSolver<T> solver, DynVector2 gravity, TimeStep step, Settings settings) {
 		// perform a depth first search of the contact graph
 		// to create islands for constraint solving
 		// and solve them sequentially

@@ -27,7 +27,7 @@ package org.dyn4j.collision.narrowphase;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a simplex that is progressively expanded by splitting
@@ -53,7 +53,7 @@ final class ExpandingSimplex {
 	 * Minimal constructor.
 	 * @param simplex the starting simplex from GJK
 	 */
-	public ExpandingSimplex(List<Vector2> simplex) {
+	public ExpandingSimplex(List<DynVector2> simplex) {
 		int size = simplex.size();		
 
 		// compute the winding
@@ -65,8 +65,8 @@ final class ExpandingSimplex {
 			// compute j
 			int j = i + 1 == size ? 0 : i + 1;
 			// get the points that make up the current edge
-			Vector2 a = simplex.get(i);
-			Vector2 b = simplex.get(j);
+			DynVector2 a = simplex.get(i);
+			DynVector2 b = simplex.get(j);
 			// create the edge
 			this.queue.add(new ExpandingSimplexEdge(a, b, this.winding));
 		}
@@ -87,12 +87,12 @@ final class ExpandingSimplex {
 	 * @param simplex the simplex
 	 * @return int the winding
 	 */
-	private final int getSimplexWinding(List<Vector2> simplex) {
+	private final int getSimplexWinding(List<DynVector2> simplex) {
 		int size = simplex.size();
 		for (int i = 0; i < size; i++) {
 			int j = i + 1 == size ? 0 : i + 1;
-			Vector2 a = simplex.get(i);
-			Vector2 b = simplex.get(j);
+			DynVector2 a = simplex.get(i);
+			DynVector2 b = simplex.get(j);
 			if (a.cross(b) > 0) {
 				return 1;
 			} else if (a.cross(b) < 0) {
@@ -129,7 +129,7 @@ final class ExpandingSimplex {
 	 * edge's vertices.
 	 * @param point the new point
 	 */
-	public final void expand(Vector2 point) {
+	public final void expand(DynVector2 point) {
 		// remove the edge we are splitting
 		ExpandingSimplexEdge edge = this.queue.poll(); // O(log n)
 		// create two new edges

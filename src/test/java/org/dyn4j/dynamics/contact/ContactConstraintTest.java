@@ -36,7 +36,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.Settings;
 import org.dyn4j.geometry.Geometry;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.ValueMixer;
 import org.junit.Before;
 import org.junit.Test;
@@ -163,17 +163,17 @@ public class ContactConstraintTest {
 		Settings s = new Settings();
 		
 		Manifold m = new Manifold();
-		m.setNormal(new Vector2(1.0, 1.0));
+		m.setNormal(new DynVector2(1.0, 1.0));
 		ManifoldPoint mp0 = new ManifoldPoint(ManifoldPointId.DISTANCE);
 		mp0.setDepth(1.0);
-		mp0.setPoint(new Vector2(2.0, 2.0));
+		mp0.setPoint(new DynVector2(2.0, 2.0));
 		m.getPoints().add(mp0);
 		
 		// test begin
 		
 		ManifoldPoint mp1 = new ManifoldPoint(new IndexedManifoldPointId(0, 0, 0));
 		mp1.setDepth(2.0);
-		mp1.setPoint(new Vector2(2.0, 3.0));
+		mp1.setPoint(new DynVector2(2.0, 3.0));
 		m.getPoints().add(mp1);
 		
 		cc.update(m, s, this.cuh);
@@ -240,7 +240,7 @@ public class ContactConstraintTest {
 		
 		ManifoldPoint mp2 = new ManifoldPoint(new IndexedManifoldPointId(0, 0, 1));
 		mp2.setDepth(2.0);
-		mp2.setPoint(new Vector2(2.0, 3.0));
+		mp2.setPoint(new DynVector2(2.0, 3.0));
 		m.getPoints().add(0, mp2);
 		
 		this.f1.setSensor(true);
@@ -413,17 +413,17 @@ public class ContactConstraintTest {
 		Settings s = new Settings();
 		
 		Manifold m = new Manifold();
-		m.setNormal(new Vector2(1.0, 1.0));
+		m.setNormal(new DynVector2(1.0, 1.0));
 		ManifoldPoint mp0 = new ManifoldPoint(ManifoldPointId.DISTANCE);
 		mp0.setDepth(1.0);
-		mp0.setPoint(new Vector2(2.0, 2.0));
+		mp0.setPoint(new DynVector2(2.0, 2.0));
 		m.getPoints().add(mp0);
 		
 		TestCase.assertNotNull(cc.toString());
 		
 		ManifoldPoint mp1 = new ManifoldPoint(ManifoldPointId.DISTANCE);
 		mp1.setDepth(2.0);
-		mp1.setPoint(new Vector2(3.0, 2.0));
+		mp1.setPoint(new DynVector2(3.0, 2.0));
 		m.getPoints().add(mp1);
 		cc.update(m, s, this.cuh);
 		
@@ -439,16 +439,16 @@ public class ContactConstraintTest {
 		Settings s = new Settings();
 		
 		Manifold m = new Manifold();
-		m.setNormal(new Vector2(1.0, 1.0));
+		m.setNormal(new DynVector2(1.0, 1.0));
 		
 		ManifoldPoint mp0 = new ManifoldPoint(ManifoldPointId.DISTANCE);
 		mp0.setDepth(1.0);
-		mp0.setPoint(new Vector2(2.0, 2.0));
+		mp0.setPoint(new DynVector2(2.0, 2.0));
 		m.getPoints().add(mp0);
 
 		ManifoldPoint mp1 = new ManifoldPoint(ManifoldPointId.DISTANCE);
 		mp1.setDepth(2.0);
-		mp1.setPoint(new Vector2(3.0, 2.0));
+		mp1.setPoint(new DynVector2(3.0, 2.0));
 		m.getPoints().add(mp1);
 		cc.update(m, s, this.cuh);
 		
@@ -463,7 +463,7 @@ public class ContactConstraintTest {
 		TestCase.assertEquals(3.0, cc.getContacts().get(1).getPoint().x);
 		TestCase.assertEquals(2.0, cc.getContacts().get(1).getPoint().y);
 		
-		cc.shift(new Vector2(2.0, -1.0));
+		cc.shift(new DynVector2(2.0, -1.0));
 		
 		TestCase.assertEquals(1.0, cc.getNormal().x);
 		TestCase.assertEquals(1.0, cc.getNormal().y);

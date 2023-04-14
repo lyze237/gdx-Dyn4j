@@ -26,7 +26,7 @@ package org.dyn4j.collision;
 
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Translatable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Abstract implementation of the {@link Bounds} interface.
@@ -59,7 +59,7 @@ public abstract class AbstractBounds implements Bounds, Translatable {
 	 * Optional constructor.
 	 * @param translation the initial translation of the bounds
 	 */
-	public AbstractBounds(Vector2 translation) {
+	public AbstractBounds(DynVector2 translation) {
 		this();
 		this.translate(translation);
 	}
@@ -68,7 +68,7 @@ public abstract class AbstractBounds implements Bounds, Translatable {
 	 * @see org.dyn4j.collision.Bounds#getTranslation()
 	 */
 	@Override
-	public Vector2 getTranslation() {
+	public DynVector2 getTranslation() {
 		return this.transform.getTranslation();
 	}
 	
@@ -84,7 +84,7 @@ public abstract class AbstractBounds implements Bounds, Translatable {
 	 * @see org.dyn4j.geometry.Transformable#translate(org.dyn4j.geometry.Vector)
 	 */
 	@Override
-	public void translate(Vector2 vector) {
+	public void translate(DynVector2 vector) {
 		this.transform.translate(vector);
 	}
 	
@@ -92,7 +92,7 @@ public abstract class AbstractBounds implements Bounds, Translatable {
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		this.transform.translate(shift);
 	}
 }

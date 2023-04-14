@@ -31,7 +31,7 @@ import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.PhysicsBody;
 import org.dyn4j.dynamics.contact.ContactConstraint;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents the collision data for the {@link World} class.
@@ -148,7 +148,7 @@ public class WorldCollisionData<T extends PhysicsBody> implements ContactCollisi
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		this.manifold.shift(shift);
 	}
 

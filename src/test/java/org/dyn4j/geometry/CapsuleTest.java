@@ -84,7 +84,7 @@ public class CapsuleTest {
 	@Test
 	public void createSuccessHorizontal() {
 		Capsule cap = new Capsule(2.0, 1.0);
-		Vector2 x = cap.localXAxis;
+		DynVector2 x = cap.localXAxis;
 		TestCase.assertEquals(1.000, x.x, 1.0e-3);
 		TestCase.assertEquals(0.000, x.y, 1.0e-3);
 		
@@ -100,7 +100,7 @@ public class CapsuleTest {
 	@Test
 	public void createSuccessVertical() {
 		Capsule cap = new Capsule(1.0, 2.0);
-		Vector2 x = cap.localXAxis;
+		DynVector2 x = cap.localXAxis;
 		TestCase.assertEquals(0.000, x.x, 1.0e-3);
 		TestCase.assertEquals(1.000, x.y, 1.0e-3);
 		
@@ -117,7 +117,7 @@ public class CapsuleTest {
 	public void contains() {
 		Capsule e = new Capsule(2.0, 1.0);
 		Transform t = new Transform();
-		Vector2 p = new Vector2(0.8, -0.45);
+		DynVector2 p = new DynVector2(0.8, -0.45);
 		
 		// shouldn't be inside
 		TestCase.assertTrue(!e.contains(p, t));
@@ -147,8 +147,8 @@ public class CapsuleTest {
 	public void project() {
 		Capsule e = new Capsule(2.0, 1.0);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, -1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, -1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
@@ -186,13 +186,13 @@ public class CapsuleTest {
 	public void getFarthest() {
 		Capsule e = new Capsule(2.0, 1.0);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, -1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, -1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
 		
-		Vector2 p = e.getFarthestPoint(x, t);
+		DynVector2 p = e.getFarthestPoint(x, t);
 		TestCase.assertEquals( 2.000, p.x, 1.0e-3);
 		TestCase.assertEquals( 0.500, p.y, 1.0e-3);
 		
@@ -225,11 +225,11 @@ public class CapsuleTest {
 	public void getAxes() {
 		Capsule e = new Capsule(1.0, 0.5);
 		// should be two axes + number of foci
-		Vector2[] foci = new Vector2[] {
-			new Vector2(2.0, -0.5),
-			new Vector2(1.0, 3.0)
+		DynVector2[] foci = new DynVector2[] {
+			new DynVector2(2.0, -0.5),
+			new DynVector2(1.0, 3.0)
 		};
-		Vector2[] axes = e.getAxes(foci, IDENTITY);
+		DynVector2[] axes = e.getAxes(foci, IDENTITY);
 		TestCase.assertEquals(4, axes.length);
 		
 		// make sure we get back the right axes
@@ -246,7 +246,7 @@ public class CapsuleTest {
 	@Test
 	public void getFoci() {
 		Capsule e = new Capsule(1.0, 0.5);
-		Vector2[] foci = e.getFoci(IDENTITY);
+		DynVector2[] foci = e.getFoci(IDENTITY);
 		// should be two foci
 		TestCase.assertEquals(2, foci.length);
 		// make sure the foci are correct
@@ -384,13 +384,13 @@ public class CapsuleTest {
 		// the radius for a capsule is half the largest dimension
 		Capsule e = new Capsule(1.0, 0.5);
 		TestCase.assertEquals(0.5, e.getRadius());
-		TestCase.assertEquals(1.5, e.getRadius(new Vector2(-1.0, 0.0)));
-		TestCase.assertEquals(5.403, e.getRadius(new Vector2(-3.0, 4.0)), 1e-3);
+		TestCase.assertEquals(1.5, e.getRadius(new DynVector2(-1.0, 0.0)));
+		TestCase.assertEquals(5.403, e.getRadius(new DynVector2(-3.0, 4.0)), 1e-3);
 		
 		e = new Capsule(1.0, 1.1);
 		TestCase.assertEquals(0.55, e.getRadius());
-		TestCase.assertEquals(1.55, e.getRadius(new Vector2(0.0, -1.0)), 1e-3);
-		TestCase.assertEquals(1.501, e.getRadius(new Vector2(-1.0, 0.0)), 1e-3);
+		TestCase.assertEquals(1.55, e.getRadius(new DynVector2(0.0, -1.0)), 1e-3);
+		TestCase.assertEquals(1.501, e.getRadius(new DynVector2(-1.0, 0.0)), 1e-3);
 	}
 
 	/**

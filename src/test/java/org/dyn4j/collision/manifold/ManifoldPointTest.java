@@ -24,7 +24,7 @@
  */
 package org.dyn4j.collision.manifold;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ public class ManifoldPointTest {
 		TestCase.assertEquals(0.0, mp.depth);
 		TestCase.assertEquals(ManifoldPointId.DISTANCE, mp.id);
 		
-		Vector2 pt = new Vector2(1.0, 2.0);
+		DynVector2 pt = new DynVector2(1.0, 2.0);
 		ManifoldPoint mp2 = new ManifoldPoint(ManifoldPointId.DISTANCE, pt, 1.0);
 		
 		TestCase.assertEquals(ManifoldPointId.DISTANCE, mp2.id);
@@ -70,7 +70,7 @@ public class ManifoldPointTest {
 	 */
 	@Test
 	public void copy() {
-		Vector2 pt = new Vector2(1.0, 2.0);
+		DynVector2 pt = new DynVector2(1.0, 2.0);
 		ManifoldPoint mp = new ManifoldPoint(ManifoldPointId.DISTANCE, pt, 1.0);
 		
 		ManifoldPoint mp2 = mp.copy();
@@ -106,7 +106,7 @@ public class ManifoldPointTest {
 		TestCase.assertEquals(0.0, mp.getPoint().y);
 		TestCase.assertEquals(ManifoldPointId.DISTANCE, mp.getId());
 		
-		Vector2 pt = new Vector2(-2.0, 1.0);
+		DynVector2 pt = new DynVector2(-2.0, 1.0);
 		mp.setPoint(pt);
 		
 		TestCase.assertNotNull(mp.getPoint());
@@ -167,7 +167,7 @@ public class ManifoldPointTest {
 		
 		// only the point should change
 		
-		mp.shift(new Vector2(2.0, -1.0));
+		mp.shift(new DynVector2(2.0, -1.0));
 		
 		TestCase.assertNotNull(mp.getPoint());
 		TestCase.assertEquals(4.0, mp.getDepth());

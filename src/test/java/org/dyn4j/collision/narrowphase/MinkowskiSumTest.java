@@ -27,7 +27,7 @@ package org.dyn4j.collision.narrowphase;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -88,19 +88,19 @@ public class MinkowskiSumTest {
 		
 		MinkowskiSum sum = new MinkowskiSum(c1, tx1, c2, tx2);
 		
-		Vector2 p = sum.getSupportPoint(new Vector2(0.0, 1.0));
+		DynVector2 p = sum.getSupportPoint(new DynVector2(0.0, 1.0));
 		TestCase.assertEquals(-1.000, p.x, 1e-3);
 		TestCase.assertEquals(2.000, p.y, 1e-3);
 		
-		p = sum.getSupportPoint(new Vector2(0.0, -1.0));
+		p = sum.getSupportPoint(new DynVector2(0.0, -1.0));
 		TestCase.assertEquals(-1.000, p.x, 1e-3);
 		TestCase.assertEquals(-2.000, p.y, 1e-3);
 		
-		p = sum.getSupportPoint(new Vector2(1.0, 0.0));
+		p = sum.getSupportPoint(new DynVector2(1.0, 0.0));
 		TestCase.assertEquals(1.000, p.x, 1e-3);
 		TestCase.assertEquals(0.000, p.y, 1e-3);
 		
-		p = sum.getSupportPoint(new Vector2(-1.0, 0.0));
+		p = sum.getSupportPoint(new DynVector2(-1.0, 0.0));
 		TestCase.assertEquals(-3.000, p.x, 1e-3);
 		TestCase.assertEquals(0.000, p.y, 1e-3);
 	}
@@ -119,7 +119,7 @@ public class MinkowskiSumTest {
 		
 		MinkowskiSum sum = new MinkowskiSum(c1, tx1, c2, tx2);
 		
-		MinkowskiSumPoint p = sum.getSupportPoints(new Vector2(0.0, 1.0));
+		MinkowskiSumPoint p = sum.getSupportPoints(new DynVector2(0.0, 1.0));
 		TestCase.assertEquals(-1.000, p.point.x, 1e-3);
 		TestCase.assertEquals(2.000, p.point.y, 1e-3);
 		TestCase.assertEquals(0.000, p.supportPoint1.x, 1e-3);
@@ -127,7 +127,7 @@ public class MinkowskiSumTest {
 		TestCase.assertEquals(1.000, p.supportPoint2.x, 1e-3);
 		TestCase.assertEquals(-1.000, p.supportPoint2.y, 1e-3);
 		
-		p = sum.getSupportPoints(new Vector2(0.0, -1.0));
+		p = sum.getSupportPoints(new DynVector2(0.0, -1.0));
 		TestCase.assertEquals(-1.000, p.point.x, 1e-3);
 		TestCase.assertEquals(-2.000, p.point.y, 1e-3);
 		TestCase.assertEquals(0.000, p.supportPoint1.x, 1e-3);
@@ -135,7 +135,7 @@ public class MinkowskiSumTest {
 		TestCase.assertEquals(1.000, p.supportPoint2.x, 1e-3);
 		TestCase.assertEquals(1.000, p.supportPoint2.y, 1e-3);
 		
-		p = sum.getSupportPoints(new Vector2(1.0, 0.0));
+		p = sum.getSupportPoints(new DynVector2(1.0, 0.0));
 		TestCase.assertEquals(1.000, p.point.x, 1e-3);
 		TestCase.assertEquals(0.000, p.point.y, 1e-3);
 		TestCase.assertEquals(1.000, p.supportPoint1.x, 1e-3);
@@ -143,7 +143,7 @@ public class MinkowskiSumTest {
 		TestCase.assertEquals(0.000, p.supportPoint2.x, 1e-3);
 		TestCase.assertEquals(0.000, p.supportPoint2.y, 1e-3);
 		
-		p = sum.getSupportPoints(new Vector2(-1.0, 0.0));
+		p = sum.getSupportPoints(new DynVector2(-1.0, 0.0));
 		TestCase.assertEquals(-3.000, p.point.x, 1e-3);
 		TestCase.assertEquals(0.000, p.point.y, 1e-3);
 		TestCase.assertEquals(-1.000, p.supportPoint1.x, 1e-3);

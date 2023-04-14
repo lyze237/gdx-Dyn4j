@@ -28,15 +28,15 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 /**
- * Represents an iterator of {@link Vector2}s for the vertices and normals
+ * Represents an iterator of {@link DynVector2}s for the vertices and normals
  * of a {@link Wound} shape.
  * @author William Bittle
  * @version 3.2.0
  * @since 3.2.0
  */
-final class WoundIterator implements Iterator<Vector2> {
+final class WoundIterator implements Iterator<DynVector2> {
 	/** The array to iterate over */
-	final Vector2[] vectors;
+	final DynVector2[] vectors;
 	
 	/** The current index */
 	int index;
@@ -45,7 +45,7 @@ final class WoundIterator implements Iterator<Vector2> {
 	 * Minimal constructor.
 	 * @param vectors the array to iterate over
 	 */
-	public WoundIterator(Vector2[] vectors) {
+	public WoundIterator(DynVector2[] vectors) {
 		this.vectors = vectors;
 		this.index = 0;
 	}
@@ -62,12 +62,12 @@ final class WoundIterator implements Iterator<Vector2> {
 	 * @see java.util.Iterator#next()
 	 */
 	@Override
-	public Vector2 next() {
+	public DynVector2 next() {
 		if (this.index >= this.vectors.length) {
 			throw new IndexOutOfBoundsException();
 		}
 		try {
-			Vector2 v = this.vectors[this.index++];
+			DynVector2 v = this.vectors[this.index++];
 			return v.copy();
 		} catch (IndexOutOfBoundsException ex) {
 			throw new ConcurrentModificationException();

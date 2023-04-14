@@ -67,11 +67,11 @@ public class RotationTest {
 		TestCase.assertEquals(Math.cos(2.5), r6.cost, 1.0e-6);
 		TestCase.assertEquals(Math.sin(2.5), r6.sint, 1.0e-6);
 		
-		Rotation r9 = Rotation.of(new Vector2());
+		Rotation r9 = Rotation.of(new DynVector2());
 		TestCase.assertEquals(1.0, r9.cost, 1.0e-6);
 		TestCase.assertEquals(0.0, r9.sint, 1.0e-6);
 		
-		Vector2 v1 = new Vector2(5, -5);
+		DynVector2 v1 = new DynVector2(5, -5);
 		
 		Rotation r7 = Rotation.of(v1);
 		TestCase.assertEquals(Math.cos(Math.toRadians(-45)), r7.cost, 1.0e-6);
@@ -234,8 +234,8 @@ public class RotationTest {
 	@Test
 	public void toVector() {
 		Rotation r = new Rotation(Math.toRadians(30));
-		Vector2 v1 = r.toVector();
-		Vector2 v2 = r.toVector(2.5);
+		DynVector2 v1 = r.toVector();
+		DynVector2 v2 = r.toVector(2.5);
 		
 		TestCase.assertEquals(r.toRadians(), v1.getDirection(), 1.0e-6);
 		TestCase.assertEquals(r.toRadians(), v2.getDirection(), 1.0e-6);
@@ -251,7 +251,7 @@ public class RotationTest {
 	public void dot() {
 		Rotation r1 = new Rotation(1.0, 0.0);
 		Rotation r2 = new Rotation(0.0, 1.0);
-		Vector2 v = new Vector2(0.0, -5.0);
+		DynVector2 v = new DynVector2(0.0, -5.0);
 		
 		TestCase.assertEquals(0.0, r1.dot(r2), 1.0e-6);
 		TestCase.assertEquals(-1.0, r1.dot(r2.getRotated90()), 1.0e-6);
@@ -269,7 +269,7 @@ public class RotationTest {
 	public void cross() {
 		Rotation r1 = new Rotation(1.0, 0.0);
 		Rotation r2 = new Rotation(0.0, 1.0);
-		Vector2 v = new Vector2(-5.0, 0.0);
+		DynVector2 v = new DynVector2(-5.0, 0.0);
 		
 		TestCase.assertEquals(1.0, r1.cross(r2), 1.0e-6);
 		TestCase.assertEquals(0.0, r1.cross(r2.getRotated90()), 1.0e-6);
@@ -464,8 +464,8 @@ public class RotationTest {
 		Rotation r4 = new Rotation(Math.toRadians(-50));
 		Rotation r5 = new Rotation(Math.toRadians(110 + 10 * 360));
 		
-		Vector2 v1 = new Vector2(Math.toRadians(-65));
-		Vector2 v2 = new Vector2(Math.toRadians(120));
+		DynVector2 v1 = new DynVector2(Math.toRadians(-65));
+		DynVector2 v2 = new DynVector2(Math.toRadians(120));
 		v1.multiply(4.5);
 		v2.multiply(0.75);
 		
@@ -496,8 +496,8 @@ public class RotationTest {
 		Rotation r4 = new Rotation(Math.toRadians(-50));
 		Rotation r5 = new Rotation(Math.toRadians(110 + 10 * 360));
 		
-		Vector2 v1 = new Vector2(Math.toRadians(-65));
-		Vector2 v2 = new Vector2(Math.toRadians(120));
+		DynVector2 v1 = new DynVector2(Math.toRadians(-65));
+		DynVector2 v2 = new DynVector2(Math.toRadians(120));
 		v1.multiply(4.5);
 		v2.multiply(0.75);
 		

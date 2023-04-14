@@ -64,7 +64,7 @@ public class AABB implements Translatable, Copyable<AABB> {
 	 * @param point2 the second point
 	 * @return The one and only one valid AABB formed by point1 and point2
 	 */
-	public static AABB createFromPoints(Vector2 point1, Vector2 point2) {
+	public static AABB createFromPoints(DynVector2 point1, DynVector2 point2) {
 		return createFromPoints(point1.x, point1.y, point2.x, point2.y);
 	}
 	
@@ -90,7 +90,7 @@ public class AABB implements Translatable, Copyable<AABB> {
 	 * @param result the AABB to set
 	 * @since 4.1.0
 	 */
-	public static void setFromPoints(Vector2 point1, Vector2 point2, AABB result) {
+	public static void setFromPoints(DynVector2 point1, DynVector2 point2, AABB result) {
 		setFromPoints(point1.x, point1.y, point2.x, point2.y, result);
 	}
 	
@@ -151,7 +151,7 @@ public class AABB implements Translatable, Copyable<AABB> {
 	 * @param max the maximum extent
 	 * @throws IllegalArgumentException if either coordinate of the given min is greater than the given max
 	 */
-	public AABB(Vector2 min, Vector2 max) {
+	public AABB(DynVector2 min, DynVector2 max) {
 		this(min.x, min.y, max.x, max.y);
 	}
 	
@@ -173,7 +173,7 @@ public class AABB implements Translatable, Copyable<AABB> {
 	 * @since 3.1.5
 	 * @throws IllegalArgumentException if the given radius is less than zero
 	 */
-	public AABB(Vector2 center, double radius) {
+	public AABB(DynVector2 center, double radius) {
 		if (radius < 0) 
 			throw new ValueOutOfRangeException("radius", radius, ValueOutOfRangeException.MUST_BE_GREATER_THAN_OR_EQUAL_TO, 0.0);
 		
@@ -309,7 +309,7 @@ public class AABB implements Translatable, Copyable<AABB> {
 	 * @see org.dyn4j.geometry.Translatable#translate(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void translate(Vector2 translation) {
+	public void translate(DynVector2 translation) {
 		translate(translation.x, translation.y);
 	}
 	
@@ -320,7 +320,7 @@ public class AABB implements Translatable, Copyable<AABB> {
 	 * @return AABB
 	 * @since 3.1.1
 	 */
-	public AABB getTranslated(Vector2 translation) {
+	public AABB getTranslated(DynVector2 translation) {
 		return new AABB(
 				this.minX + translation.x,
 				this.minY + translation.y,
@@ -558,7 +558,7 @@ public class AABB implements Translatable, Copyable<AABB> {
 	 * @return boolean
 	 * @since 3.1.1
 	 */
-	public boolean contains(Vector2 point) {
+	public boolean contains(DynVector2 point) {
 		return this.contains(point.x, point.y);
 	}
 	
@@ -605,11 +605,11 @@ public class AABB implements Translatable, Copyable<AABB> {
 	
 	/**
 	 * Returns the center of the AABB.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 4.0.0
 	 */
-	public Vector2 getCenter() {
-		return new Vector2(
+	public DynVector2 getCenter() {
+		return new DynVector2(
 				this.minX + (this.maxX - this.minX) * 0.5,
 				this.minY + (this.maxY - this.minY) * 0.5);
 	}

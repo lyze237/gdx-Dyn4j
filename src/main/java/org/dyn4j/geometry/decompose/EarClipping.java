@@ -32,7 +32,7 @@ import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Ear Clipping convex decomposition algorithm for simple polygons.
@@ -65,7 +65,7 @@ public class EarClipping extends AbstractDecomposer implements Decomposer, Trian
 	 * @see org.dyn4j.geometry.decompose.Decomposer#decompose(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public List<Convex> decompose(Vector2... points) {
+	public List<Convex> decompose(DynVector2... points) {
 		// triangulate
 		DoubleEdgeList dcel = this.createTriangulation(points);
 				
@@ -81,7 +81,7 @@ public class EarClipping extends AbstractDecomposer implements Decomposer, Trian
 	 * @see org.dyn4j.geometry.decompose.Triangulator#triangulate(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public List<Triangle> triangulate(Vector2... points) {
+	public List<Triangle> triangulate(DynVector2... points) {
 		// triangulate
 		DoubleEdgeList dcel = this.createTriangulation(points);
 		
@@ -96,7 +96,7 @@ public class EarClipping extends AbstractDecomposer implements Decomposer, Trian
 	 * @return {@link DoubleEdgeList}
 	 * @since 3.1.9
 	 */
-	final DoubleEdgeList createTriangulation(Vector2... points) {
+	final DoubleEdgeList createTriangulation(DynVector2... points) {
 		// check for null array
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -124,15 +124,15 @@ public class EarClipping extends AbstractDecomposer implements Decomposer, Trian
 		EarClippingVertex prev = null;
 		for (int i = 0; i < size; i++) {
 			// get the current point
-			Vector2 p = points[i];
+			DynVector2 p = points[i];
 			// create the vertex
 			curr = new EarClippingVertex(p);
 			// get the vertices around the current point
-			Vector2 p0 = points[i == 0 ? size - 1 : i - 1];
-			Vector2 p1 = points[i + 1 == size ? 0 : i + 1];
+			DynVector2 p0 = points[i == 0 ? size - 1 : i - 1];
+			DynVector2 p1 = points[i + 1 == size ? 0 : i + 1];
 			// create the vectors representing the V
-			Vector2 v1 = p.to(p0);
-			Vector2 v2 = p.to(p1);
+			DynVector2 v1 = p.to(p0);
+			DynVector2 v2 = p.to(p1);
 			// check for coincident vertices
 			if (v2.isZero()) {
 				throw new IllegalArgumentException("The given simple polygon has coincident vertices");
@@ -225,12 +225,12 @@ public class EarClipping extends AbstractDecomposer implements Decomposer, Trian
 	 */
 	final boolean isReflex(EarClippingVertex vertex) {
 		// get the triangle points
-		Vector2 p = vertex.point;
-		Vector2 p0 = vertex.prev.point;
-		Vector2 p1 = vertex.next.point;
+		DynVector2 p = vertex.point;
+		DynVector2 p0 = vertex.prev.point;
+		DynVector2 p1 = vertex.next.point;
 		// create vectors from the current point
-		Vector2 v1 = p.to(p0);
-		Vector2 v2 = p.to(p1);
+		DynVector2 v1 = p.to(p0);
+		DynVector2 v2 = p.to(p1);
 		// check for reflex
 		if (v1.cross(v2) < 0.0) {
 			// its not reflex any more
@@ -257,9 +257,9 @@ public class EarClipping extends AbstractDecomposer implements Decomposer, Trian
 		
 		boolean ear = true;
 		// get the triangle created by this point and its adjacent vertices
-		Vector2 a = vertex.point;
-		Vector2 b = vertex.next.point;
-		Vector2 c = vertex.prev.point;
+		DynVector2 a = vertex.point;
+		DynVector2 b = vertex.next.point;
+		DynVector2 c = vertex.prev.point;
 		
 		// check if any other points in the linked list are contained within
 		// this triangle
@@ -293,13 +293,13 @@ public class EarClipping extends AbstractDecomposer implements Decomposer, Trian
 	 * @param p the point to test for containment
 	 * @return boolean true if the given point is contained in the given triangle
 	 */
-	protected boolean contains(Vector2 a, Vector2 b, Vector2 c, Vector2 p) {
+	protected boolean contains(DynVector2 a, DynVector2 b, DynVector2 c, DynVector2 p) {
 		// create a vector representing edge ab
-		Vector2 ab = a.to(b);
+		DynVector2 ab = a.to(b);
 		// create a vector representing edge ac
-		Vector2 ac = a.to(c);
+		DynVector2 ac = a.to(c);
 		// create a vector from a to the point
-		Vector2 pa = a.to(p);
+		DynVector2 pa = a.to(p);
 		
 		double dot00 = ac.dot(ac);
 		double dot01 = ac.dot(ab);

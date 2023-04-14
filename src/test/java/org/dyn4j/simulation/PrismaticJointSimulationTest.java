@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.PrismaticJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -68,14 +68,14 @@ public class PrismaticJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, b.getWorldCenter(), new Vector2(1.0, 0.0));
+		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, b.getWorldCenter(), new DynVector2(1.0, 0.0));
 		w.addJoint(dj);
 
 		w.step(4);
 		
 		// because the allowed axis is the x-axis and the position of the axis is at body2's world center
 		// gravity is applied but has no effect
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(0.0, v2.x);
 		TestCase.assertEquals(2.0, v2.y);
 		
@@ -140,14 +140,14 @@ public class PrismaticJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter();
-		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, p, new Vector2(1.0, 0.0));
+		DynVector2 p = b.getWorldCenter();
+		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, p, new DynVector2(1.0, 0.0));
 		
 		// NOTE: that I've set the rest distance to more than the limits
 		dj.setLimitsEnabled(-1.0, 5.0);
 		w.addJoint(dj);
 		
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(0.0, p.distance(v2));
 		
 		b.setLinearVelocity(-16.0, 0.0);
@@ -206,8 +206,8 @@ public class PrismaticJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter();
-		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, p, new Vector2(1.0, 0.0));
+		DynVector2 p = b.getWorldCenter();
+		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, p, new DynVector2(1.0, 0.0));
 		
 		// NOTE: that I've set the rest distance to more than the limits
 		dj.setMaximumMotorForce(1000);
@@ -218,8 +218,8 @@ public class PrismaticJointSimulationTest {
 		
 		double invdt = w.getTimeStep().getInverseDeltaTime();
 		
-		Vector2 v2 = b.getWorldCenter();
-		Vector2 v = b.getLinearVelocity();
+		DynVector2 v2 = b.getWorldCenter();
+		DynVector2 v = b.getLinearVelocity();
 		TestCase.assertEquals(0.0, p.distance(v2));
 		TestCase.assertEquals(0.0, dj.getLinearTranslation());
 		TestCase.assertEquals(0.0, v.x);
@@ -315,8 +315,8 @@ public class PrismaticJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter();
-		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, p, new Vector2(1.0, 0.0));
+		DynVector2 p = b.getWorldCenter();
+		PrismaticJoint<Body> dj = new PrismaticJoint<Body>(g, b, p, new DynVector2(1.0, 0.0));
 		
 		// NOTE: that I've set the rest distance to more than the limits
 		dj.setSpringEnabled(true);
@@ -330,8 +330,8 @@ public class PrismaticJointSimulationTest {
 		
 		double invdt = w.getTimeStep().getInverseDeltaTime();
 		
-		Vector2 v2 = b.getWorldCenter();
-		Vector2 v = b.getLinearVelocity();
+		DynVector2 v2 = b.getWorldCenter();
+		DynVector2 v = b.getLinearVelocity();
 		TestCase.assertEquals(0.0, p.distance(v2));
 		TestCase.assertEquals(0.0, dj.getLinearTranslation());
 		TestCase.assertEquals(0.0, v.x);

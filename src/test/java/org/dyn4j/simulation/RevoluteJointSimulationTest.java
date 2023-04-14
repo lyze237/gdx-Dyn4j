@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.RevoluteJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -77,7 +77,7 @@ public class RevoluteJointSimulationTest {
 		
 		// because the allowed axis is the x-axis and the position of the axis is at body2's world center
 		// gravity is applied but has no effect
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(0.0, v2.x);
 		TestCase.assertEquals(2.0, v2.y);
 		TestCase.assertEquals(7.6969, rj.getReactionForce(invdt).getMagnitude(), 1e-5);

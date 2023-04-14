@@ -24,7 +24,7 @@
  */
 package org.dyn4j.geometry.decompose;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a vertex in the {@link DoubleEdgeList}.
@@ -34,7 +34,7 @@ import org.dyn4j.geometry.Vector2;
  */
 final class DoubleEdgeListVertex {
 	/** The comparable data for this node */
-	final Vector2 point;
+	final DynVector2 point;
 	
 	/** The the leaving edge */
 	DoubleEdgeListHalfEdge leaving;
@@ -43,7 +43,7 @@ final class DoubleEdgeListVertex {
 	 * Minimal constructor.
 	 * @param point the vertex point
 	 */
-	public DoubleEdgeListVertex(Vector2 point) {
+	public DoubleEdgeListVertex(DynVector2 point) {
 		this.point = point;
 	}
 	

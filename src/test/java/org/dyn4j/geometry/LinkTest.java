@@ -43,7 +43,7 @@ public class LinkTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullPoint1() {
-		new Link(null, new Vector2());
+		new Link(null, new DynVector2());
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class LinkTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullPoint2() {
-		new Link(new Vector2(), null);
+		new Link(new DynVector2(), null);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class LinkTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createCoincident() {
-		new Link(new Vector2(), new Vector2());
+		new Link(new DynVector2(), new DynVector2());
 	}
 	
 	/**
@@ -69,8 +69,8 @@ public class LinkTest {
 	@Test
 	public void creatSuccess() {
 		Link l = new Link(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.0, 2.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.0, 2.0)
 		);
 		
 		TestCase.assertEquals(0.500, l.center.x, 1.0e-3);
@@ -97,11 +97,11 @@ public class LinkTest {
 	 */
 	@Test
 	public void rotate() {
-		List<Link> links = Geometry.createLinks(new Vector2[] {
-			new Vector2(0.0, 0.0), 
-			new Vector2(1.0, 0.0), 
-			new Vector2(2.0, 1.0), 
-			new Vector2(3.0, 1.0), 
+		List<Link> links = Geometry.createLinks(new DynVector2[] {
+			new DynVector2(0.0, 0.0),
+			new DynVector2(1.0, 0.0),
+			new DynVector2(2.0, 1.0),
+			new DynVector2(3.0, 1.0),
 		}, false);
 		
 		TestCase.assertEquals(3, links.size());
@@ -166,11 +166,11 @@ public class LinkTest {
 	 */
 	@Test
 	public void translate() {
-		List<Link> links = Geometry.createLinks(new Vector2[] {
-			new Vector2(0.0, 0.0), 
-			new Vector2(1.0, 0.0), 
-			new Vector2(2.0, 1.0), 
-			new Vector2(3.0, 1.0), 
+		List<Link> links = Geometry.createLinks(new DynVector2[] {
+			new DynVector2(0.0, 0.0),
+			new DynVector2(1.0, 0.0),
+			new DynVector2(2.0, 1.0),
+			new DynVector2(3.0, 1.0),
 		}, false);
 		
 		TestCase.assertEquals(3, links.size());

@@ -33,7 +33,7 @@ import org.dyn4j.collision.narrowphase.Sat;
 import org.dyn4j.collision.narrowphase.Separation;
 import org.dyn4j.geometry.Ellipse;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,7 +80,7 @@ public class EllipseEllipseTest extends AbstractNarrowphaseShapeTest {
 		Penetration p = new Penetration();
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.gjk.detect(c1, t1, c2, t2, p));
@@ -151,9 +151,9 @@ public class EllipseEllipseTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
-		Vector2 p1 = null;
-		Vector2 p2 = null;
+		DynVector2 n = null;
+		DynVector2 p1 = null;
+		DynVector2 p2 = null;
 		
 		// test containment
 		TestCase.assertFalse(this.gjk.distance(c1, t1, c2, t2, s));
@@ -242,7 +242,7 @@ public class EllipseEllipseTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp = null;
-		Vector2 p1 = null;
+		DynVector2 p1 = null;
 		
 		// test containment gjk
 		this.gjk.detect(c1, t1, c2, t2, p);

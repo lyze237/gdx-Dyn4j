@@ -42,6 +42,6 @@ public interface Translatable {
 	 * Translates the object along the given vector.
 	 * @param vector the translation along a vector
 	 */
-	public abstract void translate(Vector2 vector);
+	public abstract void translate(DynVector2 vector);
 }
 

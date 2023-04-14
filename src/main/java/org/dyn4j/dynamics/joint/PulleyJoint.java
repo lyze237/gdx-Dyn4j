@@ -35,7 +35,7 @@ import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a pulley joint.
@@ -74,16 +74,16 @@ import org.dyn4j.geometry.Vector2;
  */
 public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The world space pulley anchor point for the first {@link PhysicsBody} */
-	protected final Vector2 pulleyAnchor1;
+	protected final DynVector2 pulleyAnchor1;
 	
 	/** The world space pulley anchor point for the second {@link PhysicsBody} */
-	protected final Vector2 pulleyAnchor2;
+	protected final DynVector2 pulleyAnchor2;
 	
 	/** The local anchor point on the first {@link PhysicsBody} */
-	protected final Vector2 localAnchor1;
+	protected final DynVector2 localAnchor1;
 	
 	/** The local anchor point on the second {@link PhysicsBody} */
-	protected final Vector2 localAnchor2;
+	protected final DynVector2 localAnchor2;
 	
 	/** The pulley ratio for modeling a block-and-tackle */
 	protected double ratio;
@@ -100,10 +100,10 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	private double length;
 	
 	/** The normal from the first pulley anchor to the first {@link PhysicsBody} anchor */
-	private Vector2 n1;
+	private DynVector2 n1;
 	
 	/** The normal from the second pulley anchor to the second {@link PhysicsBody} anchor */
-	private Vector2 n2;
+	private DynVector2 n2;
 	
 	/** The effective mass of the two body system (Kinv = J * Minv * Jtrans) */
 	private double invK;
@@ -126,7 +126,7 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	 * @throws NullPointerException if body1, body2, pulleyAnchor1, pulleyAnchor2, bodyAnchor1, or bodyAnchor2 is null
 	 * @throws IllegalArgumentException if body1 == body2
 	 */
-	public PulleyJoint(T body1, T body2, Vector2 pulleyAnchor1, Vector2 pulleyAnchor2, Vector2 bodyAnchor1, Vector2 bodyAnchor2) {
+	public PulleyJoint(T body1, T body2, DynVector2 pulleyAnchor1, DynVector2 pulleyAnchor2, DynVector2 bodyAnchor1, DynVector2 bodyAnchor2) {
 		super(body1, body2);
 		
 		// verify the pulley anchor points are not null
@@ -199,13 +199,13 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 		double invI2 = m2.getInverseInertia();
 		
 		// put the body anchors in world space
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
-		Vector2 p1 = r1.sum(this.body1.getWorldCenter());
-		Vector2 p2 = r2.sum(this.body2.getWorldCenter());
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 p1 = r1.sum(this.body1.getWorldCenter());
+		DynVector2 p2 = r2.sum(this.body2.getWorldCenter());
 		
-		Vector2 s1 = this.pulleyAnchor1;
-		Vector2 s2 = this.pulleyAnchor2;
+		DynVector2 s1 = this.pulleyAnchor1;
+		DynVector2 s2 = this.pulleyAnchor2;
 		
 		// compute the axes
 		this.n1 = s1.to(p1);
@@ -254,8 +254,8 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 				this.impulse *= dtRatio;
 				
 				// compute the impulse along the axes
-				Vector2 J1 = this.n1.product(-this.impulse);
-				Vector2 J2 = this.n2.product(-this.ratio * this.impulse);
+				DynVector2 J1 = this.n1.product(-this.impulse);
+				DynVector2 J2 = this.n2.product(-this.ratio * this.impulse);
 				
 				// apply the impulse
 				this.body1.getLinearVelocity().add(J1.product(invM1));
@@ -289,12 +289,12 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 			double invI2 = m2.getInverseInertia();
 			
 			// compute r1 and r2
-			Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-			Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+			DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+			DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 			
 			// compute the relative velocity
-			Vector2 v1 = this.body1.getLinearVelocity().sum(r1.cross(this.body1.getAngularVelocity()));
-			Vector2 v2 = this.body2.getLinearVelocity().sum(r2.cross(this.body2.getAngularVelocity()));
+			DynVector2 v1 = this.body1.getLinearVelocity().sum(r1.cross(this.body1.getAngularVelocity()));
+			DynVector2 v2 = this.body2.getLinearVelocity().sum(r2.cross(this.body2.getAngularVelocity()));
 			
 			// compute Jv + b
 			double C = -this.n1.dot(v1) - this.ratio * this.n2.dot(v2);
@@ -303,8 +303,8 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 			this.impulse += impulse;
 			
 			// compute the impulse along each axis
-			Vector2 J1 = this.n1.product(-impulse);
-			Vector2 J2 = this.n2.product(-impulse * this.ratio);
+			DynVector2 J1 = this.n1.product(-impulse);
+			DynVector2 J2 = this.n2.product(-impulse * this.ratio);
 			
 			// apply the impulse
 			this.body1.getLinearVelocity().add(J1.product(invM1));
@@ -333,13 +333,13 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 			double invI2 = m2.getInverseInertia();
 			
 			// put the body anchors in world space
-			Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-			Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
-			Vector2 p1 = r1.sum(this.body1.getWorldCenter());
-			Vector2 p2 = r2.sum(this.body2.getWorldCenter());
+			DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+			DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+			DynVector2 p1 = r1.sum(this.body1.getWorldCenter());
+			DynVector2 p2 = r2.sum(this.body2.getWorldCenter());
 			
-			Vector2 s1 = this.pulleyAnchor1;
-			Vector2 s2 = this.pulleyAnchor2;
+			DynVector2 s1 = this.pulleyAnchor1;
+			DynVector2 s2 = this.pulleyAnchor2;
 			
 			// compute the axes
 			this.n1 = s1.to(p1);
@@ -381,8 +381,8 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 			double impulse = -this.invK * C;
 			
 			// compute the impulse along the axes
-			Vector2 J1 = this.n1.product(-impulse);
-			Vector2 J2 = this.n2.product(-impulse);
+			DynVector2 J1 = this.n1.product(-impulse);
+			DynVector2 J2 = this.n2.product(-impulse);
 			
 			// apply the impulse
 			this.body1.translate(J1.x * invM1, J1.y * invM1);
@@ -398,17 +398,17 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	
 	/**
 	 * Returns the world space anchor point on the first body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor1() {
+	public DynVector2 getAnchor1() {
 		return body1.getWorldPoint(this.localAnchor1);
 	}
 	
 	/**
 	 * Returns the world space anchor point on the second body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor2() {
+	public DynVector2 getAnchor2() {
 		return body2.getWorldPoint(this.localAnchor2);
 	}
 	
@@ -416,7 +416,7 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
+	public DynVector2 getReactionForce(double invdt) {
 		return this.n2.product(this.impulse * invdt);
 	}
 	
@@ -435,7 +435,7 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// we must move the world space pulley anchors
 		this.pulleyAnchor1.add(shift);
 		this.pulleyAnchor2.add(shift);
@@ -444,18 +444,18 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	/**
 	 * Returns the pulley anchor point for the first {@link PhysicsBody}
 	 * in world coordinates.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPulleyAnchor1() {
+	public DynVector2 getPulleyAnchor1() {
 		return this.pulleyAnchor1;
 	}
 	
 	/**
 	 * Returns the pulley anchor point for the second {@link PhysicsBody}
 	 * in world coordinates.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPulleyAnchor2() {
+	public DynVector2 getPulleyAnchor2() {
 		return this.pulleyAnchor2;
 	}
 	
@@ -479,8 +479,8 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	 * @since 4.2.0
 	 */
 	public double getCurrentLength() {
-		Vector2 a1 = this.body1.getWorldPoint(this.localAnchor1);
-		Vector2 a2 = this.body2.getWorldPoint(this.localAnchor2);
+		DynVector2 a1 = this.body1.getWorldPoint(this.localAnchor1);
+		DynVector2 a2 = this.body2.getWorldPoint(this.localAnchor2);
 		
 		double l1 = this.pulleyAnchor1.distance(a1);
 		double l2 = this.pulleyAnchor2.distance(a2);
@@ -521,7 +521,7 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	 */
 	public double getCurrentLength1() {
 		// get the body anchor point in world space
-		Vector2 ba = this.body1.getWorldPoint(this.localAnchor1);
+		DynVector2 ba = this.body1.getWorldPoint(this.localAnchor1);
 		return this.pulleyAnchor1.distance(ba);
 	}
 
@@ -536,7 +536,7 @@ public class PulleyJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<
 	 */
 	public double getCurrentLength2() {
 		// get the body anchor point in world space
-		Vector2 ba = this.body2.getWorldPoint(this.localAnchor2);
+		DynVector2 ba = this.body2.getWorldPoint(this.localAnchor2);
 		return this.pulleyAnchor2.distance(ba);
 	}
 	

@@ -29,7 +29,7 @@ import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents the result of a {@link Ray} cast against (intersecting with) a 
@@ -43,10 +43,10 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Raycast implements Shiftable, Copyable<Raycast> {
 	/** The hit point */
-	protected final Vector2 point;
+	protected final DynVector2 point;
 	
 	/** The normal at the hit point */
-	protected final Vector2 normal;
+	protected final DynVector2 normal;
 	
 	/** The distance from the start of the {@link Ray} to the hit point */
 	protected double distance;
@@ -55,8 +55,8 @@ public class Raycast implements Shiftable, Copyable<Raycast> {
 	 * Default constructor.
 	 */
 	public Raycast() {
-		this.point = new Vector2();
-		this.normal = new Vector2();
+		this.point = new DynVector2();
+		this.normal = new DynVector2();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class Raycast implements Shiftable, Copyable<Raycast> {
 	 * @param normal the normal at the hit point
 	 * @param distance the distance from the start of the {@link Ray} to the hit point
 	 */
-	protected Raycast(Vector2 point, Vector2 normal, double distance) {
+	protected Raycast(DynVector2 point, DynVector2 normal, double distance) {
 		this.point = point.copy();
 		this.normal = normal.copy();
 		this.distance = distance;
@@ -96,9 +96,9 @@ public class Raycast implements Shiftable, Copyable<Raycast> {
 	
 	/**
 	 * Returns the hit point.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPoint() {
+	public DynVector2 getPoint() {
 		return this.point;
 	}
 	
@@ -106,16 +106,16 @@ public class Raycast implements Shiftable, Copyable<Raycast> {
 	 * Sets the hit point.
 	 * @param point the hit point
 	 */
-	public void setPoint(Vector2 point) {
+	public void setPoint(DynVector2 point) {
 		this.point.x = point.x;
 		this.point.y = point.y;
 	}
 	
 	/**
 	 * Returns the normal at the hit point.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getNormal() {
+	public DynVector2 getNormal() {
 		return this.normal;
 	}
 	
@@ -123,7 +123,7 @@ public class Raycast implements Shiftable, Copyable<Raycast> {
 	 * Sets the normal at the hit point.
 	 * @param normal the normal at the hit point
 	 */
-	public void setNormal(Vector2 normal) {
+	public void setNormal(DynVector2 normal) {
 		this.normal.x = normal.x;
 		this.normal.y = normal.y;
 	}
@@ -163,7 +163,7 @@ public class Raycast implements Shiftable, Copyable<Raycast> {
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		this.point.x += shift.x;
 		this.point.y += shift.y;
 	}

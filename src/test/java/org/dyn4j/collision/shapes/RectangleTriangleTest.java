@@ -34,7 +34,7 @@ import org.dyn4j.collision.narrowphase.Separation;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,9 +60,9 @@ public class RectangleTriangleTest extends AbstractNarrowphaseShapeTest {
 	public void setup() {
 		this.rect = new Rectangle(1.0, 1.0);
 		this.tri = new Triangle(
-				new Vector2(0.45, -0.12),
-				new Vector2(-0.45, 0.38),
-				new Vector2(-0.15, -0.22));
+				new DynVector2(0.45, -0.12),
+				new DynVector2(-0.45, 0.38),
+				new DynVector2(-0.15, -0.22));
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class RectangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.sat.detect(rect, t1, tri, t2, p));
@@ -144,7 +144,7 @@ public class RectangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.gjk.detect(rect, t1, tri, t2, p));
@@ -215,7 +215,7 @@ public class RectangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n, p1, p2;
+		DynVector2 n, p1, p2;
 		
 		// test containment
 		TestCase.assertFalse(this.gjk.distance(rect, t1, tri, t2, s));
@@ -304,7 +304,7 @@ public class RectangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp1, mp2;
-		Vector2 p1, p2;
+		DynVector2 p1, p2;
 		
 		// test containment gjk
 		this.gjk.detect(rect, t1, tri, t2, p);
@@ -415,9 +415,9 @@ public class RectangleTriangleTest extends AbstractNarrowphaseShapeTest {
 	public void distanceFail1() {
 		Rectangle r = new Rectangle(10.0, 0.2);
 		Triangle t = new Triangle(
-				new Vector2(0.0, 0.5),
-				new Vector2(-1.0, 0.0),
-				new Vector2(1.0, 0.0));
+				new DynVector2(0.0, 0.5),
+				new DynVector2(-1.0, 0.0),
+				new DynVector2(1.0, 0.0));
 		
 		Transform txr = new Transform();
 		txr.rotate(0.10866660409637111939);
@@ -429,9 +429,9 @@ public class RectangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Separation s = new Separation();
 		this.gjk.distance(r, txr, t, txt, s);
 		
-		Vector2 n = s.getNormal();
-		Vector2 p1 = s.getPoint1();
-		Vector2 p2 = s.getPoint2();
+		DynVector2 n = s.getNormal();
+		DynVector2 p1 = s.getPoint1();
+		DynVector2 p2 = s.getPoint2();
 		TestCase.assertEquals(0.008, s.getDistance(), 1.0e-3);
 		TestCase.assertEquals(0.108, n.x, 1.0e-3);
 		TestCase.assertEquals(-0.994, n.y, 1.0e-3);

@@ -34,7 +34,7 @@ import org.dyn4j.dynamics.PhysicsBody;
 import org.dyn4j.dynamics.Settings;
 import org.dyn4j.dynamics.TimeStep;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents constrained motion between {@link PhysicsBody}s.
@@ -111,9 +111,9 @@ public interface Joint<T extends PhysicsBody> extends Shiftable, DataContainer, 
 	 * Returns the force applied to the {@link PhysicsBody}s in order
 	 * to satisfy the constraint in newtons.
 	 * @param invdt the inverse delta time
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public abstract Vector2 getReactionForce(double invdt);
+	public abstract DynVector2 getReactionForce(double invdt);
 	
 	/**
 	 * Returns the torque applied to the {@link PhysicsBody}s in order

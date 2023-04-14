@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -42,7 +42,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Vector2 p = new Vector2(1.0, -1.0);
+		DynVector2 p = new DynVector2(1.0, -1.0);
 		PinJoint<Body> pj = new PinJoint<Body>(b1, p);
 		
 		TestCase.assertEquals(p, pj.getAnchor());
@@ -72,7 +72,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody() {
-		new PinJoint<Body>(null, new Vector2());
+		new PinJoint<Body>(null, new DynVector2());
 	}
 	
 	/**
@@ -88,13 +88,13 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setTarget() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		
-		Vector2 v1 = new Vector2();
+		DynVector2 v1 = new DynVector2();
 		pj.setTarget(v1);
 		TestCase.assertTrue(v1.equals(pj.getTarget()));
 		
-		Vector2 v2 = new Vector2(2.0, 1.032);
+		DynVector2 v2 = new DynVector2(2.0, 1.032);
 		pj.setTarget(v2);
 		TestCase.assertTrue(v2.equals(pj.getTarget()));
 	}
@@ -104,7 +104,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void setNullTarget() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setTarget(null);
 	}
 	
@@ -114,7 +114,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringEnabled() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		TestCase.assertTrue(pj.isSpringEnabled());
 		
 		pj.setSpringEnabled(false);
@@ -139,7 +139,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringDamperEnabled() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		TestCase.assertTrue(pj.isSpringEnabled());
 		TestCase.assertTrue(pj.isSpringDamperEnabled());
 		
@@ -179,7 +179,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringDampingRatio() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		
 		pj.setSpringDampingRatio(0.0);
 		TestCase.assertEquals(0.0, pj.getSpringDampingRatio());
@@ -223,7 +223,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeDampingRatio() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setSpringDampingRatio(-1.0);
 	}
 	
@@ -232,7 +232,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setDampingRatioGreaterThan1() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setSpringDampingRatio(2.0);
 	}
 	
@@ -241,7 +241,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringFrequency() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		
 		pj.setSpringFrequency(0.0);
 		TestCase.assertEquals(0.0, pj.getSpringFrequency());
@@ -292,7 +292,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMode() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		// test mode swapping
 		TestCase.assertEquals(AbstractJoint.SPRING_MODE_FREQUENCY, pj.getSpringMode());
 		pj.setSpringStiffness(0.3);
@@ -306,7 +306,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringStiffnessNegative() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setSpringStiffness(-0.3);
 	}
 
@@ -315,7 +315,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringStiffness() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		
 		pj.setSpringStiffness(0.0);
 		TestCase.assertEquals(0.0, pj.getSpringStiffness());
@@ -366,7 +366,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringFrequencyNegative() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setSpringFrequency(-0.3);
 	}
 
@@ -375,7 +375,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringMaximumForceNegative() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setMaximumSpringForce(-1.0);
 	}
 	
@@ -384,7 +384,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMaximumForce() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		
 		pj.setMaximumSpringForce(0.0);
 		TestCase.assertEquals(0.0, pj.getMaximumSpringForce());
@@ -434,7 +434,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void computeSpringStiffnessFrequency() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setSpringEnabled(true);
 		pj.setSpringDamperEnabled(true);
 		pj.setSpringFrequency(8.0);
@@ -462,10 +462,10 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void shiftCoordinates() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
-		pj.setTarget(new Vector2(1.0, -1.0));
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
+		pj.setTarget(new DynVector2(1.0, -1.0));
 		
-		pj.shift(new Vector2(-1.0, 2.0));
+		pj.shift(new DynVector2(-1.0, 2.0));
 		
 		TestCase.assertEquals(0.0, pj.getTarget().x, 1.0e-3);
 		TestCase.assertEquals(1.0, pj.getTarget().y, 1.0e-3);
@@ -476,9 +476,9 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setTargetSleep() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		
-		Vector2 defaultTarget = pj.getTarget();
+		DynVector2 defaultTarget = pj.getTarget();
 		
 		TestCase.assertFalse(b1.isAtRest());
 		TestCase.assertTrue(defaultTarget.equals(pj.getTarget()));
@@ -492,7 +492,7 @@ public class PinJointTest extends BaseJointTest {
 		
 		// set the target to a different value and make
 		// sure the bodies are awakened
-		Vector2 target = new Vector2(1.0, 1.0);
+		DynVector2 target = new DynVector2(1.0, 1.0);
 		pj.setTarget(target);
 		TestCase.assertFalse(b1.isAtRest());
 		TestCase.assertTrue(target.equals(pj.getTarget()));
@@ -509,7 +509,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void getSetCorrectionFactor() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		TestCase.assertEquals(0.3, pj.getCorrectionFactor());
 		
 		pj.setCorrectionFactor(0.0);
@@ -527,7 +527,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeCorrectionFactor() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setCorrectionFactor(-1.0);
 	}
 	
@@ -536,7 +536,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setGreaterThan1CorrectionFactor() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setCorrectionFactor(5.0);
 	}
 
@@ -545,7 +545,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setLessThanZeroCorrectionMaximumForce() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		pj.setMaximumCorrectionForce(-1.0);
 	}
 
@@ -554,7 +554,7 @@ public class PinJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void getSetCorrectionMaximumForce() {
-		PinJoint<Body> pj = new PinJoint<Body>(b1, new Vector2());
+		PinJoint<Body> pj = new PinJoint<Body>(b1, new DynVector2());
 		TestCase.assertEquals(1000.0, pj.getMaximumCorrectionForce());
 		
 		pj.setMaximumCorrectionForce(0.0);

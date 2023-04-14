@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics;
 
 import org.dyn4j.exception.ArgumentNullException;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a force.
@@ -35,13 +35,13 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Force {
 	/** The force to apply */
-	protected Vector2 force;
+	protected DynVector2 force;
 	
 	/**
 	 * Default constructor.
 	 */
 	public Force() {
-		this.force = new Vector2();
+		this.force = new DynVector2();
 	}
 	
 	/**
@@ -50,15 +50,15 @@ public class Force {
 	 * @param y the y component
 	 */
 	public Force(double x, double y) {
-		this.force = new Vector2(x, y);
+		this.force = new DynVector2(x, y);
 	}
 	
 	/**
-	 * Creates a new {@link Force} using the given {@link Vector2}.
-	 * @param force the force {@link Vector2}
+	 * Creates a new {@link Force} using the given {@link DynVector2}.
+	 * @param force the force {@link DynVector2}
 	 * @throws NullPointerException if force is null
 	 */
-	public Force(Vector2 force) {
+	public Force(DynVector2 force) {
 		if (force == null) throw new ArgumentNullException("force");
 		this.force = force;
 	}
@@ -83,11 +83,11 @@ public class Force {
 	}
 	
 	/**
-	 * Sets this {@link Force} to the given force {@link Vector2}.
-	 * @param force the force {@link Vector2}
+	 * Sets this {@link Force} to the given force {@link DynVector2}.
+	 * @param force the force {@link DynVector2}
 	 * @throws NullPointerException if force is null
 	 */
-	public void set(Vector2 force) {
+	public void set(DynVector2 force) {
 		if (force == null) throw new ArgumentNullException("force");
 		this.force.set(force);
 	}
@@ -127,9 +127,9 @@ public class Force {
 	
 	/**
 	 * Returns the force vector.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getForce() {
+	public DynVector2 getForce() {
 		return this.force;
 	}
 }

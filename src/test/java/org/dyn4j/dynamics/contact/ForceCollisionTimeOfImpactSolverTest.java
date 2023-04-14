@@ -30,7 +30,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.Settings;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -62,9 +62,9 @@ public class ForceCollisionTimeOfImpactSolverTest {
 		
 		Separation separation = new Separation();
 		separation.setDistance(0.5);
-		separation.setNormal(new Vector2(1.0, 0.0));
-		separation.setPoint1(new Vector2(1.0, 0.0));
-		separation.setPoint2(new Vector2(1.5, 0.0));
+		separation.setNormal(new DynVector2(1.0, 0.0));
+		separation.setPoint1(new DynVector2(1.0, 0.0));
+		separation.setPoint2(new DynVector2(1.5, 0.0));
 		
 		TimeOfImpact toi = new TimeOfImpact();
 		toi.setSeparation(separation);
@@ -98,9 +98,9 @@ public class ForceCollisionTimeOfImpactSolverTest {
 		
 		Separation separation = new Separation();
 		separation.setDistance(0.0001);
-		separation.setNormal(new Vector2(1.0, 0.0));
-		separation.setPoint1(new Vector2(1.0, 0.0));
-		separation.setPoint2(new Vector2(1.0001, 0.0));
+		separation.setNormal(new DynVector2(1.0, 0.0));
+		separation.setPoint1(new DynVector2(1.0, 0.0));
+		separation.setPoint2(new DynVector2(1.0001, 0.0));
 		
 		TimeOfImpact toi = new TimeOfImpact();
 		toi.setSeparation(separation);

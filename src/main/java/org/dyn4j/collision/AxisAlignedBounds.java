@@ -28,7 +28,7 @@ import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Translatable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a bounding region that is an Axis-Aligned bounding box.
@@ -79,7 +79,7 @@ public final class AxisAlignedBounds extends AbstractBounds implements Bounds, T
 	 */
 	@Override
 	public boolean isOutside(CollisionBody<?> body) {
-		Vector2 tx = this.transform.getTranslation();
+		DynVector2 tx = this.transform.getTranslation();
 		
 		AABB aabbBounds = this.aabb.getTranslated(tx);
 		AABB aabbBody = body.createAABB();
@@ -101,7 +101,7 @@ public final class AxisAlignedBounds extends AbstractBounds implements Bounds, T
 	 */
 	@Override
 	public boolean isOutside(AABB aabb, Transform transform, Fixture fixture) {
-		Vector2 tx = this.transform.getTranslation();
+		DynVector2 tx = this.transform.getTranslation();
 		AABB aabbBounds = this.aabb.getTranslated(tx);
 		
 		// test the projections for overlap

@@ -34,7 +34,7 @@ import org.dyn4j.collision.narrowphase.Separation;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,7 +71,7 @@ public class PolygonPolygonTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.sat.detect(poly1, t1, poly2, t2, p));
@@ -141,7 +141,7 @@ public class PolygonPolygonTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.gjk.detect(poly1, t1, poly2, t2, p));
@@ -212,7 +212,7 @@ public class PolygonPolygonTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n, p1, p2;
+		DynVector2 n, p1, p2;
 		
 		// test containment
 		TestCase.assertFalse(this.gjk.distance(poly1, t1, poly2, t2, s));
@@ -301,7 +301,7 @@ public class PolygonPolygonTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp1, mp2;
-		Vector2 p1, p2;
+		DynVector2 p1, p2;
 		
 		// test containment gjk
 		this.gjk.detect(poly1, t1, poly2, t2, p);

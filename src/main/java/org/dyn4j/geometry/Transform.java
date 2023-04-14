@@ -169,7 +169,7 @@ public class Transform implements Transformable, Copyable<Transform> {
 	 * @see org.dyn4j.geometry.Transformable#rotate(double, org.dyn4j.geometry.Vector)
 	 */
 	@Override
-	public void rotate(double theta, Vector2 point) {
+	public void rotate(double theta, DynVector2 point) {
 		this.rotate(theta, point.x, point.y);
 	}
 	
@@ -177,7 +177,7 @@ public class Transform implements Transformable, Copyable<Transform> {
 	 * @see org.dyn4j.geometry.Transformable#rotate(org.dyn4j.geometry.Rotation, org.dyn4j.geometry.Vector)
 	 */
 	@Override
-	public void rotate(Rotation rotation, Vector2 point) {
+	public void rotate(Rotation rotation, DynVector2 point) {
 		this.rotate(rotation, point.x, point.y);
 	}
 	
@@ -194,7 +194,7 @@ public class Transform implements Transformable, Copyable<Transform> {
 	 * @see org.dyn4j.geometry.Transformable#translate(org.dyn4j.geometry.Vector)
 	 */
 	@Override
-	public void translate(Vector2 vector) {
+	public void translate(DynVector2 vector) {
 		this.x += vector.x;
 		this.y += vector.y;
 	}
@@ -238,50 +238,50 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Transforms only the x coordinate of the given {@link Vector2} and returns the result.
-	 * @param vector the {@link Vector2} to transform
+	 * Transforms only the x coordinate of the given {@link DynVector2} and returns the result.
+	 * @param vector the {@link DynVector2} to transform
 	 * @return the transformed x coordinate
 	 * @since 3.4.0
 	 */
-	public double getTransformedX(Vector2 vector) {
+	public double getTransformedX(DynVector2 vector) {
 		return this.cost * vector.x - this.sint * vector.y + this.x;
 	}
 	
 	/**
-	 * Transforms only the y coordinate of the given {@link Vector2} and returns the result.
-	 * @param vector the {@link Vector2} to transform
+	 * Transforms only the y coordinate of the given {@link DynVector2} and returns the result.
+	 * @param vector the {@link DynVector2} to transform
 	 * @return the transformed y coordinate
 	 * @since 3.4.0
 	 */
-	public double getTransformedY(Vector2 vector) {
+	public double getTransformedY(DynVector2 vector) {
 		return this.sint * vector.x + this.cost * vector.y + this.y;
 	}
 	
 	/**
-	 * Transforms only the x coordinate of the given {@link Vector2} and places the result in the x field of the given {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
+	 * Transforms only the x coordinate of the given {@link DynVector2} and places the result in the x field of the given {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
 	 * @since 3.4.0
 	 */
-	public void transformX(Vector2 vector) {
+	public void transformX(DynVector2 vector) {
 		vector.x = this.cost * vector.x - this.sint * vector.y + this.x;
 	}
 	
 	/**
-	 * Transforms only the y coordinate of the given {@link Vector2} and places the result in the y field of the given {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
+	 * Transforms only the y coordinate of the given {@link DynVector2} and places the result in the y field of the given {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
 	 * @since 3.4.0
 	 */
-	public void transformY(Vector2 vector) {
+	public void transformY(DynVector2 vector) {
 		vector.y = this.sint * vector.x + this.cost * vector.y + this.y;
 	}
 	
 	/**
-	 * Transforms the given {@link Vector2} and returns a new {@link Vector2} containing the result.
-	 * @param vector the {@link Vector2} to transform
-	 * @return {@link Vector2}
+	 * Transforms the given {@link DynVector2} and returns a new {@link DynVector2} containing the result.
+	 * @param vector the {@link DynVector2} to transform
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getTransformed(Vector2 vector) {
-		Vector2 tv = new Vector2();
+	public DynVector2 getTransformed(DynVector2 vector) {
+		DynVector2 tv = new DynVector2();
 		double x = vector.x;
 		double y = vector.y;
 		
@@ -291,11 +291,11 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Transforms the given {@link Vector2} and returns the result in dest.
-	 * @param vector the {@link Vector2} to transform
-	 * @param destination the {@link Vector2} containing the result
+	 * Transforms the given {@link DynVector2} and returns the result in dest.
+	 * @param vector the {@link DynVector2} to transform
+	 * @param destination the {@link DynVector2} containing the result
 	 */
-	public void getTransformed(Vector2 vector, Vector2 destination) {
+	public void getTransformed(DynVector2 vector, DynVector2 destination) {
 		double x = vector.x;
 		double y = vector.y;
 		destination.x = this.cost * x - this.sint * y + this.x;
@@ -303,10 +303,10 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Transforms the given {@link Vector2} and places the result in the given {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
+	 * Transforms the given {@link DynVector2} and places the result in the given {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
 	 */
-	public void transform(Vector2 vector) {
+	public void transform(DynVector2 vector) {
 		double x = vector.x;
 		double y = vector.y;
 		vector.x = this.cost * x - this.sint * y + this.x;
@@ -314,12 +314,12 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 
 	/**
-	 * Inverse transforms the given {@link Vector2} and returns a new {@link Vector2} containing the result.
-	 * @param vector the {@link Vector2} to transform
-	 * @return {@link Vector2}
+	 * Inverse transforms the given {@link DynVector2} and returns a new {@link DynVector2} containing the result.
+	 * @param vector the {@link DynVector2} to transform
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getInverseTransformed(Vector2 vector) {
-		Vector2 tv = new Vector2();
+	public DynVector2 getInverseTransformed(DynVector2 vector) {
+		DynVector2 tv = new DynVector2();
 		double tx = vector.x - this.x;
 		double ty = vector.y - this.y;
 		tv.x = this.cost * tx + this.sint * ty;
@@ -328,11 +328,11 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Inverse transforms the given {@link Vector2} and returns the result in the destination {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
-	 * @param destination the {@link Vector2} containing the result
+	 * Inverse transforms the given {@link DynVector2} and returns the result in the destination {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
+	 * @param destination the {@link DynVector2} containing the result
 	 */
-	public void getInverseTransformed(Vector2 vector, Vector2 destination) {
+	public void getInverseTransformed(DynVector2 vector, DynVector2 destination) {
 		double tx = vector.x - this.x;
 		double ty = vector.y - this.y;
 		destination.x = this.cost * tx + this.sint * ty;
@@ -340,10 +340,10 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Inverse transforms the given {@link Vector2} and places the result in the given {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
+	 * Inverse transforms the given {@link DynVector2} and places the result in the given {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
 	 */
-	public void inverseTransform(Vector2 vector) {
+	public void inverseTransform(DynVector2 vector) {
 		double x = vector.x - this.x;
 		double y = vector.y - this.y;
 		vector.x = this.cost * x + this.sint * y;
@@ -351,13 +351,13 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 
 	/**
-	 * Transforms the given {@link Vector2} only by the rotation and returns
-	 * a new {@link Vector2} containing the result.
-	 * @param vector the {@link Vector2} to transform
-	 * @return {@link Vector2}
+	 * Transforms the given {@link DynVector2} only by the rotation and returns
+	 * a new {@link DynVector2} containing the result.
+	 * @param vector the {@link DynVector2} to transform
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getTransformedR(Vector2 vector) {
-		Vector2 v = new Vector2();
+	public DynVector2 getTransformedR(DynVector2 vector) {
+		DynVector2 v = new DynVector2();
 		double x = vector.x;
 		double y = vector.y;
 		v.x = this.cost * x - this.sint * y;
@@ -366,13 +366,13 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Transforms the given {@link Vector2} only by the rotation and returns the result in the
-	 * destination {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
-	 * @param destination the {@link Vector2} containing the result
+	 * Transforms the given {@link DynVector2} only by the rotation and returns the result in the
+	 * destination {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
+	 * @param destination the {@link DynVector2} containing the result
 	 * @since 3.1.5
 	 */
-	public void getTransformedR(Vector2 vector, Vector2 destination) {
+	public void getTransformedR(DynVector2 vector, DynVector2 destination) {
 		double x = vector.x;
 		double y = vector.y;
 		destination.x = this.cost * x - this.sint * y;
@@ -380,11 +380,11 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 
 	/**
-	 * Transforms the given {@link Vector2} only by the rotation and returns the
-	 * result in the given {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
+	 * Transforms the given {@link DynVector2} only by the rotation and returns the
+	 * result in the given {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
 	 */
-	public void transformR(Vector2 vector) {
+	public void transformR(DynVector2 vector) {
 		double x = vector.x;
 		double y = vector.y;
 		vector.x = this.cost * x - this.sint * y;
@@ -392,13 +392,13 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Inverse transforms the given {@link Vector2} only by the rotation and returns
-	 * a new {@link Vector2} containing the result.
-	 * @param vector the {@link Vector2} to transform
-	 * @return {@link Vector2}
+	 * Inverse transforms the given {@link DynVector2} only by the rotation and returns
+	 * a new {@link DynVector2} containing the result.
+	 * @param vector the {@link DynVector2} to transform
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getInverseTransformedR(Vector2 vector) {
-		Vector2 v = new Vector2();
+	public DynVector2 getInverseTransformedR(DynVector2 vector) {
+		DynVector2 v = new DynVector2();
 		double x = vector.x;
 		double y = vector.y;
 		// since the transpose of a rotation matrix is the inverse
@@ -408,13 +408,13 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Transforms the given {@link Vector2} only by the rotation and returns the result in the
-	 * destination {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
-	 * @param destination the {@link Vector2} containing the result
+	 * Transforms the given {@link DynVector2} only by the rotation and returns the result in the
+	 * destination {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
+	 * @param destination the {@link DynVector2} containing the result
 	 * @since 3.1.5
 	 */
-	public void getInverseTransformedR(Vector2 vector, Vector2 destination) {
+	public void getInverseTransformedR(DynVector2 vector, DynVector2 destination) {
 		double x = vector.x;
 		double y = vector.y;
 		// since the transpose of a rotation matrix is the inverse
@@ -423,11 +423,11 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 
 	/**
-	 * Transforms the given {@link Vector2} only by the rotation and returns the
-	 * result in the given {@link Vector2}.
-	 * @param vector the {@link Vector2} to transform
+	 * Transforms the given {@link DynVector2} only by the rotation and returns the
+	 * result in the given {@link DynVector2}.
+	 * @param vector the {@link DynVector2} to transform
 	 */
-	public void inverseTransformR(Vector2 vector) {
+	public void inverseTransformR(DynVector2 vector) {
 		double x = vector.x;
 		double y = vector.y;
 		// since the transpose of a rotation matrix is the inverse
@@ -470,11 +470,11 @@ public class Transform implements Transformable, Copyable<Transform> {
 	}
 	
 	/**
-	 * Returns the translation {@link Vector2}.
-	 * @return {@link Vector2}
+	 * Returns the translation {@link DynVector2}.
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getTranslation() {
-		return new Vector2(this.x, this.y);
+	public DynVector2 getTranslation() {
+		return new DynVector2(this.x, this.y);
 	}
 	
 	/**
@@ -493,7 +493,7 @@ public class Transform implements Transformable, Copyable<Transform> {
 	 * @param translation the translation along both axes
 	 * @since 1.2.0
 	 */
-	public void setTranslation(Vector2 translation) {
+	public void setTranslation(DynVector2 translation) {
 		this.setTranslation(translation.x, translation.y);
 	}
 	
@@ -740,7 +740,7 @@ public class Transform implements Transformable, Copyable<Transform> {
 	 * @param result the transform to place the result
 	 * @since 3.1.5
 	 */
-	public void lerp(Vector2 dp, double da, double alpha, Transform result) {
+	public void lerp(DynVector2 dp, double da, double alpha, Transform result) {
 		result.set(this);
 		result.rotateOnly(da * alpha);
 		result.translate(dp.x * alpha, dp.y * alpha);
@@ -754,7 +754,7 @@ public class Transform implements Transformable, Copyable<Transform> {
 	 * @param alpha the amount to interpolate
 	 * @since 3.1.5
 	 */
-	public void lerp(Vector2 dp, double da, double alpha) {
+	public void lerp(DynVector2 dp, double da, double alpha) {
 		this.rotateOnly(da * alpha);
 		this.translate(dp.x * alpha, dp.y * alpha);
 	}
@@ -768,7 +768,7 @@ public class Transform implements Transformable, Copyable<Transform> {
 	 * @return {@link Transform}
 	 * @since 3.1.5
 	 */
-	public Transform lerped(Vector2 dp, double da, double alpha) {
+	public Transform lerped(DynVector2 dp, double da, double alpha) {
 		Transform result = new Transform(this);
 		result.rotateOnly(da * alpha);
 		result.translate(dp.x * alpha, dp.y * alpha);

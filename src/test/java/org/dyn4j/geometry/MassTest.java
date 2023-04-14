@@ -45,7 +45,7 @@ public class MassTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createNegativeMass() {
-		new Mass(new Vector2(), -1.0, 1.0);
+		new Mass(new DynVector2(), -1.0, 1.0);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class MassTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createNegativeInertia() {
-		new Mass(new Vector2(), 1.0, -1.0);
+		new Mass(new DynVector2(), 1.0, -1.0);
 	}
 	
 	/**
@@ -74,8 +74,8 @@ public class MassTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Mass m = new Mass(new Vector2(), 1.0, 1.0);
-		TestCase.assertTrue(m.getCenter().equals(new Vector2()));
+		Mass m = new Mass(new DynVector2(), 1.0, 1.0);
+		TestCase.assertTrue(m.getCenter().equals(new DynVector2()));
 		TestCase.assertEquals(m.getMass(), 1.0);
 		TestCase.assertEquals(m.getInertia(), 1.0);
 	}
@@ -86,9 +86,9 @@ public class MassTest {
 	 */
 	@Test
 	public void createInfinite() {
-		Mass m = new Mass(new Vector2(), 0, 0);
+		Mass m = new Mass(new DynVector2(), 0, 0);
 		TestCase.assertTrue(m.isInfinite());
-		TestCase.assertTrue(m.getCenter().equals(new Vector2()));
+		TestCase.assertTrue(m.getCenter().equals(new DynVector2()));
 		TestCase.assertEquals(m.getMass(), 0.0);
 		TestCase.assertEquals(m.getInertia(), 0.0);
 	}
@@ -99,10 +99,10 @@ public class MassTest {
 	 */
 	@Test
 	public void createFixedLinearVelocity() {
-		Mass m = new Mass(new Vector2(), 0, 1.0);
+		Mass m = new Mass(new DynVector2(), 0, 1.0);
 		TestCase.assertFalse(m.isInfinite());
 		TestCase.assertEquals(MassType.FIXED_LINEAR_VELOCITY, m.getType());
-		TestCase.assertTrue(m.getCenter().equals(new Vector2()));
+		TestCase.assertTrue(m.getCenter().equals(new DynVector2()));
 		TestCase.assertEquals(m.getMass(), 0.0);
 		TestCase.assertEquals(m.getInertia(), 1.0);
 	}
@@ -113,10 +113,10 @@ public class MassTest {
 	 */
 	@Test
 	public void createFixedAngularVelocity() {
-		Mass m = new Mass(new Vector2(), 1.0, 0.0);
+		Mass m = new Mass(new DynVector2(), 1.0, 0.0);
 		TestCase.assertFalse(m.isInfinite());
 		TestCase.assertEquals(MassType.FIXED_ANGULAR_VELOCITY, m.getType());
-		TestCase.assertTrue(m.getCenter().equals(new Vector2()));
+		TestCase.assertTrue(m.getCenter().equals(new DynVector2()));
 		TestCase.assertEquals(m.getMass(), 1.0);
 		TestCase.assertEquals(m.getInertia(), 0.0);
 	}
@@ -138,7 +138,7 @@ public class MassTest {
 	 */
 	@Test
 	public void createCopy() {
-		Mass m = new Mass(new Vector2(1.0, 0.0), 2.0, 1.0);
+		Mass m = new Mass(new DynVector2(1.0, 0.0), 2.0, 1.0);
 		Mass m2 = new Mass(m);
 		
 		TestCase.assertNotSame(m, m2);
@@ -167,16 +167,16 @@ public class MassTest {
 	 */
 	@Test
 	public void createList() {
-		Mass m1 = new Mass(new Vector2( 1.0,  1.0), 3.00, 1.00);
-		Mass m2 = new Mass(new Vector2(-1.0,  0.0), 0.50, 0.02);
-		Mass m3 = new Mass(new Vector2( 1.0, -2.0), 2.00, 3.00);
+		Mass m1 = new Mass(new DynVector2( 1.0,  1.0), 3.00, 1.00);
+		Mass m2 = new Mass(new DynVector2(-1.0,  0.0), 0.50, 0.02);
+		Mass m3 = new Mass(new DynVector2( 1.0, -2.0), 2.00, 3.00);
 		List<Mass> masses = new ArrayList<Mass>();
 		masses.add(m1);
 		masses.add(m2);
 		masses.add(m3);
 		Mass m = Mass.create(masses);
 		
-		Vector2 c = m.getCenter();		
+		DynVector2 c = m.getCenter();
 		TestCase.assertEquals( 0.818, c.x, 1.0e-3);
 		TestCase.assertEquals(-0.181, c.y, 1.0e-3);
 		TestCase.assertEquals( 5.500, m.getMass(), 1.0e-3);
@@ -198,7 +198,7 @@ public class MassTest {
 		masses.add(m3);
 		Mass m = Mass.create(masses);
 		
-		Vector2 c = m.getCenter();	
+		DynVector2 c = m.getCenter();
 		TestCase.assertTrue(m.isInfinite());
 		TestCase.assertEquals(0.000, c.x, 1.0e-3);
 		TestCase.assertEquals(0.000, c.y, 1.0e-3);
@@ -212,12 +212,12 @@ public class MassTest {
 	 */
 	@Test
 	public void createListOneElement() {
-		Mass m1 = new Mass(new Vector2(), 1.0, 2.0);
+		Mass m1 = new Mass(new DynVector2(), 1.0, 2.0);
 		List<Mass> masses = new ArrayList<Mass>();
 		masses.add(m1);
 		Mass m = Mass.create(masses);
 		
-		Vector2 c = m.getCenter();	
+		DynVector2 c = m.getCenter();
 		TestCase.assertFalse(m.isInfinite());
 		TestCase.assertNotSame(m1, m);
 		TestCase.assertEquals(0.000, c.x, 1.0e-3);
@@ -261,8 +261,8 @@ public class MassTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createListNullElement() {
-		Mass m1 = new Mass(new Vector2(), 1.0, 2.0);
-		Mass m2 = new Mass(new Vector2(), 2.0, 7.0);
+		Mass m1 = new Mass(new DynVector2(), 1.0, 2.0);
+		Mass m2 = new Mass(new DynVector2(), 2.0, 7.0);
 		List<Mass> masses = new ArrayList<Mass>();
 		masses.add(m1);
 		masses.add(null);
@@ -341,7 +341,7 @@ public class MassTest {
 		
 		// you can't override the type of mass when it's fixed-linear-velocity
 		// except in the case of infinite
-		m = new Mass(new Vector2(), 0.0, 1.0);
+		m = new Mass(new DynVector2(), 0.0, 1.0);
 		TestCase.assertEquals(MassType.FIXED_LINEAR_VELOCITY, m.getType());
 		m.setType(MassType.NORMAL);
 		TestCase.assertEquals(MassType.FIXED_LINEAR_VELOCITY, m.getType());
@@ -354,7 +354,7 @@ public class MassTest {
 		
 		// you can't override the type of mass when it's fixed-angular-velocity
 		// except in the case of infinite
-		m = new Mass(new Vector2(), 1.0, 0.0);
+		m = new Mass(new DynVector2(), 1.0, 0.0);
 		TestCase.assertEquals(MassType.FIXED_ANGULAR_VELOCITY, m.getType());
 		m.setType(MassType.NORMAL);
 		TestCase.assertEquals(MassType.FIXED_ANGULAR_VELOCITY, m.getType());
@@ -417,7 +417,7 @@ public class MassTest {
 		TestCase.assertEquals(m2.hashCode(), m2.hashCode());
 		TestCase.assertFalse(m1 == m2);
 		
-		Mass m3 = new Mass(new Vector2(), 5, 1);
+		Mass m3 = new Mass(new DynVector2(), 5, 1);
 		TestCase.assertFalse(m1.equals(m3));
 		TestCase.assertFalse(m1.hashCode() == m3.hashCode());
 		TestCase.assertFalse(m1.equals((Mass)null));

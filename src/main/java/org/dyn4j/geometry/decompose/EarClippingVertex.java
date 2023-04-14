@@ -24,7 +24,7 @@
  */
 package org.dyn4j.geometry.decompose;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Node class for a vertex within a simple polygon for the {@link EarClipping} algorithm.
@@ -34,7 +34,7 @@ import org.dyn4j.geometry.Vector2;
  */
 final class EarClippingVertex {
 	/** The vertex point */
-	final Vector2 point;
+	final DynVector2 point;
 	
 	/** The previous vertex */
 	EarClippingVertex prev;
@@ -55,7 +55,7 @@ final class EarClippingVertex {
 	 * Minimal constructor.
 	 * @param point the point for the vertex
 	 */
-	public EarClippingVertex(Vector2 point) {
+	public EarClippingVertex(DynVector2 point) {
 		this.point = point;
 	}
 	

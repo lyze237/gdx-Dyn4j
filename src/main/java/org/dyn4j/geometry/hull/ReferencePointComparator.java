@@ -27,7 +27,7 @@ package org.dyn4j.geometry.hull;
 import java.util.Comparator;
 
 import org.dyn4j.geometry.RobustGeometry;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Comparator class to compare points by their angle from the positive
@@ -36,15 +36,15 @@ import org.dyn4j.geometry.Vector2;
  * @version 3.4.0
  * @since 2.2.0
  */
-final class ReferencePointComparator implements Comparator<Vector2> {
+final class ReferencePointComparator implements Comparator<DynVector2> {
 	/** The reference point for testing polar angles */
-	final Vector2 reference;
+	final DynVector2 reference;
 	
 	/**
 	 * Full constructor.
 	 * @param reference the reference point for finding angles
 	 */
-	public ReferencePointComparator(Vector2 reference) {
+	public ReferencePointComparator(DynVector2 reference) {
 		this.reference = reference;
 	}
 	
@@ -52,7 +52,7 @@ final class ReferencePointComparator implements Comparator<Vector2> {
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public int compare(Vector2 p1, Vector2 p2) {
+	public int compare(DynVector2 p1, DynVector2 p2) {
 		// we can use the getLocation method to successfully sort by angle to the reference point
 		// This is also must faster than using atan2 to compute the angles of the points.
 		// The order of parameters here must match the one in GrahamScan

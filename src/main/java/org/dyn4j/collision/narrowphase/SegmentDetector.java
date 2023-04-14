@@ -28,7 +28,7 @@ import org.dyn4j.Epsilon;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Class devoted to improving performance of {@link Segment} detection queries.
@@ -57,11 +57,11 @@ public final class SegmentDetector {
 	 */
 	public static boolean raycast(Ray ray, double maxLength, Segment segment, Transform transform, Raycast raycast) {
 		// solve the problem algebraically
-		Vector2 p0 = ray.getStart();
-		Vector2 d0 = ray.getDirectionVector();
-		Vector2 p1 = transform.getTransformed(segment.getPoint1());
-		Vector2 p2 = transform.getTransformed(segment.getPoint2());
-		Vector2 d1 = p1.to(p2);
+		DynVector2 p0 = ray.getStart();
+		DynVector2 d0 = ray.getDirectionVector();
+		DynVector2 p1 = transform.getTransformed(segment.getPoint1());
+		DynVector2 p2 = transform.getTransformed(segment.getPoint2());
+		DynVector2 d1 = p1.to(p2);
 		
 		// is the segment vertical or horizontal?
 		boolean isVertical = Math.abs(d1.x) <= Epsilon.E;
@@ -99,7 +99,7 @@ public final class SegmentDetector {
 		// t(D0.yD1.x - D0.xD1.y) = D1.cross(P1 - P0)
 		// tD1.cross(D0) = D1.cross(P1 - P0)
 		// t = D1.cross(P1 - P0) / D1.cross(D0)
-		Vector2 p0ToP1 = p1.difference(p0);
+		DynVector2 p0ToP1 = p1.difference(p0);
 		double num = d1.cross(p0ToP1);
 		double den = d1.cross(d0);
 		
@@ -111,7 +111,7 @@ public final class SegmentDetector {
 			// segment and the ray; ie d0 = d1
 			
 			// get the common direction's normal
-			Vector2 n = d0.getRightHandOrthogonalVector();
+			DynVector2 n = d0.getRightHandOrthogonalVector();
 			// project a point from each onto the normal
 			double nDotP0 = n.dot(p0);
 			double nDotP1 = n.dot(p1);
@@ -140,7 +140,7 @@ public final class SegmentDetector {
 				// if both are along the ray then compute the
 				// distance and point of intersection
 				double d = 0.0;
-				Vector2 p = null;
+				DynVector2 p = null;
 				if (d0DotP1 < d0DotP2) {
 					d = d0DotP1;
 					p = p1.copy();
@@ -195,9 +195,9 @@ public final class SegmentDetector {
 		}
 		
 		// compute the hit point
-		Vector2 p = d0.product(t).add(p0);
+		DynVector2 p = d0.product(t).add(p0);
 		// compute the normal
-		Vector2 l = p1.to(p2); l.normalize(); l.right();
+		DynVector2 l = p1.to(p2); l.normalize(); l.right();
 		double lDotD = l.dot(d0);
 		if (lDotD > 0.0) {
 			l.negate();

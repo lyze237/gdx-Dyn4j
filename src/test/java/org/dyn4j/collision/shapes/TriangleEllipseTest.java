@@ -33,7 +33,7 @@ import org.dyn4j.collision.narrowphase.Separation;
 import org.dyn4j.geometry.Ellipse;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,9 +58,9 @@ public class TriangleEllipseTest extends AbstractNarrowphaseShapeTest {
 	@Before
 	public void setup() {
 		this.t = new Triangle(
-						new Vector2(1.29, 0.25),
-						new Vector2(-0.71, 0.65),
-						new Vector2(-0.59, -0.85));
+						new DynVector2(1.29, 0.25),
+						new DynVector2(-0.71, 0.65),
+						new DynVector2(-0.59, -0.85));
 		this.e = new Ellipse(1.0, 0.5);
 	}
 	
@@ -85,7 +85,7 @@ public class TriangleEllipseTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.gjk.detect(t, t1, e, t2, p));
@@ -156,7 +156,7 @@ public class TriangleEllipseTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n, p1, p2;
+		DynVector2 n, p1, p2;
 		
 		// test containment
 		TestCase.assertFalse(this.gjk.distance(t, t1, e, t2, s));
@@ -245,7 +245,7 @@ public class TriangleEllipseTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp1;
-		Vector2 p1;
+		DynVector2 p1;
 		
 		// test containment gjk
 		this.gjk.detect(t, t1, e, t2, p);

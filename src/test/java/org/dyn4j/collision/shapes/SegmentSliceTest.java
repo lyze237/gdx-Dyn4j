@@ -33,7 +33,7 @@ import org.dyn4j.collision.narrowphase.Separation;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Slice;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class SegmentSliceTest extends AbstractNarrowphaseShapeTest {
 	 */
 	@Before
 	public void setup() {
-		this.segment = new Segment(new Vector2(-1.0, 1.0), new Vector2(1.5, -1.0));
+		this.segment = new Segment(new DynVector2(-1.0, 1.0), new DynVector2(1.5, -1.0));
 		this.slice = new Slice(0.5, Math.toRadians(50));
 	}
 	
@@ -69,7 +69,7 @@ public class SegmentSliceTest extends AbstractNarrowphaseShapeTest {
 		Penetration p = new Penetration();
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.sat.detect(segment, t1, slice, t2, p));
@@ -138,7 +138,7 @@ public class SegmentSliceTest extends AbstractNarrowphaseShapeTest {
 		Penetration p = new Penetration();
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.gjk.detect(segment, t1, slice, t2, p));
@@ -209,9 +209,9 @@ public class SegmentSliceTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
-		Vector2 p1 = null;
-		Vector2 p2 = null;
+		DynVector2 n = null;
+		DynVector2 p1 = null;
+		DynVector2 p2 = null;
 		
 		// test containment
 		TestCase.assertFalse(this.gjk.distance(segment, t1, slice, t2, s));
@@ -300,7 +300,7 @@ public class SegmentSliceTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp1;
-		Vector2 p1;
+		DynVector2 p1;
 		
 		// test containment gjk
 		this.gjk.detect(segment, t1, slice, t2, p);

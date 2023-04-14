@@ -90,7 +90,7 @@ public class EllipseTest {
 	public void contains() {
 		Ellipse e = new Ellipse(2.0, 1.0);
 		Transform t = new Transform();
-		Vector2 p = new Vector2(0.75, 0.35);
+		DynVector2 p = new DynVector2(0.75, 0.35);
 		
 		// shouldn't be in the circle
 		TestCase.assertTrue(!e.contains(p, t));
@@ -131,8 +131,8 @@ public class EllipseTest {
 	public void project() {
 		Ellipse e = new Ellipse(2.0, 1.0);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, -1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, -1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
@@ -170,13 +170,13 @@ public class EllipseTest {
 	public void getFarthest() {
 		Ellipse e = new Ellipse(2.0, 1.0);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, -1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, -1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
 		
-		Vector2 p = e.getFarthestPoint(x, t);
+		DynVector2 p = e.getFarthestPoint(x, t);
 		TestCase.assertEquals( 2.000, p.x, 1.0e-3);
 		TestCase.assertEquals( 0.500, p.y, 1.0e-3);
 		
@@ -213,32 +213,32 @@ public class EllipseTest {
 		// aligns with the x-axis
 		
 		// quadrant 1
-		Vector2 p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new Vector2(2.0, 0.1));		
+		DynVector2 p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new DynVector2(2.0, 0.1));
 		TestCase.assertEquals(-1.000, p.x, 1e-3);
 		TestCase.assertEquals(-0.009, p.y, 1e-3);
 		
 		// quadrant 2
-		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new Vector2(0.1, 2.0));
+		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new DynVector2(0.1, 2.0));
 		TestCase.assertEquals(-0.325, p.x, 1e-3);
 		TestCase.assertEquals(-0.472, p.y, 1e-3);
 
 		// quadrant 3
-		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new Vector2(-2.0, -0.1));
+		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new DynVector2(-2.0, -0.1));
 		TestCase.assertEquals( 1.000, p.x, 1e-3);
 		TestCase.assertEquals( 0.009, p.y, 1e-3);
 		
 		// quadrant 4
-		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new Vector2(0.1, -2.0));
+		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new DynVector2(0.1, -2.0));
 		TestCase.assertEquals(-0.325, p.x, 1e-3);
 		TestCase.assertEquals( 0.472, p.y, 1e-3);
 	
 		// on axis
-		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new Vector2(2.0, 0.0));		
+		p = Ellipse.getFarthestPointOnEllipse(1.0, 0.5, new DynVector2(2.0, 0.0));
 		TestCase.assertEquals(-1.000, p.x, 1e-3);
 		TestCase.assertEquals( 0.000, p.y, 1e-3);
 		
 		// test y-axis aligned ellipse
-		p = Ellipse.getFarthestPointOnEllipse(0.5, 1.0, new Vector2(0.0, 2.0));		
+		p = Ellipse.getFarthestPointOnEllipse(0.5, 1.0, new DynVector2(0.0, 2.0));
 		TestCase.assertEquals( 0.000, p.x, 1e-3);
 		TestCase.assertEquals(-1.000, p.y, 1e-3);
 	}
@@ -249,7 +249,7 @@ public class EllipseTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void getAxes() {
 		Ellipse e = new Ellipse(1.0, 0.5);
-		e.getAxes(new Vector2[] { new Vector2() }, IDENTITY);
+		e.getAxes(new DynVector2[] { new DynVector2() }, IDENTITY);
 	}
 	
 	/**
@@ -343,11 +343,11 @@ public class EllipseTest {
 		double r = e.getRadius();
 		TestCase.assertEquals(0.5, r, 1.0e-3);
 		
-		r = e.getRadius(new Vector2(1.0, 0.0));
+		r = e.getRadius(new DynVector2(1.0, 0.0));
 		TestCase.assertEquals(1.5, r, 1.0e-3);
 		
 		e.rotate(Math.toRadians(30));
-		r = e.getRadius(new Vector2(1.0, 0.0));
+		r = e.getRadius(new DynVector2(1.0, 0.0));
 		TestCase.assertEquals(1.463, r, 1.0e-3);
 	}
 

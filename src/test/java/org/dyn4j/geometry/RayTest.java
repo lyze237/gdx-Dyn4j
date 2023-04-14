@@ -48,7 +48,7 @@ public class RayTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullDirection() {
-		new Ray(new Vector2(), null);
+		new Ray(new DynVector2(), null);
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class RayTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createZeroDirection() {
-		new Ray(new Vector2(), new Vector2());
+		new Ray(new DynVector2(), new DynVector2());
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class RayTest {
 	 */
 	@Test
 	public void create() {
-		Vector2 s = new Vector2(1.0, 2.0);
+		DynVector2 s = new DynVector2(1.0, 2.0);
 		Ray r = new Ray(s, Math.toRadians(10));
 		
 		TestCase.assertSame(s, r.getStart());
@@ -115,7 +115,7 @@ public class RayTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void setDirectionZero() {
 		Ray r = new Ray(Math.toRadians(30));
-		r.setDirection(new Vector2());
+		r.setDirection(new DynVector2());
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public class RayTest {
 	 */
 	@Test
 	public void setDirection() {
-		Vector2 s = new Vector2(1.0, 2.0);
+		DynVector2 s = new DynVector2(1.0, 2.0);
 		Ray r = new Ray(s, Math.toRadians(10));
 		
 		TestCase.assertSame(s, r.getStart());
@@ -142,7 +142,7 @@ public class RayTest {
 		TestCase.assertEquals(0.866, r.getDirectionVector().x, 1e-3);
 		TestCase.assertEquals(0.499, r.getDirectionVector().y, 1e-3);
 		
-		r.setDirection(new Vector2(5, 7));
+		r.setDirection(new DynVector2(5, 7));
 		
 		TestCase.assertSame(s, r.getStart());
 		TestCase.assertEquals(s.x, r.getStart().x, 1e-3);

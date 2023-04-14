@@ -40,7 +40,7 @@ import org.dyn4j.dynamics.Settings;
 import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.Matrix22;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a {@link SolvableContact} constraint for each {@link PhysicsBody} pair.  
@@ -60,10 +60,10 @@ public final class ContactConstraint<T extends PhysicsBody> implements Shiftable
 	protected final List<SolvableContact> contactsUnmodifiable;
 	
 	/** The penetration normal */
-	protected final Vector2 normal;
+	protected final DynVector2 normal;
 	
 	/** The tangent of the normal */
-	protected final Vector2 tangent;
+	protected final DynVector2 tangent;
 	
 	/** The coefficient of friction */
 	protected double friction;
@@ -103,9 +103,9 @@ public final class ContactConstraint<T extends PhysicsBody> implements Shiftable
 		this.contacts = new ArrayList<SolvableContact>(2);
 		this.contactsUnmodifiable = Collections.unmodifiableList(this.contacts);
 		// set the normal
-		this.normal = new Vector2();
+		this.normal = new DynVector2();
 		// set the tangent
-		this.tangent = new Vector2();
+		this.tangent = new DynVector2();
 		// set coefficients
 		this.friction = BodyFixture.DEFAULT_FRICTION;
 		this.restitution = BodyFixture.DEFAULT_RESTITUTION;
@@ -138,7 +138,7 @@ public final class ContactConstraint<T extends PhysicsBody> implements Shiftable
 		// reset all other data
 		// NOTE: we need to do this before any listeners are called because the user
 		// may want to update some of these and we don't want to reset them
-		Vector2 normal = manifold.getNormal();
+		DynVector2 normal = manifold.getNormal();
 		this.normal.x = normal.x;
 		this.normal.y = normal.y;
 		
@@ -252,7 +252,7 @@ public final class ContactConstraint<T extends PhysicsBody> implements Shiftable
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		int size = this.contacts.size();
 		// loop over the contacts
 		for (int i = 0; i < size; i++) {
@@ -266,17 +266,17 @@ public final class ContactConstraint<T extends PhysicsBody> implements Shiftable
 	
 	/**
 	 * Returns the collision normal.
-	 * @return {@link Vector2} the collision normal
+	 * @return {@link DynVector2} the collision normal
 	 */
-	public Vector2 getNormal() {
+	public DynVector2 getNormal() {
 		return this.normal;
 	}
 	
 	/**
 	 * Returns the collision tangent.
-	 * @return {@link Vector2} the collision tangent
+	 * @return {@link DynVector2} the collision tangent
 	 */
-	public Vector2 getTangent() {
+	public DynVector2 getTangent() {
 		return this.tangent;
 	}
 	

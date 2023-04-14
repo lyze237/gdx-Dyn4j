@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -42,8 +42,8 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Vector2 anchor = new Vector2();
-		Vector2 axis = new Vector2(0.0, 1.0);
+		DynVector2 anchor = new DynVector2();
+		DynVector2 axis = new DynVector2(0.0, 1.0);
 		
 		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, anchor, axis);
 		
@@ -83,7 +83,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody1() {
-		new PrismaticJoint<Body>(null, b2, new Vector2(), new Vector2(0.0, 1.0));
+		new PrismaticJoint<Body>(null, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody2() {
-		new PrismaticJoint<Body>(b1, null, new Vector2(), new Vector2(0.0, 1.0));
+		new PrismaticJoint<Body>(b1, null, new DynVector2(), new DynVector2(0.0, 1.0));
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullAnchor() {
-		new PrismaticJoint<Body>(b1, b2, null, new Vector2(0.0, 1.0));
+		new PrismaticJoint<Body>(b1, b2, null, new DynVector2(0.0, 1.0));
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullAxis() {
-		new PrismaticJoint<Body>(b1, b2, new Vector2(), null);
+		new PrismaticJoint<Body>(b1, b2, new DynVector2(), null);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorMaximumForce() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setMaximumMotorForce(0.0);
 		TestCase.assertEquals(0.0, pj.getMaximumMotorForce());
@@ -132,7 +132,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeMaximumMotorForce() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setMaximumMotorForce(-2.0);
 	}
 
@@ -141,7 +141,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorMaximumForceSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertFalse(pj.isMotorEnabled());
 		TestCase.assertEquals(1000.0, pj.getMaximumMotorForce());
@@ -201,7 +201,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorEnabled() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertFalse(pj.isMotorEnabled());
 		
@@ -217,7 +217,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorEnabledSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertFalse(pj.isMotorEnabled());
 		TestCase.assertFalse(b1.isAtRest());
@@ -258,7 +258,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorSpeed() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getMotorSpeed());
 		
@@ -277,7 +277,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorSpeedSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertFalse(pj.isMotorEnabled());
 		TestCase.assertEquals(0.0, pj.getMotorSpeed());
@@ -319,7 +319,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setReferenceAngle() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getReferenceAngle());
 		
@@ -333,14 +333,14 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void shift() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(1.0, 1.0), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(1.0, 1.0), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, pj.getAnchor1().x);
 		TestCase.assertEquals(1.0, pj.getAnchor1().y);
 		TestCase.assertEquals(1.0, pj.getAnchor2().x);
 		TestCase.assertEquals(1.0, pj.getAnchor2().y);
 		
-		pj.shift(new Vector2(1.0, 3.0));
+		pj.shift(new DynVector2(1.0, 3.0));
 		
 		// nothing should have changed
 		TestCase.assertEquals(1.0, pj.getAnchor1().x);
@@ -354,7 +354,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSuccess() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setLowerLimit(-5.0);
 		
 		TestCase.assertEquals(0.0, pj.getUpperLimit());
@@ -374,7 +374,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperLimitInvalid() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getUpperLimit());
 		
@@ -386,7 +386,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimit() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setUpperLimit(5.0);
 		
 		TestCase.assertEquals(0.0, pj.getLowerLimit());
@@ -406,7 +406,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setLowerLimitInvalid() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getLowerLimit());
 		
@@ -418,7 +418,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperAndLowerLimits() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getLowerLimit());
 		TestCase.assertEquals(0.0, pj.getUpperLimit());
@@ -449,7 +449,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsInvalid1() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getLowerLimit());
 		TestCase.assertEquals(0.0, pj.getUpperLimit());
@@ -462,7 +462,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsInvalid2() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getLowerLimit());
 		TestCase.assertEquals(0.0, pj.getUpperLimit());
@@ -475,7 +475,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSameLimitValid() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(0.0, pj.getLowerLimit());
 		TestCase.assertEquals(0.0, pj.getUpperLimit());
@@ -494,7 +494,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setLowerLimitEnabled(true);
 		pj.setUpperLimitEnabled(true);
@@ -553,7 +553,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsSameSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setLowerLimitEnabled(true);
 		pj.setUpperLimitEnabled(true);
@@ -642,7 +642,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsDifferentSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setLowerLimitEnabled(true);
 		pj.setUpperLimitEnabled(true);
@@ -731,7 +731,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimitSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setLowerLimitEnabled(true);
 		pj.setUpperLimitEnabled(true);
@@ -786,7 +786,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setLowerLimitEnabled(true);
 		pj.setUpperLimitEnabled(true);
@@ -841,7 +841,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSameSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setLowerLimitEnabled(true);
 		pj.setUpperLimitEnabled(true);
@@ -903,7 +903,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledDifferentSleep() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setLowerLimitEnabled(true);
 		pj.setUpperLimitEnabled(true);
@@ -993,7 +993,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringEnabled() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		TestCase.assertFalse(pj.isSpringEnabled());
 		
 		pj.setSpringFrequency(1.0);
@@ -1017,7 +1017,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringDamperEnabled() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		TestCase.assertFalse(pj.isSpringDamperEnabled());
 		
 		pj.setSpringFrequency(1.0);
@@ -1048,7 +1048,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringRestOffset() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setSpringRestOffset(0.0);
 		TestCase.assertEquals(0.0, pj.getSpringRestOffset());
@@ -1065,7 +1065,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringDampingRatio() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setSpringDampingRatio(0.0);
 		TestCase.assertEquals(0.0, pj.getSpringDampingRatio());
@@ -1115,7 +1115,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeDampingRatio() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setSpringDampingRatio(-1.0);
 	}
 	
@@ -1124,7 +1124,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setDampingRatioGreaterThan1() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setSpringDampingRatio(2.0);
 	}
 	
@@ -1133,7 +1133,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringFrequency() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setSpringFrequency(0.0);
 		TestCase.assertEquals(0.0, pj.getSpringFrequency());
@@ -1193,7 +1193,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMode() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		// test mode swapping
 		TestCase.assertEquals(AbstractJoint.SPRING_MODE_FREQUENCY, pj.getSpringMode());
 		pj.setSpringStiffness(0.3);
@@ -1207,7 +1207,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringStiffnessNegative() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setSpringStiffness(-0.3);
 	}
 
@@ -1216,7 +1216,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringStiffness() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setSpringStiffness(0.0);
 		TestCase.assertEquals(0.0, pj.getSpringStiffness());
@@ -1274,7 +1274,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringFrequencyNegative() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setSpringFrequency(-0.3);
 	}
 
@@ -1283,7 +1283,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringMaximumForceNegative() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setMaximumSpringForce(-1.0);
 	}
 	
@@ -1292,7 +1292,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMaximumForce() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		pj.setMaximumSpringForce(0.0);
 		TestCase.assertEquals(0.0, pj.getMaximumSpringForce());
@@ -1354,7 +1354,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void computeSpringStiffnessFrequency() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		pj.setSpringEnabled(true);
 		pj.setSpringDamperEnabled(true);
 		pj.setSpringFrequency(8.0);
@@ -1381,7 +1381,7 @@ public class PrismaticJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringRestOffsetAtRest() {
-		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		PrismaticJoint<Body> pj = new PrismaticJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		double distance = pj.getSpringRestOffset();
 		

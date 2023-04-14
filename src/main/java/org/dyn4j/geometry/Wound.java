@@ -40,27 +40,27 @@ public interface Wound extends Shape, Transformable, DataContainer {
 	 * Returns an iterator for the vertices.
 	 * <p>
 	 * The iterator does not support the remove method and will return a new
-	 * {@link Vector2} in the next method.
+	 * {@link DynVector2} in the next method.
 	 * <p>
 	 * This method is safer than the {@link #getVertices()} since its not
 	 * possible to modify the array or its elements.
-	 * @return Iterator&lt;{@link Vector2}&gt;
+	 * @return Iterator&lt;{@link DynVector2}&gt;
 	 * @since 3.2.0
 	 */
-	public abstract Iterator<Vector2> getVertexIterator();
+	public abstract Iterator<DynVector2> getVertexIterator();
 	
 	/**
 	 * Returns an iterator for the normals.
 	 * <p>
 	 * The iterator does not support the remove method and will return a new
-	 * {@link Vector2} in the next method rather than the underlying value.
+	 * {@link DynVector2} in the next method rather than the underlying value.
 	 * <p>
 	 * This method is safer than the {@link #getNormals()} since its not
 	 * possible to modify the array or its elements.
-	 * @return Iterator&lt;{@link Vector2}&gt;
+	 * @return Iterator&lt;{@link DynVector2}&gt;
 	 * @since 3.2.0
 	 */
-	public abstract Iterator<Vector2> getNormalIterator();
+	public abstract Iterator<DynVector2> getNormalIterator();
 	
 	/**
 	 * Returns the array of vertices in local coordinates.
@@ -68,10 +68,10 @@ public interface Wound extends Shape, Transformable, DataContainer {
 	 * For performance, this array may be the internal storage array of the shape.
 	 * Both the array elements and their properties should not be modified via this
 	 * method.
-	 * @return {@link Vector2}[]
+	 * @return {@link DynVector2}[]
 	 * @see #getVertexIterator()
 	 */
-	public abstract Vector2[] getVertices();
+	public abstract DynVector2[] getVertices();
 	
 	/**
 	 * Returns the array of edge normals in local coordinates.
@@ -79,8 +79,8 @@ public interface Wound extends Shape, Transformable, DataContainer {
 	 * For performance, this array may be the internal storage array of the shape.
 	 * Both the array elements and their properties should not be modified via this
 	 * method.
-	 * @return {@link Vector2}[]
+	 * @return {@link DynVector2}[]
 	 * @see #getNormalIterator()
 	 */
-	public abstract Vector2[] getNormals();
+	public abstract DynVector2[] getNormals();
 }

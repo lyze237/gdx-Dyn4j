@@ -31,7 +31,7 @@ import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Link;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -65,7 +65,7 @@ public class LinkPostProcessorTest {
 		Penetration p = new Penetration();
 		
 		p.setDepth(2.0);
-		p.setNormal(new Vector2(-1.0, 2.0));
+		p.setNormal(new DynVector2(-1.0, 2.0));
 		
 		lpp.process(c1, tx1, c2, tx2, p);
 		
@@ -89,11 +89,11 @@ public class LinkPostProcessorTest {
 		//   o---0---o
 		//  /
 		// o
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2(-2.0, -1.0));
-		vertices.add(new Vector2(-1.0, 0.0));
-		vertices.add(new Vector2(1.0, 0.0));
-		vertices.add(new Vector2(2.0, 1.0));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2(-2.0, -1.0));
+		vertices.add(new DynVector2(-1.0, 0.0));
+		vertices.add(new DynVector2(1.0, 0.0));
+		vertices.add(new DynVector2(2.0, 1.0));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex c1 = links.get(1);
@@ -115,7 +115,7 @@ public class LinkPostProcessorTest {
 		
 		p.setDepth(0.25);
 		// NOTE: normal should be from a->b
-		p.setNormal(new Vector2(1.0, 0.0));
+		p.setNormal(new DynVector2(1.0, 0.0));
 		lpp.process(c2, tx2, c1, tx1, p);
 		
 		// confirm that it was modified
@@ -139,11 +139,11 @@ public class LinkPostProcessorTest {
 		//   o---0---o
 		//            \
 		//             o
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2(-2.0, 1.0));
-		vertices.add(new Vector2(-1.0, 0.0));
-		vertices.add(new Vector2(1.0, 0.0));
-		vertices.add(new Vector2(2.0, -1.0));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2(-2.0, 1.0));
+		vertices.add(new DynVector2(-1.0, 0.0));
+		vertices.add(new DynVector2(1.0, 0.0));
+		vertices.add(new DynVector2(2.0, -1.0));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex c1 = links.get(1);
@@ -165,7 +165,7 @@ public class LinkPostProcessorTest {
 		
 		p.setDepth(0.25);
 		// NOTE: normal should be from a->b
-		p.setNormal(new Vector2(-1.0, 0.0));
+		p.setNormal(new DynVector2(-1.0, 0.0));
 		lpp.process(c2, tx2, c1, tx1, p);
 		
 		// confirm that it was modified
@@ -193,11 +193,11 @@ public class LinkPostProcessorTest {
 		//   o
 		//   |
 		//   o---0---o---o
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2(5.0, 0.0));
-		vertices.add(new Vector2(4.0, 0.0));
-		vertices.add(new Vector2(0.0, 0.0));
-		vertices.add(new Vector2(0.0, 0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2(5.0, 0.0));
+		vertices.add(new DynVector2(4.0, 0.0));
+		vertices.add(new DynVector2(0.0, 0.0));
+		vertices.add(new DynVector2(0.0, 0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(1);
@@ -240,11 +240,11 @@ public class LinkPostProcessorTest {
 		// 0++++++++0
 		// ++++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, -0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, -0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, -0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, -0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(1);
@@ -351,11 +351,11 @@ public class LinkPostProcessorTest {
 		// ++0----0++
 		// ++++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, 0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, 0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, 0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, 0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(1);
@@ -494,11 +494,11 @@ public class LinkPostProcessorTest {
 		// ++++++++\
 		// +++++++++0
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, -0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, 0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, -0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, 0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(1);
@@ -608,11 +608,11 @@ public class LinkPostProcessorTest {
 		//  /++++++++
 		// 0+++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, 0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, -0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, 0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, -0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(1);
@@ -720,11 +720,11 @@ public class LinkPostProcessorTest {
 		// ++0----0++
 		// ++++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, 0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, 0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, 0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, 0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(0);
@@ -803,11 +803,11 @@ public class LinkPostProcessorTest {
 		// ++0----0++
 		// ++++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, 0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, 0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, 0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, 0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(2);
@@ -886,11 +886,11 @@ public class LinkPostProcessorTest {
 		// 0++++++++0
 		// ++++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, -0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, -0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, -0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, -0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 
 		Convex link = links.get(0);
@@ -997,11 +997,11 @@ public class LinkPostProcessorTest {
 		// 0++++++++0
 		// ++++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 1.0, -0.5));
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
-		vertices.add(new Vector2(-1.0, -0.5));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 1.0, -0.5));
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
+		vertices.add(new DynVector2(-1.0, -0.5));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(2);
@@ -1108,9 +1108,9 @@ public class LinkPostProcessorTest {
 		// 0++++++++0
 		// ++++++++++
 		
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2( 0.5, 0.0));
-		vertices.add(new Vector2(-0.5, 0.0));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2( 0.5, 0.0));
+		vertices.add(new DynVector2(-0.5, 0.0));
 		List<Link> links = Geometry.createLinks(vertices, false);
 		
 		Convex link = links.get(0);

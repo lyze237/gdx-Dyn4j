@@ -33,7 +33,7 @@ import java.util.NoSuchElementException;
 import org.dyn4j.collision.CollisionPair;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Ray;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * This class implements the simplest possible broad-phase detector,
@@ -208,7 +208,7 @@ public final class BruteForceBroadphase<T> extends AbstractBroadphaseDetector<T>
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		for (AABBBroadphaseProxy<T> node : this.map.values()) {
 			node.aabb.translate(shift);
 		}
@@ -491,7 +491,7 @@ public final class BruteForceBroadphase<T> extends AbstractBroadphaseDetector<T>
 			this.iterator = BruteForceBroadphase.this.map.values().iterator();
 			
 			// precompute
-			Vector2 d = ray.getDirectionVector();
+			DynVector2 d = ray.getDirectionVector();
 			this.invDx = 1.0 / d.x;
 			this.invDy = 1.0 / d.y;
 			

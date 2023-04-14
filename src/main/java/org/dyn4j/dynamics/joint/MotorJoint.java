@@ -37,7 +37,7 @@ import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Matrix22;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation a motor joint.
@@ -58,7 +58,7 @@ import org.dyn4j.geometry.Vector2;
  * bodies should achieve relative to each other's position and rotation.  By 
  * default, the linear target will be the distance between the two body centers
  * and the angular target will be the relative rotation of the bodies.  Use the
- * {@link #setLinearTarget(Vector2)} and {@link #setAngularTarget(double)} 
+ * {@link #setLinearTarget(DynVector2)} and {@link #setAngularTarget(double)}
  * methods to set the desired relative translation and rotate between the 
  * bodies.
  * <p>
@@ -77,7 +77,7 @@ import org.dyn4j.geometry.Vector2;
  */
 public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The linear target distance from body1's world space center */
-	protected final Vector2 linearTarget;
+	protected final DynVector2 linearTarget;
 	
 	/** The target angle between the two body's angles */
 	protected double angularTarget;
@@ -94,10 +94,10 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	// current state
 	
 	/** The world vector from body1's local center to the linear target */
-	private Vector2 r1;
+	private DynVector2 r1;
 	
 	/** The world vector from body2's local center to the origin */
-	private Vector2 r2;
+	private DynVector2 r2;
 	
 	/** The pivot mass; K = J * Minv * Jtrans */
 	private final Matrix22 K;
@@ -106,7 +106,7 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	private double angularMass;
 	
 	/** The calculated linear error in the target distance */
-	private Vector2 linearError;
+	private DynVector2 linearError;
 	
 	/** The calculated angular error in the target angle */
 	private double angularError;
@@ -114,7 +114,7 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	// output
 	
 	/** The impulse applied to reduce linear motion */
-	private Vector2 linearImpulse;
+	private DynVector2 linearImpulse;
 	
 	/** The impulse applied to reduce angular motion */
 	private double angularImpulse;
@@ -140,10 +140,10 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		
 		this.K = new Matrix22();
 		this.angularMass = 0.0;
-		this.linearError = new Vector2();
+		this.linearError = new DynVector2();
 		this.angularError = 0.0;
 		
-		this.linearImpulse = new Vector2();
+		this.linearImpulse = new DynVector2();
 		this.angularImpulse = 0.0;
 	}
 	
@@ -199,8 +199,8 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		}
 		
 		// compute the error in the linear and angular targets
-		Vector2 d1 = this.r1.sum(this.body1.getWorldCenter());
-		Vector2 d2 = this.r2.sum(this.body2.getWorldCenter());
+		DynVector2 d1 = this.r1.sum(this.body1.getWorldCenter());
+		DynVector2 d2 = this.r2.sum(this.body2.getWorldCenter());
 		this.linearError = d2.subtract(d1);
 		this.angularError = this.getAngularError();
 		
@@ -256,17 +256,17 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		}
 		
 		// solve the point-to-point constraint
-		Vector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
-		Vector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
-		Vector2 pivotV = v2.subtract(v1);
+		DynVector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
+		DynVector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
+		DynVector2 pivotV = v2.subtract(v1);
 		
 		pivotV.add(this.linearError.product(this.correctionFactor * invdt));
 		
-		Vector2 stepImpulse = this.K.multiply(pivotV);
+		DynVector2 stepImpulse = this.K.multiply(pivotV);
 		stepImpulse.negate();
 		
 		// clamp by the maxforce
-		Vector2 currentAccumulatedImpulse = this.linearImpulse.copy();
+		DynVector2 currentAccumulatedImpulse = this.linearImpulse.copy();
 		this.linearImpulse.add(stepImpulse);
 		double maxImpulse = this.maximumForce * dt;
 		if (this.linearImpulse.getMagnitudeSquared() > maxImpulse * maxImpulse) {
@@ -306,7 +306,7 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
+	public DynVector2 getReactionForce(double invdt) {
 		return this.linearImpulse.product(invdt);
 	}
 	
@@ -322,7 +322,7 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to translate here since the anchor points are in local coordinates
 		// they will move with the bodies
 	}
@@ -335,9 +335,9 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * <pre>
 	 * joint.getBody1().getWorldVector(joint.getLinearTarget());
 	 * </pre>
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getLinearTarget() {
+	public DynVector2 getLinearTarget() {
 		return this.linearTarget;
 	}
 	
@@ -346,7 +346,7 @@ public class MotorJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * body1's world center.
 	 * @param target the desired distance along the x and y coordinates
 	 */
-	public void setLinearTarget(Vector2 target) {
+	public void setLinearTarget(DynVector2 target) {
 		if (!target.equals(this.linearTarget)) {
 			this.body1.setAtRest(false);
 			this.body2.setAtRest(false);

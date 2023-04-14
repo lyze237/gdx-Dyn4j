@@ -82,7 +82,7 @@ public class TransformTest {
 		t.translate(5, 5);
 		t.rotate(Math.toRadians(90));
 		
-		Vector2 v = t.getTranslation();
+		DynVector2 v = t.getTranslation();
 		TestCase.assertEquals(-5.000, v.x, 1.0e-3);
 		TestCase.assertEquals( 5.000, v.y, 1.0e-3);
 		
@@ -130,10 +130,10 @@ public class TransformTest {
 		t.translate(2.0, 1.0);
 		t.rotate(Math.toRadians(25), 1.0, -1.0);
 		
-		Vector2 v = new Vector2(1.0, 0.0);
+		DynVector2 v = new DynVector2(1.0, 0.0);
 		
 		// test transformation
-		Vector2 vt = t.getTransformed(v);
+		DynVector2 vt = t.getTransformed(v);
 		TestCase.assertEquals(1.967, vt.x, 1.0e-3);
 		TestCase.assertEquals(1.657, vt.y, 1.0e-3);
 		TestCase.assertEquals(1.967, t.getTransformedX(v), 1.0e-3);
@@ -151,7 +151,7 @@ public class TransformTest {
 		TestCase.assertEquals(1.000, vt.x, 1.0e-3);
 		TestCase.assertEquals(0.000, vt.y, 1.0e-3);
 		
-		Vector2 v2 = t.getTransformed(v);
+		DynVector2 v2 = t.getTransformed(v);
 		t.getInverseTransformed(v2, vt);
 		TestCase.assertEquals(1.000, vt.x, 1.0e-3);
 		TestCase.assertEquals(0.000, vt.y, 1.0e-3);
@@ -186,9 +186,9 @@ public class TransformTest {
 		t.translate(2.0, 1.0);
 		t.rotate(Math.toRadians(25), 1.0, -1.0);
 		
-		Vector2 v = new Vector2(1.0, 0.0);
+		DynVector2 v = new DynVector2(1.0, 0.0);
 
-		Vector2 v2 = v.copy();
+		DynVector2 v2 = v.copy();
 		t.transformX(v2);
 		TestCase.assertEquals(1.967, v2.x, 1.0e-3);
 		TestCase.assertEquals(0.0, v2.y, 1.0e-3);
@@ -266,7 +266,7 @@ public class TransformTest {
 		TestCase.assertEquals(3.0, tx.y);
 		TestCase.assertEquals(Math.toRadians(45.000), tx.getRotationAngle(), 1.0e-3);
 		
-		tx.setTranslation(new Vector2(5, -7));
+		tx.setTranslation(new DynVector2(5, -7));
 		TestCase.assertEquals(5.0, tx.x);
 		TestCase.assertEquals(-7.0, tx.y);
 		TestCase.assertEquals(Math.toRadians(45.000), tx.getRotationAngle(), 1.0e-3);
@@ -297,7 +297,7 @@ public class TransformTest {
 	 */
 	@Test
 	public void lerp() {
-		Vector2 p = new Vector2();
+		DynVector2 p = new DynVector2();
 		
 		Transform start = new Transform();
 		start.translate(1.0, 0.0);
@@ -308,8 +308,8 @@ public class TransformTest {
 		end.translate(3.0, 2.0);
 		end.rotate(Math.toRadians(20));
 		
-		Vector2 s = start.getTransformed(p);
-		Vector2 e = end.getTransformed(p);
+		DynVector2 s = start.getTransformed(p);
+		DynVector2 e = end.getTransformed(p);
 		
 		final double alpha = 0.5;
 		
@@ -317,7 +317,7 @@ public class TransformTest {
 		start.lerp(end, alpha, mid);
 		start.lerp(end, alpha);
 		
-		Vector2 m = mid.getTransformed(p);
+		DynVector2 m = mid.getTransformed(p);
 		// this test only works this way for the mid point
 		// otherwise we would have to replicate the lerp method
 		TestCase.assertEquals((s.x + e.x) * alpha, m.x, 1.0e-9);
@@ -351,7 +351,7 @@ public class TransformTest {
 		
 		start.identity();
 		start.translate(1.0, 0.0);
-		start.lerp(new Vector2(1.0, 0.0), Math.toRadians(90), 0.5);
+		start.lerp(new DynVector2(1.0, 0.0), Math.toRadians(90), 0.5);
 		TestCase.assertEquals(Math.toRadians(45), start.getRotationAngle(), 1.0e-3);
 		TestCase.assertEquals(1.5, start.getTranslationX(), 1.0e-3);
 		TestCase.assertEquals(0.0, start.getTranslationY(), 1.0e-3);

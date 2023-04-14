@@ -43,7 +43,7 @@ import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.listener.BoundsListener;
 import org.dyn4j.world.listener.CollisionListener;
 import org.dyn4j.world.result.ConvexCastResult;
@@ -581,7 +581,7 @@ public interface CollisionWorld<T extends CollisionBody<E>, E extends Fixture, V
 	 * @param filter the filter; can be null
 	 * @return List&lt;{@link ConvexCastResult}&gt;
 	 */
-	public List<ConvexCastResult<T, E>> convexCast(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter);
+	public List<ConvexCastResult<T, E>> convexCast(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter);
 	
 	/**
 	 * Returns an iterator of {@link ConvexCastResult}s containing all the body-fixtures that 
@@ -602,7 +602,7 @@ public interface CollisionWorld<T extends CollisionBody<E>, E extends Fixture, V
 	 * @param filter the filter; can be null
 	 * @return Iterator&lt;{@link ConvexCastResult}&gt;
 	 */
-	public Iterator<ConvexCastResult<T, E>> convexCastIterator(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter);
+	public Iterator<ConvexCastResult<T, E>> convexCastIterator(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter);
 	
 	/**
 	 * Returns the closest {@link ConvexCastResult} that overlaps with the given {@link Convex} 
@@ -625,7 +625,7 @@ public interface CollisionWorld<T extends CollisionBody<E>, E extends Fixture, V
 	 * @param filter the filter; can be null
 	 * @return {@link ConvexCastResult}
 	 */
-	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter);
+	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter);
 	
 	/**
 	 * Returns the closest {@link ConvexCastResult} that overlaps with the given {@link Convex} 
@@ -649,5 +649,5 @@ public interface CollisionWorld<T extends CollisionBody<E>, E extends Fixture, V
 	 * @param filter the filter; can be null
 	 * @return {@link ConvexCastResult}
 	 */
-	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, T body, DetectFilter<T, E> filter);
+	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, T body, DetectFilter<T, E> filter);
 }

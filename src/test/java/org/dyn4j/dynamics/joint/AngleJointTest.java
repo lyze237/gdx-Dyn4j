@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -632,10 +632,10 @@ public class AngleJointTest extends BaseJointTest {
 	public void shift() {
 		AngleJoint<Body> aj = new AngleJoint<Body>(b1, b2);
 		
-		Vector2 p1 = b1.getWorldCenter();
-		Vector2 p2 = b2.getWorldCenter();
+		DynVector2 p1 = b1.getWorldCenter();
+		DynVector2 p2 = b2.getWorldCenter();
 		
-		aj.shift(new Vector2(1, 2));
+		aj.shift(new DynVector2(1, 2));
 		
 		// there's nothing to check...
 		TestCase.assertEquals(p1, b1.getWorldCenter());

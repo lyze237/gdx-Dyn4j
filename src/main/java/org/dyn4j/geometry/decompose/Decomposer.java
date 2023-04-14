@@ -27,7 +27,7 @@ package org.dyn4j.geometry.decompose;
 import java.util.List;
 
 import org.dyn4j.geometry.Convex;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an algorithm to decompose a given polygon (as a list of points) into {@link Convex} pieces.
@@ -43,7 +43,7 @@ public interface Decomposer {
 	 * @throws NullPointerException if points is null or contains null points
 	 * @throws IllegalArgumentException if points contains less than 4 points
 	 */
-	public List<Convex> decompose(Vector2... points);
+	public List<Convex> decompose(DynVector2... points);
 	
 	/**
 	 * Performs the decomposition on the given polygon returning a list of {@link Convex} shapes.
@@ -53,5 +53,5 @@ public interface Decomposer {
 	 * @throws IllegalArgumentException if points contains less than 4 points
 	 * @since 4.2.0
 	 */
-	public List<Convex> decompose(List<Vector2> points);
+	public List<Convex> decompose(List<DynVector2> points);
 }

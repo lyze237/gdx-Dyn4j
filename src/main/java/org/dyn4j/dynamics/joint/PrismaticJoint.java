@@ -39,8 +39,8 @@ import org.dyn4j.geometry.Matrix22;
 import org.dyn4j.geometry.Matrix33;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
-import org.dyn4j.geometry.Vector3;
+import org.dyn4j.geometry.DynVector2;
+import org.dyn4j.geometry.DynVector3;
 
 /**
  * Implementation of a prismatic joint.
@@ -112,16 +112,16 @@ import org.dyn4j.geometry.Vector3;
  */
 public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements LinearLimitsJoint, LinearMotorJoint, LinearSpringJoint, PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The local anchor point on the first {@link PhysicsBody} */
-	protected final Vector2 localAnchor1;
+	protected final DynVector2 localAnchor1;
 	
 	/** The local anchor point on the second {@link PhysicsBody} */
-	protected final Vector2 localAnchor2;
+	protected final DynVector2 localAnchor2;
 	
 	/** The axis representing the allowed line of motion */
-	protected final Vector2 xAxis;
+	protected final DynVector2 xAxis;
 	
 	/** The perpendicular axis of the line of motion */
-	protected final Vector2 yAxis;
+	protected final DynVector2 yAxis;
 
 	/** The initial angle between the two {@link PhysicsBody}s */
 	protected double referenceAngle;
@@ -204,10 +204,10 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	private double springMass;
 	
 	/** The world space yAxis from body1's transform */
-	private Vector2 perp;
+	private DynVector2 perp;
 	
 	/** The world space xAxis from body1's transform */
-	private Vector2 axis;
+	private DynVector2 axis;
 	
 	/** s1y = (r1 + d).cross(yaxis) */
 	private double s1;
@@ -227,7 +227,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	// output
 	
 	/** The accumulated impulse for warm starting */
-	private Vector2 impulse;
+	private DynVector2 impulse;
 
 	/** The impulse applied by the spring/damper */
 	private double springImpulse;
@@ -250,7 +250,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	 * @throws NullPointerException if body1, body2, anchor or axis is null
 	 * @throws IllegalArgumentException if body1 == body2 or axis is the zero vector
 	 */
-	public PrismaticJoint(T body1, T body2, Vector2 anchor, Vector2 axis) {
+	public PrismaticJoint(T body1, T body2, DynVector2 anchor, DynVector2 axis) {
 		super(body1, body2);
 		
 		// check for a null anchor
@@ -269,7 +269,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		this.localAnchor2 = body2.getLocalPoint(anchor);
 		
 		// make sure the axis is normalized
-		Vector2 n = axis.getNormalized();
+		DynVector2 n = axis.getNormalized();
 		// get the axis in local coordinates
 		this.xAxis = body1.getLocalVector(n);
 		// get the perpendicular axis
@@ -313,7 +313,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		
 		this.translation = 0.0;
 		
-		this.impulse = new Vector2();
+		this.impulse = new DynVector2();
 		this.motorImpulse = 0.0;
 		this.lowerLimitImpulse = 0.0;
 		this.upperLimitImpulse = 0.0;
@@ -356,11 +356,11 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
 		// compute the vector between the two world space anchor points
-		Vector2 d = this.body2.getWorldCenter().sum(r2).subtract(this.body1.getWorldCenter().sum(r1));
+		DynVector2 d = this.body2.getWorldCenter().sum(r2).subtract(this.body1.getWorldCenter().sum(r1));
 		
 		// get the world vectors of the axes
 		this.axis = this.body1.getWorldVector(this.xAxis);
@@ -462,7 +462,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 			//                | -perp  -axis |
 			// we only compute the impulse for body1 since body2's impulse is
 			// just the negative of body1's impulse
-			Vector2 P = new Vector2();
+			DynVector2 P = new DynVector2();
 			// perp.product(impulse.x) + axis.product(motorImpulse + impulse.z)
 			P.x = this.perp.x * this.impulse.x + axialImpulse * this.axis.x;
 			P.y = this.perp.y * this.impulse.x + axialImpulse * this.axis.y;
@@ -500,8 +500,8 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 v1 = this.body1.getLinearVelocity();
-		Vector2 v2 = this.body2.getLinearVelocity();
+		DynVector2 v1 = this.body1.getLinearVelocity();
+		DynVector2 v2 = this.body2.getLinearVelocity();
 		double w1 = this.body1.getAngularVelocity();
 		double w2 = this.body2.getAngularVelocity();
 		
@@ -526,7 +526,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 			
 			// compute the applied impulses
 			// Pc = Jtrans * lambda
-			Vector2 P = this.axis.product(stepImpulse);
+			DynVector2 P = this.axis.product(stepImpulse);
 			double l1 = stepImpulse * this.a1;
 			double l2 = stepImpulse * this.a2;
 			
@@ -554,7 +554,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 			}
 			
 			// apply the impulse
-			Vector2 P = this.axis.product(stepImpulse);
+			DynVector2 P = this.axis.product(stepImpulse);
 			double l1 = stepImpulse * this.a1;
 			double l2 = stepImpulse * this.a2;
 			
@@ -578,7 +578,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 			stepImpulse = this.lowerLimitImpulse - currentAccumulatedImpulse;
 			
 			// apply the impulse
-			Vector2 P = this.axis.product(stepImpulse);
+			DynVector2 P = this.axis.product(stepImpulse);
 			double l1 = stepImpulse * this.a1;
 			double l2 = stepImpulse * this.a2;
 			
@@ -599,7 +599,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 			stepImpulse = this.upperLimitImpulse - currentAccumulatedImpulse;
 			
 			// apply the impulse
-			Vector2 P = this.axis.product(stepImpulse);
+			DynVector2 P = this.axis.product(stepImpulse);
 			double l1 = stepImpulse * this.a1;
 			double l2 = stepImpulse * this.a2;
 			
@@ -610,18 +610,18 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		}
 		
 		// solve the prismatic constraint
-		Vector2 Cdt = new Vector2();
+		DynVector2 Cdt = new DynVector2();
 		Cdt.x = this.perp.dot(v2.difference(v1)) + this.s2 * w2 - this.s1 * w1;
 		Cdt.y = w2 - w1;
 		
 		// otherwise just solve the linear and angular constraints
-		Vector2 f2r = this.K.solve(Cdt.negate());
+		DynVector2 f2r = this.K.solve(Cdt.negate());
 		this.impulse.x += f2r.x;
 		this.impulse.y += f2r.y;
 		
 		// compute the applied impulses
 		// Pc = Jtrans * lambda
-		Vector2 P = this.perp.product(f2r.x);
+		DynVector2 P = this.perp.product(f2r.x);
 		double l1 = f2r.x * this.s1 + f2r.y;
 		double l2 = f2r.x * this.s2 + f2r.y;
 		
@@ -655,23 +655,23 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 c1 = this.body1.getWorldCenter();
-		Vector2 c2 = this.body2.getWorldCenter();
+		DynVector2 c1 = this.body1.getWorldCenter();
+		DynVector2 c2 = this.body2.getWorldCenter();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
-		Vector2 d = c2.sum(r2).subtract(c1.sum(r1));
+		DynVector2 d = c2.sum(r2).subtract(c1.sum(r1));
 		
-		Vector2 axis = this.body1.getWorldVector(this.xAxis);
+		DynVector2 axis = this.body1.getWorldVector(this.xAxis);
 		double a1 = r1.sum(d).cross(axis);
 		double a2 = r2.cross(axis);
 		
-		Vector2 perp = this.body1.getWorldVector(this.yAxis);
+		DynVector2 perp = this.body1.getWorldVector(this.yAxis);
 		double s1 = r1.sum(d).cross(perp);
 		double s2 = r2.cross(perp);
 		
-		Vector2 C = new Vector2();
+		DynVector2 C = new DynVector2();
 		C.x = perp.dot(d);
 		C.y = this.getRelativeRotation();
 		
@@ -703,7 +703,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 			}
 		}
 		
-		Vector3 impulse;
+		DynVector3 impulse;
 		// check if the limit is active
 		if (limitActive) {
 			Matrix33 K = new Matrix33();
@@ -726,7 +726,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 			K.m21 = K.m12;
 			K.m22 = invM1 + invM2 + a1 * a1 * invI1 + a2 * a2 * invI2;
 			
-			Vector3 Clim = new Vector3(C.x, C.y, C2);
+			DynVector3 Clim = new DynVector3(C.x, C.y, C2);
 			impulse = K.solve33(Clim.negate());
 		} else {
 			Matrix22 K = new Matrix22();
@@ -742,8 +742,8 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 				K.m11 = 1.0;
 			}
 			
-			Vector2 impulsec = K.solve(C.negate());
-			impulse = new Vector3(impulsec.x, impulsec.y, 0.0);
+			DynVector2 impulsec = K.solve(C.negate());
+			impulse = new DynVector3(impulsec.x, impulsec.y, 0.0);
 		}
 		
 		// compute the applied impulses
@@ -753,7 +753,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		//                | -perp  -axis |
 		// we only compute the impulse for body1 since body2's impulse is
 		// just the negative of body1's impulse
-		Vector2 P = new Vector2();
+		DynVector2 P = new DynVector2();
 		// perp.product(impulse.x) + axis.product(impulse.y)
 		P.x = perp.x * impulse.x + impulse.z * axis.x;
 		P.y = perp.y * impulse.x + impulse.z * axis.y;
@@ -815,17 +815,17 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	
 	/**
 	 * The original anchor point on body1 in world space.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor1() {
+	public DynVector2 getAnchor1() {
 		return this.body1.getWorldPoint(this.localAnchor1);
 	}
 	
 	/**
 	 * The original anchor point on body2 in world space.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor2() {
+	public DynVector2 getAnchor2() {
 		return this.body2.getWorldPoint(this.localAnchor2);
 	}
 	
@@ -833,8 +833,8 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
-		Vector2 force = new Vector2();
+	public DynVector2 getReactionForce(double invdt) {
+		DynVector2 force = new DynVector2();
 		// compute the impulse
 		force.x = this.impulse.x * this.perp.x + (this.springImpulse + this.motorImpulse + this.lowerLimitImpulse - this.upperLimitImpulse) * this.axis.x;
 		force.y = this.impulse.x * this.perp.y + (this.springImpulse + this.motorImpulse + this.lowerLimitImpulse - this.upperLimitImpulse) * this.axis.y;
@@ -855,7 +855,7 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to translate here since the anchor points are in local coordinates
 		// they will move with the bodies
 	}
@@ -871,19 +871,19 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 		Transform t1 = this.body1.getTransform();
 		Transform t2 = this.body2.getTransform();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
 		// get the world vectors of the axis
-		Vector2 axis = this.body1.getWorldVector(this.xAxis);
+		DynVector2 axis = this.body1.getWorldVector(this.xAxis);
 		
-		Vector2 p1 = this.body1.getWorldCenter().sum(r1);
-		Vector2 p2 = this.body2.getWorldCenter().sum(r2);
-		Vector2 d = p2.subtract(p1);
+		DynVector2 p1 = this.body1.getWorldCenter().sum(r1);
+		DynVector2 p2 = this.body2.getWorldCenter().sum(r2);
+		DynVector2 d = p2.subtract(p1);
 		
 		// compute the velocities along the vectors pointing to the world space anchor points
-		Vector2 v1 = r1.cross(this.body1.getAngularVelocity()).add(this.body1.getLinearVelocity());
-		Vector2 v2 = r2.cross(this.body2.getAngularVelocity()).add(this.body2.getLinearVelocity());
+		DynVector2 v1 = r1.cross(this.body1.getAngularVelocity()).add(this.body1.getLinearVelocity());
+		DynVector2 v2 = r2.cross(this.body2.getAngularVelocity()).add(this.body2.getLinearVelocity());
 		
 		// compute the relative linear velocity along the axis
 		double te1 = axis.dot(v2.subtract(v1));
@@ -902,10 +902,10 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	 * @since 5.0.0
 	 */
 	public double getLinearTranslation() {
-		Vector2 p1 = this.body1.getWorldPoint(this.localAnchor1);
-		Vector2 p2 = this.body2.getWorldPoint(this.localAnchor2);
-		Vector2 d = p2.difference(p1);
-		Vector2 axis = this.body1.getWorldVector(this.xAxis);
+		DynVector2 p1 = this.body1.getWorldPoint(this.localAnchor1);
+		DynVector2 p2 = this.body2.getWorldPoint(this.localAnchor2);
+		DynVector2 d = p2.difference(p1);
+		DynVector2 axis = this.body1.getWorldVector(this.xAxis);
 		return d.dot(axis);
 	}
 	
@@ -1435,10 +1435,10 @@ public class PrismaticJoint<T extends PhysicsBody> extends AbstractPairedBodyJoi
 	
 	/**
 	 * Returns the axis in which the joint is allowed move along in world coordinates.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.0.0
 	 */
-	public Vector2 getAxis() {
+	public DynVector2 getAxis() {
 		return this.body1.getWorldVector(this.xAxis);
 	}
 	

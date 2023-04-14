@@ -35,7 +35,7 @@ import org.dyn4j.geometry.Feature;
 import org.dyn4j.geometry.PointFeature;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a Sutherland-Hodgman clipping {@link ManifoldSolver} algorithm.
@@ -62,7 +62,7 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 	@Override
 	public boolean getManifold(Penetration penetration, Convex convex1, Transform transform1, Convex convex2, Transform transform2, Manifold manifold) {
 		// get the penetration normal
-		Vector2 n = penetration.getNormal();
+		DynVector2 n = penetration.getNormal();
 		
 		// get the reference feature for the first convex shape
 		Feature feature1 = convex1.getFarthestFeature(n, transform1);
@@ -78,7 +78,7 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 		}
 		
 		// get the reference feature for the second convex shape
-		Vector2 ne = n.getNegative();
+		DynVector2 ne = n.getNegative();
 		Feature feature2 = convex2.getFarthestFeature(ne, transform2);
 		// check for vertex
 		if (feature2 instanceof PointFeature) {
@@ -97,8 +97,8 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 		// choose the reference and incident edges
 		boolean flipped = false;
 		// which edge is more perpendicular?
-		Vector2 e1 = reference.getEdge();
-		Vector2 e2 = incident.getEdge();
+		DynVector2 e1 = reference.getEdge();
+		DynVector2 e2 = incident.getEdge();
 		if (Math.abs(e1.dot(n)) > Math.abs(e2.dot(n))) {
 			// shape2's edge is more perpendicular
 			// so swap the reference and incident edges
@@ -110,7 +110,7 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 		}
 		
 		// create the reference edge vector
-		Vector2 refev = reference.getEdge();
+		DynVector2 refev = reference.getEdge();
 		// normalize it
 		refev.normalize();
 		
@@ -136,7 +136,7 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 		
 		// we need to change the normal to the reference edge's normal
 		// since they may not have been the same
-		Vector2 frontNormal = refev.getRightHandOrthogonalVector();
+		DynVector2 frontNormal = refev.getRightHandOrthogonalVector();
 		// also get the maximum point's depth
 		double frontOffset = frontNormal.dot(reference.getMaximum().getPoint());
 		
@@ -147,7 +147,7 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 		// test if the clip points are behind the reference edge
 		for (int i = 0; i < clip2.size(); i++) {
 			PointFeature vertex = clip2.get(i);
-			Vector2 point = vertex.getPoint();
+			DynVector2 point = vertex.getPoint();
 			double depth = frontNormal.dot(point) - frontOffset;
 			// make sure the point is behind the front normal
 			if (depth >= 0.0) {
@@ -171,12 +171,12 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 	 * @param v2 the second vertex of the segment to be clipped
 	 * @param n the clipping plane/line
 	 * @param offset the offset of the end point of the segment to be clipped
-	 * @return List&lt;{@link Vector2}&gt; the clipped segment
+	 * @return List&lt;{@link DynVector2}&gt; the clipped segment
 	 */
-	protected List<PointFeature> clip(PointFeature v1, PointFeature v2, Vector2 n, double offset) {
+	protected List<PointFeature> clip(PointFeature v1, PointFeature v2, DynVector2 n, double offset) {
 		List<PointFeature> points = new ArrayList<PointFeature>(2);
-		Vector2 p1 = v1.getPoint();
-		Vector2 p2 = v2.getPoint();
+		DynVector2 p1 = v1.getPoint();
+		DynVector2 p2 = v2.getPoint();
 		
 		// calculate the distance between the end points of the edge and the clip line
 		double d1 = n.dot(p1) - offset;
@@ -189,7 +189,7 @@ public class ClippingManifoldSolver implements ManifoldSolver {
 		// check if they are on opposing sides of the line
 		if (d1 * d2 < 0.0) {
 			// get the edge vector
-			Vector2 e = p1.to(p2);
+			DynVector2 e = p1.to(p2);
 			// clip to obtain another point
 			double u = d1 / (d1 - d2);
 			e.multiply(u);

@@ -39,7 +39,7 @@ import org.dyn4j.dynamics.contact.ContactConstraintSolver;
 import org.dyn4j.dynamics.contact.TimeOfImpactSolver;
 import org.dyn4j.dynamics.joint.Joint;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.listener.ContactListener;
 import org.dyn4j.world.listener.DestructionListener;
 import org.dyn4j.world.listener.StepListener;
@@ -60,10 +60,10 @@ public interface PhysicsWorld<T extends PhysicsBody, V extends ContactCollisionD
 	public static final int DEFAULT_INITIAL_JOINT_CAPACITY = 16;
 	
 	/** Earths gravity constant */
-	public static final Vector2 EARTH_GRAVITY = new Vector2(0.0, -9.8);
+	public static final DynVector2 EARTH_GRAVITY = new DynVector2(0.0, -9.8);
 	
 	/** Zero gravity constant */
-	public static final Vector2 ZERO_GRAVITY = new Vector2(0.0, 0.0);
+	public static final DynVector2 ZERO_GRAVITY = new DynVector2(0.0, 0.0);
 	
 	/**
 	 * Updates the {@link PhysicsWorld}.
@@ -328,7 +328,7 @@ public interface PhysicsWorld<T extends PhysicsBody, V extends ContactCollisionD
 	 * Sets the acceleration due to gravity.
 	 * @param gravity the gravity in meters/second<sup>2</sup>
 	 */
-	public void setGravity(Vector2 gravity);
+	public void setGravity(DynVector2 gravity);
 	
 	/**
 	 * Sets the acceleration due to gravity.
@@ -340,9 +340,9 @@ public interface PhysicsWorld<T extends PhysicsBody, V extends ContactCollisionD
 	
 	/**
 	 * Returns the acceleration due to gravity.
-	 * @return {@link Vector2} the gravity in meters/second<sup>2</sup>
+	 * @return {@link DynVector2} the gravity in meters/second<sup>2</sup>
 	 */
-	public Vector2 getGravity();
+	public DynVector2 getGravity();
 
 	// listeners
 	

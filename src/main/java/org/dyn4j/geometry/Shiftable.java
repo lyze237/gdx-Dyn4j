@@ -40,5 +40,5 @@ public interface Shiftable {
 	 * Translates the object to match the given coordinate shift.
 	 * @param shift the amount to shift along the x and y axes
 	 */
-	public abstract void shift(Vector2 shift);
+	public abstract void shift(DynVector2 shift);
 }

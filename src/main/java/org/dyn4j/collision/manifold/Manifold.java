@@ -32,7 +32,7 @@ import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a contact {@link Manifold} for a collision between two {@link Convex} {@link Shape}s.
@@ -50,14 +50,14 @@ public class Manifold implements Shiftable, Copyable<Manifold> {
 	protected final List<ManifoldPoint> points;
 	
 	/** The penetration normal */
-	protected final Vector2 normal;
+	protected final DynVector2 normal;
 	
 	/**
 	 * Default constructor.
 	 */
 	public Manifold() {
 		this.points = new ArrayList<ManifoldPoint>(2);
-		this.normal = new Vector2();
+		this.normal = new DynVector2();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class Manifold implements Shiftable, Copyable<Manifold> {
 	 * @param normal the manifold normal
 	 * @param points the manifold points
 	 */
-	protected Manifold(Vector2 normal, List<ManifoldPoint> points) {
+	protected Manifold(DynVector2 normal, List<ManifoldPoint> points) {
 		this.points = new ArrayList<ManifoldPoint>(points.size());
 		this.normal = normal.copy();
 		for (ManifoldPoint mp : points) {
@@ -109,9 +109,9 @@ public class Manifold implements Shiftable, Copyable<Manifold> {
 	
 	/**
 	 * Returns the normal.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getNormal() {
+	public DynVector2 getNormal() {
 		return this.normal;
 	}
 	
@@ -132,7 +132,7 @@ public class Manifold implements Shiftable, Copyable<Manifold> {
 	 * Must be normalized.
 	 * @param normal the manifold normal
 	 */
-	public void setNormal(Vector2 normal) {
+	public void setNormal(DynVector2 normal) {
 		this.normal.x = normal.x;
 		this.normal.y = normal.y;
 	}
@@ -155,7 +155,7 @@ public class Manifold implements Shiftable, Copyable<Manifold> {
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		for (ManifoldPoint point : this.points) {
 			point.point.x += shift.x;
 			point.point.y += shift.y;

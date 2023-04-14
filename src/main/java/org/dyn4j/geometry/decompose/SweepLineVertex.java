@@ -25,7 +25,7 @@
 package org.dyn4j.geometry.decompose;
 
 import org.dyn4j.geometry.Segment;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a vertex on a polygon that stores information
@@ -36,7 +36,7 @@ import org.dyn4j.geometry.Vector2;
  */
 final class SweepLineVertex implements Comparable<SweepLineVertex> {
 	/** The vertex point */
-	final Vector2 point;
+	final DynVector2 point;
 	
 	/** The index in the original simple polygon */
 	final int index;
@@ -61,7 +61,7 @@ final class SweepLineVertex implements Comparable<SweepLineVertex> {
 	 * @param point the vertex point
 	 * @param index the index in the original simple polygon
 	 */
-	public SweepLineVertex(Vector2 point, int index) {
+	public SweepLineVertex(DynVector2 point, int index) {
 		this.point = point;
 		this.index = index;
 	}
@@ -72,8 +72,8 @@ final class SweepLineVertex implements Comparable<SweepLineVertex> {
 	@Override
 	public int compareTo(SweepLineVertex other) {
 		// sort by the y first then by x if the y's are equal
-		Vector2 p = this.point;
-		Vector2 q = other.point;
+		DynVector2 p = this.point;
+		DynVector2 q = other.point;
 		double diff = q.y - p.y;
 		if (diff == 0.0) {
 			// if the difference is near equal then compare the x values

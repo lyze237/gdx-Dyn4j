@@ -38,8 +38,8 @@ import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Matrix33;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
-import org.dyn4j.geometry.Vector3;
+import org.dyn4j.geometry.DynVector2;
+import org.dyn4j.geometry.DynVector3;
 
 /**
  * Implementation of a weld joint.
@@ -96,10 +96,10 @@ import org.dyn4j.geometry.Vector3;
  */
 public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements AngularLimitsJoint, AngularSpringJoint, PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The local anchor point on the first {@link PhysicsBody} */
-	protected final Vector2 localAnchor1;
+	protected final DynVector2 localAnchor1;
 	
 	/** The local anchor point on the second {@link PhysicsBody} */
-	protected final Vector2 localAnchor2;
+	protected final DynVector2 localAnchor2;
 
 	// limits
 	
@@ -147,10 +147,10 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 	private double angle;
 
 	/** The world space vector from b1's COM to the pivot point */
-	private Vector2 r1;
+	private DynVector2 r1;
 	
 	/** The world space vector from b2's COM to the pivot point */
-	private Vector2 r2;
+	private DynVector2 r2;
 
 	/** The constraint mass; K = J * Minv * Jtrans */
 	private final Matrix33 K;
@@ -173,7 +173,7 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 	// output
 	
 	/** The accumulated impulse for warm starting */
-	private Vector3 impulse;
+	private DynVector3 impulse;
 	
 	/** The spring impulse */
 	private double springImpulse;
@@ -192,7 +192,7 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 	 * @throws NullPointerException if body1, body2, or anchor is null
 	 * @throws IllegalArgumentException if body1 == body2
 	 */
-	public WeldJoint(T body1, T body2, Vector2 anchor) {
+	public WeldJoint(T body1, T body2, DynVector2 anchor) {
 		super(body1, body2);
 		
 		// check for a null anchor
@@ -232,7 +232,7 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 		this.gamma = 0.0;
 		this.bias = 0.0;
 		
-		this.impulse = new Vector3();
+		this.impulse = new DynVector3();
 		this.springImpulse = 0.0;
 		this.lowerLimitImpulse = 0.0;
 		this.upperLimitImpulse = 0.0;
@@ -340,7 +340,7 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 			double axialImpulse = this.impulse.z + this.springImpulse + this.lowerLimitImpulse - this.upperLimitImpulse;
 			
 			// warm start
-			Vector2 impulse = new Vector2(this.impulse.x, this.impulse.y);
+			DynVector2 impulse = new DynVector2(this.impulse.x, this.impulse.y);
 			this.body1.getLinearVelocity().add(impulse.product(invM1));
 			this.body1.setAngularVelocity(this.body1.getAngularVelocity() + invI1 * (this.r1.cross(impulse) + axialImpulse));
 			this.body2.getLinearVelocity().subtract(impulse.product(invM2));
@@ -423,11 +423,11 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 			}
 			
 			// solve the point-to-point constraint
-			Vector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
-			Vector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
-			Vector2 relv = v1.subtract(v2);
+			DynVector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
+			DynVector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
+			DynVector2 relv = v1.subtract(v2);
 			
-			Vector2 stepImpulse = this.K.solve22(relv).negate();
+			DynVector2 stepImpulse = this.K.solve22(relv).negate();
 			this.impulse.x += stepImpulse.x;
 			this.impulse.y += stepImpulse.y;
 			
@@ -436,22 +436,22 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 			this.body2.getLinearVelocity().subtract(stepImpulse.product(invM2));
 			this.body2.setAngularVelocity(this.body2.getAngularVelocity() - invI2 * this.r2.cross(stepImpulse));
 		} else {
-			Vector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
-			Vector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
-			Vector2 relv = v1.subtract(v2);
-			Vector3 C = new Vector3(relv.x, relv.y, this.body1.getAngularVelocity() - this.body2.getAngularVelocity());
+			DynVector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
+			DynVector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
+			DynVector2 relv = v1.subtract(v2);
+			DynVector3 C = new DynVector3(relv.x, relv.y, this.body1.getAngularVelocity() - this.body2.getAngularVelocity());
 			
-			Vector3 stepImpulse = null;
+			DynVector3 stepImpulse = null;
 			if (this.K.m22 > 0.0) {
 				stepImpulse = this.K.solve33(C.negate());
 			} else {
-				Vector2 impulse2 = this.K.solve22(relv).negate();
-				stepImpulse = new Vector3(impulse2.x, impulse2.y, 0.0);
+				DynVector2 impulse2 = this.K.solve22(relv).negate();
+				stepImpulse = new DynVector3(impulse2.x, impulse2.y, 0.0);
 			}
 			this.impulse.add(stepImpulse);
 			
 			// apply the impulse
-			Vector2 imp = new Vector2(stepImpulse.x, stepImpulse.y);
+			DynVector2 imp = new DynVector2(stepImpulse.x, stepImpulse.y);
 			this.body1.getLinearVelocity().add(imp.product(invM1));
 			this.body1.setAngularVelocity(this.body1.getAngularVelocity() + invI1 * (this.r1.cross(imp) + stepImpulse.z));
 			this.body2.getLinearVelocity().subtract(imp.product(invM2));
@@ -479,14 +479,14 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
-		Vector2 p1 = this.body1.getWorldCenter().add(r1);
-		Vector2 p2 = this.body2.getWorldCenter().add(r2);
-		Vector2 relativePosition = p1.difference(p2);
+		DynVector2 p1 = this.body1.getWorldCenter().add(r1);
+		DynVector2 p2 = this.body2.getWorldCenter().add(r2);
+		DynVector2 relativePosition = p1.difference(p2);
 		double  relativeRotation = this.getRelativeRotation();
-		Vector3 C = new Vector3(relativePosition.x, relativePosition.y, relativeRotation);
+		DynVector3 C = new DynVector3(relativePosition.x, relativePosition.y, relativeRotation);
 		
 		double linearError = relativePosition.getMagnitude();
 		double angularError = Math.abs(relativeRotation);
@@ -528,24 +528,24 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 			}
 			
 			// then solve the linear constraint
-			Vector2 j = K.solve22(relativePosition).negate();
+			DynVector2 j = K.solve22(relativePosition).negate();
 			
 			this.body1.translate(j.product(invM1));
 			this.body1.rotateAboutCenter(invI1 * r1.cross(j));
 			this.body2.translate(j.product(-invM2));
 			this.body2.rotateAboutCenter(-invI2 * r2.cross(j));
 		} else {
-			Vector3 impulse = null;
+			DynVector3 impulse = null;
 			
 			if (K.m22 > 0.0) {
 				impulse = K.solve33(C.negate());
 			} else {
-				Vector2 impulse2 = K.solve22(relativePosition).negate();
-				impulse = new Vector3(impulse2.x, impulse2.y, 0.0);
+				DynVector2 impulse2 = K.solve22(relativePosition).negate();
+				impulse = new DynVector3(impulse2.x, impulse2.y, 0.0);
 			}
 	
 			// translate and rotate the objects
-			Vector2 imp = new Vector2(impulse.x, impulse.y);
+			DynVector2 imp = new DynVector2(impulse.x, impulse.y);
 			this.body1.translate(imp.product(invM1));
 			this.body1.rotateAboutCenter(invI1 * (r1.cross(imp) + impulse.z));
 			this.body2.translate(imp.product(-invM2));
@@ -595,17 +595,17 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 	
 	/**
 	 * Returns the world space anchor point for the first body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor1() {
+	public DynVector2 getAnchor1() {
 		return this.body1.getWorldPoint(this.localAnchor1);
 	}
 	
 	/**
 	 * Returns the world space anchor point for the second body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor2() {
+	public DynVector2 getAnchor2() {
 		return this.body2.getWorldPoint(this.localAnchor2);
 	}
 	
@@ -613,8 +613,8 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
-		Vector2 impulse = new Vector2(this.impulse.x, this.impulse.y);
+	public DynVector2 getReactionForce(double invdt) {
+		DynVector2 impulse = new DynVector2(this.impulse.x, this.impulse.y);
 		return impulse.multiply(invdt);
 	}
 	
@@ -630,7 +630,7 @@ public class WeldJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T>
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to translate here since the anchor points are in local coordinates
 		// they will move with the bodies
 	}

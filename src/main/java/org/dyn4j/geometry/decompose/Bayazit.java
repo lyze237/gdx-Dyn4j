@@ -34,7 +34,7 @@ import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Segment;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Bayazit convex decomposition algorithm for simple polygons.
@@ -51,7 +51,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @see org.dyn4j.geometry.decompose.Decomposer#decompose(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public List<Convex> decompose(Vector2... points) {
+	public List<Convex> decompose(DynVector2... points) {
 		// check for null array
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -72,7 +72,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 		}
 		
 		// create a list for the points to go in
-		List<Vector2> polygon = new ArrayList<Vector2>();
+		List<DynVector2> polygon = new ArrayList<DynVector2>();
 		
 		// copy the points to the list
 		Collections.addAll(polygon, points);
@@ -92,13 +92,13 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @param polygon the polygon to decompose
 	 * @param polygons the list to store the convex polygons resulting from the decomposition
 	 */
-	protected void decomposePolygon(List<Vector2> polygon, List<Convex> polygons) {
+	protected void decomposePolygon(List<DynVector2> polygon, List<Convex> polygons) {
 		// get the size of the given polygon
 		int size = polygon.size();
 		
 		// initialize
-		Vector2 upperIntersection = new Vector2();
-		Vector2 lowerIntersection = new Vector2();
+		DynVector2 upperIntersection = new DynVector2();
+		DynVector2 lowerIntersection = new DynVector2();
 		double upperDistance = Double.MAX_VALUE;
 		double lowerDistance = Double.MAX_VALUE;
 		double closestDistance = Double.MAX_VALUE;
@@ -106,17 +106,17 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 		int lowerIndex = 0;
 		int closestIndex = 0;
 		
-		List<Vector2> lower = new ArrayList<Vector2>();
-		List<Vector2> upper = new ArrayList<Vector2>();
+		List<DynVector2> lower = new ArrayList<DynVector2>();
+		List<DynVector2> upper = new ArrayList<DynVector2>();
 		
 		// loop over all the vertices
 		for (int i = 0; i < size; i++) {
 			// get the current vertex
-			Vector2 p = polygon.get(i);
+			DynVector2 p = polygon.get(i);
 			
 			// get the adjacent vertices
-			Vector2 p0 = polygon.get(i - 1 < 0 ? size - 1 : i - 1);
-			Vector2 p1 = polygon.get(i + 1 == size ? 0 : i + 1);
+			DynVector2 p0 = polygon.get(i - 1 < 0 ? size - 1 : i - 1);
+			DynVector2 p1 = polygon.get(i + 1 == size ? 0 : i + 1);
 			
 			// check if the vertex is a reflex vertex
 			if (isReflex(p0, p, p1)) {
@@ -125,14 +125,14 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 				// adjacent edges intersect one edge (in which case a 
 				// steiner point will be added)
 				for (int j = 0; j < size; j++) {
-					Vector2 q = polygon.get(j);
+					DynVector2 q = polygon.get(j);
 					
 					// get the adjacent vertices
-					Vector2 q0 = polygon.get(j - 1 < 0 ? size - 1 : j - 1);
-					Vector2 q1 = polygon.get(j + 1 == size ? 0 : j + 1);
+					DynVector2 q0 = polygon.get(j - 1 < 0 ? size - 1 : j - 1);
+					DynVector2 q1 = polygon.get(j + 1 == size ? 0 : j + 1);
 					
 					// create a storage location for the intersection point
-					Vector2 s = new Vector2();
+					DynVector2 s = new DynVector2();
 					
 					// extend the previous edge
 					// does the line p0->p go between the vertices q and q0
@@ -181,7 +181,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 				// point exists within that range to connect to)
 				if (lowerIndex == (upperIndex + 1) % size) {
 					// create a steiner point in the middle
-					Vector2 s = upperIntersection.sum(lowerIntersection).multiply(0.5);
+					DynVector2 s = upperIntersection.sum(lowerIntersection).multiply(0.5);
 					
 					// partition the polygon
 					if (i < upperIndex) {
@@ -208,7 +208,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 					// find the closest visible point
 					for (int j = lowerIndex; j <= upperIndex; j++) {
 						int jmod = j % size;
-						Vector2 q = polygon.get(jmod);
+						DynVector2 q = polygon.get(jmod);
 						
 						if (q == p || q == p0 || q == p1) continue;
 						
@@ -254,7 +254,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 		if (polygon.size() < 3) {
 			throw new IllegalArgumentException("The given simple polygon has crossing edges and not supported");
 		}
-		Vector2[] vertices = new Vector2[polygon.size()];
+		DynVector2[] vertices = new DynVector2[polygon.size()];
 		polygon.toArray(vertices);
 		polygons.add(Geometry.createPolygon(vertices));
 	}
@@ -269,7 +269,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @param p1 the next vertex
 	 * @return boolean
 	 */
-	protected boolean isReflex(Vector2 p0, Vector2 p, Vector2 p1) {
+	protected boolean isReflex(DynVector2 p0, DynVector2 p, DynVector2 p1) {
 		// if the point p is to the right of the line p0-p1 then
 		// the point is a reflex vertex
 		return right(p1, p0, p);
@@ -283,7 +283,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @param p the point to test
 	 * @return boolean
 	 */
-	protected boolean left(Vector2 a, Vector2 b, Vector2 p) {
+	protected boolean left(DynVector2 a, DynVector2 b, DynVector2 p) {
 	    return Segment.getLocation(p, a, b) > 0;
 	}
 	
@@ -295,7 +295,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @param p the point to test
 	 * @return boolean
 	 */
-	protected boolean leftOn(Vector2 a, Vector2 b, Vector2 p) {
+	protected boolean leftOn(DynVector2 a, DynVector2 b, DynVector2 p) {
 	    return Segment.getLocation(p, a, b) >= 0;
 	}
 	
@@ -307,7 +307,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @param p the point to test
 	 * @return boolean
 	 */
-	protected boolean right(Vector2 a, Vector2 b, Vector2 p) {
+	protected boolean right(DynVector2 a, DynVector2 b, DynVector2 p) {
 	    return Segment.getLocation(p, a, b) < 0;
 	}
 	
@@ -319,7 +319,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @param p the point to test
 	 * @return boolean
 	 */
-	protected boolean rightOn(Vector2 a, Vector2 b, Vector2 p) {
+	protected boolean rightOn(DynVector2 a, DynVector2 b, DynVector2 p) {
 	    return Segment.getLocation(p, a, b) <= 0;
 	}
 	
@@ -333,7 +333,7 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @param p the destination object for the intersection point
 	 * @return boolean
 	 */
-	protected boolean getIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2, Vector2 p) {
+	protected boolean getIntersection(DynVector2 a1, DynVector2 a2, DynVector2 b1, DynVector2 b2, DynVector2 p) {
 		// any point on a line can be found by the parametric equation:
 		// P = (1 - t)A + tB 
 		// or 
@@ -374,8 +374,8 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 		// if S1.cross(S2) is near zero then there is no solution
 		
 		// compute S1 and S2
-		Vector2 s1 = a1.difference(a2);
-		Vector2 s2 = b1.difference(b2);
+		DynVector2 s1 = a1.difference(a2);
+		DynVector2 s2 = b1.difference(b2);
 		
 		// compute the cross product (the determinant if we used matrix solving techniques)
 		double det = s1.cross(s2);
@@ -409,10 +409,10 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 	 * @return boolean
 	 * @since 3.1.10
 	 */
-	private boolean isVisible(List<Vector2> polygon, int i, int j) {
+	private boolean isVisible(List<DynVector2> polygon, int i, int j) {
 		int s = polygon.size();
-		Vector2 iv0, iv, iv1;
-		Vector2 jv0, jv, jv1;
+		DynVector2 iv0, iv, iv1;
+		DynVector2 jv0, jv, jv1;
 		
 		iv0 = polygon.get(i == 0 ? s - 1 : i - 1);
 		iv = polygon.get(i);
@@ -438,10 +438,10 @@ public class Bayazit extends AbstractDecomposer implements Decomposer {
 		for (int k = 0; k < s; k++) {
 			int ki1 = k + 1 == s ? 0 : k + 1;
 			if (k == i || k == j || ki1 == i || ki1 == j) continue;
-			Vector2 k1 = polygon.get(k);
-			Vector2 k2 = polygon.get(ki1);
+			DynVector2 k1 = polygon.get(k);
+			DynVector2 k2 = polygon.get(ki1);
 			
-			Vector2 in = Segment.getSegmentIntersection(iv, jv, k1, k2);
+			DynVector2 in = Segment.getSegmentIntersection(iv, jv, k1, k2);
 			if (in != null) return false;
 		}
 		

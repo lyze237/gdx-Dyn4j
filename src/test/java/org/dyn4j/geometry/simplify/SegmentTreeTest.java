@@ -24,7 +24,7 @@
  */
 package org.dyn4j.geometry.simplify;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -41,8 +41,8 @@ public class SegmentTreeTest {
 	 */
 	@Test
 	public void createLeaf() {
-		Vector2 p1 = new Vector2(1.0, 2.0);
-		Vector2 p2 = new Vector2(3.0, 4.0);
+		DynVector2 p1 = new DynVector2(1.0, 2.0);
+		DynVector2 p2 = new DynVector2(3.0, 4.0);
 		SegmentTreeLeaf leaf = new SegmentTreeLeaf(p1, p2, 6, 8);
 		
 		TestCase.assertSame(p1, leaf.point1);

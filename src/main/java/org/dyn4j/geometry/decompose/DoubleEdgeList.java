@@ -33,15 +33,15 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Highly specialized Doubly Connected Edge List (DCEL) used to store vertices of a simple polygon and then be used
  * to create and store triangulations and convex decompositions of that same polygon.
  * <p>
  * Upon creation and initialization, the {@link #vertices}, {@link #edges}, and {@link #faces} lists are
- * populated.  The {@link #vertices} list will have the same indexing as the source {@link Vector2}[].
- * The {@link #edges} list will have edges with the same indexing as the source {@link Vector2}[]
+ * populated.  The {@link #vertices} list will have the same indexing as the source {@link DynVector2}[].
+ * The {@link #edges} list will have edges with the same indexing as the source {@link DynVector2}[]
  * with the exception that twin vertices are stored in odd indices.
  * <p>
  * Since this implementation only handles simple polygons, only one {@link DoubleEdgeListFace} will be created
@@ -50,7 +50,7 @@ import org.dyn4j.geometry.Vector2;
  * <p>
  * {@link DoubleEdgeListHalfEdge}s are added to the DCEL via the {@link #addHalfEdges(DoubleEdgeListVertex, DoubleEdgeListVertex)} method.
  * It's the responsibility of the calling class(es) to store references to the DCEL vertices.  This
- * can be achieved since the indexing of the {@link #vertices} list is the same as the source {@link Vector2}[].
+ * can be achieved since the indexing of the {@link #vertices} list is the same as the source {@link DynVector2}[].
  * No check is performed to ensure that a pair of {@link DoubleEdgeListHalfEdge}s are added that already exist.
  * @author William Bittle
  * @version 5.0.0
@@ -70,7 +70,7 @@ final class DoubleEdgeList {
 	 * Full constructor.
 	 * @param points the points of the simple polygon
 	 */
-	public DoubleEdgeList(Vector2[] points) {
+	public DoubleEdgeList(DynVector2[] points) {
 		this.vertices = new ArrayList<DoubleEdgeListVertex>();
 		this.edges = new ArrayList<DoubleEdgeListHalfEdge>();
 		this.faces = new ArrayList<DoubleEdgeListFace>();
@@ -81,7 +81,7 @@ final class DoubleEdgeList {
 	 * Initializes the DCEL class given the points of the polygon.
 	 * @param points the points of the polygon
 	 */
-	public void initialize(Vector2[] points) {
+	public void initialize(DynVector2[] points) {
 		// get the number of points
 		int size = points.length;
 		
@@ -95,7 +95,7 @@ final class DoubleEdgeList {
 		// loop over the points creating the vertices and
 		// half edges for the data structure
 		for (int i = 0; i < size; i++) {
-			Vector2 point = points[i];
+			DynVector2 point = points[i];
 			
 			DoubleEdgeListVertex vertex = new DoubleEdgeListVertex(point);
 			DoubleEdgeListHalfEdge left = new DoubleEdgeListHalfEdge();
@@ -381,7 +381,7 @@ final class DoubleEdgeList {
 			// get the reference edge of the face
 			DoubleEdgeListHalfEdge left = face.edge;
 			
-			Vector2[] vertices = new Vector2[size];
+			DynVector2[] vertices = new DynVector2[size];
 			vertices[0] = left.origin.point;
 			
 			left = left.next;
@@ -426,7 +426,7 @@ final class DoubleEdgeList {
 			// get the reference edge of the face
 			DoubleEdgeListHalfEdge left = face.edge;
 			
-			Vector2[] vertices = new Vector2[size];
+			DynVector2[] vertices = new DynVector2[size];
 			vertices[0] = left.origin.point;
 			
 			left = left.next;
@@ -512,18 +512,18 @@ final class DoubleEdgeList {
 					MonotoneVertex<DoubleEdgeListVertex> vt = stack.get(sSize - 1);
 					MonotoneVertex<DoubleEdgeListVertex> vt1 = stack.get(sSize - 2);
 					
-					Vector2 p1 = v.data.point;
-					Vector2 p2 = vt.data.point;
-					Vector2 p3 = vt1.data.point;
+					DynVector2 p1 = v.data.point;
+					DynVector2 p2 = vt.data.point;
+					DynVector2 p3 = vt1.data.point;
 					
 					// what chain is the current vertex on
 					if (v.chainType == MonotoneChainType.LEFT || v.chainType == MonotoneChainType.BOTTOM) {
-						Vector2 v1 = p2.to(p3);
-						Vector2 v2 = p2.to(p1);
+						DynVector2 v1 = p2.to(p3);
+						DynVector2 v2 = p2.to(p1);
 						cross = v1.cross(v2);
 					} else {
-						Vector2 v1 = p1.to(p2);
-						Vector2 v2 = p3.to(p2);
+						DynVector2 v1 = p1.to(p2);
+						DynVector2 v2 = p3.to(p2);
 						cross = v1.cross(v2);
 					}
 					
@@ -610,8 +610,8 @@ final class DoubleEdgeList {
 				prev.next = curr;
 				
 				// find the point with maximum y
-				Vector2 p = curr.data.point;
-				Vector2 q = max.data.point;
+				DynVector2 p = curr.data.point;
+				DynVector2 q = max.data.point;
 				// compare the y values
 				double diff = p.y - q.y;
 				if (diff == 0.0) {
@@ -651,8 +651,8 @@ final class DoubleEdgeList {
 			int j = 1;
 			while (j < size) {
 				// get the left and right chain points
-				Vector2 l = currLeft.data.point;
-				Vector2 r = currRight.data.point;
+				DynVector2 l = currLeft.data.point;
+				DynVector2 r = currRight.data.point;
 				
 				// which has the smaller y?
 				double diff = l.y - r.y;
@@ -750,12 +750,12 @@ final class DoubleEdgeList {
 	 * @return boolean
 	 */
 	boolean isReflex(DoubleEdgeListVertex v0, DoubleEdgeListVertex v1, DoubleEdgeListVertex v2) {
-		Vector2 p0 = v0.point;
-		Vector2 p1 = v1.point;
-		Vector2 p2 = v2.point;
+		DynVector2 p0 = v0.point;
+		DynVector2 p1 = v1.point;
+		DynVector2 p2 = v2.point;
 		
-		Vector2 e1 = p0.to(p1);
-		Vector2 e2 = p1.to(p2);
+		DynVector2 e1 = p0.to(p1);
+		DynVector2 e2 = p1.to(p2);
 		
 		// get the angle between the two edges (we assume CCW winding)
 		double cross = e1.cross(e2);

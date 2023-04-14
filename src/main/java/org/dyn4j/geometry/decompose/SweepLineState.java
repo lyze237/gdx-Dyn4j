@@ -28,7 +28,7 @@ import java.util.PriorityQueue;
 
 import org.dyn4j.BinarySearchTree;
 import org.dyn4j.Reference;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents the current state of the SweepLine algorithm.
@@ -63,7 +63,7 @@ final class SweepLineState {
 	 * @param points the array of polygon points
 	 * @return PriorityQueue&lt;{@link SweepLineVertex}&gt;
 	 */
-	final PriorityQueue<SweepLineVertex> initialize(Vector2[] points) {
+	final PriorityQueue<SweepLineVertex> initialize(DynVector2[] points) {
 		// initialize the DCEL
 		this.dcel = new DoubleEdgeList(points);
 		
@@ -82,7 +82,7 @@ final class SweepLineState {
 		// build the vertices and edges
 		for (int i = 0; i < size; i++) {
 			// get this vertex point
-			Vector2 point = points[i];
+			DynVector2 point = points[i];
 			
 			// create the vertex for this point
 			SweepLineVertex vertex = new SweepLineVertex(point, i);
@@ -103,8 +103,8 @@ final class SweepLineState {
 			}
 			
 			// get the neighboring points
-			Vector2 point1 = points[i + 1 == size ? 0 : i + 1];
-			Vector2 point0 = points[i == 0 ? size - 1 : i - 1];
+			DynVector2 point1 = points[i + 1 == size ? 0 : i + 1];
+			DynVector2 point0 = points[i == 0 ? size - 1 : i - 1];
 			
 			// get the vertex type
 			vertex.type = this.getType(point0, point, point1);
@@ -172,10 +172,10 @@ final class SweepLineState {
 	 * @param point1 the next point
 	 * @return {@link SweepLineVertexType}
 	 */
-	final SweepLineVertexType getType(Vector2 point0, Vector2 point, Vector2 point1) {
+	final SweepLineVertexType getType(DynVector2 point0, DynVector2 point, DynVector2 point1) {
 		// create the edge vectors
-		Vector2 v1 = point0.to(point);
-		Vector2 v2 = point.to(point1);
+		DynVector2 v1 = point0.to(point);
+		DynVector2 v2 = point.to(point1);
 		
 		// check for coincident points
 		if (v1.isZero() || v2.isZero()) throw new IllegalArgumentException("The given simple polygon has coincident vertices");
@@ -232,7 +232,7 @@ final class SweepLineState {
 	 * @param q another point
 	 * @return boolean true if p is below q; false if p is above q
 	 */
-	public boolean isBelow(Vector2 p, Vector2 q) {
+	public boolean isBelow(DynVector2 p, DynVector2 q) {
 		double diff = p.y - q.y;
 		if (diff == 0.0) {
 			if (p.x > q.x) {

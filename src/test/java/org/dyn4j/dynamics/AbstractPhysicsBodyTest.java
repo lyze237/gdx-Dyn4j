@@ -32,7 +32,7 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -90,7 +90,7 @@ public class AbstractPhysicsBodyTest {
 		b.addFixture(Geometry.createCircle(1.0));
 		b.setMass(MassType.NORMAL);
 		
-		b.applyForce(new Vector2(0.0, -2.0), new Vector2(1.0, -0.3));
+		b.applyForce(new DynVector2(0.0, -2.0), new DynVector2(1.0, -0.3));
 		// just use the default elapsed time
 		b.accumulate(Settings.DEFAULT_STEP_FREQUENCY);
 		
@@ -200,21 +200,21 @@ public class AbstractPhysicsBodyTest {
 		
 		// test the apply force method
 		b.setAtRest(true);
-		b.applyForce(new Force(new Vector2(0.0, 2.0)));
+		b.applyForce(new Force(new DynVector2(0.0, 2.0)));
 		TestCase.assertEquals(1, b.forces.size());
 		TestCase.assertTrue(b.force.isZero());
 		TestCase.assertFalse(b.isAtRest());
 		
 		// test the apply force vector method
 		b.setAtRest(true);
-		b.applyForce(new Vector2(0.0, 2.0));
+		b.applyForce(new DynVector2(0.0, 2.0));
 		TestCase.assertEquals(1, b.forces.size());
 		TestCase.assertTrue(b.force.isZero());
 		TestCase.assertFalse(b.isAtRest());
 		
 		// test the apply force at point method
 		b.setAtRest(true);
-		b.applyForce(new Vector2(0.0, 2.0), new Vector2(0.0, 0.5));
+		b.applyForce(new DynVector2(0.0, 2.0), new DynVector2(0.0, 0.5));
 		TestCase.assertEquals(1, b.forces.size());
 		TestCase.assertEquals(1, b.torques.size());
 		TestCase.assertTrue(b.force.isZero());
@@ -223,7 +223,7 @@ public class AbstractPhysicsBodyTest {
 		
 		// test the apply force at point method (at COM)
 		b.setAtRest(true);
-		b.applyForce(new Vector2(0.0, 2.0), b.getWorldCenter());
+		b.applyForce(new DynVector2(0.0, 2.0), b.getWorldCenter());
 		TestCase.assertEquals(1, b.forces.size());
 		TestCase.assertEquals(0, b.torques.size());
 		TestCase.assertTrue(b.force.isZero());
@@ -270,7 +270,7 @@ public class AbstractPhysicsBodyTest {
 		double i = b.getMass().getInertia();
 		
 		// should yield a velocity of 1.0, 1.0
-		b.applyImpulse(new Vector2(m, m));
+		b.applyImpulse(new DynVector2(m, m));
 		TestCase.assertEquals(1.0, b.getLinearVelocity().x);
 		TestCase.assertEquals(1.0, b.getLinearVelocity().y);
 		
@@ -285,7 +285,7 @@ public class AbstractPhysicsBodyTest {
 		b.setAngularVelocity(0.0);
 		
 		// should yield a velocity of 1.0, 1.0 and an angular velocity of 1.0
-		b.applyImpulse(new Vector2(0.0, i), new Vector2(1.0, 0.0));
+		b.applyImpulse(new DynVector2(0.0, i), new DynVector2(1.0, 0.0));
 		TestCase.assertEquals(1.0, b.getAngularVelocity());
 		TestCase.assertEquals(i, b.getLinearVelocity().y);
 		TestCase.assertEquals(0.0, b.getLinearVelocity().x);
@@ -295,11 +295,11 @@ public class AbstractPhysicsBodyTest {
 		b.applyImpulse(0.2);
 		TestCase.assertEquals(0.0, b.angularVelocity);
 		
-		b.applyImpulse(new Vector2(2.0, 1.0));
+		b.applyImpulse(new DynVector2(2.0, 1.0));
 		TestCase.assertEquals(0.0, b.linearVelocity.x);
 		TestCase.assertEquals(0.0, b.linearVelocity.y);
 		
-		b.applyImpulse(new Vector2(2.0, 1.0), new Vector2(2.0, 3.0));
+		b.applyImpulse(new DynVector2(2.0, 1.0), new DynVector2(2.0, 3.0));
 		TestCase.assertEquals(0.0, b.angularVelocity);
 		TestCase.assertEquals(0.0, b.linearVelocity.x);
 		TestCase.assertEquals(0.0, b.linearVelocity.y);
@@ -320,7 +320,7 @@ public class AbstractPhysicsBodyTest {
 	@Test(expected = NullPointerException.class)
 	public void applyNullForceVector() {
 		TestBody b = new TestBody();
-		b.applyForce((Vector2) null);
+		b.applyForce((DynVector2) null);
 	}
 	
 	/**
@@ -339,7 +339,7 @@ public class AbstractPhysicsBodyTest {
 	@Test(expected = NullPointerException.class)
 	public void applyNullForceAtPoint() {
 		TestBody b = new TestBody();
-		b.applyForce(null, new Vector2(0.0, 0.0));
+		b.applyForce(null, new DynVector2(0.0, 0.0));
 	}
 	
 	/**
@@ -349,7 +349,7 @@ public class AbstractPhysicsBodyTest {
 	@Test(expected = NullPointerException.class)
 	public void applyForceAtNullPoint() {
 		TestBody b = new TestBody();
-		b.applyForce(new Vector2(0.0, 1.0), null);
+		b.applyForce(new DynVector2(0.0, 1.0), null);
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class AbstractPhysicsBodyTest {
 	@Test(expected = NullPointerException.class)
 	public void applyNullImpulse2() {
 		TestBody b = new TestBody();
-		b.applyImpulse(null, new Vector2());
+		b.applyImpulse(null, new DynVector2());
 	}
 	
 	/**
@@ -376,7 +376,7 @@ public class AbstractPhysicsBodyTest {
 	@Test(expected = NullPointerException.class)
 	public void applyNullImpulsePoint() {
 		TestBody b = new TestBody();
-		b.applyImpulse(new Vector2(), null);
+		b.applyImpulse(new DynVector2(), null);
 	}
 
 	/**
@@ -387,8 +387,8 @@ public class AbstractPhysicsBodyTest {
 		TestBody b = new TestBody();
 		
 		// this should apply both a force and torque
-		b.applyForce(new Vector2(0.0, 1.0), new Vector2(2.0, 1.0));
-		b.force.add(new Vector2(-1.0, 0.5));
+		b.applyForce(new DynVector2(0.0, 1.0), new DynVector2(2.0, 1.0));
+		b.force.add(new DynVector2(-1.0, 0.5));
 		b.torque = 0.4;
 		
 		b.clearForce();
@@ -447,24 +447,24 @@ public class AbstractPhysicsBodyTest {
 		b.setMass(MassType.NORMAL);
 		
 		// no force applied yet
-		Vector2 f = b.getAccumulatedForce();
+		DynVector2 f = b.getAccumulatedForce();
 		TestCase.assertEquals(0.0, f.x);
 		TestCase.assertEquals(0.0, f.y);
 		
 		// one force
-		b.applyForce(new Vector2(1.0, 0.0));
+		b.applyForce(new DynVector2(1.0, 0.0));
 		f = b.getAccumulatedForce();
 		TestCase.assertEquals(1.0, f.x);
 		TestCase.assertEquals(0.0, f.y);
 		
 		// two forces
-		b.applyForce(new Vector2(0.5, 2.0));
+		b.applyForce(new DynVector2(0.5, 2.0));
 		f = b.getAccumulatedForce();
 		TestCase.assertEquals(1.5, f.x);
 		TestCase.assertEquals(2.0, f.y);
 		
 		// two forces and a force at point
-		b.applyForce(new Vector2(0.5, 0.0), new Vector2(0.5, 0.0));
+		b.applyForce(new DynVector2(0.5, 0.0), new DynVector2(0.5, 0.0));
 		f = b.getAccumulatedForce();
 		TestCase.assertEquals(2.0, f.x);
 		TestCase.assertEquals(2.0, f.y);
@@ -503,7 +503,7 @@ public class AbstractPhysicsBodyTest {
 		TestCase.assertEquals(1.0, t);
 		
 		// a force shouldn't affect the torque
-		b.applyForce(new Vector2(0.5, 0.0));
+		b.applyForce(new DynVector2(0.5, 0.0));
 		t = b.getAccumulatedTorque();
 		TestCase.assertEquals(1.0, t);
 	}
@@ -563,7 +563,7 @@ public class AbstractPhysicsBodyTest {
 	public void getSetLinearVelocity() {
 		TestBody b = new TestBody();
 		
-		b.setLinearVelocity(new Vector2(1.0, 2.0));
+		b.setLinearVelocity(new DynVector2(1.0, 2.0));
 		TestCase.assertEquals(1.0, b.getLinearVelocity().x);
 		TestCase.assertEquals(2.0, b.getLinearVelocity().y);
 		
@@ -611,7 +611,7 @@ public class AbstractPhysicsBodyTest {
 		
 		// test moving just right
 		b.translate(2.0, 0.0);
-		Vector2 dp = b.getChangeInPosition();
+		DynVector2 dp = b.getChangeInPosition();
 		TestCase.assertEquals(2.000, dp.x, 1.0e-3);
 		TestCase.assertEquals(0.000, dp.y, 1.0e-3);
 		
@@ -813,7 +813,7 @@ public class AbstractPhysicsBodyTest {
 		TestCase.assertEquals(0.0, b.getForce().x);
 		TestCase.assertEquals(0.0, b.getForce().y);
 		
-		b.applyForce(new Vector2(2.0, -4.0));
+		b.applyForce(new DynVector2(2.0, -4.0));
 		
 		TestCase.assertEquals(0.0, b.getForce().x);
 		TestCase.assertEquals(0.0, b.getForce().y);
@@ -916,7 +916,7 @@ public class AbstractPhysicsBodyTest {
 		b.addFixture(Geometry.createCircle(0.5));
 		b.setMass(MassType.NORMAL);
 		
-		Vector2 g = new Vector2(0.0, -9.8);
+		DynVector2 g = new DynVector2(0.0, -9.8);
 		Settings s = new Settings();
 		TimeStep ts = new TimeStep(s.getStepFrequency());
 		
@@ -961,7 +961,7 @@ public class AbstractPhysicsBodyTest {
 		TestBody b = new TestBody();
 		b.addFixture(Geometry.createCircle(0.5));
 		b.setMass(MassType.NORMAL);
-		b.setLinearVelocity(new Vector2(0.0, -2.0));
+		b.setLinearVelocity(new DynVector2(0.0, -2.0));
 		
 		Settings s = new Settings();
 		TimeStep ts = new TimeStep(s.getStepFrequency());
@@ -1236,7 +1236,7 @@ public class AbstractPhysicsBodyTest {
 	public void isKinematic() {
 		TestBody b = new TestBody();
 		
-		b.setLinearVelocity(new Vector2(0.0, 2.0));
+		b.setLinearVelocity(new DynVector2(0.0, 2.0));
 		TestCase.assertFalse(b.isDynamic());
 		TestCase.assertTrue(b.isKinematic());
 		TestCase.assertFalse(b.isStatic());
@@ -1287,7 +1287,7 @@ public class AbstractPhysicsBodyTest {
 		b.force.x = 1.0;
 		b.torque = 1.2;
 		b.applyTorque(0.3);
-		b.applyForce(new Vector2(1.0, 1.0));
+		b.applyForce(new DynVector2(1.0, 1.0));
 		b.setAtRest(true);
 		TestCase.assertTrue(b.isAtRest());
 		TestCase.assertTrue(b.forces.isEmpty());
@@ -1313,9 +1313,9 @@ public class AbstractPhysicsBodyTest {
 		b.setMass(MassType.INFINITE);
 		b.translateToOrigin();
 		
-		Vector2 p = new Vector2(-2.0, 1.0);
+		DynVector2 p = new DynVector2(-2.0, 1.0);
 		
-		Vector2 vp = b.getLinearVelocity(p);
+		DynVector2 vp = b.getLinearVelocity(p);
 		
 		TestCase.assertEquals( 1.858, vp.x, 1.0E-3);
 		TestCase.assertEquals(-2.283, vp.y, 1.0E-3);

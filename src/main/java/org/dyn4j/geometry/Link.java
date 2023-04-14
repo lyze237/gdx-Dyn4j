@@ -54,7 +54,7 @@ public class Link extends Segment implements Convex, Wound, Shape, Transformable
 	 * @param point1 the first vertex
 	 * @param point2 the last vertex
 	 */
-	public Link(Vector2 point1, Vector2 point2) {
+	public Link(DynVector2 point1, DynVector2 point2) {
 		super(point1, point2);
 	}
 	
@@ -62,7 +62,7 @@ public class Link extends Segment implements Convex, Wound, Shape, Transformable
 	 * Returns the last vertex of the previous segment.
 	 * @return Vector2
 	 */
-	public Vector2 getPoint0() {
+	public DynVector2 getPoint0() {
 		return this.previous != null ? this.previous.getPoint1() : null;
 	}
 	
@@ -70,7 +70,7 @@ public class Link extends Segment implements Convex, Wound, Shape, Transformable
 	 * Returns the first vertex of the next segment.
 	 * @return Vector2
 	 */
-	public Vector2 getPoint3() {
+	public DynVector2 getPoint3() {
 		return this.next != null ? this.next.getPoint2() : null;
 	}
 	
@@ -194,7 +194,7 @@ public class Link extends Segment implements Convex, Wound, Shape, Transformable
 	 * @param segment the segment to update
 	 */
 	private static final void updateNormals(Segment segment) {
-		Vector2 v = segment.vertices[0].to(segment.vertices[1]);
+		DynVector2 v = segment.vertices[0].to(segment.vertices[1]);
 		segment.normals[0] = v.copy();
 		segment.normals[0].normalize();
 		segment.normals[1] = v.right();

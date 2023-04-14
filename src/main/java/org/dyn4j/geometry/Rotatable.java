@@ -49,7 +49,7 @@ public interface Rotatable {
 	 * @param theta the angle of rotation in radians
 	 * @param point the point to rotate about
 	 */
-	public abstract void rotate(double theta, Vector2 point);
+	public abstract void rotate(double theta, DynVector2 point);
 	
 	/**
 	 * Rotates the object about the given point.
@@ -57,7 +57,7 @@ public interface Rotatable {
 	 * @param point the point to rotate about
 	 * @since 3.4.0
 	 */
-	public abstract void rotate(Rotation rotation, Vector2 point);
+	public abstract void rotate(Rotation rotation, DynVector2 point);
 	
 	/**
 	 * Rotates the object about the given coordinates.

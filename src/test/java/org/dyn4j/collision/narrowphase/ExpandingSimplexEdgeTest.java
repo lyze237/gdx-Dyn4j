@@ -24,7 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -41,9 +41,9 @@ public class ExpandingSimplexEdgeTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Vector2 a = new Vector2(-1.0, -1.0);
-		Vector2 b = new Vector2(2.0, -1.0);
-		Vector2 c = new Vector2(0.0, 2.0);
+		DynVector2 a = new DynVector2(-1.0, -1.0);
+		DynVector2 b = new DynVector2(2.0, -1.0);
+		DynVector2 c = new DynVector2(0.0, 2.0);
 		
 		ExpandingSimplexEdge edge = new ExpandingSimplexEdge(a, b, 1);
 		
@@ -96,9 +96,9 @@ public class ExpandingSimplexEdgeTest {
 	 */
 	@Test
 	public void compareTo() {
-		Vector2 a = new Vector2(-1.0, -1.0);
-		Vector2 b = new Vector2(2.0, -1.0);
-		Vector2 c = new Vector2(0.0, 2.0);
+		DynVector2 a = new DynVector2(-1.0, -1.0);
+		DynVector2 b = new DynVector2(2.0, -1.0);
+		DynVector2 c = new DynVector2(0.0, 2.0);
 		
 		ExpandingSimplexEdge edge1 = new ExpandingSimplexEdge(a, b, 1);
 		ExpandingSimplexEdge edge2 = new ExpandingSimplexEdge(b, c, 1);
@@ -117,8 +117,8 @@ public class ExpandingSimplexEdgeTest {
 	 */
 	@Test
 	public void tostring() {
-		Vector2 a = new Vector2(-1.0, -1.0);
-		Vector2 b = new Vector2(2.0, -1.0);
+		DynVector2 a = new DynVector2(-1.0, -1.0);
+		DynVector2 b = new DynVector2(2.0, -1.0);
 		
 		ExpandingSimplexEdge edge1 = new ExpandingSimplexEdge(a, b, 1);
 		

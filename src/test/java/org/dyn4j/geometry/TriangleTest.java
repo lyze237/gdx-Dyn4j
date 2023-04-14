@@ -43,8 +43,8 @@ public class TriangleTest {
 	public void createNullPoint1() {
 		new Triangle(
 			null,
-			new Vector2(-0.5, -0.5),
-			new Vector2( 0.5, -0.5)
+			new DynVector2(-0.5, -0.5),
+			new DynVector2( 0.5, -0.5)
 		);
 	}
 	
@@ -55,9 +55,9 @@ public class TriangleTest {
 	@Test(expected = NullPointerException.class)
 	public void createNullPoint2() {
 		new Triangle(
-			new Vector2(-0.5, -0.5),
+			new DynVector2(-0.5, -0.5),
 			null,
-			new Vector2( 0.5, -0.5)
+			new DynVector2( 0.5, -0.5)
 		);
 	}
 
@@ -68,8 +68,8 @@ public class TriangleTest {
 	@Test(expected = NullPointerException.class)
 	public void createNullPoint3() {
 		new Triangle(
-			new Vector2(-0.5, -0.5),
-			new Vector2( 0.5, -0.5),
+			new DynVector2(-0.5, -0.5),
+			new DynVector2( 0.5, -0.5),
 			null
 		);
 	}
@@ -80,9 +80,9 @@ public class TriangleTest {
 	@Test
 	public void tostring() {
 		Triangle t = new Triangle(
-			new Vector2( 0.0,  0.5),
-			new Vector2(-0.5, -0.5),
-			new Vector2( 0.5, -0.5)
+			new DynVector2( 0.0,  0.5),
+			new DynVector2(-0.5, -0.5),
+			new DynVector2( 0.5, -0.5)
 		);
 
 		String s = t.toString();
@@ -97,14 +97,14 @@ public class TriangleTest {
 	@Test
 	public void contains() {
 		Triangle t = new Triangle(
-			new Vector2( 0.0,  0.5),
-			new Vector2(-0.5, -0.5),
-			new Vector2( 0.5, -0.5)
+			new DynVector2( 0.0,  0.5),
+			new DynVector2(-0.5, -0.5),
+			new DynVector2( 0.5, -0.5)
 		);
 		Transform tx = new Transform();
 		
 		// outside
-		Vector2 p = new Vector2(1.0, 1.0);
+		DynVector2 p = new DynVector2(1.0, 1.0);
 		TestCase.assertFalse(t.contains(p, tx));
 		
 		// inside

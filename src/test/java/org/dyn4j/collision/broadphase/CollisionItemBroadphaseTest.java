@@ -42,7 +42,7 @@ import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Rectangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -1099,7 +1099,7 @@ public class CollisionItemBroadphaseTest {
 		this.broadphase.add(ct3); 
 		this.broadphase.add(ct4);
 		
-		Ray ray = new Ray(new Vector2(-2.0, -2.0), (new Vector2(1.0, 1.0).getNormalized()));
+		Ray ray = new Ray(new DynVector2(-2.0, -2.0), (new DynVector2(1.0, 1.0).getNormalized()));
 		Iterator<CollisionItem<TestCollisionBody, Fixture>> it = this.broadphase.raycastIterator(ray, 3.0);
 		TestCase.assertTrue(it.hasNext());
 		try {
@@ -1186,7 +1186,7 @@ public class CollisionItemBroadphaseTest {
 		TestCase.assertFalse(itAABB.hasNext());
 		
 		// raycast
-		Ray ray = new Ray(new Vector2(-2.0, -2.0), (new Vector2(1.0, 1.0).getNormalized()));
+		Ray ray = new Ray(new DynVector2(-2.0, -2.0), (new DynVector2(1.0, 1.0).getNormalized()));
 		Iterator<CollisionItem<TestCollisionBody, Fixture>> itRaycast = this.broadphase.raycastIterator(ray, 3.0);
 		TestCase.assertNotNull(itRaycast);
 		TestCase.assertFalse(itRaycast.hasNext());
@@ -1293,7 +1293,7 @@ public class CollisionItemBroadphaseTest {
 		List<CollisionItem<TestCollisionBody, Fixture>> list;
 		
 		// ray that points in the positive x direction and starts at the origin
-		Ray r = new Ray(new Vector2(1.0, 0.0));
+		Ray r = new Ray(new DynVector2(1.0, 0.0));
 		// infinite length
 		double l = 0.0;
 		
@@ -1301,7 +1301,7 @@ public class CollisionItemBroadphaseTest {
 		TestCase.assertEquals(0, list.size());
 		
 		// try a different ray
-		r = new Ray(new Vector2(-3.0, 0.75), new Vector2(1.0, 0.0));
+		r = new Ray(new DynVector2(-3.0, 0.75), new DynVector2(1.0, 0.0));
 		list = this.broadphase.raycast(r, l);
 		TestCase.assertEquals(3, list.size());
 		TestCase.assertTrue(this.containsItem(ct1, ct1.getFixture(0), list));
@@ -1309,7 +1309,7 @@ public class CollisionItemBroadphaseTest {
 		TestCase.assertTrue(this.containsItem(ct4, ct4.getFixture(0), list));
 		
 		// try one more ray
-		r = new Ray(new Vector2(-3.0, -2.0), new Vector2(1.0, 2.0).getNormalized());
+		r = new Ray(new DynVector2(-3.0, -2.0), new DynVector2(1.0, 2.0).getNormalized());
 		list = this.broadphase.raycast(r, l);
 		TestCase.assertEquals(2, list.size());
 		TestCase.assertTrue(this.containsItem(ct1, ct1.getFixture(0), list));
@@ -1317,13 +1317,13 @@ public class CollisionItemBroadphaseTest {
 		
 		// try a shorter ray
 		l = 0.4;
-		r = new Ray(new Vector2(-2.0, -1.5), new Vector2(1.0, 1.0).getNormalized());
+		r = new Ray(new DynVector2(-2.0, -1.5), new DynVector2(1.0, 1.0).getNormalized());
 		list = this.broadphase.raycast(r, l);
 		TestCase.assertEquals(0, list.size());
 		
 		// try in the opposite direction
 		l = 0.0;
-		r = new Ray(new Vector2(-5.0, -3.0), new Vector2(-1.0, -2.0).getNormalized());
+		r = new Ray(new DynVector2(-5.0, -3.0), new DynVector2(-1.0, -2.0).getNormalized());
 		list = this.broadphase.raycast(r, l);
 		TestCase.assertEquals(0, list.size());
 	}
@@ -1348,7 +1348,7 @@ public class CollisionItemBroadphaseTest {
 		ct6.translate(3.0, 1.0);
 		
 		// shift before anything is added (does nothing)
-		Vector2 shift = new Vector2(1.0, -2.0);
+		DynVector2 shift = new DynVector2(1.0, -2.0);
 		this.broadphase.shift(shift);
 		
 		// add the items to the broadphases
@@ -1462,7 +1462,7 @@ public class CollisionItemBroadphaseTest {
 				double rayLength = (random.nextBoolean())? (random.nextDouble() * 10) : 0.0;
 				
 				// Generate a random starting point in the interval [-5, -5)
-				Vector2 start = new Vector2(random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5);
+				DynVector2 start = new DynVector2(random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5);
 				Ray randomRay = new Ray(start, random.nextDouble() * Geometry.TWO_PI);
 				
 				List<CollisionItem<TestCollisionBody, Fixture>> referenceRaycast = reference.raycast(randomRay, rayLength);

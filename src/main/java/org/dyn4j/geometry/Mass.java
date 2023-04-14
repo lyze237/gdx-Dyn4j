@@ -56,7 +56,7 @@ public class Mass implements Copyable<Mass> {
 	MassType type;
 	
 	/** The center of mass */
-	final Vector2 center;
+	final DynVector2 center;
 	
 	/** The mass in kg */
 	final double mass;
@@ -77,7 +77,7 @@ public class Mass implements Copyable<Mass> {
 	 */
 	public Mass() {
 		this.type = MassType.INFINITE;
-		this.center = new Vector2();
+		this.center = new DynVector2();
 		this.mass = 0.0;
 		this.inertia = 0.0;
 		this.invMass = 0.0;
@@ -94,7 +94,7 @@ public class Mass implements Copyable<Mass> {
 	 * @throws NullPointerException if center is null
 	 * @throws IllegalArgumentException if mass or inertia is less than zero
 	 */
-	public Mass(Vector2 center, double mass, double inertia) {
+	public Mass(DynVector2 center, double mass, double inertia) {
 		// validate the input
 		if (center == null) 
 			throw new ArgumentNullException("center");
@@ -250,7 +250,7 @@ public class Mass implements Copyable<Mass> {
 		}
 		
 		// initialize the new mass values
-		Vector2 c = new Vector2();
+		DynVector2 c = new DynVector2();
 		double m = 0.0;
 		double I = 0.0;
 		
@@ -342,9 +342,9 @@ public class Mass implements Copyable<Mass> {
 	
 	/**
 	 * Returns the center of mass.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getCenter() {
+	public DynVector2 getCenter() {
 		return this.center;
 	}
 	

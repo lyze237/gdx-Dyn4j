@@ -32,7 +32,7 @@ import org.dyn4j.exception.ArgumentNullException;
 import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implements the Conservative Advancement technique to solve for the time of impact.
@@ -84,7 +84,7 @@ public class ConservativeAdvancement implements TimeOfImpactDetector {
 	 * @see org.dyn4j.collision.continuous.TimeOfImpactDetector#getTimeOfImpact(org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, org.dyn4j.collision.continuous.TimeOfImpact)
 	 */
 	@Override
-	public boolean getTimeOfImpact(Convex convex1, Transform transform1, Vector2 dp1, double da1, Convex convex2, Transform transform2, Vector2 dp2, double da2, TimeOfImpact toi) {
+	public boolean getTimeOfImpact(Convex convex1, Transform transform1, DynVector2 dp1, double da1, Convex convex2, Transform transform2, DynVector2 dp2, double da2, TimeOfImpact toi) {
 		return this.getTimeOfImpact(convex1, transform1, dp1, da1, convex2, transform2, dp2, da2, 0.0, 1.0, toi);
 	}
 	
@@ -92,7 +92,7 @@ public class ConservativeAdvancement implements TimeOfImpactDetector {
 	 * @see org.dyn4j.collision.continuous.TimeOfImpactDetector#getTimeOfImpact(org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, double, double, org.dyn4j.collision.continuous.TimeOfImpact)
 	 */
 	@Override
-	public boolean getTimeOfImpact(Convex convex1, Transform transform1, Vector2 dp1, double da1, Convex convex2, Transform transform2, Vector2 dp2, double da2, double t1, double t2, TimeOfImpact toi) {
+	public boolean getTimeOfImpact(Convex convex1, Transform transform1, DynVector2 dp1, double da1, Convex convex2, Transform transform2, DynVector2 dp2, double da2, double t1, double t2, TimeOfImpact toi) {
 		// count the number of iterations
 		int iterations = 0;
 		
@@ -115,14 +115,14 @@ public class ConservativeAdvancement implements TimeOfImpactDetector {
 			return false;
 		}
 		// get the separation normal
-		Vector2 n = separation.getNormal();
+		DynVector2 n = separation.getNormal();
 		
 		// get the rotation disc radius for the swept object
 		double rmax1 = convex1.getRadius();
 		double rmax2 = convex2.getRadius();
 		
 		// compute the relative linear velocity
-		Vector2 rv = dp1.difference(dp2);
+		DynVector2 rv = dp1.difference(dp2);
 		// compute the relative linear velocity magnitude
 		double rvl = rv.getMagnitude();		
 		// compute the maximum rotational velocity

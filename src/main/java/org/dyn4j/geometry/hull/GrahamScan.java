@@ -31,7 +31,7 @@ import java.util.List;
 import org.dyn4j.exception.ArgumentNullException;
 import org.dyn4j.exception.NullElementException;
 import org.dyn4j.geometry.RobustGeometry;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Graham Scan convex hull algorithm.
@@ -49,7 +49,7 @@ public class GrahamScan extends AbstractHullGenerator implements HullGenerator {
 	 * @see org.dyn4j.geometry.hull.HullGenerator#generate(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public Vector2[] generate(Vector2... points) {
+	public DynVector2[] generate(DynVector2... points) {
 		// check for null points array
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -60,9 +60,9 @@ public class GrahamScan extends AbstractHullGenerator implements HullGenerator {
 		if (size <= 2) return points;
 		
 		// find the point of minimum y (choose the point of minimum x if there is a tie)
-		Vector2 minY = points[0];
+		DynVector2 minY = points[0];
 		for (int i = 1; i < size; i++) {
-			Vector2 p = points[i];
+			DynVector2 p = points[i];
 			
 			// make sure the point is not null
 			if (p == null) 
@@ -83,7 +83,7 @@ public class GrahamScan extends AbstractHullGenerator implements HullGenerator {
 		Arrays.sort(points, pc);
 		
 		// build the hull
-		List<Vector2> stack = new ArrayList<Vector2>();
+		List<DynVector2> stack = new ArrayList<DynVector2>();
 		
 		// push
 		stack.add(points[0]);
@@ -104,10 +104,10 @@ public class GrahamScan extends AbstractHullGenerator implements HullGenerator {
 			}
 			
 			// otherwise get the top two items off the stack
-			Vector2 p1 = stack.get(sSize - 2);
-			Vector2 p2 = stack.get(sSize - 1);
+			DynVector2 p1 = stack.get(sSize - 2);
+			DynVector2 p2 = stack.get(sSize - 1);
 			// get the current point
-			Vector2 p3 = points[i];
+			DynVector2 p3 = points[i];
 			
 			// test if the current point is to the left of the line
 			// created by the top two items in the stack (the last edge
@@ -134,7 +134,7 @@ public class GrahamScan extends AbstractHullGenerator implements HullGenerator {
 		}
 		
 		// finally copy all the stack items into the array to return
-		Vector2[] hull = new Vector2[stack.size()];
+		DynVector2[] hull = new DynVector2[stack.size()];
 		stack.toArray(hull);
 		
 		// return the array

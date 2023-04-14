@@ -26,7 +26,7 @@ package org.dyn4j.collision.narrowphase;
 
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Shape;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a point in the {@link MinkowskiSum}.
@@ -36,20 +36,20 @@ import org.dyn4j.geometry.Vector2;
  */
 public class MinkowskiSumPoint {
 	/** The support point in the first {@link Convex} {@link Shape} */
-	final Vector2 supportPoint1;
+	final DynVector2 supportPoint1;
 	
 	/** The support point in the second {@link Convex} {@link Shape} */
-	final Vector2 supportPoint2;
+	final DynVector2 supportPoint2;
 	
 	/** The Minkowski sum point */
-	final Vector2 point;
+	final DynVector2 point;
 	
 	/**
 	 * Full constructor.
 	 * @param supportPoint1 the support point in the first {@link Convex} {@link Shape}
 	 * @param supportPoint2 the support point in the second {@link Convex} {@link Shape}
 	 */
-	public MinkowskiSumPoint(Vector2 supportPoint1, Vector2 supportPoint2) {
+	public MinkowskiSumPoint(DynVector2 supportPoint1, DynVector2 supportPoint2) {
 		this.supportPoint1 = supportPoint1;
 		this.supportPoint2 = supportPoint2;
 		this.point = supportPoint1.difference(supportPoint2);
@@ -70,25 +70,25 @@ public class MinkowskiSumPoint {
 
 	/**
 	 * Returns the support point for the first {@link Convex} {@link Shape}.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getSupportPoint1() {
+	public DynVector2 getSupportPoint1() {
 		return this.supportPoint1;
 	}
 
 	/**
 	 * Returns the support point for the second {@link Convex} {@link Shape}.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getSupportPoint2() {
+	public DynVector2 getSupportPoint2() {
 		return this.supportPoint2;
 	}
 
 	/**
 	 * Returns the Minkowski sum point given the two support points.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPoint() {
+	public DynVector2 getPoint() {
 		return this.point;
 	}
 }

@@ -35,7 +35,7 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of an angle joint.
@@ -335,11 +335,11 @@ public class AngleJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Not applicable to this joint. Returns a new zero {@link Vector2}.
+	 * Not applicable to this joint. Returns a new zero {@link DynVector2}.
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
-		return new Vector2();
+	public DynVector2 getReactionForce(double invdt) {
+		return new DynVector2();
 	}
 	
 	/* (non-Javadoc)
@@ -354,7 +354,7 @@ public class AngleJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to do here since there are no anchor points
 	}
 

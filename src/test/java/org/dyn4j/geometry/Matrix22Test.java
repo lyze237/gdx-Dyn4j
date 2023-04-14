@@ -229,7 +229,7 @@ public class Matrix22Test {
 	public void multiplyVector() {
 		Matrix22 m1 = new Matrix22(1.0, 2.0, 
 	                           3.0, 4.0);
-		Vector2 v1 = new Vector2(1.0, -1.0);
+		DynVector2 v1 = new DynVector2(1.0, -1.0);
 		m1.multiply(v1);
 		TestCase.assertEquals(-1.0, v1.x);
 		TestCase.assertEquals(-1.0, v1.y);
@@ -242,8 +242,8 @@ public class Matrix22Test {
 	public void productVector() {
 		Matrix22 m1 = new Matrix22(1.0, 2.0, 
 	                           3.0, 4.0);
-		Vector2 v1 = new Vector2(1.0, -1.0);
-		Vector2 v2 = m1.product(v1);
+		DynVector2 v1 = new DynVector2(1.0, -1.0);
+		DynVector2 v2 = m1.product(v1);
 		TestCase.assertEquals(-1.0, v2.x);
 		TestCase.assertEquals(-1.0, v2.y);
 		// make sure we didnt modify the first vector
@@ -257,7 +257,7 @@ public class Matrix22Test {
 	public void multiplyVectorT() {
 		Matrix22 m1 = new Matrix22(1.0, 2.0, 
 	                           3.0, 4.0);
-		Vector2 v1 = new Vector2(1.0, -1.0);
+		DynVector2 v1 = new DynVector2(1.0, -1.0);
 		m1.multiplyT(v1);
 		TestCase.assertEquals(-2.0, v1.x);
 		TestCase.assertEquals(-2.0, v1.y);
@@ -270,8 +270,8 @@ public class Matrix22Test {
 	public void productVectorT() {
 		Matrix22 m1 = new Matrix22(1.0, 2.0, 
 	                           3.0, 4.0);
-		Vector2 v1 = new Vector2(1.0, -1.0);
-		Vector2 v2 = m1.productT(v1);
+		DynVector2 v1 = new DynVector2(1.0, -1.0);
+		DynVector2 v2 = m1.productT(v1);
 		TestCase.assertEquals(-2.0, v2.x);
 		TestCase.assertEquals(-2.0, v2.y);
 		// make sure we didnt modify the first vector
@@ -413,8 +413,8 @@ public class Matrix22Test {
 	public void solve() {
 		Matrix22 A = new Matrix22(3.0, -1.0, 
                 			 -1.0, -1.0);
-		Vector2 b = new Vector2(2.0, 6.0);
-		Vector2 x = A.solve(b);
+		DynVector2 b = new DynVector2(2.0, 6.0);
+		DynVector2 x = A.solve(b);
 		TestCase.assertEquals(-1.0, x.x);
 		TestCase.assertEquals(-5.0, x.y);
 	}

@@ -37,7 +37,7 @@ import org.dyn4j.dynamics.contact.SolvedContact;
 import org.dyn4j.dynamics.joint.AngleJoint;
 import org.dyn4j.dynamics.joint.Joint;
 import org.dyn4j.geometry.Geometry;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.BroadphaseCollisionData;
 import org.dyn4j.world.ManifoldCollisionData;
 import org.dyn4j.world.NarrowphaseCollisionData;
@@ -101,7 +101,7 @@ public class ListenerAdaptersTest {
 						new BasicCollisionItem<Body, BodyFixture>(null, null)));
 		SolvedContact c = new SolvedContact() {
 			@Override
-			public Vector2 getPoint() { return null; }
+			public DynVector2 getPoint() { return null; }
 			@Override
 			public ManifoldPointId getId() { return null; }
 			@Override

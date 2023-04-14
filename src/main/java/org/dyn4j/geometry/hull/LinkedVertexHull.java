@@ -25,7 +25,7 @@
 package org.dyn4j.geometry.hull;
 
 import org.dyn4j.geometry.RobustGeometry;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a convex hull of {@link LinkedVertex}es.
@@ -52,7 +52,7 @@ final class LinkedVertexHull {
 	 * Create a convex {@link LinkedVertexHull} of one point.
 	 * @param point the point
 	 */
-	public LinkedVertexHull(Vector2 point) {
+	public LinkedVertexHull(DynVector2 point) {
 		LinkedVertex root = new LinkedVertex(point);
 		this.leftMost = root;
 		this.rightMost = root;
@@ -73,10 +73,10 @@ final class LinkedVertexHull {
 	
 	/**
 	 * Returns a new array representing this convex hull.
-	 * @return {@link Vector2}[]
+	 * @return {@link DynVector2}[]
 	 */
-	public final Vector2[] toArray() {
-		Vector2[] points = new Vector2[this.size];
+	public final DynVector2[] toArray() {
+		DynVector2[] points = new DynVector2[this.size];
 		LinkedVertex vertex = this.leftMost;
 		
 		for (int i = 0; i < this.size; i++) {

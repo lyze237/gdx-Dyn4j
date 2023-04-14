@@ -24,7 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ public class PenetrationTest {
 		TestCase.assertEquals(0.0, pen.getNormal().x);
 		TestCase.assertEquals(0.0, pen.getNormal().y);
 		
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		pen = new Penetration(n, 2.0);
 		
 		TestCase.assertEquals(2.0, pen.getDepth());
@@ -69,7 +69,7 @@ public class PenetrationTest {
 		TestCase.assertEquals(0.0, pen.getNormal().x);
 		TestCase.assertEquals(0.0, pen.getNormal().y);
 		
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		pen.setNormal(n);
 		
 		TestCase.assertEquals(0.0, pen.getDepth());
@@ -90,7 +90,7 @@ public class PenetrationTest {
 	 */
 	@Test
 	public void clear() {
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		Penetration pen = new Penetration(n, 2.0);
 		
 		TestCase.assertEquals(2.0, pen.getDepth());
@@ -109,7 +109,7 @@ public class PenetrationTest {
 	 */
 	@Test
 	public void copy() {
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		Penetration pen1 = new Penetration(n, 2.0);
 		Penetration pen2 = new Penetration();
 		
@@ -133,7 +133,7 @@ public class PenetrationTest {
 	 */
 	@Test
 	public void shift() {
-		Vector2 n = new Vector2(1.0, 1.0);
+		DynVector2 n = new DynVector2(1.0, 1.0);
 		Penetration pen = new Penetration(n, 2.0);
 		
 		TestCase.assertEquals(2.0, pen.getDepth());
@@ -141,7 +141,7 @@ public class PenetrationTest {
 		TestCase.assertEquals(1.0, pen.getNormal().y);
 		
 		// nothing should change
-		pen.shift(new Vector2(3.0, -2.0));
+		pen.shift(new DynVector2(3.0, -2.0));
 		TestCase.assertEquals(2.0, pen.getDepth());
 		TestCase.assertEquals(1.0, pen.getNormal().x);
 		TestCase.assertEquals(1.0, pen.getNormal().y);

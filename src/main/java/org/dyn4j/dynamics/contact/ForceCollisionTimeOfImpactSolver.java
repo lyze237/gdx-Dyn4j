@@ -31,7 +31,7 @@ import org.dyn4j.dynamics.PhysicsBody;
 import org.dyn4j.dynamics.Settings;
 import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Mass;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a position solver for a pair of {@link Body}s who came in
@@ -63,7 +63,7 @@ public class ForceCollisionTimeOfImpactSolver<T extends PhysicsBody> implements 
 		
 		Separation separation = timeOfImpact.getSeparation();
 		
-		Vector2 n = separation.getNormal();
+		DynVector2 n = separation.getNormal();
 		double d = separation.getDistance();
 		
 		// setup a simple, linear only, position based, distance constraint to move the 
@@ -88,17 +88,17 @@ public class ForceCollisionTimeOfImpactSolver<T extends PhysicsBody> implements 
 			impulse = C / K;
 		}
 		
-		Vector2 J = n.product(impulse);
+		DynVector2 J = n.product(impulse);
 
 		// NOTE: previously I was moving the bodies to collision AND rotating them
 		// Now I'm just translating them to remove the gap instead.  This loses some
 		// very small amount of rotation, but should behave much better
 		
 		// translate and rotate the objects
-		Vector2 tx1 = J.product(invMass1);
+		DynVector2 tx1 = J.product(invMass1);
 		body1.translate(tx1);
 		
-		Vector2 tx2 = J.product(-invMass2);
+		DynVector2 tx2 = J.product(-invMass2);
 		body2.translate(tx2);
 	}
 }

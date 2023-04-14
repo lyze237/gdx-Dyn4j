@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -42,7 +42,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Vector2 p = new Vector2(2.0, 4.0);
+		DynVector2 p = new DynVector2(2.0, 4.0);
 		
 		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, p);
 		
@@ -80,7 +80,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody1() {
-		new WeldJoint<Body>(null, b2, new Vector2());
+		new WeldJoint<Body>(null, b2, new DynVector2());
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody2() {
-		new WeldJoint<Body>(b1, null, new Vector2());
+		new WeldJoint<Body>(b1, null, new DynVector2());
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createWithSameBody() {
-		new WeldJoint<Body>(b1, b1, new Vector2());
+		new WeldJoint<Body>(b1, b1, new DynVector2());
 	}
 	
 
@@ -113,7 +113,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringEnabled() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		TestCase.assertFalse(wj.isSpringEnabled());
 		
 		wj.setSpringFrequency(1.0);
@@ -134,7 +134,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringDamperEnabled() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		TestCase.assertFalse(wj.isSpringDamperEnabled());
 		
 		wj.setSpringFrequency(1.0);
@@ -161,7 +161,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringDampingRatio() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		wj.setSpringDampingRatio(0.0);
 		TestCase.assertEquals(0.0, wj.getSpringDampingRatio());
@@ -211,7 +211,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeDampingRatio() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setSpringDampingRatio(-1.0);
 	}
 	
@@ -220,7 +220,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setDampingRatioGreaterThan1() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setSpringDampingRatio(2.0);
 	}
 	
@@ -229,7 +229,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringFrequency() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		wj.setSpringFrequency(0.0);
 		TestCase.assertEquals(0.0, wj.getSpringFrequency());
@@ -289,7 +289,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMode() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		// test mode swapping
 		TestCase.assertEquals(AbstractJoint.SPRING_MODE_FREQUENCY, wj.getSpringMode());
 		wj.setSpringStiffness(0.3);
@@ -303,7 +303,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringStiffnessNegative() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setSpringStiffness(-0.3);
 	}
 
@@ -312,7 +312,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringStiffness() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		wj.setSpringStiffness(0.0);
 		TestCase.assertEquals(0.0, wj.getSpringStiffness());
@@ -370,7 +370,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringFrequencyNegative() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setSpringFrequency(-0.3);
 	}
 
@@ -379,7 +379,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringMaximumForceNegative() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setMaximumSpringTorque(-1.0);
 	}
 	
@@ -388,7 +388,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMaximumForce() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		wj.setMaximumSpringTorque(0.0);
 		TestCase.assertEquals(0.0, wj.getMaximumSpringTorque());
@@ -447,7 +447,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void computeSpringStiffnessFrequency() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setSpringEnabled(true);
 		wj.setSpringDamperEnabled(true);
 		wj.setSpringFrequency(8.0);
@@ -474,7 +474,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSuccess() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setUpperLimit(Math.toRadians(10));
 		
 		TestCase.assertEquals(Math.toRadians(10), wj.getUpperLimit(), 1e-6);
@@ -485,7 +485,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperLimitInvalid() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setUpperLimit(Math.toRadians(-10));
 	}
 	
@@ -494,7 +494,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimit() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setLowerLimit(Math.toRadians(-10));
 		
 		TestCase.assertEquals(Math.toRadians(-10), wj.getLowerLimit(), 1e-6);
@@ -505,7 +505,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setLowerLimitInvalid() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setLowerLimit(Math.toRadians(10));
 	}
 	
@@ -514,7 +514,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperAndLowerLimits() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setLimits(Math.toRadians(-30), Math.toRadians(20));
 		
 		TestCase.assertEquals(Math.toRadians(-30), wj.getLowerLimit(), 1e-6);
@@ -526,7 +526,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsInvalid() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setLimits(Math.toRadians(30), Math.toRadians(20));
 	}
 	
@@ -535,7 +535,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperAndLowerLimitsToSameValue() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		wj.setLimits(Math.toRadians(30));
 		
 		TestCase.assertEquals(Math.toRadians(30), wj.getLowerLimit(), 1e-6);
@@ -547,7 +547,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsReferenceAngle() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertEquals(0.0, wj.getLimitsReferenceAngle());
 	
@@ -561,7 +561,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsReferenceAngleSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -594,7 +594,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitEnabledSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -642,7 +642,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsSameSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -723,7 +723,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsDifferentSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -804,7 +804,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimitSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -857,7 +857,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -910,7 +910,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSameSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -966,7 +966,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledDifferentSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is enabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -1047,7 +1047,7 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSleep() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2());
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(wj.isLimitsEnabled());
@@ -1232,14 +1232,14 @@ public class WeldJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void shift() {
-		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new Vector2(-3.0, 0.5));
+		WeldJoint<Body> wj = new WeldJoint<Body>(b1, b2, new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(-3.0, wj.getAnchor1().x);
 		TestCase.assertEquals(0.5, wj.getAnchor1().y);
 		TestCase.assertEquals(-3.0, wj.getAnchor2().x);
 		TestCase.assertEquals(0.5, wj.getAnchor2().y);
 		
-		wj.shift(new Vector2(1.0, 3.0));
+		wj.shift(new DynVector2(1.0, 3.0));
 		
 		// nothing should have changed
 		TestCase.assertEquals(-3.0, wj.getAnchor1().x);

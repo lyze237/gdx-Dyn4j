@@ -25,7 +25,7 @@
 package org.dyn4j.geometry.decompose;
 
 import org.dyn4j.Reference;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an edge of a polygon storing the next and previous edges
@@ -111,7 +111,7 @@ final class SweepLineEdge implements Comparable<SweepLineEdge> {
 		// (if we use the min x vertex rather than an 
 		// arbitrary one, we can save a step to check
 		// if the edge is vertical)
-		Vector2 min = this.v0.point;
+		DynVector2 min = this.v0.point;
 		if (this.v1.point.x < this.v0.point.x) {
 			min = this.v1.point;
 		}

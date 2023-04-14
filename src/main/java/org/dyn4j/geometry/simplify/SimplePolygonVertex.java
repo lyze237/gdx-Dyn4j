@@ -1,6 +1,6 @@
 package org.dyn4j.geometry.simplify;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a vertex of a simple polygon with a linked list
@@ -17,7 +17,7 @@ class SimplePolygonVertex {
 	final int index;
 
 	/** The vertex point */
-	final Vector2 point;
+	final DynVector2 point;
 
 	/** The prev vertex */
 	SimplePolygonVertex prev;
@@ -36,7 +36,7 @@ class SimplePolygonVertex {
 	 * @param index the vertex index
 	 * @param point the vertex point
 	 */
-	public SimplePolygonVertex(int index, Vector2 point) {
+	public SimplePolygonVertex(int index, DynVector2 point) {
 		this.index = index;
 		this.point = point;
 	}

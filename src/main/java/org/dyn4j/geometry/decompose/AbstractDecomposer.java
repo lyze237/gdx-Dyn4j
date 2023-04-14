@@ -27,7 +27,7 @@ package org.dyn4j.geometry.decompose;
 import java.util.List;
 
 import org.dyn4j.geometry.Convex;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Abstract implementation of the {@link Decomposer} interface.
@@ -40,8 +40,8 @@ public abstract class AbstractDecomposer implements Decomposer {
 	 * @see org.dyn4j.geometry.decompose.Decomposer#decompose(java.util.List)
 	 */
 	@Override
-	public List<Convex> decompose(List<Vector2> points) {
-		Vector2[] pts = new Vector2[points.size()];
+	public List<Convex> decompose(List<DynVector2> points) {
+		DynVector2[] pts = new DynVector2[points.size()];
 		points.toArray(pts);
 		return this.decompose(pts);
 	}

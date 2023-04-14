@@ -36,7 +36,7 @@ import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Transformable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a physical {@link PhysicsBody}.
@@ -199,7 +199,7 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * @throws NullPointerException if force is null
 	 * @since 3.1.1
 	 */
-	public PhysicsBody applyForce(Vector2 force);
+	public PhysicsBody applyForce(DynVector2 force);
 	
 	/**
 	 * Applies the given {@link Force} to this {@link PhysicsBody}.
@@ -279,7 +279,7 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * @throws NullPointerException if force or point is null
 	 * @since 3.1.1
 	 */
-	public PhysicsBody applyForce(Vector2 force, Vector2 point);
+	public PhysicsBody applyForce(DynVector2 force, DynVector2 point);
 	
 	/**
 	 * Applies a linear impulse to this {@link PhysicsBody} at its center of mass.
@@ -299,7 +299,7 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * @throws NullPointerException if impulse is null
 	 * @since 3.1.1
 	 */
-	public PhysicsBody applyImpulse(Vector2 impulse);
+	public PhysicsBody applyImpulse(DynVector2 impulse);
 	
 	/**
 	 * Applies an angular impulse to this {@link PhysicsBody} about its center of mass.
@@ -339,7 +339,7 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * @throws NullPointerException if impulse or point is null
 	 * @since 3.1.1
 	 */
-	public PhysicsBody applyImpulse(Vector2 impulse, Vector2 point);
+	public PhysicsBody applyImpulse(DynVector2 impulse, DynVector2 point);
 	
 	/**
 	 * Clears the last time step's force on the {@link PhysicsBody}.
@@ -374,7 +374,7 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * @param timestep the timestep information
 	 * @param settings the world settings
 	 */
-	public void integrateVelocity(Vector2 gravity, TimeStep timestep, Settings settings);
+	public void integrateVelocity(DynVector2 gravity, TimeStep timestep, Settings settings);
 	
 	/**
 	 * Integrates the linear and angular velocities to update the position
@@ -476,7 +476,7 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * @return Vector2
 	 * @since 3.1.5
 	 */
-	public Vector2 getChangeInPosition();
+	public DynVector2 getChangeInPosition();
 	
 	/**
 	 * Returns the change in orientation computed from last frame's transform
@@ -495,18 +495,18 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	
 	/**
 	 * Returns the linear velocity.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.1.5
 	 */
-	public Vector2 getLinearVelocity();
+	public DynVector2 getLinearVelocity();
 	
 	/**
 	 * Returns the velocity of this body at the given world space point.
 	 * @param point the point in world space
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.1.5
 	 */
-	public Vector2 getLinearVelocity(Vector2 point);
+	public DynVector2 getLinearVelocity(DynVector2 point);
 	
 	/**
 	 * Sets the linear velocity.
@@ -517,7 +517,7 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * @throws NullPointerException if velocity is null
 	 * @since 3.1.5
 	 */
-	public void setLinearVelocity(Vector2 velocity);
+	public void setLinearVelocity(DynVector2 velocity);
 
 	/**
 	 * Sets the linear velocity.
@@ -549,16 +549,16 @@ public interface PhysicsBody extends CollisionBody<BodyFixture>, Transformable, 
 	 * Returns the force applied in the last iteration.
 	 * <p>
 	 * This is the accumulated force from the last iteration.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getForce();
+	public DynVector2 getForce();
 	
 	/**
 	 * Returns the total force currently stored in the force accumulator.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 * @since 3.0.1
 	 */
-	public Vector2 getAccumulatedForce();
+	public DynVector2 getAccumulatedForce();
 	
 	/**
 	 * Returns the torque applied in the last iteration.

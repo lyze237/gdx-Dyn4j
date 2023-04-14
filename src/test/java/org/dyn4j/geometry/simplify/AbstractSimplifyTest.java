@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Test case for the decomposition classes.
@@ -44,9 +44,9 @@ public class AbstractSimplifyTest {
 	 * <p>
 	 * If any exception occurs, null is returned.
 	 * @param stream the stream to load
-	 * @return {@link Vector2}[] the points in the file
+	 * @return {@link DynVector2}[] the points in the file
 	 */
-	protected Vector2[] load(InputStream stream) {
+	protected DynVector2[] load(InputStream stream) {
 		if (stream == null) return null;
 		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 		return parse(br);
@@ -57,12 +57,12 @@ public class AbstractSimplifyTest {
 	 * <p>
 	 * If any exception occurs, null is returned.
 	 * @param reader the buffered reader to read from
-	 * @return {@link Vector2}[] the points
+	 * @return {@link DynVector2}[] the points
 	 */
-	protected Vector2[] parse(BufferedReader reader) {
+	protected DynVector2[] parse(BufferedReader reader) {
 		String line;
 		int i = 0;
-		Vector2[] points = null;
+		DynVector2[] points = null;
 		try {
 			while ((line = reader.readLine()) != null) {
 				if (line.isEmpty()) continue;
@@ -70,13 +70,13 @@ public class AbstractSimplifyTest {
 				if (i == 0) {
 					// the first line contains the number of vertices
 					int size = Integer.parseInt(line.trim());
-					points = new Vector2[size];
+					points = new DynVector2[size];
 				} else {
 					// otherwise its a line containing a point
 					String[] xy = line.split("\\s");
 					double x = Double.parseDouble(xy[0].trim());
 					double y = Double.parseDouble(xy[1].trim());
-					Vector2 p = new Vector2(x, y);
+					DynVector2 p = new DynVector2(x, y);
 					points[i - 1] = p;
 				}
 				i++;

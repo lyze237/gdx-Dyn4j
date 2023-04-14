@@ -37,7 +37,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	private static final Transform IDENTITY = new Transform();
 	
 	/** The center of this {@link Shape} */
-	protected Vector2 center;
+	protected DynVector2 center;
 	
 	/** The maximum radius */
 	protected double radius;
@@ -51,7 +51,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @throws IllegalArgumentException if radius is zero or less
 	 */
 	protected AbstractShape(double radius) {
-		this(new Vector2(), radius);
+		this(new DynVector2(), radius);
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @throws IllegalArgumentException if radius is zero or less
 	 * @throws NullPointerException if center is null
 	 */
-	protected AbstractShape(Vector2 center, double radius) {
+	protected AbstractShape(DynVector2 center, double radius) {
 		this.center = center;
 		this.radius = radius;
 	}
@@ -82,7 +82,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @see org.dyn4j.geometry.Shape#getCenter()
 	 */
 	@Override
-	public Vector2 getCenter() {
+	public DynVector2 getCenter() {
 		return this.center;
 	}
 	
@@ -138,7 +138,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @see org.dyn4j.geometry.Transformable#rotate(double, org.dyn4j.geometry.Vector)
 	 */
 	@Override
-	public void rotate(double theta, Vector2 point) {
+	public void rotate(double theta, DynVector2 point) {
 		this.rotate(theta, point.x, point.y);
 	}
 	
@@ -146,7 +146,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @see org.dyn4j.geometry.Transformable#rotate(org.dyn4j.geometry.Rotation, org.dyn4j.geometry.Vector)
 	 */
 	@Override
-	public void rotate(Rotation rotation, Vector2 point) {
+	public void rotate(Rotation rotation, DynVector2 point) {
 		this.rotate(rotation, point.x, point.y);
 	}
 	
@@ -186,7 +186,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @see org.dyn4j.geometry.Transformable#translate(org.dyn4j.geometry.Vector)
 	 */
 	@Override
-	public void translate(Vector2 vector) {
+	public void translate(DynVector2 vector) {
 		this.translate(vector.x, vector.y);
 	}
 	
@@ -194,7 +194,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public Interval project(Vector2 n) {
+	public Interval project(DynVector2 n) {
 		return this.project(n, IDENTITY);
 	}
 	
@@ -202,7 +202,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public boolean contains(Vector2 point) {
+	public boolean contains(DynVector2 point) {
 		return this.contains(point, IDENTITY, true);
 	}
 	
@@ -210,7 +210,7 @@ public abstract class AbstractShape implements Shape, Transformable, DataContain
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform) {
+	public boolean contains(DynVector2 point, Transform transform) {
 		return this.contains(point, transform, true);
 	}
 	

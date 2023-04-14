@@ -31,7 +31,7 @@ import org.dyn4j.collision.TestCollisionBody;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Ray;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -78,7 +78,7 @@ public class AbstractBroadphaseDetectorTest {
 		@Override
 		public void setUpdated(TestCollisionBody body) {}
 		@Override
-		public void shift(Vector2 shift) {}
+		public void shift(DynVector2 shift) {}
 		@Override
 		public int size() { return 0; }
 		@Override

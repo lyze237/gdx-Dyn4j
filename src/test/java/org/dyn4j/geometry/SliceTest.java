@@ -91,7 +91,7 @@ public class SliceTest {
 	public void contains() {
 		Slice e = new Slice(1.0, Math.toRadians(50));
 		Transform t = new Transform();
-		Vector2 p = new Vector2(0.5, -0.3);
+		DynVector2 p = new DynVector2(0.5, -0.3);
 		
 		// shouldn't be inside
 		TestCase.assertTrue(!e.contains(p, t));
@@ -117,8 +117,8 @@ public class SliceTest {
 	public void project() {
 		Slice e = new Slice(1.0, Math.toRadians(50));
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, 1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, 1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
@@ -156,13 +156,13 @@ public class SliceTest {
 	public void getFarthest() {
 		Slice e = new Slice(1.0, Math.toRadians(50));
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, 1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, 1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
 		
-		Vector2 p = e.getFarthestPoint(x, t);
+		DynVector2 p = e.getFarthestPoint(x, t);
 		TestCase.assertEquals( 2.000, p.x, 1.0e-3);
 		TestCase.assertEquals( 0.500, p.y, 1.0e-3);
 		
@@ -195,11 +195,11 @@ public class SliceTest {
 	public void getAxes() {
 		Slice e = new Slice(1.0, Math.toRadians(50));
 		// should be two axes + number of foci
-		Vector2[] foci = new Vector2[] {
-			new Vector2(2.0, -0.5),
-			new Vector2(1.0, 3.0)
+		DynVector2[] foci = new DynVector2[] {
+			new DynVector2(2.0, -0.5),
+			new DynVector2(1.0, 3.0)
 		};
-		Vector2[] axes = e.getAxes(foci, IDENTITY);
+		DynVector2[] axes = e.getAxes(foci, IDENTITY);
 		TestCase.assertEquals(4, axes.length);
 		
 		// make sure we get back the right axes
@@ -216,7 +216,7 @@ public class SliceTest {
 	@Test
 	public void getFoci() {
 		Slice e = new Slice(1.0, Math.toRadians(50));
-		Vector2[] foci = e.getFoci(IDENTITY);
+		DynVector2[] foci = e.getFoci(IDENTITY);
 		// should be two foci
 		TestCase.assertEquals(1, foci.length);
 		// make sure the foci are correct
@@ -360,7 +360,7 @@ public class SliceTest {
 		TestCase.assertEquals(0.329, s.getRadius(s.getCenter()), 1e-3);
 		
 		// if we rotate it about the circle center then it should be the circle radius
-		TestCase.assertEquals(0.5, s.getRadius(new Vector2(0.0, 0.0)), 1e-3);
+		TestCase.assertEquals(0.5, s.getRadius(new DynVector2(0.0, 0.0)), 1e-3);
 	}
 
 	/**

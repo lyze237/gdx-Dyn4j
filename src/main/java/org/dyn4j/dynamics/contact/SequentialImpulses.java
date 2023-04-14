@@ -35,7 +35,7 @@ import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Matrix22;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an impulse based rigid {@link PhysicsBody} physics collision resolver.
@@ -55,7 +55,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 	 * @return The mass coefficient
 	 * @since 3.4.0
 	 */
-	private static final double getMassCoefficient(ContactConstraint<?> contactConstraint, Vector2 r1, Vector2 r2, Vector2 n) {
+	private static final double getMassCoefficient(ContactConstraint<?> contactConstraint, DynVector2 r1, DynVector2 r2, DynVector2 n) {
 		Mass m1 = contactConstraint.getBody1().getMass();
 		Mass m2 = contactConstraint.getBody2().getMass();
 		
@@ -76,7 +76,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 	 * @param J
 	 * @since 3.4.0
 	 */
-	private static final void updateBodies(ContactConstraint<?> contactConstraint, SolvableContact contact, Vector2 J) {
+	private static final void updateBodies(ContactConstraint<?> contactConstraint, SolvableContact contact, DynVector2 J) {
 		PhysicsBody b1 = contactConstraint.getBody1();
 		PhysicsBody b2 = contactConstraint.getBody2();
 		Mass m1 = b1.getMass();
@@ -99,13 +99,13 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 	 * @return The relative velocity vector
 	 * @since 3.4.0
 	 */
-	private static final Vector2 getRelativeVelocity(ContactConstraint<?> contactConstraint, SolvableContact contact) {
+	private static final DynVector2 getRelativeVelocity(ContactConstraint<?> contactConstraint, SolvableContact contact) {
 		PhysicsBody b1 = contactConstraint.getBody1();
 		PhysicsBody b2 = contactConstraint.getBody2();
 		
-		Vector2 lv1 = contact.r1.cross(b1.getAngularVelocity()).add(b1.getLinearVelocity());
-		Vector2 lv2 = contact.r2.cross(b2.getAngularVelocity()).add(b2.getLinearVelocity());
-		Vector2 rv = lv1.subtract(lv2);
+		DynVector2 lv1 = contact.r1.cross(b1.getAngularVelocity()).add(b1.getLinearVelocity());
+		DynVector2 lv2 = contact.r2.cross(b2.getAngularVelocity()).add(b2.getLinearVelocity());
+		DynVector2 rv = lv1.subtract(lv2);
 		
 		return rv;
 	}
@@ -142,13 +142,13 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 			double invI2 = m2.getInverseInertia();
 			
 			// get the transformed centers of mass
-			Vector2 c1 = t1.getTransformed(m1.getCenter());
-			Vector2 c2 = t2.getTransformed(m2.getCenter());
+			DynVector2 c1 = t1.getTransformed(m1.getCenter());
+			DynVector2 c2 = t2.getTransformed(m2.getCenter());
 			
 			// get the penetration axis
-			Vector2 N = contactConstraint.normal;
+			DynVector2 N = contactConstraint.normal;
 			// get the tangent vector
-			Vector2 T = contactConstraint.tangent;
+			DynVector2 T = contactConstraint.tangent;
 			
 			// loop through the contact points
 			for (int j = 0; j < cSize; j++) {
@@ -170,7 +170,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				contact.solved = true;
 				
 				// find the relative velocity and project it onto the penetration normal
-				Vector2 rv = SequentialImpulses.getRelativeVelocity(contactConstraint, contact);
+				DynVector2 rv = SequentialImpulses.getRelativeVelocity(contactConstraint, contact);
 				double rvn = N.dot(rv);
 				
 				// if its negative then the bodies are moving away from one another
@@ -275,9 +275,9 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 			ContactConstraint<T> contactConstraint = contactConstraints.get(i);
 			
 			// get the penetration axis
-			Vector2 N = contactConstraint.normal;
+			DynVector2 N = contactConstraint.normal;
 			// get the tangent vector
-			Vector2 T = contactConstraint.tangent;
+			DynVector2 T = contactConstraint.tangent;
 			
 			// get the contacts and contact size
 			List<SolvableContact> contacts = contactConstraint.contacts;
@@ -291,7 +291,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				contact.jt *= ratio;
 				
 				// apply accumulated impulses to warm start the solver
-				Vector2 J = new Vector2(N.x * contact.jn + T.x * contact.jt, N.y * contact.jn + T.y * contact.jt);
+				DynVector2 J = new DynVector2(N.x * contact.jn + T.x * contact.jt, N.y * contact.jn + T.y * contact.jt);
 				SequentialImpulses.updateBodies(contactConstraint, contact, J);
 			}
 		}
@@ -312,8 +312,8 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 			if (cSize == 0) continue;
 			
 			// get the penetration axis and tangent
-			Vector2 N = contactConstraint.normal;
-			Vector2 T = contactConstraint.tangent;
+			DynVector2 N = contactConstraint.normal;
+			DynVector2 T = contactConstraint.tangent;
 			
 			double tangentSpeed = contactConstraint.tangentSpeed;
 			
@@ -322,7 +322,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				SolvableContact contact = contacts.get(k);
 				
 				// get the relative velocity
-				Vector2 rv = SequentialImpulses.getRelativeVelocity(contactConstraint, contact);
+				DynVector2 rv = SequentialImpulses.getRelativeVelocity(contactConstraint, contact);
 				
 				// project the relative velocity onto the tangent normal
 				double rvt = T.dot(rv) - tangentSpeed;
@@ -338,7 +338,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				jt = contact.jt - Jt0;
 				
 				// apply to the bodies immediately
-				Vector2 J = new Vector2(T.x * jt, T.y * jt);
+				DynVector2 J = new DynVector2(T.x * jt, T.y * jt);
 				SequentialImpulses.updateBodies(contactConstraint, contact, J);
 			}
 			
@@ -350,7 +350,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				SolvableContact contact = contacts.get(0);
 				
 				// get the relative velocity and project it onto the penetration normal
-				Vector2 rv = SequentialImpulses.getRelativeVelocity(contactConstraint, contact);
+				DynVector2 rv = SequentialImpulses.getRelativeVelocity(contactConstraint, contact);
 				double rvn = N.dot(rv);
 				
 				// calculate the impulse using the velocity bias
@@ -362,7 +362,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				j = contact.jn - j0;
 				
 				// only update the bodies after processing all the contacts
-				Vector2 J = new Vector2(N.x * j, N.y * j);
+				DynVector2 J = new DynVector2(N.x * j, N.y * j);
 				SequentialImpulses.updateBodies(contactConstraint, contact, J);
 			} else {
 				// if its 2 then solve the contacts simultaneously using a mini-LCP
@@ -404,17 +404,17 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				SolvableContact contact2 = contacts.get(1);
 				
 				// create a vector containing the current accumulated impulses
-				Vector2 a = new Vector2(contact1.jn, contact2.jn);
+				DynVector2 a = new DynVector2(contact1.jn, contact2.jn);
 				
 				// get the relative velocity at both contacts and
 				// compute the relative velocities along the collision normal
-				Vector2 rv1 = SequentialImpulses.getRelativeVelocity(contactConstraint, contact1);
-				Vector2 rv2 = SequentialImpulses.getRelativeVelocity(contactConstraint, contact2);
+				DynVector2 rv1 = SequentialImpulses.getRelativeVelocity(contactConstraint, contact1);
+				DynVector2 rv2 = SequentialImpulses.getRelativeVelocity(contactConstraint, contact2);
 				double rvn1 = N.dot(rv1);
 				double rvn2 = N.dot(rv2);
 				
 				// create the b vector
-				Vector2 b = new Vector2();
+				DynVector2 b = new DynVector2();
 				b.x = rvn1 - contact1.vb;
 				b.y = rvn2 - contact2.vb;
 				b.subtract(contactConstraint.K.product(a));
@@ -429,7 +429,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 					//
 					// x = - inv(A) * b'
 					//
-					Vector2 x = contactConstraint.invK.product(b).negate();
+					DynVector2 x = contactConstraint.invK.product(b).negate();
 
 					if (x.x >= 0.0 && x.y >= 0.0) {
 						SequentialImpulses.updateBodies(contactConstraint, contact1, contact2, x, a);
@@ -503,19 +503,19 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 	 * @param a
 	 * @since 3.4.0
 	 */
-	private static final void updateBodies(ContactConstraint<?> contactConstraint, SolvableContact contact1, SolvableContact contact2, Vector2 x, Vector2 a) {
+	private static final void updateBodies(ContactConstraint<?> contactConstraint, SolvableContact contact1, SolvableContact contact2, DynVector2 x, DynVector2 a) {
 		PhysicsBody b1 = contactConstraint.getBody1();
 		PhysicsBody b2 = contactConstraint.getBody2();
 		Mass m1 = b1.getMass();
 		Mass m2 = b2.getMass();
 		
-		Vector2 N = contactConstraint.normal;
+		DynVector2 N = contactConstraint.normal;
 		
 		// find the incremental impulse
 		// Vector2 d = x.difference(a);
 		// apply the incremental impulse
-		Vector2 J1 = N.product(x.x - a.x);
-		Vector2 J2 = N.product(x.y - a.y);
+		DynVector2 J1 = N.product(x.x - a.x);
+		DynVector2 J2 = N.product(x.y - a.y);
 		
 		double Jx = J1.x + J2.x;
 		double Jy = J1.y + J2.y;
@@ -571,7 +571,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 			Mass m2 = b2.getMass();
 		  
 			// get the penetration axis
-			Vector2 N = contactConstraint.normal;
+			DynVector2 N = contactConstraint.normal;
 
 			// solve normal constraints
 			for (int k = 0; k < cSize; k++) {
@@ -580,19 +580,19 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				// get the world centers of mass
 				// NOTE: the world center needs to be recomputed each iteration because
 				//       we are modifying the transform in each iteration
-				Vector2 c1 = t1.getTransformed(m1.getCenter());
-				Vector2 c2 = t2.getTransformed(m2.getCenter());
+				DynVector2 c1 = t1.getTransformed(m1.getCenter());
+				DynVector2 c2 = t2.getTransformed(m2.getCenter());
 				
 				// get r1 and r2
-				Vector2 r1 = contact.p1.difference(m1.getCenter());
+				DynVector2 r1 = contact.p1.difference(m1.getCenter());
 				t1.transformR(r1);
-				Vector2 r2 = contact.p2.difference(m2.getCenter());
+				DynVector2 r2 = contact.p2.difference(m2.getCenter());
 				t2.transformR(r2);
 				
 				// get the world contact points
-				Vector2 p1 = c1.sum(r1);
-				Vector2 p2 = c2.sum(r2);
-				Vector2 dp = p1.subtract(p2);
+				DynVector2 p1 = c1.sum(r1);
+				DynVector2 p2 = c2.sum(r2);
+				DynVector2 dp = p1.subtract(p2);
 				
 				// estimate the current penetration
 				double penetration = dp.dot(N) - contact.depth;
@@ -612,7 +612,7 @@ public class SequentialImpulses<T extends PhysicsBody> implements ContactConstra
 				contact.jp = Math.max(jp0 + jp, 0.0);
 				jp = contact.jp - jp0;
 				
-				Vector2 J = N.product(jp);
+				DynVector2 J = N.product(jp);
 				
 				// translate and rotate the objects
 				b1.translate(J.product(m1.getInverseMass()));

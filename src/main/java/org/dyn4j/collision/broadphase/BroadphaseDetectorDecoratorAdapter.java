@@ -32,7 +32,7 @@ import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * A default implementation of the the {@link BroadphaseDetectorDecorator} interface.
@@ -64,7 +64,7 @@ public class BroadphaseDetectorDecoratorAdapter<T> implements BroadphaseDetector
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		this.detector.shift(shift);
 	}
 

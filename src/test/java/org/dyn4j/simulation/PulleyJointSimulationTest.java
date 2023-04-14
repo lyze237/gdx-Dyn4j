@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.PulleyJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -69,10 +69,10 @@ public class PulleyJointSimulationTest {
 		b2.translate(1.0, 0.0);
 		w.addBody(b2);
 		
-		Vector2 pa1 = new Vector2(-1.0, 1.0);
-		Vector2 pa2 = new Vector2(1.0, 1.0);
-		Vector2 a1 = new Vector2(-1.0, 0.0);
-		Vector2 a2 = new Vector2(1.0, 0.0);
+		DynVector2 pa1 = new DynVector2(-1.0, 1.0);
+		DynVector2 pa2 = new DynVector2(1.0, 1.0);
+		DynVector2 a1 = new DynVector2(-1.0, 0.0);
+		DynVector2 a2 = new DynVector2(1.0, 0.0);
 		
 		PulleyJoint<Body> aj = new PulleyJoint<Body>(b1, b2, pa1, pa2, a1, a2);
 		w.addJoint(aj);
@@ -146,10 +146,10 @@ public class PulleyJointSimulationTest {
 		b2.translate(1.0, 0.5);
 		w.addBody(b2);
 		
-		Vector2 pa1 = new Vector2(-1.0, 1.0);
-		Vector2 pa2 = new Vector2(1.0, 1.0);
-		Vector2 a1 = new Vector2(-1.0, 0.0);
-		Vector2 a2 = new Vector2(1.0, 0.5);
+		DynVector2 pa1 = new DynVector2(-1.0, 1.0);
+		DynVector2 pa2 = new DynVector2(1.0, 1.0);
+		DynVector2 a1 = new DynVector2(-1.0, 0.0);
+		DynVector2 a2 = new DynVector2(1.0, 0.5);
 		
 		PulleyJoint<Body> aj = new PulleyJoint<Body>(b1, b2, pa1, pa2, a1, a2);
 		w.addJoint(aj);

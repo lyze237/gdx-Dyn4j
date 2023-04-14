@@ -60,7 +60,7 @@ public class WoundTest {
 	 */
 	@Test
 	public void getRadiusCenter() {
-		Vector2 c = new Vector2(1.0, 0.0);
+		DynVector2 c = new DynVector2(1.0, 0.0);
 		
 		Polygon p = Geometry.createUnitCirclePolygon(5, 0.5);
 		TestCase.assertEquals(1.434, p.getRadius(c), 1.0e-3);
@@ -81,13 +81,13 @@ public class WoundTest {
 	@Test
 	public void woundIteratorStartIndex() {
 		Wound w = Geometry.createPolygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(1.0, 0.0),
-				new Vector2(0.0, 1.0));
-		Iterator<Vector2> it = w.getVertexIterator();
+				new DynVector2(0.0, 0.0),
+				new DynVector2(1.0, 0.0),
+				new DynVector2(0.0, 1.0));
+		Iterator<DynVector2> it = w.getVertexIterator();
 		int i = 0; 
 		while (it.hasNext()) {
-			Vector2 v = it.next();
+			DynVector2 v = it.next();
 			TestCase.assertEquals(w.getVertices()[i], v);
 			i++;
 		}
@@ -99,10 +99,10 @@ public class WoundTest {
 	@Test
 	public void woundIteratorCount() {
 		Wound w = Geometry.createPolygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(1.0, 0.0),
-				new Vector2(0.0, 1.0));
-		Iterator<Vector2> it = w.getVertexIterator();
+				new DynVector2(0.0, 0.0),
+				new DynVector2(1.0, 0.0),
+				new DynVector2(0.0, 1.0));
+		Iterator<DynVector2> it = w.getVertexIterator();
 		int i = 0; 
 		while (it.hasNext()) {
 			it.next();
@@ -118,10 +118,10 @@ public class WoundTest {
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void woundIteratorFail() {
 		Wound w = Geometry.createPolygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(1.0, 0.0),
-				new Vector2(0.0, 1.0));
-		Iterator<Vector2> it = w.getVertexIterator();
+				new DynVector2(0.0, 0.0),
+				new DynVector2(1.0, 0.0),
+				new DynVector2(0.0, 1.0));
+		Iterator<DynVector2> it = w.getVertexIterator();
 		while (true) {
 			it.next();
 		}
@@ -133,10 +133,10 @@ public class WoundTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void woundIteratorRemove() {
 		Wound w = Geometry.createPolygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(1.0, 0.0),
-				new Vector2(0.0, 1.0));
-		Iterator<Vector2> it = w.getVertexIterator();
+				new DynVector2(0.0, 0.0),
+				new DynVector2(1.0, 0.0),
+				new DynVector2(0.0, 1.0));
+		Iterator<DynVector2> it = w.getVertexIterator();
 		while (it.hasNext()) {
 			it.next();
 			it.remove();

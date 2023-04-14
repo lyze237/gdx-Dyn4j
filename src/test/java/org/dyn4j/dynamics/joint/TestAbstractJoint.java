@@ -29,7 +29,7 @@ import java.util.List;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.Settings;
 import org.dyn4j.dynamics.TimeStep;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * A temporary implementation of the {@link AbstractJoint} class for testing.
@@ -52,9 +52,9 @@ public class TestAbstractJoint extends AbstractJoint<Body> {
 	@Override
 	public boolean solvePositionConstraints(TimeStep step, Settings settings) { return false; }
 	@Override
-	public Vector2 getReactionForce(double invdt) { return null; }
+	public DynVector2 getReactionForce(double invdt) { return null; }
 	@Override
 	public double getReactionTorque(double invdt) { return 0; }
 	@Override
-	public void shift(Vector2 shift) {}
+	public void shift(DynVector2 shift) {}
 }

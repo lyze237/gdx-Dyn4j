@@ -48,15 +48,15 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getAverageCenterArray() {
-		Vector2[] vertices = new Vector2[6];
-		vertices[0] = new Vector2(-2.0, 1.0);
-		vertices[1] = new Vector2(-1.0, 2.0);
-		vertices[2] = new Vector2(1.2, 0.5);
-		vertices[3] = new Vector2(1.3, 0.3);
-		vertices[4] = new Vector2(1.4, 0.2);
-		vertices[5] = new Vector2(0.0, -1.0);
+		DynVector2[] vertices = new DynVector2[6];
+		vertices[0] = new DynVector2(-2.0, 1.0);
+		vertices[1] = new DynVector2(-1.0, 2.0);
+		vertices[2] = new DynVector2(1.2, 0.5);
+		vertices[3] = new DynVector2(1.3, 0.3);
+		vertices[4] = new DynVector2(1.4, 0.2);
+		vertices[5] = new DynVector2(0.0, -1.0);
 		
-		Vector2 c = Geometry.getAverageCenter(vertices);
+		DynVector2 c = Geometry.getAverageCenter(vertices);
 		
 		TestCase.assertEquals(0.150, c.x, 1.0e-3);
 		TestCase.assertEquals(0.500, c.y, 1.0e-3);
@@ -76,15 +76,15 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getAverageCenterList() {
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2(-2.0, 1.0));
-		vertices.add(new Vector2(-1.0, 2.0));
-		vertices.add(new Vector2(1.2, 0.5));
-		vertices.add(new Vector2(1.3, 0.3));
-		vertices.add(new Vector2(1.4, 0.2));
-		vertices.add(new Vector2(0.0, -1.0));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2(-2.0, 1.0));
+		vertices.add(new DynVector2(-1.0, 2.0));
+		vertices.add(new DynVector2(1.2, 0.5));
+		vertices.add(new DynVector2(1.3, 0.3));
+		vertices.add(new DynVector2(1.4, 0.2));
+		vertices.add(new DynVector2(0.0, -1.0));
 		
-		Vector2 c = Geometry.getAverageCenter(vertices);
+		DynVector2 c = Geometry.getAverageCenter(vertices);
 		
 		TestCase.assertEquals(0.150, c.x, 1.0e-3);
 		TestCase.assertEquals(0.500, c.y, 1.0e-3);
@@ -101,7 +101,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAverageCenterNullArray() {
-		Geometry.getAverageCenter((Vector2[]) null);
+		Geometry.getAverageCenter((DynVector2[]) null);
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void getAverageCenterEmptyArray() {
-		Geometry.getAverageCenter(new Vector2[] {});
+		Geometry.getAverageCenter(new DynVector2[] {});
 	}
 	
 	/**
@@ -119,11 +119,11 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAverageCenterArrayNullElements() {
-		Geometry.getAverageCenter(new Vector2[] {
-			new Vector2(1.0, 0.0),
+		Geometry.getAverageCenter(new DynVector2[] {
+			new DynVector2(1.0, 0.0),
 			null,
-			new Vector2(4.0, 3.0),
-			new Vector2(-2.0, -1.0),
+			new DynVector2(4.0, 3.0),
+			new DynVector2(-2.0, -1.0),
 			null
 		});
 	}
@@ -134,7 +134,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAverageCenterArrayNullOnlyElement() {
-		Geometry.getAverageCenter(new Vector2[] {
+		Geometry.getAverageCenter(new DynVector2[] {
 			null
 		});
 	}
@@ -145,7 +145,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAverageCenterNullList() {
-		Geometry.getAverageCenter((List<Vector2>) null);
+		Geometry.getAverageCenter((List<DynVector2>) null);
 	}
 	
 	/**
@@ -154,7 +154,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void getAverageCenterEmptyList() {
-		Geometry.getAverageCenter(new ArrayList<Vector2>());
+		Geometry.getAverageCenter(new ArrayList<DynVector2>());
 	}
 	
 	/**
@@ -163,11 +163,11 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAverageCenterListNullElements() {
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2(0.0, -1.0));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2(0.0, -1.0));
 		vertices.add(null);
-		vertices.add(new Vector2(2.0, -1.0));
-		vertices.add(new Vector2(-3.0, -1.0));
+		vertices.add(new DynVector2(2.0, -1.0));
+		vertices.add(new DynVector2(-3.0, -1.0));
 		vertices.add(null);
 		Geometry.getAverageCenter(vertices);
 	}
@@ -178,7 +178,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAverageCenterListNullOnlyElement() {
-		List<Vector2> vertices = new ArrayList<Vector2>();
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
 		vertices.add(null);
 		Geometry.getAverageCenter(vertices);
 	}
@@ -188,16 +188,16 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getAreaWeightedCenter() {
-		Vector2[] vertices = new Vector2[6];
-		vertices[0] = new Vector2(-2.0, 1.0);
-		vertices[1] = new Vector2(-1.0, 2.0);
+		DynVector2[] vertices = new DynVector2[6];
+		vertices[0] = new DynVector2(-2.0, 1.0);
+		vertices[1] = new DynVector2(-1.0, 2.0);
 		// test dense area of points
-		vertices[2] = new Vector2(1.2, 0.5);
-		vertices[3] = new Vector2(1.3, 0.3);
-		vertices[4] = new Vector2(1.4, 0.2);
-		vertices[5] = new Vector2(0.0, -1.0);
+		vertices[2] = new DynVector2(1.2, 0.5);
+		vertices[3] = new DynVector2(1.3, 0.3);
+		vertices[4] = new DynVector2(1.4, 0.2);
+		vertices[5] = new DynVector2(0.0, -1.0);
 		
-		Vector2 c = Geometry.getAreaWeightedCenter(vertices);
+		DynVector2 c = Geometry.getAreaWeightedCenter(vertices);
 		
 		// note the x is closer to the "real" center of the object
 		TestCase.assertEquals(-0.318, c.x, 1.0e-3);
@@ -217,16 +217,16 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getAreaWeightedCenterOffset() {
-		Vector2[] vertices = new Vector2[6];
-		vertices[0] = new Vector2(-1.0, 2.0);
-		vertices[1] = new Vector2(0.0, 3.0);
+		DynVector2[] vertices = new DynVector2[6];
+		vertices[0] = new DynVector2(-1.0, 2.0);
+		vertices[1] = new DynVector2(0.0, 3.0);
 		// test dense area of points
-		vertices[2] = new Vector2(2.2, 1.5);
-		vertices[3] = new Vector2(2.3, 1.3);
-		vertices[4] = new Vector2(2.4, 1.2);
-		vertices[5] = new Vector2(1.0, 0.0);
+		vertices[2] = new DynVector2(2.2, 1.5);
+		vertices[3] = new DynVector2(2.3, 1.3);
+		vertices[4] = new DynVector2(2.4, 1.2);
+		vertices[5] = new DynVector2(1.0, 0.0);
 		
-		Vector2 c = Geometry.getAreaWeightedCenter(vertices);
+		DynVector2 c = Geometry.getAreaWeightedCenter(vertices);
 		
 		// note the x is closer to the "real" center of the object
 		TestCase.assertEquals(0.682, c.x, 1.0e-3);
@@ -245,7 +245,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAreaWeightedCenterNullArray() {
-		Geometry.getAreaWeightedCenter((Vector2[]) null);
+		Geometry.getAreaWeightedCenter((DynVector2[]) null);
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void getAreaWeightedCenterEmptyArray() {
-		Geometry.getAreaWeightedCenter(new Vector2[] {});
+		Geometry.getAreaWeightedCenter(new DynVector2[] {});
 	}
 
 	/**
@@ -263,11 +263,11 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAreaWeightedCenterArrayNullElements() {
-		Geometry.getAreaWeightedCenter(new Vector2[] {
-			new Vector2(1.0, 0.0),
+		Geometry.getAreaWeightedCenter(new DynVector2[] {
+			new DynVector2(1.0, 0.0),
 			null,
-			new Vector2(4.0, 3.0),
-			new Vector2(-2.0, -1.0),
+			new DynVector2(4.0, 3.0),
+			new DynVector2(-2.0, -1.0),
 			null
 		});
 	}
@@ -278,7 +278,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAreaWeightedCenterNullList() {
-		Geometry.getAreaWeightedCenter((List<Vector2>) null);
+		Geometry.getAreaWeightedCenter((List<DynVector2>) null);
 	}
 	
 	/**
@@ -287,7 +287,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void getAreaWeightedCenterEmptyList() {
-		Geometry.getAreaWeightedCenter(new ArrayList<Vector2>());
+		Geometry.getAreaWeightedCenter(new ArrayList<DynVector2>());
 	}
 	
 	/**
@@ -296,11 +296,11 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getAreaWeightedCenterListNullElements() {
-		List<Vector2> vertices = new ArrayList<Vector2>();
-		vertices.add(new Vector2(0.0, -1.0));
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
+		vertices.add(new DynVector2(0.0, -1.0));
 		vertices.add(null);
-		vertices.add(new Vector2(2.0, -1.0));
-		vertices.add(new Vector2(-3.0, -1.0));
+		vertices.add(new DynVector2(2.0, -1.0));
+		vertices.add(new DynVector2(-3.0, -1.0));
 		vertices.add(null);
 		Geometry.getAreaWeightedCenter(vertices);
 	}
@@ -312,13 +312,13 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getAreaWeightedCenterZeroAreaList() {
-		List<Vector2> points = new ArrayList<Vector2>();
-		points.add(new Vector2(2.0, 1.0));
-		points.add(new Vector2(2.0, 1.0));
-		points.add(new Vector2(2.0, 1.0));
-		points.add(new Vector2(2.0, 1.0));
+		List<DynVector2> points = new ArrayList<DynVector2>();
+		points.add(new DynVector2(2.0, 1.0));
+		points.add(new DynVector2(2.0, 1.0));
+		points.add(new DynVector2(2.0, 1.0));
+		points.add(new DynVector2(2.0, 1.0));
 		
-		Vector2 c = Geometry.getAreaWeightedCenter(points);
+		DynVector2 c = Geometry.getAreaWeightedCenter(points);
 		
 		TestCase.assertEquals(2.000, c.x, 1.0e-3);
 		TestCase.assertEquals(1.000, c.y, 1.0e-3);
@@ -331,13 +331,13 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getAreaWeightedCenterZeroAreaArray() {
-		Vector2[] points = new Vector2[4];
-		points[0] = new Vector2(2.0, 1.0);
-		points[1] = new Vector2(2.0, 1.0);
-		points[2] = new Vector2(2.0, 1.0);
-		points[3] = new Vector2(2.0, 1.0);
+		DynVector2[] points = new DynVector2[4];
+		points[0] = new DynVector2(2.0, 1.0);
+		points[1] = new DynVector2(2.0, 1.0);
+		points[2] = new DynVector2(2.0, 1.0);
+		points[3] = new DynVector2(2.0, 1.0);
 		
-		Vector2 c = Geometry.getAreaWeightedCenter(points);
+		DynVector2 c = Geometry.getAreaWeightedCenter(points);
 		
 		TestCase.assertEquals(2.000, c.x, 1.0e-3);
 		TestCase.assertEquals(1.000, c.y, 1.0e-3);
@@ -363,7 +363,7 @@ public class GeometryTest {
 		TestCase.assertEquals( 0.500, p.vertices[0].x, 1.0e-3);
 		TestCase.assertEquals( 0.000, p.vertices[0].y, 1.0e-3);
 		
-		Vector2 v11 = p.vertices[0];
+		DynVector2 v11 = p.vertices[0];
 		
 		p = Geometry.createUnitCirclePolygon(5, 0.5, Math.PI / 2.0);
 		// no exception indicates the generated polygon is valid
@@ -379,7 +379,7 @@ public class GeometryTest {
 		TestCase.assertEquals( 0.000, p.vertices[0].x, 1.0e-3);
 		TestCase.assertEquals( 0.500, p.vertices[0].y, 1.0e-3);
 		
-		Vector2 v21 = p.vertices[0];
+		DynVector2 v21 = p.vertices[0];
 		
 		// the angle between any two vertices of the two polygons should be PI / 2
 		double angle = v11.getAngleBetween(v21);
@@ -444,7 +444,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createPolygonNullArray() {
-		Vector2[] vertices = null;
+		DynVector2[] vertices = null;
 		// should fail since the vertices list contains null items
 		Geometry.createPolygon(vertices);
 	}
@@ -454,7 +454,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createPolygonNullPoint() {
-		Vector2[] vertices = new Vector2[5];
+		DynVector2[] vertices = new DynVector2[5];
 		// should fail since the vertices list contains null items
 		Geometry.createPolygon(vertices);
 	}
@@ -464,12 +464,12 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createPolygon() {
-		Vector2[] vertices = new Vector2[5];
-		vertices[0] = new Vector2(1.0, 0.0);
-		vertices[1] = new Vector2(0.5, 1.0);
-		vertices[2] = new Vector2(-0.5, 1.0);
-		vertices[3] = new Vector2(-1.0, 0.0);
-		vertices[4] = new Vector2(0.0, -1.0);
+		DynVector2[] vertices = new DynVector2[5];
+		vertices[0] = new DynVector2(1.0, 0.0);
+		vertices[1] = new DynVector2(0.5, 1.0);
+		vertices[2] = new DynVector2(-0.5, 1.0);
+		vertices[3] = new DynVector2(-1.0, 0.0);
+		vertices[4] = new DynVector2(0.0, -1.0);
 		// should fail since the vertices list contains null items
 		Polygon p = Geometry.createPolygon(vertices);
 		
@@ -486,12 +486,12 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createPolygonAtOrigin() {
-		Vector2[] vertices = new Vector2[5];
-		vertices[0] = new Vector2(1.0, 0.0);
-		vertices[1] = new Vector2(0.5, 1.0);
-		vertices[2] = new Vector2(-0.5, 1.0);
-		vertices[3] = new Vector2(-1.0, 0.0);
-		vertices[4] = new Vector2(0.0, -1.0);
+		DynVector2[] vertices = new DynVector2[5];
+		vertices[0] = new DynVector2(1.0, 0.0);
+		vertices[1] = new DynVector2(0.5, 1.0);
+		vertices[2] = new DynVector2(-0.5, 1.0);
+		vertices[3] = new DynVector2(-1.0, 0.0);
+		vertices[4] = new DynVector2(0.0, -1.0);
 		// should fail since the vertices list contains null items
 		Polygon p = Geometry.createPolygonAtOrigin(vertices);
 		
@@ -503,7 +503,7 @@ public class GeometryTest {
 		}
 		
 		// make sure the center is at the origin
-		Vector2 c = p.getCenter();
+		DynVector2 c = p.getCenter();
 		TestCase.assertEquals(0.000, c.x, 1.0e-3);
 		TestCase.assertEquals(0.000, c.y, 1.0e-3);
 	}
@@ -579,8 +579,8 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createTriangleNullPoint() {
-		Vector2 p1 = new Vector2(1.0, 0.0);
-		Vector2 p2 = new Vector2(0.5, 1.0);
+		DynVector2 p1 = new DynVector2(1.0, 0.0);
+		DynVector2 p2 = new DynVector2(0.5, 1.0);
 		// should fail since the vertices list contains null items
 		Geometry.createTriangle(p1, p2, null);
 	}
@@ -590,9 +590,9 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createTriangle() {
-		Vector2 p1 = new Vector2(1.0, 0.0);
-		Vector2 p2 = new Vector2(0.5, 1.0);
-		Vector2 p3 = new Vector2(-0.5, 1.0);
+		DynVector2 p1 = new DynVector2(1.0, 0.0);
+		DynVector2 p2 = new DynVector2(0.5, 1.0);
+		DynVector2 p3 = new DynVector2(-0.5, 1.0);
 		Triangle t = Geometry.createTriangle(p1, p2, p3);
 		
 		// the points should not be the same instances		
@@ -606,9 +606,9 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createTriangleAtOrigin() {
-		Vector2 p1 = new Vector2(1.0, 0.0);
-		Vector2 p2 = new Vector2(0.5, 1.0);
-		Vector2 p3 = new Vector2(-0.5, 1.0);
+		DynVector2 p1 = new DynVector2(1.0, 0.0);
+		DynVector2 p2 = new DynVector2(0.5, 1.0);
+		DynVector2 p3 = new DynVector2(-0.5, 1.0);
 		Triangle t = Geometry.createTriangleAtOrigin(p1, p2, p3);
 		
 		// the points should not be the same instances
@@ -617,7 +617,7 @@ public class GeometryTest {
 		TestCase.assertFalse(t.vertices[2] == p3);
 		
 		// make sure the center is at the origin
-		Vector2 c = t.getCenter();
+		DynVector2 c = t.getCenter();
 		TestCase.assertEquals(0.000, c.x, 1.0e-3);
 		TestCase.assertEquals(0.000, c.y, 1.0e-3);
 	}
@@ -662,19 +662,19 @@ public class GeometryTest {
 		Triangle t = Geometry.createRightTriangle(1.0, 2.0);
 		
 		// test that the center is the origin
-		Vector2 center = t.getCenter();
+		DynVector2 center = t.getCenter();
 		TestCase.assertEquals(0.000, center.x, 1.0e-3);
 		TestCase.assertEquals(0.000, center.y, 1.0e-3);
 		
 		// get the vertices
-		Vector2 v1 = t.vertices[0];
-		Vector2 v2 = t.vertices[1];
-		Vector2 v3 = t.vertices[2];
+		DynVector2 v1 = t.vertices[0];
+		DynVector2 v2 = t.vertices[1];
+		DynVector2 v3 = t.vertices[2];
 		
 		// create the edges
-		Vector2 e1 = v1.to(v2);
-		Vector2 e2 = v2.to(v3);
-		Vector2 e3 = v3.to(v1);
+		DynVector2 e1 = v1.to(v2);
+		DynVector2 e2 = v2.to(v3);
+		DynVector2 e3 = v3.to(v1);
 		
 		// one of the follow dot products must be zero
 		// indicating a 90 degree angle
@@ -705,19 +705,19 @@ public class GeometryTest {
 		Triangle t = Geometry.createRightTriangle(1.0, 2.0, true);
 		
 		// test that the center is the origin
-		Vector2 center = t.getCenter();
+		DynVector2 center = t.getCenter();
 		TestCase.assertEquals(0.000, center.x, 1.0e-3);
 		TestCase.assertEquals(0.000, center.y, 1.0e-3);
 		
 		// get the vertices
-		Vector2 v1 = t.vertices[0];
-		Vector2 v2 = t.vertices[1];
-		Vector2 v3 = t.vertices[2];
+		DynVector2 v1 = t.vertices[0];
+		DynVector2 v2 = t.vertices[1];
+		DynVector2 v3 = t.vertices[2];
 		
 		// create the edges
-		Vector2 e1 = v1.to(v2);
-		Vector2 e2 = v2.to(v3);
-		Vector2 e3 = v3.to(v1);
+		DynVector2 e1 = v1.to(v2);
+		DynVector2 e2 = v2.to(v3);
+		DynVector2 e3 = v3.to(v1);
 		
 		// one of the follow dot products must be zero
 		// indicating a 90 degree angle
@@ -764,7 +764,7 @@ public class GeometryTest {
 		Triangle t = Geometry.createEquilateralTriangle(2.0);
 		
 		// test that the center is the origin
-		Vector2 center = t.getCenter();
+		DynVector2 center = t.getCenter();
 		TestCase.assertEquals(0.000, center.x, 1.0e-3);
 		TestCase.assertEquals(0.000, center.y, 1.0e-3);
 		
@@ -776,8 +776,8 @@ public class GeometryTest {
 		double previousD = t.vertices[0].distance(t.vertices[1]);
 		// make sure all the angles are the same
 		for (int i = 1; i < 3; i++) {
-			Vector2 v1 = t.vertices[i];
-			Vector2 v2 = t.vertices[i + 1 == 3 ? 0 : i + 1];
+			DynVector2 v1 = t.vertices[i];
+			DynVector2 v2 = t.vertices[i + 1 == 3 ? 0 : i + 1];
 			// test the angle between the vectors
 			double angle = v1.getAngleBetween(v2);
 			// put the angle between 0 and 180
@@ -837,19 +837,19 @@ public class GeometryTest {
 		Triangle t = Geometry.createIsoscelesTriangle(2.0, 1.0);
 		
 		// test that the center is the origin
-		Vector2 center = t.getCenter();
+		DynVector2 center = t.getCenter();
 		TestCase.assertEquals(0.000, center.x, 1.0e-3);
 		TestCase.assertEquals(0.000, center.y, 1.0e-3);
 		
 		// get the vertices
-		Vector2 v1 = t.vertices[0];
-		Vector2 v2 = t.vertices[1];
-		Vector2 v3 = t.vertices[2];
+		DynVector2 v1 = t.vertices[0];
+		DynVector2 v2 = t.vertices[1];
+		DynVector2 v3 = t.vertices[2];
 		
 		// create the edges
-		Vector2 e1 = v1.to(v2);
-		Vector2 e2 = v2.to(v3);
-		Vector2 e3 = v3.to(v1);
+		DynVector2 e1 = v1.to(v2);
+		DynVector2 e2 = v2.to(v3);
+		DynVector2 e3 = v3.to(v1);
 		
 		// the length of e1 and e3 should be identical
 		TestCase.assertEquals(e1.getMagnitude(), e3.getMagnitude(), 1.0e-3);
@@ -863,7 +863,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createSegmentNullPoint1() {
-		Geometry.createSegment(null, new Vector2());
+		Geometry.createSegment(null, new DynVector2());
 	}
 
 	/**
@@ -872,7 +872,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createSegmentNullPoint2() {
-		Geometry.createSegment(new Vector2(), null);
+		Geometry.createSegment(new DynVector2(), null);
 	}
 	
 	/**
@@ -880,7 +880,7 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createSegment() {
-		Geometry.createSegment(new Vector2(1.0, 1.0), new Vector2(2.0, -1.0));
+		Geometry.createSegment(new DynVector2(1.0, 1.0), new DynVector2(2.0, -1.0));
 	}
 	
 	/**
@@ -888,10 +888,10 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createSegmentAtOrigin() {
-		Segment s = Geometry.createSegmentAtOrigin(new Vector2(1.0, 1.0), new Vector2(2.0, -1.0));
+		Segment s = Geometry.createSegmentAtOrigin(new DynVector2(1.0, 1.0), new DynVector2(2.0, -1.0));
 		
 		// test that the center is the origin
-		Vector2 center = s.getCenter();
+		DynVector2 center = s.getCenter();
 		TestCase.assertEquals(0.000, center.x, 1.0e-3);
 		TestCase.assertEquals(0.000, center.y, 1.0e-3);
 	}
@@ -901,7 +901,7 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createSegmentEnd() {
-		Geometry.createSegment(new Vector2(1.0, 1.0));
+		Geometry.createSegment(new DynVector2(1.0, 1.0));
 	}
 	
 	/**
@@ -928,7 +928,7 @@ public class GeometryTest {
 		Segment s = Geometry.createHorizontalSegment(5.0);
 		
 		// test that the center is the origin
-		Vector2 center = s.getCenter();
+		DynVector2 center = s.getCenter();
 		TestCase.assertEquals(0.000, center.x, 1.0e-3);
 		TestCase.assertEquals(0.000, center.y, 1.0e-3);
 	}
@@ -960,7 +960,7 @@ public class GeometryTest {
 		Segment s = Geometry.createVerticalSegment(5.0);
 		
 		// test that the center is the origin
-		Vector2 center = s.getCenter();
+		DynVector2 center = s.getCenter();
 		TestCase.assertEquals(0.000, center.x, 1.0e-3);
 		TestCase.assertEquals(0.000, center.y, 1.0e-3);
 	}
@@ -970,11 +970,11 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getWindingList() {
-		List<Vector2> points = new ArrayList<Vector2>();
-		points.add(new Vector2(-1.0, -1.0));
-		points.add(new Vector2(1.0, -1.0));
-		points.add(new Vector2(1.0, 1.0));
-		points.add(new Vector2(-1.0, 1.0));
+		List<DynVector2> points = new ArrayList<DynVector2>();
+		points.add(new DynVector2(-1.0, -1.0));
+		points.add(new DynVector2(1.0, -1.0));
+		points.add(new DynVector2(1.0, 1.0));
+		points.add(new DynVector2(-1.0, 1.0));
 		TestCase.assertTrue(Geometry.getWinding(points) > 0);
 		
 		Collections.reverse(points);
@@ -986,7 +986,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getWindingNullList() {
-		Geometry.getWinding((List<Vector2>)null);
+		Geometry.getWinding((List<DynVector2>)null);
 	}
 	
 	/**
@@ -994,8 +994,8 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void getWindingListLessThan2Points() {
-		List<Vector2> points = new ArrayList<Vector2>();
-		points.add(new Vector2());
+		List<DynVector2> points = new ArrayList<DynVector2>();
+		points.add(new DynVector2());
 		Geometry.getWinding(points);
 	}
 	
@@ -1004,8 +1004,8 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getWindingListNullPoint() {
-		List<Vector2> points = new ArrayList<Vector2>();
-		points.add(new Vector2());
+		List<DynVector2> points = new ArrayList<DynVector2>();
+		points.add(new DynVector2());
 		points.add(null);
 		points.add(null);
 		Geometry.getWinding(points);
@@ -1016,15 +1016,15 @@ public class GeometryTest {
 	 */
 	@Test
 	public void getWindingArray() {
-		Vector2[] points = new Vector2[4];
-		points[0] = new Vector2(-1.0, -1.0);
-		points[1] = new Vector2(1.0, -1.0);
-		points[2] = new Vector2(1.0, 1.0);
-		points[3] = new Vector2(-1.0, 1.0);
+		DynVector2[] points = new DynVector2[4];
+		points[0] = new DynVector2(-1.0, -1.0);
+		points[1] = new DynVector2(1.0, -1.0);
+		points[2] = new DynVector2(1.0, 1.0);
+		points[3] = new DynVector2(-1.0, 1.0);
 		TestCase.assertTrue(Geometry.getWinding(points) > 0);
 		
 		// reverse the array
-		Vector2 p = points[0];
+		DynVector2 p = points[0];
 		points[0] = points[3];
 		points[3] = p;
 		p = points[1];
@@ -1039,7 +1039,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getWindingNullArray() {
-		Geometry.getWinding((Vector2[])null);
+		Geometry.getWinding((DynVector2[])null);
 	}
 	
 	/**
@@ -1047,8 +1047,8 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void getWindingArrayLessThan2Points() {
-		Vector2[] points = new Vector2[1];
-		points[0] = new Vector2(-1.0, -1.0);
+		DynVector2[] points = new DynVector2[1];
+		points[0] = new DynVector2(-1.0, -1.0);
 		Geometry.getWinding(points);
 	}
 	
@@ -1057,8 +1057,8 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getWindingArrayNullPoint() {
-		Vector2[] points = new Vector2[4];
-		points[0] = new Vector2(-1.0, -1.0);
+		DynVector2[] points = new DynVector2[4];
+		points[0] = new DynVector2(-1.0, -1.0);
 		points[1] = null;
 		points[2] = null;
 		points[3] = null;
@@ -1070,7 +1070,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void reverseWindingNullList() {
-		Geometry.reverseWinding((List<Vector2>) null);
+		Geometry.reverseWinding((List<DynVector2>) null);
 	}
 	
 	/**
@@ -1078,7 +1078,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void reverseWindingNullArray() {
-		Geometry.reverseWinding((Vector2[]) null);
+		Geometry.reverseWinding((DynVector2[]) null);
 	}
 
 	/**
@@ -1086,18 +1086,18 @@ public class GeometryTest {
 	 */
 	@Test
 	public void reverseWindingEmptyOrOneElement() {
-		Vector2[] array = new Vector2[] {};
+		DynVector2[] array = new DynVector2[] {};
 		Geometry.reverseWinding(array);
 		
-		array = new Vector2[] {
-			new Vector2(1.0, 1.0)
+		array = new DynVector2[] {
+			new DynVector2(1.0, 1.0)
 		};
 		Geometry.reverseWinding(array);
 		
-		List<Vector2> list = new ArrayList<Vector2>();
+		List<DynVector2> list = new ArrayList<DynVector2>();
 		Geometry.reverseWinding(list);
 		
-		list.add(new Vector2(1.0, 1.0));
+		list.add(new DynVector2(1.0, 1.0));
 		Geometry.reverseWinding(list);
 	}
 	
@@ -1107,7 +1107,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void cleanseNullList() {
-		Geometry.cleanse((List<Vector2>)null);
+		Geometry.cleanse((List<DynVector2>)null);
 	}
 	
 	/**
@@ -1116,7 +1116,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void cleanseNullArray() {
-		Geometry.cleanse((Vector2[])null);
+		Geometry.cleanse((DynVector2[])null);
 	}
 	
 	/**
@@ -1125,11 +1125,11 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void cleanseListWithNullElements() {
-		List<Vector2> list = new ArrayList<Vector2>();
-		list.add(new Vector2());
+		List<DynVector2> list = new ArrayList<DynVector2>();
+		list.add(new DynVector2());
 		list.add(null);
-		list.add(new Vector2());
-		list.add(new Vector2());
+		list.add(new DynVector2());
+		list.add(new DynVector2());
 		Geometry.cleanse(list);
 	}
 	
@@ -1139,10 +1139,10 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void cleanseArrayWithNullElements() {
-		Vector2[] array = new Vector2[5];
-		array[0] = new Vector2();
-		array[3] = new Vector2();
-		array[4] = new Vector2();
+		DynVector2[] array = new DynVector2[5];
+		array[0] = new DynVector2();
+		array[3] = new DynVector2();
+		array[4] = new DynVector2();
 		Geometry.cleanse(array);
 	}
 	
@@ -1151,10 +1151,10 @@ public class GeometryTest {
 	 */
 	@Test
 	public void cleanseEmpty() {
-		List<Vector2> points = new ArrayList<Vector2>();
-		List<Vector2> result1 = Geometry.cleanse(points);
+		List<DynVector2> points = new ArrayList<DynVector2>();
+		List<DynVector2> result1 = Geometry.cleanse(points);
 		
-		Vector2[] result2 = Geometry.cleanse(new Vector2[] {});
+		DynVector2[] result2 = Geometry.cleanse(new DynVector2[] {});
 		
 		TestCase.assertEquals(0, result1.size());
 		TestCase.assertEquals(0, result2.length);
@@ -1165,17 +1165,17 @@ public class GeometryTest {
 	 */
 	@Test
 	public void cleanseList() {
-		List<Vector2> points = new ArrayList<Vector2>();
-		points.add(new Vector2(1.0, 0.0));
-		points.add(new Vector2(1.0, 0.0));
-		points.add(new Vector2(0.5, -0.5));
-		points.add(new Vector2(0.0, -0.5));
-		points.add(new Vector2(-0.5, -0.5));
-		points.add(new Vector2(-2.0, -0.5));
-		points.add(new Vector2(2.1, 0.5));
-		points.add(new Vector2(1.0, 0.0));
+		List<DynVector2> points = new ArrayList<DynVector2>();
+		points.add(new DynVector2(1.0, 0.0));
+		points.add(new DynVector2(1.0, 0.0));
+		points.add(new DynVector2(0.5, -0.5));
+		points.add(new DynVector2(0.0, -0.5));
+		points.add(new DynVector2(-0.5, -0.5));
+		points.add(new DynVector2(-2.0, -0.5));
+		points.add(new DynVector2(2.1, 0.5));
+		points.add(new DynVector2(1.0, 0.0));
 		
-		List<Vector2> result = Geometry.cleanse(points);
+		List<DynVector2> result = Geometry.cleanse(points);
 		
 		TestCase.assertTrue(Geometry.getWinding(result) > 0.0);
 		TestCase.assertEquals(4, result.size());
@@ -1194,24 +1194,24 @@ public class GeometryTest {
 	 */
 	@Test
 	public void cleanseArray() {
-		Vector2[] points = new Vector2[8];
-		points[0] = new Vector2(1.0, 0.0);
-		points[1] = new Vector2(1.0, 0.0);
-		points[2] = new Vector2(0.5, -0.5);
-		points[3] = new Vector2(0.0, -0.5);
-		points[4] = new Vector2(-0.5, -0.5);
-		points[5] = new Vector2(-2.0, -0.5);
-		points[6] = new Vector2(2.1, 0.5);
-		points[7] = new Vector2(1.0, 0.0);
+		DynVector2[] points = new DynVector2[8];
+		points[0] = new DynVector2(1.0, 0.0);
+		points[1] = new DynVector2(1.0, 0.0);
+		points[2] = new DynVector2(0.5, -0.5);
+		points[3] = new DynVector2(0.0, -0.5);
+		points[4] = new DynVector2(-0.5, -0.5);
+		points[5] = new DynVector2(-2.0, -0.5);
+		points[6] = new DynVector2(2.1, 0.5);
+		points[7] = new DynVector2(1.0, 0.0);
 		
-		Vector2[] result = Geometry.cleanse(points);
+		DynVector2[] result = Geometry.cleanse(points);
 		
 		TestCase.assertTrue(Geometry.getWinding(result) > 0.0);
 		TestCase.assertEquals(4, result.length);
 		
-		List<Vector2> pts = Arrays.asList(points);
+		List<DynVector2> pts = Arrays.asList(points);
 		Collections.reverse(pts);
-		points = pts.toArray(new Vector2[] {});
+		points = pts.toArray(new DynVector2[] {});
 		
 		result = Geometry.cleanse(points);
 		
@@ -1633,9 +1633,9 @@ public class GeometryTest {
 		Polygon p = Geometry.createUnitCirclePolygon(5, 1.0);
 		
 		// flip about an arbitrary vector and point (line)
-		Polygon flipped = Geometry.flip(p, new Vector2(1.0, 1.0),  new Vector2(0.0, 2.0));
+		Polygon flipped = Geometry.flip(p, new DynVector2(1.0, 1.0),  new DynVector2(0.0, 2.0));
 		
-		Vector2[] vertices = flipped.getVertices();
+		DynVector2[] vertices = flipped.getVertices();
 		TestCase.assertEquals(-2.951, vertices[0].x, 1.0e-3);
 		TestCase.assertEquals( 2.309, vertices[0].y, 1.0e-3);
 		TestCase.assertEquals(-2.587, vertices[1].x, 1.0e-3);
@@ -1662,7 +1662,7 @@ public class GeometryTest {
 		TestCase.assertEquals( 0.000, vertices[4].y, 1.0e-3);
 		
 		// flip about X at point
-		flipped = Geometry.flipAlongTheXAxis(p, new Vector2(0.0, 1.0));
+		flipped = Geometry.flipAlongTheXAxis(p, new DynVector2(0.0, 1.0));
 		vertices = flipped.getVertices();
 		TestCase.assertEquals( 0.309, vertices[0].x, 1.0e-3);
 		TestCase.assertEquals( 2.951, vertices[0].y, 1.0e-3);
@@ -1690,7 +1690,7 @@ public class GeometryTest {
 		TestCase.assertEquals(-0.000, vertices[4].y, 1.0e-3);
 		
 		// flip about Y at point
-		flipped = Geometry.flipAlongTheYAxis(p, new Vector2(1.0, 0.0));
+		flipped = Geometry.flipAlongTheYAxis(p, new DynVector2(1.0, 0.0));
 		vertices = flipped.getVertices();
 		TestCase.assertEquals( 1.690, vertices[0].x, 1.0e-3);
 		TestCase.assertEquals(-0.951, vertices[0].y, 1.0e-3);
@@ -1704,7 +1704,7 @@ public class GeometryTest {
 		TestCase.assertEquals(-0.000, vertices[4].y, 1.0e-3);
 		
 		// flip about a vector originating from the origin
-		flipped = Geometry.flip(p, new Vector2(1.0, 0.0));
+		flipped = Geometry.flip(p, new DynVector2(1.0, 0.0));
 		vertices = flipped.getVertices();
 		TestCase.assertEquals( 0.309, vertices[0].x, 1.0e-3);
 		TestCase.assertEquals( 0.951, vertices[0].y, 1.0e-3);
@@ -1724,7 +1724,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void flipNullPolygon() {
-		Geometry.flip(null, new Vector2(1.0, 1.0),  null);
+		Geometry.flip(null, new DynVector2(1.0, 1.0),  null);
 	}
 	
 	/**
@@ -1742,7 +1742,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void flipZeroAxis() {
-		Geometry.flip(Geometry.createSquare(1.0), new Vector2(),  null);
+		Geometry.flip(Geometry.createSquare(1.0), new DynVector2(),  null);
 	}
 	
 	/**
@@ -1752,7 +1752,7 @@ public class GeometryTest {
 	@Test
 	public void flipNullPoint() {
 		// it should use the center
-		Geometry.flip(Geometry.createSquare(1.0), new Vector2(1.0, 1.0),  null);
+		Geometry.flip(Geometry.createSquare(1.0), new DynVector2(1.0, 1.0),  null);
 	}
 	
 	/**
@@ -1781,11 +1781,11 @@ public class GeometryTest {
 		TestCase.assertEquals(8, p.vertices.length);
 		
 		// verify the generation of the polygon works
-		p = Geometry.minkowskiSum(Geometry.createSegment(new Vector2(1.0, 0.0)), Geometry.createUnitCirclePolygon(5, 0.2));
+		p = Geometry.minkowskiSum(Geometry.createSegment(new DynVector2(1.0, 0.0)), Geometry.createUnitCirclePolygon(5, 0.2));
 		TestCase.assertEquals(7, p.vertices.length);
 		
 		// verify the generation of the polygon works
-		p = Geometry.minkowskiSum(Geometry.createSegment(new Vector2(1.0, 0.0)), Geometry.createSegment(new Vector2(0.5, 0.5)));
+		p = Geometry.minkowskiSum(Geometry.createSegment(new DynVector2(1.0, 0.0)), Geometry.createSegment(new DynVector2(0.5, 0.5)));
 		TestCase.assertEquals(4, p.vertices.length);
 		
 		p = Geometry.minkowskiSum(Geometry.createSquare(1.0), Geometry.createSquare(0.5));
@@ -1803,7 +1803,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void minkowskiSumInvalidSegments() {
-		Geometry.minkowskiSum(Geometry.createSegment(new Vector2(1.0, 0.0)), Geometry.createSegment(new Vector2(-0.5, 0.0)));
+		Geometry.minkowskiSum(Geometry.createSegment(new DynVector2(1.0, 0.0)), Geometry.createSegment(new DynVector2(-0.5, 0.0)));
 	}
 	
 	/**
@@ -1917,7 +1917,7 @@ public class GeometryTest {
 		HalfEllipse s4 = Geometry.scale(Geometry.createHalfEllipse(1.0, 0.25), 2);
 		Slice s5 = Geometry.scale(Geometry.createSlice(0.5, Math.toRadians(30)), 2);
 		Polygon s6 = Geometry.scale(Geometry.createUnitCirclePolygon(5, 0.5), 2);
-		Segment s7 = Geometry.scale(Geometry.createSegment(new Vector2(1.0, 0.0)), 2);
+		Segment s7 = Geometry.scale(Geometry.createSegment(new DynVector2(1.0, 0.0)), 2);
 		
 		TestCase.assertEquals(1.000, s1.radius, 1.0e-3);
 		TestCase.assertEquals(2.000, s2.length, 1.0e-3);
@@ -1936,7 +1936,7 @@ public class GeometryTest {
 		s4 = Geometry.scale(Geometry.createHalfEllipse(1.0, 0.25), 0.5);
 		s5 = Geometry.scale(Geometry.createSlice(0.5, Math.toRadians(30)), 0.5);
 		s6 = Geometry.scale(Geometry.createUnitCirclePolygon(5, 0.5), 0.5);
-		s7 = Geometry.scale(Geometry.createSegment(new Vector2(1.0, 0.0)), 0.5);
+		s7 = Geometry.scale(Geometry.createSegment(new DynVector2(1.0, 0.0)), 0.5);
 		
 		TestCase.assertEquals(0.250, s1.radius, 1.0e-3);
 		TestCase.assertEquals(0.500, s2.length, 1.0e-3);
@@ -2073,7 +2073,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void scaleSegmentInvalid() {
-		Geometry.scale(Geometry.createSegment(new Vector2(1.0, 1.0)), 0);
+		Geometry.scale(Geometry.createSegment(new DynVector2(1.0, 1.0)), 0);
 	}
 
 	/**
@@ -2082,10 +2082,10 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createLinksWrap() {
-		Vector2 a = new Vector2(0.0, 0.0);
-		Vector2 b = new Vector2(2.4, 0.0);
-		Vector2 c = new Vector2(2.4, 1.6);
-		Vector2 d = new Vector2(0.0, 1.6);
+		DynVector2 a = new DynVector2(0.0, 0.0);
+		DynVector2 b = new DynVector2(2.4, 0.0);
+		DynVector2 c = new DynVector2(2.4, 1.6);
+		DynVector2 d = new DynVector2(0.0, 1.6);
 		List<Link> links = Geometry.createLinks(Arrays.asList(a, b, c, d), true);
 		
 		TestCase.assertEquals(4, links.size());
@@ -2104,11 +2104,11 @@ public class GeometryTest {
 	 */
 	@Test
 	public void createLinks() {
-		List<Vector2> verts = new ArrayList<Vector2>();
-		verts.add(new Vector2(2.0, 1.5));
-		verts.add(new Vector2(1.0, 1.0));
-		verts.add(new Vector2(1.0, 0.0));
-		verts.add(new Vector2(0.0, 0.0));
+		List<DynVector2> verts = new ArrayList<DynVector2>();
+		verts.add(new DynVector2(2.0, 1.5));
+		verts.add(new DynVector2(1.0, 1.0));
+		verts.add(new DynVector2(1.0, 0.0));
+		verts.add(new DynVector2(0.0, 0.0));
 		
 		// test closed loop
 		List<Link> links = Geometry.createLinks(verts, true);
@@ -2206,7 +2206,7 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createLinksNull() {
-		Geometry.createLinks((Vector2[])null, false);
+		Geometry.createLinks((DynVector2[])null, false);
 	}
 
 	/**
@@ -2214,8 +2214,8 @@ public class GeometryTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createLinksOneVertex() {
-		List<Vector2> verts = new ArrayList<Vector2>();
-		verts.add(new Vector2(2.0, 1.5));
+		List<DynVector2> verts = new ArrayList<DynVector2>();
+		verts.add(new DynVector2(2.0, 1.5));
 		Geometry.createLinks(verts, false);
 	}
 
@@ -2224,11 +2224,11 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createLinksNullVertex() {
-		List<Vector2> verts = new ArrayList<Vector2>();
-		verts.add(new Vector2(2.0, 1.5));
-		verts.add(new Vector2(1.0, 1.0));
+		List<DynVector2> verts = new ArrayList<DynVector2>();
+		verts.add(new DynVector2(2.0, 1.5));
+		verts.add(new DynVector2(1.0, 1.0));
 		verts.add(null);
-		verts.add(new Vector2(3.0, 1.5));
+		verts.add(new DynVector2(3.0, 1.5));
 		Geometry.createLinks(verts, false);
 	}
 
@@ -2267,22 +2267,22 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersection() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(1.0, 0.0),
-				new Vector2(3.0, 1.0),
-				new Vector2(3.25, 3.75),
-				new Vector2(1.5, 4.75),
-				new Vector2(0.0, 5.25),
-				new Vector2(-2.5, 4.5),
-				new Vector2(-2.75, 3.25),
-				new Vector2(-2.5, 1.5));
+				new DynVector2(1.0, 0.0),
+				new DynVector2(3.0, 1.0),
+				new DynVector2(3.25, 3.75),
+				new DynVector2(1.5, 4.75),
+				new DynVector2(0.0, 5.25),
+				new DynVector2(-2.5, 4.5),
+				new DynVector2(-2.75, 3.25),
+				new DynVector2(-2.5, 1.5));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2322,22 +2322,22 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionVertexOnEdgeA() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-2.6, 4.0));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-2.6, 4.0));
 		Polygon p2 = new Polygon(
-				new Vector2(1.0, 0.0),
-				new Vector2(3.0, 1.0),
-				new Vector2(3.25, 3.75),
-				new Vector2(1.5, 4.75),
-				new Vector2(0.0, 5.25),
-				new Vector2(-2.5, 4.5),
-				new Vector2(-2.75, 3.25),
-				new Vector2(-2.5, 1.5));
+				new DynVector2(1.0, 0.0),
+				new DynVector2(3.0, 1.0),
+				new DynVector2(3.25, 3.75),
+				new DynVector2(1.5, 4.75),
+				new DynVector2(0.0, 5.25),
+				new DynVector2(-2.5, 4.5),
+				new DynVector2(-2.75, 3.25),
+				new DynVector2(-2.5, 1.5));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2375,22 +2375,22 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionVertexOnEdgeB() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(1.0, 0.0),
-				new Vector2(3.0, 1.0),
-				new Vector2(3.25, 3.75),
-				new Vector2(1.5, 4.75),
-				new Vector2(0.0, 5.0),
-				new Vector2(-2.5, 4.5),
-				new Vector2(-2.75, 3.25),
-				new Vector2(-2.5, 1.5));
+				new DynVector2(1.0, 0.0),
+				new DynVector2(3.0, 1.0),
+				new DynVector2(3.25, 3.75),
+				new DynVector2(1.5, 4.75),
+				new DynVector2(0.0, 5.0),
+				new DynVector2(-2.5, 4.5),
+				new DynVector2(-2.75, 3.25),
+				new DynVector2(-2.5, 1.5));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2428,22 +2428,22 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionCoincidentVertexA() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-2.75, 3.25));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-2.75, 3.25));
 		Polygon p2 = new Polygon(
-				new Vector2(1.0, 0.0),
-				new Vector2(3.0, 1.0),
-				new Vector2(3.25, 3.75),
-				new Vector2(1.5, 4.75),
-				new Vector2(0.0, 5.25),
-				new Vector2(-2.5, 4.5),
-				new Vector2(-2.75, 3.25),
-				new Vector2(-2.5, 1.5));
+				new DynVector2(1.0, 0.0),
+				new DynVector2(3.0, 1.0),
+				new DynVector2(3.25, 3.75),
+				new DynVector2(1.5, 4.75),
+				new DynVector2(0.0, 5.25),
+				new DynVector2(-2.5, 4.5),
+				new DynVector2(-2.75, 3.25),
+				new DynVector2(-2.5, 1.5));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2481,22 +2481,22 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionCoincidentVertexB() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(1.0, 0.0),
-				new Vector2(3.0, 1.0),
-				new Vector2(3.25, 3.75),
-				new Vector2(1.5, 4.75),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-2.5, 4.5),
-				new Vector2(-2.75, 3.25),
-				new Vector2(-2.5, 1.5));
+				new DynVector2(1.0, 0.0),
+				new DynVector2(3.0, 1.0),
+				new DynVector2(3.25, 3.75),
+				new DynVector2(1.5, 4.75),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-2.5, 4.5),
+				new DynVector2(-2.75, 3.25),
+				new DynVector2(-2.5, 1.5));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2534,23 +2534,23 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionColinearEdgeB() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(1.0, 0.0),
-				new Vector2(3.0, 1.0),
-				new Vector2(3.25, 3.75),
-				new Vector2(1.5, 4.75),
-				new Vector2(0.5, 5.0),
-				new Vector2(-0.5, 5.0),
-				new Vector2(-2.5, 4.5),
-				new Vector2(-2.75, 3.25),
-				new Vector2(-2.5, 1.5));
+				new DynVector2(1.0, 0.0),
+				new DynVector2(3.0, 1.0),
+				new DynVector2(3.25, 3.75),
+				new DynVector2(1.5, 4.75),
+				new DynVector2(0.5, 5.0),
+				new DynVector2(-0.5, 5.0),
+				new DynVector2(-2.5, 4.5),
+				new DynVector2(-2.75, 3.25),
+				new DynVector2(-2.5, 1.5));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2590,18 +2590,18 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionEdgeTouching() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(-1.0, 5.0),
-				new Vector2(1.0, 5.0),
-				new Vector2(1.0, 6.0),
-				new Vector2(-1.0, 6.0));
+				new DynVector2(-1.0, 5.0),
+				new DynVector2(1.0, 5.0),
+				new DynVector2(1.0, 6.0),
+				new DynVector2(-1.0, 6.0));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2618,18 +2618,18 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionVertexTouching() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(2.0, 5.0),
-				new Vector2(4.0, 5.0),
-				new Vector2(4.0, 6.0),
-				new Vector2(2.0, 6.0));
+				new DynVector2(2.0, 5.0),
+				new DynVector2(4.0, 5.0),
+				new DynVector2(4.0, 6.0),
+				new DynVector2(2.0, 6.0));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2646,18 +2646,18 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionVertexTouchingCoincident() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(2.0, 5.0),
-				new Vector2(4.0, 5.0),
-				new Vector2(1.0, 6.0),
-				new Vector2(-1.0, 6.0));
+				new DynVector2(2.0, 5.0),
+				new DynVector2(4.0, 5.0),
+				new DynVector2(1.0, 6.0),
+				new DynVector2(-1.0, 6.0));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2673,18 +2673,18 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionNoIntersection() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(3.0, 5.0),
-				new Vector2(5.0, 5.0),
-				new Vector2(5.0, 6.0),
-				new Vector2(3.0, 6.0));
+				new DynVector2(3.0, 5.0),
+				new DynVector2(5.0, 5.0),
+				new DynVector2(5.0, 6.0),
+				new DynVector2(3.0, 6.0));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2700,18 +2700,18 @@ public class GeometryTest {
 	@Test
 	public void polygonIntersectionContainment() {
 		Polygon p1 = new Polygon(
-				new Vector2(0.0, 0.0),
-				new Vector2(2.0, 1.0),
-				new Vector2(4.0, 3.0),
-				new Vector2(4.25, 4.0),
-				new Vector2(2.0, 5.0),
-				new Vector2(-2.0, 5.0),
-				new Vector2(-4.0, 3.75));
+				new DynVector2(0.0, 0.0),
+				new DynVector2(2.0, 1.0),
+				new DynVector2(4.0, 3.0),
+				new DynVector2(4.25, 4.0),
+				new DynVector2(2.0, 5.0),
+				new DynVector2(-2.0, 5.0),
+				new DynVector2(-4.0, 3.75));
 		Polygon p2 = new Polygon(
-				new Vector2(-1.0, 2.0),
-				new Vector2( 1.0, 2.0),
-				new Vector2( 1.0, 3.0),
-				new Vector2(-1.0, 3.0));
+				new DynVector2(-1.0, 2.0),
+				new DynVector2( 1.0, 2.0),
+				new DynVector2( 1.0, 3.0),
+				new DynVector2(-1.0, 3.0));
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
@@ -2732,22 +2732,22 @@ public class GeometryTest {
 		double r = Geometry.getRotationRadius(p1.vertices);
 		TestCase.assertEquals(0.500, r, 1e-3);
 		
-		r = Geometry.getRotationRadius(new Vector2(1.0, 0.0), new Vector2[] { new Vector2(-0.5, 0.0) });
+		r = Geometry.getRotationRadius(new DynVector2(1.0, 0.0), new DynVector2[] { new DynVector2(-0.5, 0.0) });
 		TestCase.assertEquals(1.500, r, 1e-3);
 		
-		r = Geometry.getRotationRadius(new Vector2(-1.0, 0.0), p1.vertices);
+		r = Geometry.getRotationRadius(new DynVector2(-1.0, 0.0), p1.vertices);
 		TestCase.assertEquals(1.500, r, 1e-3);
 		
-		r = Geometry.getRotationRadius((Vector2[])null);
+		r = Geometry.getRotationRadius((DynVector2[])null);
 		TestCase.assertEquals(0.000, r, 1e-3);
 		
-		r = Geometry.getRotationRadius(new Vector2[0]);
+		r = Geometry.getRotationRadius(new DynVector2[0]);
 		TestCase.assertEquals(0.000, r, 1e-3);
 		
-		r = Geometry.getRotationRadius(null, new Vector2[0]);
+		r = Geometry.getRotationRadius(null, new DynVector2[0]);
 		TestCase.assertEquals(0.000, r, 1e-3);
 		
-		r = Geometry.getRotationRadius(new Vector2(1.0, 0.0), new Vector2[] { new Vector2(), null, new Vector2() });
+		r = Geometry.getRotationRadius(new DynVector2(1.0, 0.0), new DynVector2[] { new DynVector2(), null, new DynVector2() });
 		TestCase.assertEquals(1.000, r, 1e-3);
 	}
 	
@@ -2759,7 +2759,7 @@ public class GeometryTest {
 	public void getCounterClockwiseEdgeNormals() {
 		Polygon p1 = Geometry.createUnitCirclePolygon(4, 0.5);
 		
-		Vector2[] normals = Geometry.getCounterClockwiseEdgeNormals(p1.vertices);
+		DynVector2[] normals = Geometry.getCounterClockwiseEdgeNormals(p1.vertices);
 		
 		TestCase.assertEquals(0.707, normals[0].x, 1e-3);
 		TestCase.assertEquals(0.707, normals[0].y, 1e-3);
@@ -2770,10 +2770,10 @@ public class GeometryTest {
 		TestCase.assertEquals(0.707, normals[3].x, 1e-3);
 		TestCase.assertEquals(-0.707, normals[3].y, 1e-3);
 		
-		normals = Geometry.getCounterClockwiseEdgeNormals((Vector2[])null);
+		normals = Geometry.getCounterClockwiseEdgeNormals((DynVector2[])null);
 		TestCase.assertEquals(null, normals);
 		
-		normals = Geometry.getCounterClockwiseEdgeNormals(new Vector2[0]);
+		normals = Geometry.getCounterClockwiseEdgeNormals(new DynVector2[0]);
 		TestCase.assertEquals(null, normals);
 	}
 	
@@ -2783,12 +2783,12 @@ public class GeometryTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void getCounterClockwiseEdgeNormalsWithNullVertex() {
-		Geometry.getCounterClockwiseEdgeNormals(new Vector2[] {
-			new Vector2(1.0, 1.0),
-			new Vector2(2.0, 3.0),
-			new Vector2(),
+		Geometry.getCounterClockwiseEdgeNormals(new DynVector2[] {
+			new DynVector2(1.0, 1.0),
+			new DynVector2(2.0, 3.0),
+			new DynVector2(),
 			null,
-			new Vector2(3.0, -1.0)
+			new DynVector2(3.0, -1.0)
 		});
 	}
 }

@@ -27,7 +27,7 @@ package org.dyn4j.geometry.decompose;
 import java.util.List;
 
 import org.dyn4j.geometry.Convex;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void nullArray() {
-		this.algo.decompose((Vector2[])null);
+		this.algo.decompose((DynVector2[])null);
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void lessThan4Vertices() {
-		Vector2[] vertices = new Vector2[3];
+		DynVector2[] vertices = new DynVector2[3];
 		this.algo.decompose(vertices);
 	}
 	
@@ -64,12 +64,12 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void nullVertex() {
-		Vector2[] vertices = new Vector2[5];
-		vertices[0] = new Vector2(1.0, 2.0);
-		vertices[1] = new Vector2(-1.0, 2.0);
+		DynVector2[] vertices = new DynVector2[5];
+		vertices[0] = new DynVector2(1.0, 2.0);
+		vertices[1] = new DynVector2(-1.0, 2.0);
 		vertices[2] = null;
-		vertices[3] = new Vector2(-1.0, 0.5);
-		vertices[4] = new Vector2(0.5, -1.0);
+		vertices[3] = new DynVector2(-1.0, 0.5);
+		vertices[4] = new DynVector2(0.5, -1.0);
 		this.algo.decompose(vertices);
 	}
 	
@@ -79,12 +79,12 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void coincidentVertex() {
-		Vector2[] vertices = new Vector2[5];
-		vertices[0] = new Vector2(1.0, 2.0);
-		vertices[1] = new Vector2(-1.0, 2.0);
-		vertices[2] = new Vector2(-1.0, 2.0);
-		vertices[3] = new Vector2(-1.0, 0.5);
-		vertices[4] = new Vector2(0.5, -1.0);
+		DynVector2[] vertices = new DynVector2[5];
+		vertices[0] = new DynVector2(1.0, 2.0);
+		vertices[1] = new DynVector2(-1.0, 2.0);
+		vertices[2] = new DynVector2(-1.0, 2.0);
+		vertices[3] = new DynVector2(-1.0, 0.5);
+		vertices[4] = new DynVector2(0.5, -1.0);
 		this.algo.decompose(vertices);
 	}
 	
@@ -93,17 +93,17 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void success1() {
-		Vector2[] vertices = new Vector2[10];
-		vertices[0] = new Vector2(2.0, 0.5);
-		vertices[1] = new Vector2(1.0, 1.0);
-		vertices[2] = new Vector2(-0.25, 0.25);
-		vertices[3] = new Vector2(-0.75, 1.5);
-		vertices[4] = new Vector2(-1.0, 2.0);
-		vertices[5] = new Vector2(-1.0, 0.0);
-		vertices[6] = new Vector2(-0.5, -0.75);
-		vertices[7] = new Vector2(0.25, -0.4);
-		vertices[8] = new Vector2(1.0, 0.3);
-		vertices[9] = new Vector2(0.25, -0.5);
+		DynVector2[] vertices = new DynVector2[10];
+		vertices[0] = new DynVector2(2.0, 0.5);
+		vertices[1] = new DynVector2(1.0, 1.0);
+		vertices[2] = new DynVector2(-0.25, 0.25);
+		vertices[3] = new DynVector2(-0.75, 1.5);
+		vertices[4] = new DynVector2(-1.0, 2.0);
+		vertices[5] = new DynVector2(-1.0, 0.0);
+		vertices[6] = new DynVector2(-0.5, -0.75);
+		vertices[7] = new DynVector2(0.25, -0.4);
+		vertices[8] = new DynVector2(1.0, 0.3);
+		vertices[9] = new DynVector2(0.25, -0.5);
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -117,7 +117,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void success2() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon1.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon1.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -131,7 +131,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void success3() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon2.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon2.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -145,7 +145,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void success4() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon3.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon3.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -159,7 +159,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void success5() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon4.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/polygon4.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -173,7 +173,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successBird() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/bird.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/bird.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -187,7 +187,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successTank() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tank.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tank.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -201,7 +201,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successNazcaMonkey() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/nazca_monkey.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/nazca_monkey.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -215,7 +215,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successNazcaHeron() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/nazca_heron.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/nazca_heron.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -230,7 +230,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successZoom1() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom1.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom1.dat"));
 		
 		// decompose the poly
 		List<Convex> result = this.algo.decompose(vertices);
@@ -245,7 +245,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successZoom2() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom2.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom2.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -260,7 +260,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successZoom3() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom3.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom3.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -275,7 +275,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successZoom4() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom4.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom4.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -290,7 +290,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successZoom5() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom5.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom5.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -305,7 +305,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successZoom6() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom6.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom6.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -320,7 +320,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successZoom7() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom7.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/zoom7.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -335,7 +335,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successTridol1() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tridol1.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tridol1.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -350,7 +350,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successTridol2() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tridol2.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tridol2.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -365,7 +365,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test
 	public void successTridol3() {
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tridol3.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/tridol3.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);
@@ -380,13 +380,13 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void decomposeFailSelfIntersection1() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(-0.07792188619765694, 0.10364292899125216),
-			new Vector2(0.1, -0.2),
-			new Vector2(0.15, 0.0),
-			new Vector2(0.2, 0.07),
-			new Vector2(0.21037640391727175, 0.06289919008100842),
-			new Vector2(0.3079072605141815, -0.20863138522549773)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(-0.07792188619765694, 0.10364292899125216),
+			new DynVector2(0.1, -0.2),
+			new DynVector2(0.15, 0.0),
+			new DynVector2(0.2, 0.07),
+			new DynVector2(0.21037640391727175, 0.06289919008100842),
+			new DynVector2(0.3079072605141815, -0.20863138522549773)
 		};
 		
 		// decompose the poly
@@ -399,11 +399,11 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void decomposeFailSelfIntersection2() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(-0.07792188619765694, 0.10364292899125216),
-			new Vector2(0.2412466770151972, -0.3145214553981004),
-			new Vector2(0.21037640391727175, 0.06289919008100842),
-			new Vector2(0.3079072605141815, -0.20863138522549773)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(-0.07792188619765694, 0.10364292899125216),
+			new DynVector2(0.2412466770151972, -0.3145214553981004),
+			new DynVector2(0.21037640391727175, 0.06289919008100842),
+			new DynVector2(0.3079072605141815, -0.20863138522549773)
 		};
 		
 		// decompose the poly
@@ -416,12 +416,12 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void decomposeFailSelfIntersection3() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(-0.07792188619765694, 0.10364292899125216),
-			new Vector2(0.1, -0.2),
-			new Vector2(0.2412466770151972, -0.3145214553981004),
-			new Vector2(0.21037640391727175, 0.06289919008100842),
-			new Vector2(0.3079072605141815, -0.20863138522549773)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(-0.07792188619765694, 0.10364292899125216),
+			new DynVector2(0.1, -0.2),
+			new DynVector2(0.2412466770151972, -0.3145214553981004),
+			new DynVector2(0.21037640391727175, 0.06289919008100842),
+			new DynVector2(0.3079072605141815, -0.20863138522549773)
 		};
 		
 		// decompose the poly
@@ -434,11 +434,11 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void decomposeFailSelfIntersection4() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(-0.22574647794211955, 0.3562272754868271),
-			new Vector2(-0.24724056392833493, -0.06552204150010887),
-			new Vector2(0.2551995234048088, -0.4678431592201415),
-			new Vector2(-0.11272047497863902, -0.40936273068655504)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(-0.22574647794211955, 0.3562272754868271),
+			new DynVector2(-0.24724056392833493, -0.06552204150010887),
+			new DynVector2(0.2551995234048088, -0.4678431592201415),
+			new DynVector2(-0.11272047497863902, -0.40936273068655504)
 		};
 		
 		// decompose the poly
@@ -451,11 +451,11 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void decomposeFailSelfIntersection5() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(0.187521000630546, -0.2171227524343904),
-			new Vector2(-0.05418163781638374, -0.4552384293706746),
-			new Vector2(-0.12615265827683775, 0.08842525905551823),
-			new Vector2(-0.4197343412893181, -0.45293439849558936)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(0.187521000630546, -0.2171227524343904),
+			new DynVector2(-0.05418163781638374, -0.4552384293706746),
+			new DynVector2(-0.12615265827683775, 0.08842525905551823),
+			new DynVector2(-0.4197343412893181, -0.45293439849558936)
 		};
 		
 		// decompose the poly
@@ -468,11 +468,11 @@ public class BayazitTest extends AbstractDecomposeTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void decomposeFailSelfIntersection6() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(0.1595990921676319, 0.20158036631684495),
-			new Vector2(0.3627243978540108, -0.2125801642934565),
-			new Vector2(0.4972213824759445, -0.2197501458724339),
-			new Vector2(-0.17530050402164232, -0.10202036313267437)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(0.1595990921676319, 0.20158036631684495),
+			new DynVector2(0.3627243978540108, -0.2125801642934565),
+			new DynVector2(0.4972213824759445, -0.2197501458724339),
+			new DynVector2(-0.17530050402164232, -0.10202036313267437)
 		};
 		
 		// decompose the poly
@@ -486,12 +486,12 @@ public class BayazitTest extends AbstractDecomposeTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void decomposeFailureDegenerateGusAsf() {
 		// degenerate ploygon
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(70.5, 360.0),
-				new Vector2(70.947212,360.89444),
-				new Vector2(71.394424,361.78884899999997),
-				new Vector2(71.158356,361.316711),
-				new Vector2(70.71114299999999,360.422302)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(70.5, 360.0),
+				new DynVector2(70.947212,360.89444),
+				new DynVector2(71.394424,361.78884899999997),
+				new DynVector2(71.158356,361.316711),
+				new DynVector2(70.71114299999999,360.422302)
 		};
 		
 		// decompose the poly
@@ -505,7 +505,7 @@ public class BayazitTest extends AbstractDecomposeTest {
 	@Test
 	public void nsoftTriangulateFailure() {
 		// degenerate ploygon
-		Vector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/nsoft1.dat"));
+		DynVector2[] vertices = this.load(BayazitTest.class.getResourceAsStream("/org/dyn4j/data/nsoft1.dat"));
 		
 		// decompose the poly
 		List<? extends Convex> result = this.algo.decompose(vertices);

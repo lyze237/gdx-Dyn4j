@@ -45,9 +45,9 @@ public class PolygonTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createNotEnoughPoints() {
-		new Polygon(new Vector2[] {
-			new Vector2(), 
-			new Vector2()
+		new Polygon(new DynVector2[] {
+			new DynVector2(),
+			new DynVector2()
 		});
 	}
 	
@@ -56,10 +56,10 @@ public class PolygonTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createNotCCW() {
-		new Polygon(new Vector2[] {
-			new Vector2(), 
-			new Vector2(2.0, 2.0), 
-			new Vector2(1.0, 0.0)
+		new Polygon(new DynVector2[] {
+			new DynVector2(),
+			new DynVector2(2.0, 2.0),
+			new DynVector2(1.0, 0.0)
 		});
 	}
 	
@@ -68,10 +68,10 @@ public class PolygonTest {
 	 */
 	@Test
 	public void createCCW() {
-		new Polygon(new Vector2[] {
-			new Vector2(0.5, 0.5),
-			new Vector2(-0.3, -0.5),
-			new Vector2(1.0, -0.3)
+		new Polygon(new DynVector2[] {
+			new DynVector2(0.5, 0.5),
+			new DynVector2(-0.3, -0.5),
+			new DynVector2(1.0, -0.3)
 		});
 	}
 	
@@ -80,11 +80,11 @@ public class PolygonTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createCoincident() {
-		new Polygon(new Vector2[] {
-			new Vector2(),
-			new Vector2(2.0, 2.0),
-			new Vector2(2.0, 2.0),
-			new Vector2(1.0, 0.0)
+		new Polygon(new DynVector2[] {
+			new DynVector2(),
+			new DynVector2(2.0, 2.0),
+			new DynVector2(2.0, 2.0),
+			new DynVector2(1.0, 0.0)
 		});
 	}
 	
@@ -93,12 +93,12 @@ public class PolygonTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createNonConvex() {
-		new Polygon(new Vector2[] {
-			new Vector2(1.0, 1.0),
-			new Vector2(-1.0, 1.0),
-			new Vector2(-0.5, 0.0),
-			new Vector2(-1.0, -1.0),
-			new Vector2(1.0, -1.0)
+		new Polygon(new DynVector2[] {
+			new DynVector2(1.0, 1.0),
+			new DynVector2(-1.0, 1.0),
+			new DynVector2(-0.5, 0.0),
+			new DynVector2(-1.0, -1.0),
+			new DynVector2(1.0, -1.0)
 		});
 	}
 
@@ -107,10 +107,10 @@ public class PolygonTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createDegenerate() {
-		new Polygon(new Vector2[] {
-			new Vector2(1.0, 0.0),
-			new Vector2(2.0, 0.0),
-			new Vector2(1.0, 0.0)
+		new Polygon(new DynVector2[] {
+			new DynVector2(1.0, 0.0),
+			new DynVector2(2.0, 0.0),
+			new DynVector2(1.0, 0.0)
 		});
 	}
 	
@@ -119,7 +119,7 @@ public class PolygonTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullPoints() {
-		new Polygon((Vector2[])null);
+		new Polygon((DynVector2[])null);
 	}
 	
 	/**
@@ -127,10 +127,10 @@ public class PolygonTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullPoint() {
-		new Polygon(new Vector2[] {
-			new Vector2(),
+		new Polygon(new DynVector2[] {
+			new DynVector2(),
 			null,
-			new Vector2(0, 2)
+			new DynVector2(0, 2)
 		});
 	}
 	
@@ -139,10 +139,10 @@ public class PolygonTest {
 	 */
 	@Test
 	public void createSuccess() {
-		new Polygon(new Vector2[] {
-			new Vector2(0.0, 1.0),
-			new Vector2(-2.0, -2.0),
-			new Vector2(1.0, -2.0)
+		new Polygon(new DynVector2[] {
+			new DynVector2(0.0, 1.0),
+			new DynVector2(-2.0, -2.0),
+			new DynVector2(1.0, -2.0)
 		});
 	}
 	
@@ -151,15 +151,15 @@ public class PolygonTest {
 	 */
 	@Test
 	public void contains() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(0.0, 1.0),
-			new Vector2(-1.0, 0.0),
-			new Vector2(1.0, 0.0)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(0.0, 1.0),
+			new DynVector2(-1.0, 0.0),
+			new DynVector2(1.0, 0.0)
 		};
 		Polygon p = new Polygon(vertices);
 		
 		Transform t = new Transform();
-		Vector2 pt = new Vector2(2.0, 4.0);
+		DynVector2 pt = new DynVector2(2.0, 4.0);
 		
 		// shouldn't be in the polygon
 		TestCase.assertTrue(!p.contains(pt, t));
@@ -196,15 +196,15 @@ public class PolygonTest {
 	 */
 	@Test
 	public void project() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, 0.0),
-				new Vector2(1.0, 0.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, 0.0),
+				new DynVector2(1.0, 0.0)
 			};
 		Polygon p = new Polygon(vertices);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, 1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, 1.0);
 		
 		t.translate(1.0, 0.5);
 		
@@ -227,14 +227,14 @@ public class PolygonTest {
 	 */
 	@Test
 	public void getFarthest() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, -1.0),
-				new Vector2(1.0, -1.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, -1.0),
+				new DynVector2(1.0, -1.0)
 			};
 		Polygon p = new Polygon(vertices);
 		Transform t = new Transform();
-		Vector2 y = new Vector2(0.0, -1.0);
+		DynVector2 y = new DynVector2(0.0, -1.0);
 		
 		EdgeFeature f = p.getFarthestFeature(y, t);
 		// should always get an edge
@@ -245,7 +245,7 @@ public class PolygonTest {
 		TestCase.assertEquals( 1.000, f.vertex2.point.x, 1.0e-3);
 		TestCase.assertEquals(-1.000, f.vertex2.point.y, 1.0e-3);
 		
-		Vector2 pt = p.getFarthestPoint(y, t);
+		DynVector2 pt = p.getFarthestPoint(y, t);
 		
 		TestCase.assertEquals(-1.000, pt.x, 1.0e-3);
 		TestCase.assertEquals(-1.000, pt.y, 1.0e-3);
@@ -264,27 +264,27 @@ public class PolygonTest {
 	 */
 	@Test
 	public void getAxes() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, -1.0),
-				new Vector2(1.0, -1.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, -1.0),
+				new DynVector2(1.0, -1.0)
 			};
 		Polygon p = new Polygon(vertices);
 		Transform t = new Transform();
 		
-		Vector2[] axes = p.getAxes(null, t);
+		DynVector2[] axes = p.getAxes(null, t);
 		TestCase.assertNotNull(axes);
 		TestCase.assertEquals(3, axes.length);
 		
 		// test passing some focal points
-		Vector2 pt = new Vector2(-3.0, 2.0);
-		axes = p.getAxes(new Vector2[] {pt}, t);
+		DynVector2 pt = new DynVector2(-3.0, 2.0);
+		axes = p.getAxes(new DynVector2[] {pt}, t);
 		TestCase.assertEquals(4, axes.length);
 		
 		// make sure the axes are perpendicular to the edges
-		Vector2 ab = p.vertices[0].to(p.vertices[1]);
-		Vector2 bc = p.vertices[1].to(p.vertices[2]);
-		Vector2 ca = p.vertices[2].to(p.vertices[0]);
+		DynVector2 ab = p.vertices[0].to(p.vertices[1]);
+		DynVector2 bc = p.vertices[1].to(p.vertices[2]);
+		DynVector2 ca = p.vertices[2].to(p.vertices[0]);
 		
 		TestCase.assertEquals(0.000, ab.dot(axes[0]), 1.0e-3);
 		TestCase.assertEquals(0.000, bc.dot(axes[1]), 1.0e-3);
@@ -299,15 +299,15 @@ public class PolygonTest {
 	 */
 	@Test
 	public void getFoci() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, -1.0),
-				new Vector2(1.0, -1.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, -1.0),
+				new DynVector2(1.0, -1.0)
 			};
 		Polygon p = new Polygon(vertices);
 		Transform t = new Transform();
 		// should return none
-		Vector2[] foci = p.getFoci(t);
+		DynVector2[] foci = p.getFoci(t);
 		TestCase.assertNull(foci);
 	}
 	
@@ -316,10 +316,10 @@ public class PolygonTest {
 	 */
 	@Test
 	public void rotate() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, -1.0),
-				new Vector2(1.0, -1.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, -1.0),
+				new DynVector2(1.0, -1.0)
 			};
 		Polygon p = new Polygon(vertices);
 		
@@ -341,10 +341,10 @@ public class PolygonTest {
 	 */
 	@Test
 	public void translate() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, -1.0),
-				new Vector2(1.0, -1.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, -1.0),
+				new DynVector2(1.0, -1.0)
 			};
 		Polygon p = new Polygon(vertices);
 		
@@ -366,10 +366,10 @@ public class PolygonTest {
 	 */
 	@Test
 	public void createAABB() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, -1.0),
-				new Vector2(1.0, -1.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, -1.0),
+				new DynVector2(1.0, -1.0)
 			};
 		Polygon p = new Polygon(vertices);
 		
@@ -402,19 +402,19 @@ public class PolygonTest {
 	 */
 	@Test
 	public void containsPointCoIncidentStart() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(2.0, 0.0), 
-				new Vector2(4.0, 0.0), 
-				new Vector2(7.0, 3.0), 
-				new Vector2(7.0, 5.0), 
-				new Vector2(5.0, 7.0), 
-				new Vector2(3.0, 7.0), 
-				new Vector2(0.0, 4.0), 
-				new Vector2(0.0, 2.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(2.0, 0.0),
+				new DynVector2(4.0, 0.0),
+				new DynVector2(7.0, 3.0),
+				new DynVector2(7.0, 5.0),
+				new DynVector2(5.0, 7.0),
+				new DynVector2(3.0, 7.0),
+				new DynVector2(0.0, 4.0),
+				new DynVector2(0.0, 2.0)
 			};
 		Polygon p = new Polygon(vertices);
 		
-		TestCase.assertFalse(p.contains(new Vector2(0.0, 0.0)));
+		TestCase.assertFalse(p.contains(new DynVector2(0.0, 0.0)));
 	}
 	
 	/**
@@ -423,19 +423,19 @@ public class PolygonTest {
 	 */
 	@Test
 	public void containsPointCoIncidentMid() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(0.0, 4.0),
-				new Vector2(0.0, 2.0),
-				new Vector2(2.0, 0.0), 
-				new Vector2(4.0, 0.0), 
-				new Vector2(7.0, 3.0), 
-				new Vector2(7.0, 5.0), 
-				new Vector2(5.0, 7.0), 
-				new Vector2(3.0, 7.0) 
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(0.0, 4.0),
+				new DynVector2(0.0, 2.0),
+				new DynVector2(2.0, 0.0),
+				new DynVector2(4.0, 0.0),
+				new DynVector2(7.0, 3.0),
+				new DynVector2(7.0, 5.0),
+				new DynVector2(5.0, 7.0),
+				new DynVector2(3.0, 7.0)
 			};
 		Polygon p = new Polygon(vertices);
 		
-		TestCase.assertFalse(p.contains(new Vector2(0.0, 0.0)));
+		TestCase.assertFalse(p.contains(new DynVector2(0.0, 0.0)));
 	}
 	
 	/**
@@ -444,20 +444,20 @@ public class PolygonTest {
 	 */
 	@Test
 	public void containsPointCoIncidentWithCoincidentEdges() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(2.0, 0.0), 
-				new Vector2(4.0, 0.0), 
-				new Vector2(5.0, 0.0), 
-				new Vector2(7.0, 3.0), 
-				new Vector2(7.0, 5.0), 
-				new Vector2(5.0, 7.0), 
-				new Vector2(3.0, 7.0), 
-				new Vector2(0.0, 4.0), 
-				new Vector2(0.0, 2.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(2.0, 0.0),
+				new DynVector2(4.0, 0.0),
+				new DynVector2(5.0, 0.0),
+				new DynVector2(7.0, 3.0),
+				new DynVector2(7.0, 5.0),
+				new DynVector2(5.0, 7.0),
+				new DynVector2(3.0, 7.0),
+				new DynVector2(0.0, 4.0),
+				new DynVector2(0.0, 2.0)
 			};
 		Polygon p = new Polygon(vertices);
 		
-		TestCase.assertFalse(p.contains(new Vector2(0.0, 0.0)));
+		TestCase.assertFalse(p.contains(new DynVector2(0.0, 0.0)));
 	}
 	
 	/**
@@ -466,20 +466,20 @@ public class PolygonTest {
 	 */
 	@Test
 	public void containsPointCoIncidentWithCoincidentEdges2() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(2.0, 0.0), 
-				new Vector2(4.0, 0.0), 
-				new Vector2(5.0, 0.0), 
-				new Vector2(7.0, 3.0), 
-				new Vector2(7.0, 5.0), 
-				new Vector2(5.0, 7.0), 
-				new Vector2(3.0, 7.0), 
-				new Vector2(0.0, 4.0), 
-				new Vector2(0.0, 2.0)
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(2.0, 0.0),
+				new DynVector2(4.0, 0.0),
+				new DynVector2(5.0, 0.0),
+				new DynVector2(7.0, 3.0),
+				new DynVector2(7.0, 5.0),
+				new DynVector2(5.0, 7.0),
+				new DynVector2(3.0, 7.0),
+				new DynVector2(0.0, 4.0),
+				new DynVector2(0.0, 2.0)
 			};
 		Polygon p = new Polygon(vertices);
 		
-		TestCase.assertTrue(p.contains(new Vector2(4.5, 0.0)));
+		TestCase.assertTrue(p.contains(new DynVector2(4.5, 0.0)));
 	}
 	
 	/**
@@ -487,14 +487,14 @@ public class PolygonTest {
 	 */
 	@Test
 	public void getNormals() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(0.0, 1.0),
-			new Vector2(-1.0, 0.0),
-			new Vector2(1.0, 0.0)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(0.0, 1.0),
+			new DynVector2(-1.0, 0.0),
+			new DynVector2(1.0, 0.0)
 		};
 		Polygon p = new Polygon(vertices);
 		
-		Vector2[] normals = p.getNormals();
+		DynVector2[] normals = p.getNormals();
 		
 		TestCase.assertNotNull(normals);
 		TestCase.assertEquals(3, normals.length);
@@ -505,7 +505,7 @@ public class PolygonTest {
 		TestCase.assertEquals( 0.707, normals[2].x, 1e-3);
 		TestCase.assertEquals( 0.707, normals[2].y, 1e-3);
 		
-		Iterator<Vector2> iterator = p.getNormalIterator();
+		Iterator<DynVector2> iterator = p.getNormalIterator();
 		
 		TestCase.assertNotNull(iterator);
 		TestCase.assertEquals(WoundIterator.class, iterator.getClass());

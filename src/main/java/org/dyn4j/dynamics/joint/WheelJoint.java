@@ -36,7 +36,7 @@ import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a wheel joint.
@@ -96,16 +96,16 @@ import org.dyn4j.geometry.Vector2;
  */
 public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements LinearLimitsJoint, LinearSpringJoint, AngularMotorJoint, PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The local anchor point on the first {@link PhysicsBody} */
-	protected final Vector2 localAnchor1;
+	protected final DynVector2 localAnchor1;
 	
 	/** The local anchor point on the second {@link PhysicsBody} */
-	protected final Vector2 localAnchor2;
+	protected final DynVector2 localAnchor2;
 
 	/** The local space x axis representing the allowed linear motion */
-	protected final Vector2 xAxis;
+	protected final DynVector2 xAxis;
 	
 	/** The local space y axis representing the constrained linear motion */
-	protected final Vector2 yAxis;
+	protected final DynVector2 yAxis;
 	
 	// limits
 	
@@ -191,10 +191,10 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	private double motorMass;
 	
 	/** The world space yAxis from body1's transform */
-	private Vector2 wyAxis;
+	private DynVector2 wyAxis;
 	
 	/** The world space xAxis from body1's transform */
-	private Vector2 wxAxis;
+	private DynVector2 wxAxis;
 	
 	/** s1y = (r1 + d).cross(yaxis) */
 	private double s1y;
@@ -234,7 +234,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * @throws NullPointerException if body1, body2, anchor, or axis is null
 	 * @throws IllegalArgumentException if body1 == body2
 	 */
-	public WheelJoint(T frame, T wheel, Vector2 anchor, Vector2 axis) {
+	public WheelJoint(T frame, T wheel, DynVector2 anchor, DynVector2 axis) {
 		super(frame, wheel);
 		
 		// check for a null anchor
@@ -252,7 +252,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		this.localAnchor1 = frame.getLocalPoint(anchor);
 		this.localAnchor2 = wheel.getLocalPoint(anchor);
 		// make sure the axis is normalized
-		Vector2 n = axis.getNormalized();
+		DynVector2 n = axis.getNormalized();
 		// get the axis in local coordinates
 		this.xAxis = frame.getLocalVector(n);
 		// get the perpendicular axis
@@ -342,11 +342,11 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
 		// compute the vector between the two world space anchor points
-		Vector2 d = this.body2.getWorldCenter().sum(r2).subtract(this.body1.getWorldCenter().sum(r1));
+		DynVector2 d = this.body2.getWorldCenter().sum(r2).subtract(this.body1.getWorldCenter().sum(r1));
 		
 		// get the world vectors of the axes
 		this.wxAxis = this.body1.getWorldVector(this.xAxis);
@@ -445,7 +445,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 			
 			// we only compute the impulse for body1 since body2's impulse is
 			// just the negative of body1's impulse
-			Vector2 P = new Vector2();
+			DynVector2 P = new DynVector2();
 			// perp.product(impulse) + axis.product(springImpulse)
 			P.x = this.wyAxis.x * this.impulse + axialImpulse * this.wxAxis.x;
 			P.y = this.wyAxis.y * this.impulse + axialImpulse * this.wxAxis.y;
@@ -480,8 +480,8 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 v1 = this.body1.getLinearVelocity();
-		Vector2 v2 = this.body2.getLinearVelocity();
+		DynVector2 v1 = this.body1.getLinearVelocity();
+		DynVector2 v2 = this.body2.getLinearVelocity();
 		double w1 = this.body1.getAngularVelocity();
 		double w2 = this.body2.getAngularVelocity();
 		
@@ -506,7 +506,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 			
 			// compute the applied impulses
 			// Pc = Jtrans * lambda
-			Vector2 P = this.wxAxis.product(stepImpulse);
+			DynVector2 P = this.wxAxis.product(stepImpulse);
 			double l1 = stepImpulse * this.s1x;
 			double l2 = stepImpulse * this.s2x;
 			
@@ -550,7 +550,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 			
 			// compute the applied impulses
 			// Pc = Jtrans * lambda
-			Vector2 P = this.wxAxis.product(stepImpulse);
+			DynVector2 P = this.wxAxis.product(stepImpulse);
 			double l1 = stepImpulse * this.s1x;
 			double l2 = stepImpulse * this.s2x;
 			
@@ -572,7 +572,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 			
 			// compute the applied impulses
 			// Pc = Jtrans * lambda
-			Vector2 P = this.wxAxis.product(stepImpulse);
+			DynVector2 P = this.wxAxis.product(stepImpulse);
 			double l1 = stepImpulse * this.s1x;
 			double l2 = stepImpulse * this.s2x;
 			
@@ -591,7 +591,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 
 			// compute the applied impulses
 			// Pc = Jtrans * lambda
-			Vector2 P = this.wyAxis.product(stepImpulse);
+			DynVector2 P = this.wyAxis.product(stepImpulse);
 			double l1 = stepImpulse * this.s1y;
 			double l2 = stepImpulse * this.s2y;
 			
@@ -628,15 +628,15 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		double linearError = 0.0;
 		
 		if (this.lowerLimitEnabled || this.upperLimitEnabled) {
-			Vector2 c1 = this.body1.getWorldCenter();
-			Vector2 c2 = this.body2.getWorldCenter();
+			DynVector2 c1 = this.body1.getWorldCenter();
+			DynVector2 c2 = this.body2.getWorldCenter();
 			
-			Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-			Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+			DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+			DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 			
-			Vector2 d = c2.sum(r2).subtract(c1.sum(r1));
+			DynVector2 d = c2.sum(r2).subtract(c1.sum(r1));
 			
-			Vector2 axis = this.body1.getWorldVector(this.xAxis);
+			DynVector2 axis = this.body1.getWorldVector(this.xAxis);
 			double s1x = r1.sum(d).cross(axis);
 			double s2x = r2.cross(axis);
 			
@@ -660,7 +660,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 				
 				// compute the applied impulses
 				// Pc = Jtrans * lambda
-				Vector2 P = axis.product(impulse);
+				DynVector2 P = axis.product(impulse);
 				double l1 = impulse * s1x;
 				double l2 = impulse * s2x;
 				
@@ -679,15 +679,15 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		// basically everything if limits were applied since they translate/rotate the bodies
 		
 		// solve the point on line constraint
-		Vector2 c1 = this.body1.getWorldCenter();
-		Vector2 c2 = this.body2.getWorldCenter();
+		DynVector2 c1 = this.body1.getWorldCenter();
+		DynVector2 c2 = this.body2.getWorldCenter();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
-		Vector2 d = c2.sum(r2).subtract(c1.sum(r1));
+		DynVector2 d = c2.sum(r2).subtract(c1.sum(r1));
 		
-		Vector2 ay = this.body1.getWorldVector(this.yAxis);
+		DynVector2 ay = this.body1.getWorldVector(this.yAxis);
 		double say = r1.sum(d).cross(ay);
 		double sby = r2.cross(ay);
 		
@@ -702,7 +702,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		}
 		
 		// apply the impulse
-		Vector2 P = new Vector2();
+		DynVector2 P = new DynVector2();
 		P.x = ay.x * impulse;
 		P.y = ay.y * impulse;
 		double l1 = say * impulse;
@@ -749,17 +749,17 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	
 	/**
 	 * The anchor point in world coordinates for the frame (body1).
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor1() {
+	public DynVector2 getAnchor1() {
 		return this.body1.getWorldPoint(this.localAnchor1);
 	}
 	
 	/**
 	 * The anchor point in world coordinates for the wheel (body2).
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor2() {
+	public DynVector2 getAnchor2() {
 		return this.body2.getWorldPoint(this.localAnchor2);
 	}
 	
@@ -767,8 +767,8 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
-		Vector2 force = new Vector2();
+	public DynVector2 getReactionForce(double invdt) {
+		DynVector2 force = new DynVector2();
 		// compute the impulse
 		force.x = this.impulse * this.wyAxis.x + (this.springImpulse + this.lowerLimitImpulse - this.upperLimitImpulse) * this.wxAxis.x;
 		force.y = this.impulse * this.wyAxis.y + (this.springImpulse + this.lowerLimitImpulse - this.upperLimitImpulse) * this.wxAxis.y;
@@ -789,7 +789,7 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to translate here since the anchor points are in local coordinates
 		// they will move with the bodies
 	}
@@ -803,19 +803,19 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 		Transform t1 = this.body1.getTransform();
 		Transform t2 = this.body2.getTransform();
 		
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
 		// get the world vectors of the axis
-		Vector2 axis = this.body1.getWorldVector(this.xAxis);
+		DynVector2 axis = this.body1.getWorldVector(this.xAxis);
 		
-		Vector2 p1 = this.body1.getWorldCenter().sum(r1);
-		Vector2 p2 = this.body2.getWorldCenter().sum(r2);
-		Vector2 d = p2.subtract(p1);
+		DynVector2 p1 = this.body1.getWorldCenter().sum(r1);
+		DynVector2 p2 = this.body2.getWorldCenter().sum(r2);
+		DynVector2 d = p2.subtract(p1);
 		
 		// compute the velocities along the vectors pointing to the world space anchor points
-		Vector2 v1 = r1.cross(this.body1.getAngularVelocity()).add(this.body1.getLinearVelocity());
-		Vector2 v2 = r2.cross(this.body2.getAngularVelocity()).add(this.body2.getLinearVelocity());
+		DynVector2 v1 = r1.cross(this.body1.getAngularVelocity()).add(this.body1.getLinearVelocity());
+		DynVector2 v2 = r2.cross(this.body2.getAngularVelocity()).add(this.body2.getLinearVelocity());
 		
 		// compute the relative linear velocity along the axis
 		double te1 = axis.dot(v2.subtract(v1));
@@ -843,10 +843,10 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 	 * @since 3.2.1
 	 */
 	public double getLinearTranslation() {
-		Vector2 p1 = this.body1.getWorldPoint(this.localAnchor1);
-		Vector2 p2 = this.body2.getWorldPoint(this.localAnchor2);
-		Vector2 d = p2.difference(p1);
-		Vector2 axis = this.body1.getWorldVector(this.xAxis);
+		DynVector2 p1 = this.body1.getWorldPoint(this.localAnchor1);
+		DynVector2 p2 = this.body2.getWorldPoint(this.localAnchor2);
+		DynVector2 d = p2.difference(p1);
+		DynVector2 axis = this.body1.getWorldVector(this.xAxis);
 		return d.dot(axis);
 	}
 	
@@ -863,9 +863,9 @@ public class WheelJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T
 
 	/**
 	 * Returns the axis in world coordinates for the frame (body1).
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAxis() {
+	public DynVector2 getAxis() {
 		return this.body1.getWorldVector(this.xAxis);
 	}
 	

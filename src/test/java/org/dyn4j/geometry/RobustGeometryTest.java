@@ -47,7 +47,7 @@ public class RobustGeometryTest {
 	 * Randomized test to check almost colinear vectors.
 	 * Chose three random, almost colinear, points and then exhaustively check for all
 	 * floating point values near the tested point. This will trigger the most
-	 * complex paths in {@link RobustGeometry#getLocation(Vector2, Vector2, Vector2)}
+	 * complex paths in {@link RobustGeometry#getLocation(DynVector2, DynVector2, DynVector2)}
 	 */
 	@Test
 	public void randomizedTest() {
@@ -59,16 +59,16 @@ public class RobustGeometryTest {
 		
 		for (int i = 0; i < iterations; i++) {
 			// generate three colinear points pa, pb, pc
-			Vector2 pa = new Vector2(random.nextDouble(), random.nextDouble());
-			Vector2 pb = pa.product(random.nextDouble());
-			Vector2 pc = pa.product(random.nextDouble());
+			DynVector2 pa = new DynVector2(random.nextDouble(), random.nextDouble());
+			DynVector2 pb = pa.product(random.nextDouble());
+			DynVector2 pc = pa.product(random.nextDouble());
 			
 			//loop to all directions
 			for (int up = 0; up <= 4; up++) {
 				boolean xUp = (up % 2) == 0;
 				boolean yUp = (up / 2) == 0;
 				
-				Vector2 pcOffset = pc.copy();
+				DynVector2 pcOffset = pc.copy();
 				
 				// test all adjacent floating point values in this quadrant
 				for (int y = 0; y < blockSize; y++) {
@@ -89,7 +89,7 @@ public class RobustGeometryTest {
 	
 	/**
 	 * Another randomized test but with uniform random points.
-	 * This will mostly trigger the short path in {@link RobustGeometry#getLocation(Vector2, Vector2, Vector2)}
+	 * This will mostly trigger the short path in {@link RobustGeometry#getLocation(DynVector2, DynVector2, DynVector2)}
 	 */
 	@Test
 	public void randomizedTest2() {
@@ -100,9 +100,9 @@ public class RobustGeometryTest {
 		
 		for (int i = 0; i < iterations; i++) {
 			// generate three uniform random points pa, pb, pc
-			Vector2 pa = new Vector2(random.nextDouble(), random.nextDouble());
-			Vector2 pb = new Vector2(random.nextDouble(), random.nextDouble());
-			Vector2 pc = new Vector2(random.nextDouble(), random.nextDouble());
+			DynVector2 pa = new DynVector2(random.nextDouble(), random.nextDouble());
+			DynVector2 pb = new DynVector2(random.nextDouble(), random.nextDouble());
+			DynVector2 pc = new DynVector2(random.nextDouble(), random.nextDouble());
 			
 			double exact = getLocationExact(pc, pa, pb);
 			double robust = RobustGeometry.getLocation(pc, pa, pb);
@@ -112,7 +112,7 @@ public class RobustGeometryTest {
 	}
 	
 	/**
-	 * Helper method to compute the equivalent of {@link Segment#getLocation(Vector2, Vector2, Vector2)}
+	 * Helper method to compute the equivalent of {@link Segment#getLocation(DynVector2, DynVector2, DynVector2)}
 	 * but with exact arithmetic, via the use of {@link BigDecimal}.
 	 * The result is returned as a double which is an approximation of the computed value
 	 * but this is the best we can request given the requirements.
@@ -121,9 +121,9 @@ public class RobustGeometryTest {
 	 * @param linePoint1 the first point of the line
 	 * @param linePoint2 the second point of the line
 	 * @return the approximation as double of the result
-	 * @see Segment#getLocation(Vector2, Vector2, Vector2)
+	 * @see Segment#getLocation(DynVector2, DynVector2, DynVector2)
 	 */
-	private double getLocationExact(Vector2 point, Vector2 linePoint1, Vector2 linePoint2) {
+	private double getLocationExact(DynVector2 point, DynVector2 linePoint1, DynVector2 linePoint2) {
 		BigDecimal pax = new BigDecimal(point.x);
 		BigDecimal pay = new BigDecimal(point.y);
 		BigDecimal pbx = new BigDecimal(linePoint1.x);
@@ -148,15 +148,15 @@ public class RobustGeometryTest {
 	 * @param vertices A list of vertices in CW/CCW order that describe a convex polygon
 	 * @param point The point to test
 	 * @return boolean
-	 * @see Polygon#contains(Vector2)
+	 * @see Polygon#contains(DynVector2)
 	 */
-	public static boolean robustPolygonContains(Vector2[] vertices, Vector2 point) {
+	public static boolean robustPolygonContains(DynVector2[] vertices, DynVector2 point) {
 		// Copied from Polygon#contains but uses RobustGeometry#getLocation instead
 		
 		// start from the pair (p1 = last, p2 = first) so there's no need to check in the loop for wrap-around of the i + 1 vertice
 		int size = vertices.length;
-		Vector2 p1 = vertices[size - 1];
-		Vector2 p2 = vertices[0];
+		DynVector2 p1 = vertices[size - 1];
+		DynVector2 p2 = vertices[0];
 		
 		// get the location of the point relative to the first two vertices
 		double last = RobustGeometry.getLocation(point, p1, p2);

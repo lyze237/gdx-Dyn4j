@@ -26,7 +26,7 @@ package org.dyn4j.geometry.simplify;
 
 import java.util.List;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a simple polygon (without holes) simplification algorithm.
@@ -45,15 +45,15 @@ public interface Simplifier {
 	 * Simplifies the given simple polygon and returns a new
 	 * simplified simple polygon.
 	 * @param vertices the simple polygon's vertices
-	 * @return List&lt;{@link Vector2}&gt;
+	 * @return List&lt;{@link DynVector2}&gt;
 	 */
-	public List<Vector2> simplify(List<Vector2> vertices);
+	public List<DynVector2> simplify(List<DynVector2> vertices);
 	
 	/**
 	 * Simplifies the given simple polygon and returns a new
 	 * simplified simple polygon.
 	 * @param vertices the simple polygon's vertices
-	 * @return {@link Vector2}[]
+	 * @return {@link DynVector2}[]
 	 */
-	public Vector2[] simplify(Vector2... vertices);
+	public DynVector2[] simplify(DynVector2... vertices);
 }

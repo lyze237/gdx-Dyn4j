@@ -43,7 +43,7 @@ public class AABBTest {
 	public void createSuccess() {
 		new AABB(0.0, 0.0, 1.0, 1.0);
 		new AABB(-2.0, 2.0, -1.0, 5.0);
-		new AABB(new Vector2(-3.0, 0.0), new Vector2(-2.0, 2.0));
+		new AABB(new DynVector2(-3.0, 0.0), new DynVector2(-2.0, 2.0));
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class AABBTest {
 		TestCase.assertEquals( 0.500, aabb.getMaxX(), 1.0e-3);
 		TestCase.assertEquals( 0.500, aabb.getMaxY(), 1.0e-3);
 		
-		aabb = new AABB(new Vector2(-1.0, 1.0), 0.5);
+		aabb = new AABB(new DynVector2(-1.0, 1.0), 0.5);
 		TestCase.assertEquals(-1.500, aabb.getMinX(), 1.0e-3);
 		TestCase.assertEquals( 0.500, aabb.getMinY(), 1.0e-3);
 		TestCase.assertEquals(-0.500, aabb.getMaxX(), 1.0e-3);
@@ -71,7 +71,7 @@ public class AABBTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createRadiusNegative() {
-		new AABB(new Vector2(-1.0, 1.0), -1.0);
+		new AABB(new DynVector2(-1.0, 1.0), -1.0);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class AABBTest {
 	 */
 	@Test
 	public void createCopy() {
-		AABB aabb1 = new AABB(new Vector2(-3.0, 0.0), new Vector2(-2.0, 2.0));
+		AABB aabb1 = new AABB(new DynVector2(-3.0, 0.0), new DynVector2(-2.0, 2.0));
 		AABB aabb2 = new AABB(aabb1);
 		TestCase.assertNotSame(aabb1, aabb2);
 		TestCase.assertEquals(aabb1.getMinX(), aabb2.getMinX(), 1.0E-4);
@@ -101,7 +101,7 @@ public class AABBTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createFailure2() {
-		new AABB(new Vector2(0.0, 0.0), new Vector2(-1.0, 2.0));
+		new AABB(new DynVector2(0.0, 0.0), new DynVector2(-1.0, 2.0));
 	}
 	
 	/**
@@ -282,7 +282,7 @@ public class AABBTest {
 	public void translate() {
 		AABB aabb = new AABB(-2.0, 0.0, 1.0, 1.0);
 		
-		AABB aabb2 = aabb.getTranslated(new Vector2(-1.0, 2.0));
+		AABB aabb2 = aabb.getTranslated(new DynVector2(-1.0, 2.0));
 		TestCase.assertNotSame(aabb, aabb2);
 		
 		TestCase.assertEquals(-2.0, aabb.getMinX(), 1.0E-4);
@@ -295,7 +295,7 @@ public class AABBTest {
 		TestCase.assertEquals( 0.0, aabb2.getMaxX(), 1.0E-4);
 		TestCase.assertEquals( 3.0, aabb2.getMaxY(), 1.0E-4);
 		
-		aabb.translate(new Vector2(-1.0, 2.0));
+		aabb.translate(new DynVector2(-1.0, 2.0));
 		
 		TestCase.assertEquals(-3.0, aabb.getMinX(), 1.0E-4);
 		TestCase.assertEquals( 2.0, aabb.getMinY(), 1.0E-4);
@@ -313,15 +313,15 @@ public class AABBTest {
 		
 		// test containment
 		TestCase.assertTrue(aabb.contains(0.0, 0.5));
-		TestCase.assertTrue(aabb.contains(new Vector2(0.0, 0.5)));
+		TestCase.assertTrue(aabb.contains(new DynVector2(0.0, 0.5)));
 		
 		// test no containment
 		TestCase.assertFalse(aabb.contains(0.0, 2.0));
-		TestCase.assertFalse(aabb.contains(new Vector2(0.0, 2.0)));
+		TestCase.assertFalse(aabb.contains(new DynVector2(0.0, 2.0)));
 		
 		// test on edge
 		TestCase.assertTrue(aabb.contains(0.0, 1.0));
-		TestCase.assertTrue(aabb.contains(new Vector2(0.0, 1.0)));
+		TestCase.assertTrue(aabb.contains(new DynVector2(0.0, 1.0)));
 	}
 	
 	/**
@@ -431,8 +431,8 @@ public class AABBTest {
 	 */
 	@Test
 	public void createFromPoints() {
-		Vector2 p1 = new Vector2(1, 1);
-		Vector2 p2 = new Vector2(3, 3);
+		DynVector2 p1 = new DynVector2(1, 1);
+		DynVector2 p2 = new DynVector2(3, 3);
 		
 		AABB aabb = AABB.createFromPoints(p1, p2);
 		
@@ -454,8 +454,8 @@ public class AABBTest {
 	 */
 	@Test
 	public void setFromPoints() {
-		Vector2 p1 = new Vector2(1, 1);
-		Vector2 p2 = new Vector2(3, 3);
+		DynVector2 p1 = new DynVector2(1, 1);
+		DynVector2 p2 = new DynVector2(3, 3);
 		
 		AABB aabb = new AABB(0,0,0,0);
 		AABB.setFromPoints(p1, p2, aabb);
@@ -494,7 +494,7 @@ public class AABBTest {
 	@Test
 	public void getCenter() {
 		AABB aabb = new AABB(1,1,3,3);
-		Vector2 c = aabb.getCenter();
+		DynVector2 c = aabb.getCenter();
 		
 		TestCase.assertEquals(2.0, c.x);
 		TestCase.assertEquals(2.0, c.y);

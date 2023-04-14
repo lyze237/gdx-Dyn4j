@@ -28,7 +28,7 @@ import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Class devoted to {@link Circle} detection queries.
@@ -38,7 +38,7 @@ import org.dyn4j.geometry.Vector2;
  */
 public final class CircleDetector {
 	/** Helper vector for methods below */
-	private static final Vector2 X_AXIS = new Vector2(1.0, 0.0);
+	private static final DynVector2 X_AXIS = new DynVector2(1.0, 0.0);
 	
 	/**
 	 * Hidden constructor.
@@ -51,10 +51,10 @@ public final class CircleDetector {
 	 * Returns true if the given {@link Circle}s are intersecting and places the
 	 * penetration vector and depth in the given {@link Penetration} object.
 	 * <p>
-	 * If the {@link Circle} centers are coincident then the penetration {@link Vector2}
-	 * will be the zero {@link Vector2}, however, the penetration depth will be
+	 * If the {@link Circle} centers are coincident then the penetration {@link DynVector2}
+	 * will be the zero {@link DynVector2}, however, the penetration depth will be
 	 * correct.  In this case its up to the caller to determine a reasonable penetration
-	 * {@link Vector2}.
+	 * {@link DynVector2}.
 	 * <p>
 	 * NOTE: It's the responsibility of the caller to clear the given {@link Penetration} object
 	 * before calling this method.
@@ -67,10 +67,10 @@ public final class CircleDetector {
 	 */
 	public static final boolean detect(Circle circle1, Transform transform1, Circle circle2, Transform transform2, Penetration penetration) {
 		// get their world centers
-		Vector2 ce1 = transform1.getTransformed(circle1.getCenter());
-		Vector2 ce2 = transform2.getTransformed(circle2.getCenter());
+		DynVector2 ce1 = transform1.getTransformed(circle1.getCenter());
+		DynVector2 ce2 = transform2.getTransformed(circle2.getCenter());
 		// create a vector from one center to the other
-		Vector2 v = ce2.subtract(ce1);
+		DynVector2 v = ce2.subtract(ce1);
 		// check the magnitude against the sum of the radii
 		double radii = circle1.getRadius() + circle2.getRadius();
 		// get the magnitude squared
@@ -98,10 +98,10 @@ public final class CircleDetector {
 	 */
 	public static final boolean detect(Circle circle1, Transform transform1, Circle circle2, Transform transform2) {
 		// get their world centers
-		Vector2 ce1 = transform1.getTransformed(circle1.getCenter());
-		Vector2 ce2 = transform2.getTransformed(circle2.getCenter());
+		DynVector2 ce1 = transform1.getTransformed(circle1.getCenter());
+		DynVector2 ce2 = transform2.getTransformed(circle2.getCenter());
 		// create a vector from one center to the other
-		Vector2 v = ce2.subtract(ce1);
+		DynVector2 v = ce2.subtract(ce1);
 		// check the magnitude against the sum of the radii
 		double radii = circle1.getRadius() + circle2.getRadius();
 		// get the magnitude squared
@@ -131,13 +131,13 @@ public final class CircleDetector {
 	 */
 	public static final boolean distance(Circle circle1, Transform transform1, Circle circle2, Transform transform2, Separation separation) {
 		// get their world centers
-		Vector2 ce1 = transform1.getTransformed(circle1.getCenter());
-		Vector2 ce2 = transform2.getTransformed(circle2.getCenter());
+		DynVector2 ce1 = transform1.getTransformed(circle1.getCenter());
+		DynVector2 ce2 = transform2.getTransformed(circle2.getCenter());
 		// get the radii
 		double r1 = circle1.getRadius();
 		double r2 = circle2.getRadius();
 		// create a vector from one center to the other
-		Vector2 v = ce1.to(ce2);
+		DynVector2 v = ce1.to(ce2);
 		// check the magnitude against the sum of the radii
 		double radii = r1 + r2;
 		// get the magnitude squared
@@ -209,9 +209,9 @@ public final class CircleDetector {
 	 */
 	public static final boolean raycast(Ray ray, double maxLength, Circle circle, Transform transform, Raycast raycast) {
 		// solve the problem algebraically
-		Vector2 s = ray.getStart();
-		Vector2 d = ray.getDirectionVector();
-		Vector2 ce = transform.getTransformed(circle.getCenter());
+		DynVector2 s = ray.getStart();
+		DynVector2 d = ray.getDirectionVector();
+		DynVector2 ce = transform.getTransformed(circle.getCenter());
 		double r = circle.getRadius();
 		
 		// make sure the start of the ray is not contained in the circle
@@ -227,7 +227,7 @@ public final class CircleDetector {
 		// a = |D|^2
 		// b = 2D.dot(S - C)
 		// c = (S - C)^2 - r^2
-		Vector2 sMinusC = s.difference(ce);
+		DynVector2 sMinusC = s.difference(ce);
 		
 		// mag(d)^2
 		double a = d.dot(d);
@@ -287,9 +287,9 @@ public final class CircleDetector {
 		}
 		
 		// compute the hit point
-		Vector2 p = d.product(t).add(s);
+		DynVector2 p = d.product(t).add(s);
 		// compute the normal
-		Vector2 n = ce.to(p); n.normalize();
+		DynVector2 n = ce.to(p); n.normalize();
 		
 		// populate the raycast result
 		raycast.point.x = p.x;

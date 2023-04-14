@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -182,7 +182,7 @@ public class MotorJointTest extends BaseJointTest {
 	public void setLinearTargetSleep() {
 		MotorJoint<Body> mj = new MotorJoint<Body>(b1, b2);
 		
-		Vector2 defaultLinearTarget = mj.getLinearTarget();
+		DynVector2 defaultLinearTarget = mj.getLinearTarget();
 		
 		TestCase.assertFalse(b1.isAtRest());
 		TestCase.assertFalse(b2.isAtRest());
@@ -199,7 +199,7 @@ public class MotorJointTest extends BaseJointTest {
 		
 		// set the target to a different value and make
 		// sure the bodies are awakened
-		Vector2 target = new Vector2(1.0, 1.0);
+		DynVector2 target = new DynVector2(1.0, 1.0);
 		mj.setLinearTarget(target);
 		TestCase.assertFalse(b1.isAtRest());
 		TestCase.assertFalse(b2.isAtRest());

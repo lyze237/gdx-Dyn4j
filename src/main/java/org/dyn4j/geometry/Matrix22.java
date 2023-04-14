@@ -253,15 +253,15 @@ public class Matrix22 implements Copyable<Matrix22> {
 	}
 	
 	/**
-	 * Multiplies this {@link Matrix22} by the given {@link Vector2} and
-	 * places the result in the given {@link Vector2}.
+	 * Multiplies this {@link Matrix22} by the given {@link DynVector2} and
+	 * places the result in the given {@link DynVector2}.
 	 * <pre>
 	 * v = this * v
 	 * </pre>
-	 * @param vector the {@link Vector2} to multiply
-	 * @return {@link Vector2} the vector result
+	 * @param vector the {@link DynVector2} to multiply
+	 * @return {@link DynVector2} the vector result
 	 */
-	public Vector2 multiply(Vector2 vector) {
+	public DynVector2 multiply(DynVector2 vector) {
 		double x = vector.x;
 		double y = vector.y;
 		vector.x = this.m00 * x + this.m01 * y;
@@ -270,26 +270,26 @@ public class Matrix22 implements Copyable<Matrix22> {
 	}
 	
 	/**
-	 * Multiplies this {@link Matrix22} by the given {@link Vector2} returning
-	 * the result in a new {@link Vector2}.
+	 * Multiplies this {@link Matrix22} by the given {@link DynVector2} returning
+	 * the result in a new {@link DynVector2}.
 	 * <pre>
 	 * r = this * v
 	 * </pre>
-	 * @param vector the {@link Vector2} to multiply
-	 * @return {@link Vector2} the vector result
+	 * @param vector the {@link DynVector2} to multiply
+	 * @return {@link DynVector2} the vector result
 	 */
-	public Vector2 product(Vector2 vector) {
+	public DynVector2 product(DynVector2 vector) {
 		return this.multiply(vector.copy());
 	}
 	
 	/**
-	 * Multiplies the given {@link Vector2} by this {@link Matrix22} and
-	 * places the result in the given {@link Vector2}.
+	 * Multiplies the given {@link DynVector2} by this {@link Matrix22} and
+	 * places the result in the given {@link DynVector2}.
 	 * <p style="white-space: pre;"> v = v<sup>T</sup> * this</p>
-	 * @param vector the {@link Vector2} to multiply
-	 * @return {@link Vector2} the vector result
+	 * @param vector the {@link DynVector2} to multiply
+	 * @return {@link DynVector2} the vector result
 	 */
-	public Vector2 multiplyT(Vector2 vector) {
+	public DynVector2 multiplyT(DynVector2 vector) {
 		double x = vector.x;
 		double y = vector.y;
 		vector.x = this.m00 * x + this.m10 * y;
@@ -298,13 +298,13 @@ public class Matrix22 implements Copyable<Matrix22> {
 	}
 	
 	/**
-	 * Multiplies the given {@link Vector2} by this {@link Matrix22} returning
-	 * the result in a new {@link Vector2}.
+	 * Multiplies the given {@link DynVector2} by this {@link Matrix22} returning
+	 * the result in a new {@link DynVector2}.
 	 * <p style="white-space: pre;"> r = v<sup>T</sup> * this</p>
-	 * @param vector the {@link Vector2} to multiply
-	 * @return {@link Vector2} the vector result
+	 * @param vector the {@link DynVector2} to multiply
+	 * @return {@link DynVector2} the vector result
 	 */
-	public Vector2 productT(Vector2 vector) {
+	public DynVector2 productT(DynVector2 vector) {
 		return this.multiplyT(vector.copy());
 	}
 	
@@ -436,10 +436,10 @@ public class Matrix22 implements Copyable<Matrix22> {
 	 * <p style="white-space: pre;"> Ax = b
 	 * Multiply by A<sup>-1</sup> on both sides
 	 * x = A<sup>-1</sup>b</p>
-	 * @param b the b {@link Vector2}
-	 * @return {@link Vector2} the x vector
+	 * @param b the b {@link DynVector2}
+	 * @return {@link DynVector2} the x vector
 	 */
-	public Vector2 solve(Vector2 b) {
+	public DynVector2 solve(DynVector2 b) {
 		// get the determinant
 		double det = this.determinant();
 		// check for zero determinant
@@ -448,7 +448,7 @@ public class Matrix22 implements Copyable<Matrix22> {
 		} else {
 			det = 0.0;
 		}
-		Vector2 r = new Vector2();
+		DynVector2 r = new DynVector2();
 		r.x = det * (this.m11 * b.x - this.m01 * b.y);
 		r.y = det * (this.m00 * b.y - this.m10 * b.x);
 		return r;

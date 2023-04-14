@@ -34,7 +34,7 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Rotation;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ import junit.framework.TestCase;
  */
 public class AbstractCollisionBodyTest {
 	private class TestBody extends AbstractCollisionBody<Fixture> {
-		private Vector2 center = new Vector2();
+		private DynVector2 center = new DynVector2();
 		
 		public TestBody() {
 			super();
@@ -65,7 +65,7 @@ public class AbstractCollisionBodyTest {
 		}
 
 		@Override
-		public Vector2 getLocalCenter() {
+		public DynVector2 getLocalCenter() {
 			return this.center;
 		}
 	}
@@ -171,11 +171,11 @@ public class AbstractCollisionBodyTest {
 		b.addFixture(c1);
 		b.addFixture(c2);
 		
-		TestCase.assertTrue(b.contains(new Vector2(0.0, 0.0)));
-		TestCase.assertTrue(b.contains(new Vector2(0.5, 0.0)));
-		TestCase.assertTrue(b.contains(new Vector2(0.55, 0.25)));
-		TestCase.assertFalse(b.contains(new Vector2(0.52, 0.45)));
-		TestCase.assertTrue(b.contains(new Vector2(0.70, 0.3)));
+		TestCase.assertTrue(b.contains(new DynVector2(0.0, 0.0)));
+		TestCase.assertTrue(b.contains(new DynVector2(0.5, 0.0)));
+		TestCase.assertTrue(b.contains(new DynVector2(0.55, 0.25)));
+		TestCase.assertFalse(b.contains(new DynVector2(0.52, 0.45)));
+		TestCase.assertTrue(b.contains(new DynVector2(0.70, 0.3)));
 	}
 
 	/**
@@ -246,30 +246,30 @@ public class AbstractCollisionBodyTest {
 		bf.getShape().translate(0.5, 0);
 		
 		// test not in body
-		bf = b.getFixture(new Vector2(-1.0, -1.0));
+		bf = b.getFixture(new DynVector2(-1.0, -1.0));
 		TestCase.assertNull(bf);
 		
 		// confirm there are two fixtures at this location
-		TestCase.assertEquals(2, b.getFixtures(new Vector2(0.5, 0.25)).size());
+		TestCase.assertEquals(2, b.getFixtures(new DynVector2(0.5, 0.25)).size());
 		
 		// test getting the first one
-		bf = b.getFixture(new Vector2(0.5, 0.25));
+		bf = b.getFixture(new DynVector2(0.5, 0.25));
 		TestCase.assertNotNull(bf);
 		TestCase.assertTrue(bf.getShape() instanceof Circle);
 		
 		// test not in body
-		List<Fixture> bfs = b.getFixtures(new Vector2(-1.0, -1.0));
+		List<Fixture> bfs = b.getFixtures(new DynVector2(-1.0, -1.0));
 		TestCase.assertNotNull(bfs);
 		TestCase.assertEquals(0, bfs.size());
 		
 		// test in body remove one
-		bfs = b.getFixtures(new Vector2(1.25, 0.10));
+		bfs = b.getFixtures(new DynVector2(1.25, 0.10));
 		TestCase.assertNotNull(bfs);
 		TestCase.assertEquals(1, bfs.size());
 		TestCase.assertTrue(bfs.get(0).getShape() instanceof Polygon);
 		
 		// test in body remove both
-		bfs = b.getFixtures(new Vector2(0.75, 0.10));
+		bfs = b.getFixtures(new DynVector2(0.75, 0.10));
 		TestCase.assertNotNull(bfs);
 		TestCase.assertEquals(2, bfs.size());
 	}
@@ -441,13 +441,13 @@ public class AbstractCollisionBodyTest {
 		fmc.reset();
 		b.addFixture(f1);
 		b.addFixture(f2);
-		b.removeFixture(new Vector2());
+		b.removeFixture(new DynVector2());
 		
 		TestCase.assertEquals(1, fmc.removed);
 		
 		fmc.reset();
 		b.addFixture(f1);
-		b.removeFixtures(new Vector2());
+		b.removeFixtures(new DynVector2());
 		
 		TestCase.assertEquals(2, fmc.removed);
 	}
@@ -503,16 +503,16 @@ public class AbstractCollisionBodyTest {
 		bf.getShape().translate(0.5, 0);
 		
 		// test not in body
-		List<Fixture> fixtures = b.getFixtures(new Vector2(-1.0, -1.0));
+		List<Fixture> fixtures = b.getFixtures(new DynVector2(-1.0, -1.0));
 		TestCase.assertNotNull(fixtures);
 		TestCase.assertEquals(0, fixtures.size());
 		
 		// test on top of both
-		fixtures = b.getFixtures(new Vector2(0.5, 0.25));
+		fixtures = b.getFixtures(new DynVector2(0.5, 0.25));
 		TestCase.assertEquals(2, fixtures.size());
 		
 		// test in body remove one
-		fixtures = b.getFixtures(new Vector2(1.25, 0.10));
+		fixtures = b.getFixtures(new DynVector2(1.25, 0.10));
 		TestCase.assertNotNull(fixtures);
 		TestCase.assertEquals(1, fixtures.size());
 		TestCase.assertTrue(fixtures.get(0).getShape() instanceof Polygon);
@@ -526,8 +526,8 @@ public class AbstractCollisionBodyTest {
 	public void getLocalPoint() {
 		TestBody b = new TestBody();
 		
-		Vector2 wsp = new Vector2();
-		Vector2 lsp = b.getLocalPoint(wsp);
+		DynVector2 wsp = new DynVector2();
+		DynVector2 lsp = b.getLocalPoint(wsp);
 		
 		// test without transform
 		TestCase.assertEquals(0.0, lsp.x);
@@ -554,8 +554,8 @@ public class AbstractCollisionBodyTest {
 	public void getLocalVector() {
 		TestBody b = new TestBody();
 		
-		Vector2 wsv = new Vector2(1.0, 1.0);
-		Vector2 lsv = b.getLocalVector(wsv);
+		DynVector2 wsv = new DynVector2(1.0, 1.0);
+		DynVector2 lsv = b.getLocalVector(wsv);
 		
 		// test without transform
 		TestCase.assertEquals(1.0, lsv.x);
@@ -704,7 +704,7 @@ public class AbstractCollisionBodyTest {
 	public void getWorldCenter() {
 		TestBody b = new TestBody();
 		
-		Vector2 wc = b.getWorldCenter();
+		DynVector2 wc = b.getWorldCenter();
 		TestCase.assertEquals(0.0, wc.x);
 		TestCase.assertEquals(0.0, wc.y);
 		
@@ -722,8 +722,8 @@ public class AbstractCollisionBodyTest {
 	public void getWorldPoint() {
 		TestBody b = new TestBody();
 		
-		Vector2 lsp = new Vector2();
-		Vector2 wsp = b.getWorldPoint(lsp);
+		DynVector2 lsp = new DynVector2();
+		DynVector2 wsp = b.getWorldPoint(lsp);
 		
 		// test without transform
 		TestCase.assertEquals(0.0, wsp.x);
@@ -750,8 +750,8 @@ public class AbstractCollisionBodyTest {
 	public void getWorldVector() {
 		TestBody b = new TestBody();
 		
-		Vector2 lsv = new Vector2(1.0, 1.0);
-		Vector2 wsv = b.getWorldVector(lsv);
+		DynVector2 lsv = new DynVector2(1.0, 1.0);
+		DynVector2 wsv = b.getWorldVector(lsv);
 		
 		// test without transform
 		TestCase.assertEquals(1.0, wsv.x);
@@ -800,7 +800,7 @@ public class AbstractCollisionBodyTest {
 		TestBody b = new TestBody();
 		b.addFixture(Geometry.createCircle(1.0));
 		b.addFixture(Geometry.createRectangle(1.0, 0.5));
-		b.addFixture(Geometry.createSegment(new Vector2(1.0, -2.0)));
+		b.addFixture(Geometry.createSegment(new DynVector2(1.0, -2.0)));
 		
 		TestCase.assertEquals(3, b.getFixtureCount());
 		
@@ -868,14 +868,14 @@ public class AbstractCollisionBodyTest {
 		bf.getShape().translate(0.5, 0);
 		
 		// test not in body
-		bf = b.removeFixture(new Vector2(-1.0, -1.0));
+		bf = b.removeFixture(new DynVector2(-1.0, -1.0));
 		TestCase.assertNull(bf);
 		TestCase.assertEquals(2, b.getFixtures().size());
 		
 		// confirm there are two fixtures at this location
-		TestCase.assertEquals(2, b.getFixtures(new Vector2(0.5, 0.25)).size());
+		TestCase.assertEquals(2, b.getFixtures(new DynVector2(0.5, 0.25)).size());
 		// test remove the first one
-		bf = b.removeFixture(new Vector2(0.5, 0.25));
+		bf = b.removeFixture(new DynVector2(0.5, 0.25));
 		TestCase.assertNotNull(bf);
 		TestCase.assertTrue(bf.getShape() instanceof Circle);
 		TestCase.assertEquals(1, b.getFixtures().size());
@@ -884,13 +884,13 @@ public class AbstractCollisionBodyTest {
 		bf = b.addFixture(Geometry.createCircle(1.0));
 		
 		// test not in body
-		List<Fixture> bfs = b.removeFixtures(new Vector2(-1.0, -1.0));
+		List<Fixture> bfs = b.removeFixtures(new DynVector2(-1.0, -1.0));
 		TestCase.assertNotNull(bfs);
 		TestCase.assertEquals(0, bfs.size());
 		TestCase.assertEquals(2, b.getFixtures().size());
 		
 		// test in body remove one
-		bfs = b.removeFixtures(new Vector2(1.25, 0.10));
+		bfs = b.removeFixtures(new DynVector2(1.25, 0.10));
 		TestCase.assertNotNull(bfs);
 		TestCase.assertEquals(1, bfs.size());
 		TestCase.assertTrue(bfs.get(0).getShape() instanceof Polygon);
@@ -901,7 +901,7 @@ public class AbstractCollisionBodyTest {
 		bf.getShape().translate(0.5, 0);
 		
 		// test in body remove both
-		bfs = b.removeFixtures(new Vector2(0.75, 0.10));
+		bfs = b.removeFixtures(new DynVector2(0.75, 0.10));
 		TestCase.assertNotNull(bfs);
 		TestCase.assertEquals(2, bfs.size());
 		TestCase.assertEquals(0, b.getFixtures().size());
@@ -960,7 +960,7 @@ public class AbstractCollisionBodyTest {
 		TestCase.assertEquals(0.6339745962155612, b.getTransform().getTranslationX());
 		TestCase.assertEquals(-0.3660254037844386, b.getTransform().getTranslationY());
 		
-		Vector2 rp = new Vector2(1.0, 1.0);
+		DynVector2 rp = new DynVector2(1.0, 1.0);
 		b.getTransform().identity();
 		b.rotate(r, rp);
 		
@@ -997,10 +997,10 @@ public class AbstractCollisionBodyTest {
 	public void shiftCoordinates() {
 		TestBody b = new TestBody();
 		
-		b.shift(new Vector2(-2.0, 1.0));
+		b.shift(new DynVector2(-2.0, 1.0));
 		
 		// it just translates the transform
-		Vector2 tx = b.getTransform().getTranslation();
+		DynVector2 tx = b.getTransform().getTranslation();
 		TestCase.assertEquals(-2.0, tx.x, 1.0e-3);
 		TestCase.assertEquals(1.0, tx.y, 1.0e-3);
 	}
@@ -1020,7 +1020,7 @@ public class AbstractCollisionBodyTest {
 		TestCase.assertEquals(1.0, b.getTransform().getTranslationX());
 		TestCase.assertEquals(1.0, b.getTransform().getTranslationY());
 		
-		Vector2 tx = new Vector2(2.0, -1.0);
+		DynVector2 tx = new DynVector2(2.0, -1.0);
 		b.translate(tx);
 		TestCase.assertEquals(3.0, b.getTransform().getTranslationX());
 		TestCase.assertEquals(0.0, b.getTransform().getTranslationY());

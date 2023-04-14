@@ -36,7 +36,7 @@ import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Matrix22;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a pin joint.
@@ -48,7 +48,7 @@ import org.dyn4j.geometry.Vector2;
  * NOTE: The anchor point does not have to be within the bounds of the body.
  * <p>
  * By default the target position will be the given world space anchor. Use 
- * the {@link #setTarget(Vector2)} method to set a different target.
+ * the {@link #setTarget(DynVector2)} method to set a different target.
  * <p>
  * By default the pin joint is setup with a linear spring-damper with a 
  * maximum force. The defaults are a frequency of 8.0, damping ratio of 0.3
@@ -76,10 +76,10 @@ import org.dyn4j.geometry.Vector2;
  */
 public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> implements LinearSpringJoint, SingleBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The world space target point */
-	protected final Vector2 target;
+	protected final DynVector2 target;
 	
 	/** The local anchor point for the body */
-	protected final Vector2 localAnchor;
+	protected final DynVector2 localAnchor;
 	
 	// spring-damper constraint
 	
@@ -118,13 +118,13 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	// current state
 
 	/** The world-space vector from the local center to the local anchor point */
-	private Vector2 r;
+	private DynVector2 r;
 	
 	/** The damping coefficient of the spring-damper */
 	private double damping;
 
 	/** The bias for adding work to the constraint (simulating a spring) */
-	private Vector2 bias;
+	private DynVector2 bias;
 	
 	/** The damping portion of the constraint */
 	private double gamma;
@@ -133,12 +133,12 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	private final Matrix22 K;
 
 	/** The calculated linear error in the target distance */
-	private Vector2 linearError;
+	private DynVector2 linearError;
 	
 	// output
 	
 	/** The impulse applied to the body to satisfy the constraint */
-	private Vector2 impulse;
+	private DynVector2 impulse;
 	
 	/**
 	 * Full constructor.
@@ -146,7 +146,7 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	 * @param anchor the anchor point on the body
 	 * @throws NullPointerException if body or anchor is null
 	 */
-	public PinJoint(T body, Vector2 anchor) {
+	public PinJoint(T body, DynVector2 anchor) {
 		super(body);
 		
 		// check for a null anchor
@@ -172,10 +172,10 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 		// initialize
 		this.damping = 0.0;
 		this.gamma = 0.0;
-		this.bias = new Vector2();
+		this.bias = new DynVector2();
 		this.K = new Matrix22();
 		
-		this.impulse = new Vector2();
+		this.impulse = new DynVector2();
 	}
 	
 	/* (non-Javadoc)
@@ -238,7 +238,7 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 			this.K.m11 += this.gamma;
 		} else {
 			// otherwise enforce a "motor" constraint
-			Vector2 bp = this.r.sum(this.body.getWorldCenter());
+			DynVector2 bp = this.r.sum(this.body.getWorldCenter());
 			// the linear error is the distance along the x/y 
 			// from the local anchor to the target
 			this.linearError = this.target.difference(bp);
@@ -269,22 +269,22 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 		double dt = step.getDeltaTime();
 		
 		// compute the velocity
-		Vector2 rv = this.r.cross(body.getAngularVelocity()).add(body.getLinearVelocity());
+		DynVector2 rv = this.r.cross(body.getAngularVelocity()).add(body.getLinearVelocity());
 		
 		if (this.springEnabled) {
 			// soft point-to-point joint
 			
 			// compute Jv + b
-			Vector2 jvb = rv;
+			DynVector2 jvb = rv;
 			jvb.add(this.bias);
 			jvb.add(this.impulse.product(this.gamma));
 			jvb.negate();
-			Vector2 J = this.K.solve(jvb);
+			DynVector2 J = this.K.solve(jvb);
 			
 			// clamp the maximum force
 			if (this.springEnabled && this.springMaximumForceEnabled) {
 				// clamp using the maximum force
-				Vector2 currentAccumulatedImpulse = this.impulse.copy();
+				DynVector2 currentAccumulatedImpulse = this.impulse.copy();
 				this.impulse.add(J);
 				double maxImpulse = step.getDeltaTime() * this.springMaximumForce;
 				if (this.impulse.getMagnitudeSquared() > maxImpulse * maxImpulse) {
@@ -302,12 +302,12 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 			// motor joint
 			
 			// the "bias" for the motor constraint is the correction factor and linear error
-			Vector2 pivotV = rv.getNegative();
+			DynVector2 pivotV = rv.getNegative();
 			pivotV.add(this.linearError.product(this.correctionFactor * invdt));
-			Vector2 stepImpulse = this.K.solve(pivotV);
+			DynVector2 stepImpulse = this.K.solve(pivotV);
 			
 			// clamp by the maxforce
-			Vector2 currentAccumulatedImpulse = this.impulse.copy();
+			DynVector2 currentAccumulatedImpulse = this.impulse.copy();
 			this.impulse.add(stepImpulse);
 			double maxImpulse = this.correctionMaximumForce * dt;
 			if (this.impulse.getMagnitudeSquared() > maxImpulse * maxImpulse) {
@@ -371,7 +371,7 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	 * Returns the anchor point on the body in world space.
 	 * @return Vector2
 	 */
-	public Vector2 getAnchor() {
+	public DynVector2 getAnchor() {
 		return this.body.getWorldPoint(this.localAnchor);
 	}
 
@@ -380,7 +380,7 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	 * @param target the target point
 	 * @throws NullPointerException if target is null
 	 */
-	public void setTarget(Vector2 target) {
+	public void setTarget(DynVector2 target) {
 		// make sure the target is non null
 		if (target == null) 
 			throw new ArgumentNullException("target");
@@ -396,9 +396,9 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	
 	/**
 	 * Returns the target point in world coordinates
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getTarget() {
+	public DynVector2 getTarget() {
 		return this.target;
 	}
 	
@@ -406,7 +406,7 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
+	public DynVector2 getReactionForce(double invdt) {
 		return this.impulse.product(invdt);
 	}
 	
@@ -434,7 +434,7 @@ public class PinJoint<T extends PhysicsBody> extends AbstractSingleBodyJoint<T> 
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// the target point must be moved
 		this.target.add(shift);
 	}

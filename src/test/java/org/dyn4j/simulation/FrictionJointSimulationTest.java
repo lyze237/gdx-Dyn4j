@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.FrictionJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -67,7 +67,7 @@ public class FrictionJointSimulationTest {
 		b.setMass(MassType.NORMAL);
 		b.translate(0.0, 2.0);
 		// 5 meters/second
-		b.setLinearVelocity(new Vector2(4.0, 3.0));
+		b.setLinearVelocity(new DynVector2(4.0, 3.0));
 		// 30 degrees/second
 		b.setAngularVelocity(Math.toRadians(30.0));
 		b.setLinearDamping(0.0);
@@ -124,7 +124,7 @@ public class FrictionJointSimulationTest {
 		b.setMass(MassType.NORMAL);
 		b.translate(0.0, 2.0);
 		// 5 meters/second
-		b.setLinearVelocity(new Vector2(4.0, 3.0));
+		b.setLinearVelocity(new DynVector2(4.0, 3.0));
 		// 30 degrees/second
 		b.setAngularVelocity(Math.toRadians(30.0));
 		b.setLinearDamping(0.0);

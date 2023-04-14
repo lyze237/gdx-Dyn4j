@@ -45,10 +45,10 @@ import org.dyn4j.exception.ValueOutOfRangeException;
  */
 public class Polygon extends AbstractShape implements Convex, Wound, Shape, Transformable, DataContainer {
 	/** The polygon vertices */
-	final Vector2[] vertices;
+	final DynVector2[] vertices;
 	
 	/** The polygon normals */
-	final Vector2[] normals;
+	final DynVector2[] normals;
 	
 	/**
 	 * Full constructor for sub classes.
@@ -57,7 +57,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param vertices the vertices
 	 * @param normals the normals
 	 */
-	Polygon(Vector2 center, double radius, Vector2[] vertices, Vector2[] normals) {
+	Polygon(DynVector2 center, double radius, DynVector2[] vertices, DynVector2[] normals) {
 		super(center, radius);
 		this.vertices = vertices;
 		this.normals = normals;
@@ -72,7 +72,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @param vertices the polygon vertices
 	 * @param center the center of the polygon
 	 */
-	private Polygon(boolean valid, Vector2[] vertices, Vector2 center) {
+	private Polygon(boolean valid, DynVector2[] vertices, DynVector2 center) {
 		super(center, Geometry.getRotationRadius(center, vertices));
 			
 		// set the vertices
@@ -94,7 +94,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @throws NullPointerException if vertices is null or contains a null element
 	 * @throws IllegalArgumentException if vertices contains less than 3 points, contains coincident points, is not convex, or has clockwise winding
 	 */
-	public Polygon(Vector2... vertices) {
+	public Polygon(DynVector2... vertices) {
 		this(validate(vertices), vertices, Geometry.getAreaWeightedCenter(vertices));
 	}
 	
@@ -105,7 +105,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @throws NullPointerException if vertices is null or contains a null element
 	 * @throws IllegalArgumentException if vertices contains less than 3 points, contains coincident points, is not convex, or has clockwise winding
 	 */
-	private static final boolean validate(Vector2... vertices) {
+	private static final boolean validate(DynVector2... vertices) {
 		// check the vertex array
 		if (vertices == null) 
 			throw new ArgumentNullException("vertices");
@@ -125,9 +125,9 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 		double area = 0.0;
 		double sign = 0.0;
 		for (int i = 0; i < size; i++) {
-			Vector2 p0 = (i - 1 < 0) ? vertices[size - 1] : vertices[i - 1];
-			Vector2 p1 = vertices[i];
-			Vector2 p2 = (i + 1 == size) ? vertices[0] : vertices[i + 1];
+			DynVector2 p0 = (i - 1 < 0) ? vertices[size - 1] : vertices[i - 1];
+			DynVector2 p1 = vertices[i];
+			DynVector2 p2 = (i + 1 == size) ? vertices[0] : vertices[i + 1];
 			// check for coincident vertices
 			if (p1.equals(p2)) {
 				throw new IllegalArgumentException("A polygon cannot have coincident vertices");
@@ -178,7 +178,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getVertices()
 	 */
 	@Override
-	public Vector2[] getVertices() {
+	public DynVector2[] getVertices() {
 		return this.vertices;
 	}
 	
@@ -186,7 +186,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getNormals()
 	 */
 	@Override
-	public Vector2[] getNormals() {
+	public DynVector2[] getNormals() {
 		return this.normals;
 	}
 	
@@ -194,7 +194,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getVertexIterator()
 	 */
 	@Override
-	public Iterator<Vector2> getVertexIterator() {
+	public Iterator<DynVector2> getVertexIterator() {
 		return new WoundIterator(this.vertices);
 	}
 	
@@ -202,7 +202,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Wound#getNormalIterator()
 	 */
 	@Override
-	public Iterator<Vector2> getNormalIterator() {
+	public Iterator<DynVector2> getNormalIterator() {
 		return new WoundIterator(this.normals);
 	}
 	
@@ -210,7 +210,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Shape#getRadius(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public double getRadius(Vector2 center) {
+	public double getRadius(DynVector2 center) {
 		return Geometry.getRotationRadius(center, this.vertices);
 	}
 	
@@ -218,19 +218,19 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Convex#getAxes(java.util.List, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// get the size of the foci list
 		int fociSize = foci != null ? foci.length : 0;
 		// get the number of vertices this polygon has
 		int size = this.vertices.length;
 		// the axes of a polygon are created from the normal of the edges
 		// plus the closest point to each focus
-		Vector2[] axes = new Vector2[size + fociSize];
+		DynVector2[] axes = new DynVector2[size + fociSize];
 		int n = 0;
 		// loop over the edge normals and put them into world space
 		for (int i = 0; i < size; i++) {
 			// create references to the current points
-			Vector2 v = this.normals[i];
+			DynVector2 v = this.normals[i];
 			// transform it into world space and add it to the list
 			axes[n++] = transform.getTransformedR(v);
 		}
@@ -238,14 +238,14 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 		// points on the polygon to the focal points
 		for (int i = 0; i < fociSize; i++) {
 			// get the current focus
-			Vector2 f = foci[i];
+			DynVector2 f = foci[i];
 			// create a place for the closest point
-			Vector2 closest = transform.getTransformed(this.vertices[0]);
+			DynVector2 closest = transform.getTransformed(this.vertices[0]);
 			double d = f.distanceSquared(closest);
 			// find the minimum distance vertex
 			for (int j = 1; j < size; j++) {
 				// get the vertex
-				Vector2 p = this.vertices[j];
+				DynVector2 p = this.vertices[j];
 				// transform it into world space
 				p = transform.getTransformed(p);
 				// get the squared distance to the focus
@@ -259,7 +259,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 			}
 			// once we have found the closest point create 
 			// a vector from the focal point to the point
-			Vector2 axis = f.to(closest);
+			DynVector2 axis = f.to(closest);
 			// normalize it
 			axis.normalize();
 			// add it to the array
@@ -276,7 +276,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @return null
 	 */
 	@Override
-	public Vector2[] getFoci(Transform transform) {
+	public DynVector2[] getFoci(Transform transform) {
 		return null;
 	}
 
@@ -284,19 +284,19 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform, boolean)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform, boolean inclusive) {
+	public boolean contains(DynVector2 point, Transform transform, boolean inclusive) {
 		// if the polygon is convex then do a simple inside test
 		// if the the sign of the location of the point on the side of an edge (or line)
 		// is always the same and the polygon is convex then we know that the
 		// point lies inside the polygon
 		// This method doesn't care about vertex winding
 		// inverse transform the point to put it in local coordinates
-		Vector2 p = transform.getInverseTransformed(point);
+		DynVector2 p = transform.getInverseTransformed(point);
 		
 		// start from the pair (p1 = last, p2 = first) so there's no need to check in the loop for wrap-around of the i + 1 vertice
 		int size = this.vertices.length;
-		Vector2 p1 = this.vertices[size - 1];
-		Vector2 p2 = this.vertices[0];
+		DynVector2 p1 = this.vertices[size - 1];
+		DynVector2 p2 = this.vertices[0];
 		
 		// get the location of the point relative to the first two vertices
 		double last = Segment.getLocation(p, p1, p2);
@@ -372,10 +372,10 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		double v = 0.0;
     	// get the first point
-		Vector2 p = transform.getTransformed(this.vertices[0]);
+		DynVector2 p = transform.getTransformed(this.vertices[0]);
 		// project the point onto the vector
     	double min = vector.dot(p);
     	double max = min;
@@ -399,19 +399,19 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Convex#getFarthestFeature(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public EdgeFeature getFarthestFeature(Vector2 vector, Transform transform) {
+	public EdgeFeature getFarthestFeature(DynVector2 vector, Transform transform) {
 		// transform the normal into local space
-		Vector2 localn = transform.getInverseTransformedR(vector);
+		DynVector2 localn = transform.getInverseTransformedR(vector);
 
 		int index = getFarthestVertexIndex(localn);
 		int count = this.vertices.length;
 
-		Vector2 maximum = new Vector2(this.vertices[index]);
+		DynVector2 maximum = new DynVector2(this.vertices[index]);
 		
 		// once we have the point of maximum
 		// see which edge is most perpendicular
-		Vector2 leftN = this.normals[index == 0 ? count - 1 : index - 1];
-		Vector2 rightN = this.normals[index];
+		DynVector2 leftN = this.normals[index == 0 ? count - 1 : index - 1];
+		DynVector2 rightN = this.normals[index];
 		// create the maximum point for the feature (transform the maximum into world space)
 		transform.transform(maximum);
 		PointFeature vm = new PointFeature(maximum, index);
@@ -419,14 +419,14 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 		if (leftN.dot(localn) < rightN.dot(localn)) {
 			int l = (index == count - 1) ? 0 : index + 1;
 			
-			Vector2 left = transform.getTransformed(this.vertices[l]);
+			DynVector2 left = transform.getTransformed(this.vertices[l]);
 			PointFeature vl = new PointFeature(left, l);
 			// make sure the edge is the right winding
 			return new EdgeFeature(vm, vl, vm, maximum.to(left), index + 1);
 		} else {
 			int r = (index == 0) ? count - 1 : index - 1;
 			
-			Vector2 right = transform.getTransformed(this.vertices[r]);
+			DynVector2 right = transform.getTransformed(this.vertices[r]);
 			PointFeature vr = new PointFeature(right, r);
 			// make sure the edge is the right winding
 			return new EdgeFeature(vr, vm, vm, right.to(maximum), index);
@@ -437,9 +437,9 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @see org.dyn4j.geometry.Convex#getFarthestPoint(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2 getFarthestPoint(Vector2 vector, Transform transform) {
+	public DynVector2 getFarthestPoint(DynVector2 vector, Transform transform) {
 		// transform the normal into local space
-		Vector2 localn = transform.getInverseTransformedR(vector);
+		DynVector2 localn = transform.getInverseTransformedR(vector);
 
 		// find the index of the farthest point
 		int index = getFarthestVertexIndex(localn);
@@ -456,7 +456,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	 * @return the index of the farthest vertex in that direction
 	 * @since 3.4.0
 	 */
-	int getFarthestVertexIndex(Vector2 vector) {
+	int getFarthestVertexIndex(DynVector2 vector) {
 		/*
 		 * The sequence a(n) = vector.dot(vertices[n]) has a maximum, a minimum and is monotonic (though not strictly monotonic) between those extrema.
 		 * All indices are considered in modular arithmetic. I choose the initial index to be 0.
@@ -539,12 +539,12 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	public Mass createMass(double density) {
 		// can't use normal centroid calculation since it will be weighted towards sides
 		// that have larger distribution of points.
-		Vector2 center = new Vector2();
+		DynVector2 center = new DynVector2();
 		double area = 0.0;
 		double I = 0.0;
 		int n = this.vertices.length;
 		// get the average center
-		Vector2 ac = new Vector2();
+		DynVector2 ac = new DynVector2();
 		for (int i = 0; i < n; i++) {
 			ac.add(this.vertices[i]);
 		}
@@ -552,8 +552,8 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 		// loop through the vertices using two variables to avoid branches in the loop
 		for (int i1 = n - 1, i2 = 0; i2 < n; i1 = i2++) {
 			// get two vertices
-			Vector2 p1 = this.vertices[i1];
-			Vector2 p2 = this.vertices[i2];
+			DynVector2 p1 = this.vertices[i1];
+			DynVector2 p2 = this.vertices[i2];
 			// get the vector from the center to the point
 			p1 = p1.difference(ac);
 			p2 = p2.difference(ac);
@@ -580,7 +580,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 		// finish the centroid calculation by dividing by the total area
 		// and adding in the average center
 		center.divide(area);
-		Vector2 c = center.sum(ac);
+		DynVector2 c = center.sum(ac);
 		// finish the inertia tensor by dividing by the total area and multiplying by d / 6
 		I *= (density / 6.0);
 		// shift the axis of rotation to the area weighted center
@@ -600,7 +600,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 		int n = this.vertices.length;
 		
 		// get the average center
-		Vector2 ac = new Vector2();
+		DynVector2 ac = new DynVector2();
 		for (int i = 0; i < n; i++) {
 			ac.add(this.vertices[i]);
 		}
@@ -609,8 +609,8 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 		// loop through the vertices using two variables to avoid branches in the loop
 		for (int i1 = n - 1, i2 = 0; i2 < n; i1 = i2++) {
 			// get two vertices
-			Vector2 p1 = this.vertices[i1];
-			Vector2 p2 = this.vertices[i2];
+			DynVector2 p1 = this.vertices[i1];
+			DynVector2 p2 = this.vertices[i2];
 			// get the vector from the center to the point
 			p1 = p1.difference(ac);
 			p2 = p2.difference(ac);
@@ -631,7 +631,7 @@ public class Polygon extends AbstractShape implements Convex, Wound, Shape, Tran
 	@Override
 	public void computeAABB(Transform transform, AABB aabb) {
 		// get the first point
-		Vector2 p = transform.getTransformed(this.vertices[0]);
+		DynVector2 p = transform.getTransformed(this.vertices[0]);
 		
 		// initialize min and max values
     	double minX = p.x;

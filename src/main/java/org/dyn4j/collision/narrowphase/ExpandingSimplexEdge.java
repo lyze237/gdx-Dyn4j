@@ -24,7 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an edge of an {@link ExpandingSimplex}.
@@ -39,13 +39,13 @@ import org.dyn4j.geometry.Vector2;
  */
 final class ExpandingSimplexEdge implements Comparable<ExpandingSimplexEdge> {
 	/** The first point of the edge */
-	final Vector2 point1;
+	final DynVector2 point1;
 	
 	/** The second point of the edge */
-	final Vector2 point2;
+	final DynVector2 point2;
 	
 	/** The normal of the edge */
-	final Vector2 normal;
+	final DynVector2 normal;
 	
 	/** The perpendicular distance from the edge to the origin */
 	final double distance;
@@ -56,10 +56,10 @@ final class ExpandingSimplexEdge implements Comparable<ExpandingSimplexEdge> {
 	 * @param point2 the second point
 	 * @param winding the winding
 	 */
-	public ExpandingSimplexEdge(Vector2 point1, Vector2 point2, int winding) {
+	public ExpandingSimplexEdge(DynVector2 point1, DynVector2 point2, int winding) {
 		// create the edge
 		// inline b - a
-		this.normal = new Vector2(point2.x - point1.x, point2.y - point1.y);
+		this.normal = new DynVector2(point2.x - point1.x, point2.y - point1.y);
 		// depending on the winding get the edge normal
 		// it would be better to use Vector.tripleProduct(ab, ao, ab);
 		// where ab is the edge and ao is a.to(ORIGIN) but this will

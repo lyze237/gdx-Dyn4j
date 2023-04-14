@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.WeldJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -77,7 +77,7 @@ public class WeldJointSimulationTest {
 		
 		// because the allowed axis is the x-axis and the position of the axis is at body2's world center
 		// gravity is applied but has no effect
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(0.0, v2.x);
 		TestCase.assertEquals(2.0, v2.y);
 		TestCase.assertEquals(0.0, b.getAngularVelocity());
@@ -145,7 +145,7 @@ public class WeldJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter().sum(-0.5, 0.0);
+		DynVector2 p = b.getWorldCenter().sum(-0.5, 0.0);
 		WeldJoint<Body> wj = new WeldJoint<Body>(g, b, p);
 		
 		// NOTE: that I've set the rest distance to more than the limits
@@ -182,7 +182,7 @@ public class WeldJointSimulationTest {
 		// test the maximum torque setting
 		wj.setMaximumSpringTorque(5);
 		wj.setMaximumSpringTorqueEnabled(true);
-		b.applyForce(new Vector2(0.0, -10.0), new Vector2(0.5, 2.0));
+		b.applyForce(new DynVector2(0.0, -10.0), new DynVector2(0.5, 2.0));
 		w.step(1);
 		
 		TestCase.assertEquals(-0.72033, b.getAngularVelocity(), 1e-5);
@@ -219,7 +219,7 @@ public class WeldJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter().sum(-0.5, 0.0);
+		DynVector2 p = b.getWorldCenter().sum(-0.5, 0.0);
 		WeldJoint<Body> wj = new WeldJoint<Body>(g, b, p);
 		
 		// NOTE: that I've set the rest distance to more than the limits
@@ -241,7 +241,7 @@ public class WeldJointSimulationTest {
 		// too weak to hold up the object, so it should rest on the limit
 		wj.setMaximumSpringTorque(1);
 		wj.setMaximumSpringTorqueEnabled(true);
-		b.applyForce(new Vector2(0.0, -10.0), new Vector2(0.5, 2.0));
+		b.applyForce(new DynVector2(0.0, -10.0), new DynVector2(0.5, 2.0));
 		w.step(50);
 		
 		TestCase.assertEquals( 0.00000, b.getAngularVelocity(), 1e-5);
@@ -278,7 +278,7 @@ public class WeldJointSimulationTest {
 		b.setAngularDamping(0.0);
 		w.addBody(b);
 		
-		Vector2 p = b.getWorldCenter().sum(0.5, 0.0);
+		DynVector2 p = b.getWorldCenter().sum(0.5, 0.0);
 		WeldJoint<Body> wj = new WeldJoint<Body>(g, b, p);
 		
 		// NOTE: that I've set the rest distance to more than the limits
@@ -300,7 +300,7 @@ public class WeldJointSimulationTest {
 		// too weak to hold up the object, so it should rest on the limit
 		wj.setMaximumSpringTorque(1);
 		wj.setMaximumSpringTorqueEnabled(true);
-		b.applyForce(new Vector2(0.0, -10.0), new Vector2(-0.5, 2.0));
+		b.applyForce(new DynVector2(0.0, -10.0), new DynVector2(-0.5, 2.0));
 		w.step(50);
 		
 		TestCase.assertEquals( 0.00000, b.getAngularVelocity(), 1e-5);

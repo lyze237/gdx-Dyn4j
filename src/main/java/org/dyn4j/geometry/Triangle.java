@@ -52,7 +52,7 @@ public class Triangle extends Polygon implements Convex, Wound, Shape, Transform
 	 * @throws NullPointerException if point1, point2, or point3 is null
 	 * @throws IllegalArgumentException if point1, point2, and point3 contain coincident points or has clockwise winding
 	 */
-	public Triangle(Vector2 point1, Vector2 point2, Vector2 point3) {
+	public Triangle(DynVector2 point1, DynVector2 point2, DynVector2 point3) {
 		super(point1, point2, point3);
 	}
 	
@@ -72,7 +72,7 @@ public class Triangle extends Polygon implements Convex, Wound, Shape, Transform
 	 * The equation of a plane is:
 	 * <p style="white-space: pre;"> N &middot; (P - A) = 0</p>
 	 * Where A is any point on the plane. <br>
-	 * Create two axes ({@link Vector2}s), we will choose V<sub>ab</sub> and V<sub>ac</sub>.
+	 * Create two axes ({@link DynVector2}s), we will choose V<sub>ab</sub> and V<sub>ac</sub>.
 	 * <p style="white-space: pre;"> V<sub>ac</sub> = C - A
 	 * V<sub>ab</sub> = B - A</p>
 	 * Where A, B, and C are the vertices of the {@link Triangle}.<br>
@@ -108,20 +108,20 @@ public class Triangle extends Polygon implements Convex, Wound, Shape, Transform
 	 * @return boolean
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform) {
+	public boolean contains(DynVector2 point, Transform transform) {
 		double u, v;
 		// put the point in local coordinates
-		Vector2 p = transform.getInverseTransformed(point);
+		DynVector2 p = transform.getInverseTransformed(point);
 		// get the vertices
-		Vector2 p1 = this.vertices[0];
-		Vector2 p2 = this.vertices[1];
-		Vector2 p3 = this.vertices[2];
+		DynVector2 p1 = this.vertices[0];
+		DynVector2 p2 = this.vertices[1];
+		DynVector2 p3 = this.vertices[2];
 		// create a vector representing edge ab
-		Vector2 ab = p1.to(p2);
+		DynVector2 ab = p1.to(p2);
 		// create a vector representing edge ac
-		Vector2 ac = p1.to(p3);
+		DynVector2 ac = p1.to(p3);
 		// create a vector from a to the point
-		Vector2 pa = p1.to(p);
+		DynVector2 pa = p1.to(p);
 		
 		double dot00 = ac.dot(ac);
 		double dot01 = ac.dot(ab);

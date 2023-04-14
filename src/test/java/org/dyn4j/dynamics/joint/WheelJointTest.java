@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -42,8 +42,8 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Vector2 p = new Vector2(1.0, 1.0);
-		Vector2 a = new Vector2(0.0, 1.0);
+		DynVector2 p = new DynVector2(1.0, 1.0);
+		DynVector2 a = new DynVector2(0.0, 1.0);
 		
 		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, p, a);
 		
@@ -93,7 +93,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody1() {
-		new WheelJoint<Body>(null, b2, new Vector2(), new Vector2(0.0, 1.0));
+		new WheelJoint<Body>(null, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody2() {
-		new WheelJoint<Body>(b1, null, new Vector2(), new Vector2(0.0, 1.0));
+		new WheelJoint<Body>(b1, null, new DynVector2(), new DynVector2(0.0, 1.0));
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullAnchor() {
-		new WheelJoint<Body>(b1, b2, null, new Vector2(0.0, 1.0));
+		new WheelJoint<Body>(b1, b2, null, new DynVector2(0.0, 1.0));
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullAxis() {
-		new WheelJoint<Body>(b1, b2, new Vector2(), null);
+		new WheelJoint<Body>(b1, b2, new DynVector2(), null);
 	}
 	
 	/**
@@ -125,7 +125,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringEnabled() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		TestCase.assertTrue(wj.isSpringEnabled());
 		
 		wj.setSpringFrequency(1.0);
@@ -149,7 +149,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringDamperEnabled() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		TestCase.assertTrue(wj.isSpringDamperEnabled());
 		
 		wj.setSpringFrequency(1.0);
@@ -182,7 +182,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringRestOffset() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setSpringRestOffset(0.0);
 		TestCase.assertEquals(0.0, wj.getSpringRestOffset());
@@ -199,7 +199,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringDampingRatio() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setSpringDampingRatio(0.0);
 		TestCase.assertEquals(0.0, wj.getSpringDampingRatio());
@@ -249,7 +249,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeDampingRatio() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setSpringDampingRatio(-1.0);
 	}
 	
@@ -258,7 +258,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setDampingRatioGreaterThan1() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setSpringDampingRatio(2.0);
 	}
 	
@@ -267,7 +267,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringFrequency() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setSpringFrequency(0.0);
 		TestCase.assertEquals(0.0, wj.getSpringFrequency());
@@ -327,7 +327,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMode() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		// test mode swapping
 		TestCase.assertEquals(AbstractJoint.SPRING_MODE_FREQUENCY, wj.getSpringMode());
 		wj.setSpringStiffness(0.3);
@@ -341,7 +341,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringStiffnessNegative() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setSpringStiffness(-0.3);
 	}
 
@@ -350,7 +350,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringStiffness() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setSpringStiffness(0.0);
 		TestCase.assertEquals(0.0, wj.getSpringStiffness());
@@ -408,7 +408,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringFrequencyNegative() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setSpringFrequency(-0.3);
 	}
 
@@ -417,7 +417,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringMaximumForceNegative() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setMaximumSpringForce(-1.0);
 	}
 	
@@ -426,7 +426,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMaximumForce() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setMaximumSpringForce(0.0);
 		TestCase.assertEquals(0.0, wj.getMaximumSpringForce());
@@ -485,7 +485,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void computeSpringStiffnessFrequency() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setSpringEnabled(true);
 		wj.setSpringDamperEnabled(true);
 		wj.setSpringFrequency(8.0);
@@ -512,7 +512,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringRestOffsetAtRest() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		double distance = wj.getSpringRestOffset();
 		
@@ -542,7 +542,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorMaximumTorque() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setMaximumMotorTorque(0.0);
 		TestCase.assertEquals(0.0, wj.getMaximumMotorTorque());
@@ -559,7 +559,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setMaximumMotorTorqueNegative() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setMaximumMotorTorque(-2.0);
 	}
 
@@ -568,7 +568,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMaximumMotorTorqueSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertFalse(wj.isMotorEnabled());
 		TestCase.assertEquals(1000.0, wj.getMaximumMotorTorque());
@@ -610,7 +610,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMaximumMotorTorqueEnabledSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertFalse(wj.isMotorEnabled());
 		TestCase.assertEquals(1000.0, wj.getMaximumMotorTorque());
@@ -654,7 +654,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorEnabled() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertFalse(wj.isMotorEnabled());
 		
@@ -670,7 +670,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorEnabledSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertFalse(wj.isMotorEnabled());
 		TestCase.assertFalse(b1.isAtRest());
@@ -711,7 +711,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorSpeed() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(0.0, wj.getMotorSpeed());
 		
@@ -730,7 +730,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorSpeedSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertFalse(wj.isMotorEnabled());
 		TestCase.assertEquals(0.0, wj.getMotorSpeed());
@@ -772,7 +772,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSuccess() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setLowerLimit(-5.0);
 		
 		TestCase.assertEquals(0.0, wj.getUpperLimit());
@@ -792,7 +792,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperLimitInvalid() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(0.0, wj.getUpperLimit());
 		
@@ -804,7 +804,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimit() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		wj.setUpperLimit(5.0);
 		
 		TestCase.assertEquals(0.0, wj.getLowerLimit());
@@ -824,7 +824,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setLowerLimitInvalid() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(0.0, wj.getLowerLimit());
 		
@@ -836,7 +836,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperAndLowerLimits() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(0.0, wj.getLowerLimit());
 		TestCase.assertEquals(0.0, wj.getUpperLimit());
@@ -867,7 +867,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsInvalid1() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(0.0, wj.getLowerLimit());
 		TestCase.assertEquals(0.0, wj.getUpperLimit());
@@ -880,7 +880,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsInvalid2() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(0.0, wj.getLowerLimit());
 		TestCase.assertEquals(0.0, wj.getUpperLimit());
@@ -893,7 +893,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSameLimitValid() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(0.0, wj.getLowerLimit());
 		TestCase.assertEquals(0.0, wj.getUpperLimit());
@@ -912,7 +912,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setLowerLimitEnabled(true);
 		wj.setUpperLimitEnabled(true);
@@ -971,7 +971,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsSameSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setLowerLimitEnabled(true);
 		wj.setUpperLimitEnabled(true);
@@ -1060,7 +1060,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsDifferentSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setLowerLimitEnabled(true);
 		wj.setUpperLimitEnabled(true);
@@ -1149,7 +1149,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimitSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setLowerLimitEnabled(true);
 		wj.setUpperLimitEnabled(true);
@@ -1204,7 +1204,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setLowerLimitEnabled(true);
 		wj.setUpperLimitEnabled(true);
@@ -1259,7 +1259,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSameSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setLowerLimitEnabled(true);
 		wj.setUpperLimitEnabled(true);
@@ -1321,7 +1321,7 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledDifferentSleep() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		wj.setLowerLimitEnabled(true);
 		wj.setUpperLimitEnabled(true);
@@ -1410,14 +1410,14 @@ public class WheelJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void shift() {
-		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		WheelJoint<Body> wj = new WheelJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(1.0, wj.getAnchor1().x);
 		TestCase.assertEquals(2.0, wj.getAnchor1().y);
 		TestCase.assertEquals(1.0, wj.getAnchor2().x);
 		TestCase.assertEquals(2.0, wj.getAnchor2().y);
 		
-		wj.shift(new Vector2(1.0, 3.0));
+		wj.shift(new DynVector2(1.0, 3.0));
 		
 		// nothing should have changed
 		TestCase.assertEquals(1.0, wj.getAnchor1().x);

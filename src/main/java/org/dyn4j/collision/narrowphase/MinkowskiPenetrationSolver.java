@@ -26,7 +26,7 @@ package org.dyn4j.collision.narrowphase;
 
 import java.util.List;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Interface representing a sub algorithm for finding the penetration vector
@@ -48,5 +48,5 @@ public interface MinkowskiPenetrationSolver {
 	 * @param minkowskiSum the {@link MinkowskiSum}
 	 * @param penetration the {@link Penetration} object to fill
 	 */
-	public abstract void getPenetration(List<Vector2> simplex, MinkowskiSum minkowskiSum, Penetration penetration);
+	public abstract void getPenetration(List<DynVector2> simplex, MinkowskiSum minkowskiSum, Penetration penetration);
 }

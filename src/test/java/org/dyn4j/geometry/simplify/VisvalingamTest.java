@@ -27,7 +27,7 @@ package org.dyn4j.geometry.simplify;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -69,8 +69,8 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	@Test
 	public void noChange() {
 		Simplifier simplifier = new Visvalingam(0, 0);
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/bird.dat"));
-		Vector2[] simplified = simplifier.simplify(vertices);
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/bird.dat"));
+		DynVector2[] simplified = simplifier.simplify(vertices);
 		
 		TestCase.assertEquals(vertices.length, simplified.length);
 	}
@@ -81,7 +81,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	@Test
 	public void nullArray() {
 		Simplifier simplifier = new Visvalingam(0, 0);
-		TestCase.assertNull(simplifier.simplify((Vector2[])null));
+		TestCase.assertNull(simplifier.simplify((DynVector2[])null));
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	@Test
 	public void nullList() {
 		Simplifier simplifier = new Visvalingam(0, 0);
-		TestCase.assertNull(simplifier.simplify((List<Vector2>)null));
+		TestCase.assertNull(simplifier.simplify((List<DynVector2>)null));
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void emptyArray() {
-		Vector2[] vertices = new Vector2[0];
+		DynVector2[] vertices = new DynVector2[0];
 		Simplifier simplifier = new Visvalingam(0, 0);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(0, vertices.length);
@@ -109,7 +109,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void emptyList() {
-		List<Vector2> vertices = new ArrayList<Vector2>();
+		List<DynVector2> vertices = new ArrayList<DynVector2>();
 		Simplifier simplifier = new Visvalingam(0, 0);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(0, vertices.size());
@@ -120,9 +120,9 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void nullElements() {
-		Vector2[] vertices = new Vector2[] {
+		DynVector2[] vertices = new DynVector2[] {
 			null,
-			new Vector2(),
+			new DynVector2(),
 			null
 		};
 		Simplifier simplifier = new Visvalingam(0, 0);
@@ -135,11 +135,11 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void coincidentElements() {
-		Vector2[] vertices = new Vector2[] {
+		DynVector2[] vertices = new DynVector2[] {
 			null,
-			new Vector2(),
-			new Vector2(),
-			new Vector2(1, 1),
+			new DynVector2(),
+			new DynVector2(),
+			new DynVector2(1, 1),
 			null
 		};
 		Simplifier simplifier = new Visvalingam(0, 0);
@@ -152,15 +152,15 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void closeElements() {
-		Vector2[] vertices = new Vector2[] {
+		DynVector2[] vertices = new DynVector2[] {
 			null,
-			new Vector2(1.1, 0.0),
-			new Vector2(1.1, 0.0),
-			new Vector2(1.2, 0.0),
-			new Vector2(1.25, 0.0),
-			new Vector2(1.4, 0.0),
-			new Vector2(1.4, 0.0),
-			new Vector2(1.7, 0.0),
+			new DynVector2(1.1, 0.0),
+			new DynVector2(1.1, 0.0),
+			new DynVector2(1.2, 0.0),
+			new DynVector2(1.25, 0.0),
+			new DynVector2(1.4, 0.0),
+			new DynVector2(1.4, 0.0),
+			new DynVector2(1.7, 0.0),
 			null
 		};
 		Simplifier simplifier = new Visvalingam(0.11, 0.1);
@@ -173,7 +173,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void allNull() {
-		Vector2[] vertices = new Vector2[] {
+		DynVector2[] vertices = new DynVector2[] {
 			null,
 			null,
 			null
@@ -189,12 +189,12 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void allSamePoints() {
-		Vector2[] vertices = new Vector2[] {
-			new Vector2(1.1, 0.0),
-			new Vector2(1.11, 0.0),
-			new Vector2(1.12, 0.0),
-			new Vector2(1.13, 0.0),
-			new Vector2(1.14, 0.0)
+		DynVector2[] vertices = new DynVector2[] {
+			new DynVector2(1.1, 0.0),
+			new DynVector2(1.11, 0.0),
+			new DynVector2(1.12, 0.0),
+			new DynVector2(1.13, 0.0),
+			new DynVector2(1.14, 0.0)
 		};
 		Simplifier simplifier = new Visvalingam(0.0, 1.0);
 		vertices = simplifier.simplify(vertices);
@@ -206,7 +206,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successBird() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/bird.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/bird.dat"));
 		Simplifier simplifier = new Visvalingam(0.1, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(35, vertices.length);
@@ -217,7 +217,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successTank() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tank.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tank.dat"));
 		Simplifier simplifier = new Visvalingam(10.0, 10.0);
 		vertices = simplifier.simplify(vertices);
 		// the original shape is so optimized we can't get much more out of it
@@ -229,18 +229,18 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successSelfIntersection() {
-		Vector2[] vertices = new Vector2[] {
-				new Vector2(-2.058,-3.576),
-				new Vector2(1.066,-3.422),
-				new Vector2(0.626,-1.816),
-				new Vector2(0.758,-1.09),
-				new Vector2(1.946,-0.87),
-				new Vector2(3.134,-1.992),
-				new Vector2(0.802,-1.838),
-				new Vector2(1.11,-2.674),
-				new Vector2(3.442,-3.246),
-				new Vector2(2.364,-6.81),
-				new Vector2(-3.092,-5.05),
+		DynVector2[] vertices = new DynVector2[] {
+				new DynVector2(-2.058,-3.576),
+				new DynVector2(1.066,-3.422),
+				new DynVector2(0.626,-1.816),
+				new DynVector2(0.758,-1.09),
+				new DynVector2(1.946,-0.87),
+				new DynVector2(3.134,-1.992),
+				new DynVector2(0.802,-1.838),
+				new DynVector2(1.11,-2.674),
+				new DynVector2(3.442,-3.246),
+				new DynVector2(2.364,-6.81),
+				new DynVector2(-3.092,-5.05),
 		};
 		Simplifier simplifier = new Visvalingam(2.0, 1.0);
 		vertices = simplifier.simplify(vertices);
@@ -253,7 +253,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successNazcaMonkey() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/nazca_monkey.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/nazca_monkey.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(446, vertices.length);
@@ -264,7 +264,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successNazcaHeron() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/nazca_heron.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/nazca_heron.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(198, vertices.length);
@@ -275,7 +275,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successZoom1() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom1.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom1.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(46, vertices.length);
@@ -286,7 +286,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successZoom2() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom2.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom2.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(46, vertices.length);
@@ -297,7 +297,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successZoom3() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom3.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom3.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(46, vertices.length);
@@ -308,7 +308,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successZoom4() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom4.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom4.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(30, vertices.length);
@@ -319,7 +319,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successZoom5() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom5.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom5.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(45, vertices.length);
@@ -330,7 +330,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successZoom6() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom6.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom6.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(59, vertices.length);
@@ -341,7 +341,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successZoom7() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom7.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/zoom7.dat"));
 		Simplifier simplifier = new Visvalingam(0.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(21, vertices.length);
@@ -352,7 +352,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successTridol1() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tridol1.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tridol1.dat"));
 		Simplifier simplifier = new Visvalingam(1.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(18, vertices.length);
@@ -363,7 +363,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successTridol2() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tridol2.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tridol2.dat"));
 		Simplifier simplifier = new Visvalingam(1.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(11, vertices.length);
@@ -374,7 +374,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successTridol3() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tridol3.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/tridol3.dat"));
 		Simplifier simplifier = new Visvalingam(1.5, 0.5);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(18, vertices.length);
@@ -385,7 +385,7 @@ public class VisvalingamTest extends AbstractSimplifyTest {
 	 */
 	@Test
 	public void successNsoft1() {
-		Vector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/nsoft1.dat"));
+		DynVector2[] vertices = this.load(VisvalingamTest.class.getResourceAsStream("/org/dyn4j/data/nsoft1.dat"));
 		Simplifier simplifier = new Visvalingam(0.1, 0.1);
 		vertices = simplifier.simplify(vertices);
 		TestCase.assertEquals(9, vertices.length);

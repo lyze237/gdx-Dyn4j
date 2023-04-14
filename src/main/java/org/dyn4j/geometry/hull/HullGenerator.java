@@ -28,12 +28,12 @@ import java.util.List;
 
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Shape;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an algorithm used to create a convex hull of a given point set.
  * <p>
- * The hulls are returned as {@link Vector2}[]s that can then be used to create a {@link Convex} {@link Shape}.
+ * The hulls are returned as {@link DynVector2}[]s that can then be used to create a {@link Convex} {@link Shape}.
  * <p>
  * Algorithms implementing this interface are intended for general use but does not imply that
  * the results produced would be appropriate for the core dyn4j engine.
@@ -49,10 +49,10 @@ public interface HullGenerator {
 	 * <p>
 	 * Returns the array unchanged if the length is less than or equal to 2.
 	 * @param points the point set or cloud
-	 * @return {@link Vector2}[] the convex hull vertices
+	 * @return {@link DynVector2}[] the convex hull vertices
 	 * @throws NullPointerException if points is null or contains null points
 	 */
-	public abstract Vector2[] generate(Vector2... points);
+	public abstract DynVector2[] generate(DynVector2... points);
 	
 	/**
 	 * Returns a convex hull generated from the given point set in counter-clockwise point order.
@@ -61,9 +61,9 @@ public interface HullGenerator {
 	 * <p>
 	 * Returns the array unchanged if the length is less than or equal to 2.
 	 * @param points the point set or cloud
-	 * @return List&lt;{@link Vector2}&gt; the convex hull vertices
+	 * @return List&lt;{@link DynVector2}&gt; the convex hull vertices
 	 * @throws NullPointerException if points is null or contains null points
 	 * @since 4.2.0
 	 */
-	public abstract List<Vector2> generate(List<Vector2> points);
+	public abstract List<DynVector2> generate(List<DynVector2> points);
 }

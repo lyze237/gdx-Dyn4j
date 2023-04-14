@@ -30,7 +30,7 @@ import java.util.List;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -264,8 +264,8 @@ public class AbstractPairedBodyJointTest {
 	 */
 	@Test
 	public void getReducedInertia() {
-		b1.setMass(new Mass(new Vector2(), 1.0, 2.0));
-		b2.setMass(new Mass(new Vector2(), 1.0, 2.0));
+		b1.setMass(new Mass(new DynVector2(), 1.0, 2.0));
+		b2.setMass(new Mass(new DynVector2(), 1.0, 2.0));
 		
 		double ri = aj.getReducedInertia();
 		TestCase.assertEquals(1.0, ri);
@@ -290,8 +290,8 @@ public class AbstractPairedBodyJointTest {
 	 */
 	@Test
 	public void getReducedMass() {
-		b1.setMass(new Mass(new Vector2(), 1.0, 2.0));
-		b2.setMass(new Mass(new Vector2(), 1.0, 2.0));
+		b1.setMass(new Mass(new DynVector2(), 1.0, 2.0));
+		b2.setMass(new Mass(new DynVector2(), 1.0, 2.0));
 		
 		double ri = aj.getReducedMass();
 		TestCase.assertEquals(0.5, ri);

@@ -29,7 +29,7 @@ import org.dyn4j.collision.narrowphase.Gjk;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -87,11 +87,11 @@ public class ConservativeAdvancementTest {
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.5);
 		
-		Vector2 dp1 = new Vector2(0.0, -120.0 * TIME_STEP);
+		DynVector2 dp1 = new DynVector2(0.0, -120.0 * TIME_STEP);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
-		boolean collision = this.detector.getTimeOfImpact(this.c1, t1, dp1, 0.0, this.c2, IDENTITY, new Vector2(), 0.0, toi);
+		boolean collision = this.detector.getTimeOfImpact(this.c1, t1, dp1, 0.0, this.c2, IDENTITY, new DynVector2(), 0.0, toi);
 		TestCase.assertTrue(collision);
 		
 		// test the TOI
@@ -119,11 +119,11 @@ public class ConservativeAdvancementTest {
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.0);
 		
-		Vector2 dp1 = new Vector2(0.0, -120.0 * TIME_STEP);
+		DynVector2 dp1 = new DynVector2(0.0, -120.0 * TIME_STEP);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
-		boolean collision = this.detector.getTimeOfImpact(this.c1, t1, dp1, 0.0, this.c2, IDENTITY, new Vector2(), 0.0, toi);
+		boolean collision = this.detector.getTimeOfImpact(this.c1, t1, dp1, 0.0, this.c2, IDENTITY, new DynVector2(), 0.0, toi);
 		TestCase.assertTrue(collision);
 		
 		// test the TOI
@@ -147,12 +147,12 @@ public class ConservativeAdvancementTest {
 		
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.5);
-		Vector2 dp1 = new Vector2(120.0 * TIME_STEP, 0.0);
+		DynVector2 dp1 = new DynVector2(120.0 * TIME_STEP, 0.0);
 		
 		Convex c2 = Geometry.createSquare(0.2);
 		Transform t2 = new Transform();
 		t2.translate(0.5, 1.5);
-		Vector2 dp2 = new Vector2(30.0 * TIME_STEP, 0.0);
+		DynVector2 dp2 = new DynVector2(30.0 * TIME_STEP, 0.0);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
@@ -179,12 +179,12 @@ public class ConservativeAdvancementTest {
 		
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.5);
-		Vector2 dp1 = new Vector2(120.0 * TIME_STEP, 0.0);
+		DynVector2 dp1 = new DynVector2(120.0 * TIME_STEP, 0.0);
 		
 		Convex c2 = Geometry.createSquare(0.5);
 		Transform t2 = new Transform();
 		t2.translate(2.0, 1.5);
-		Vector2 dp2 = new Vector2(-30.0 * TIME_STEP, 0.0);
+		DynVector2 dp2 = new DynVector2(-30.0 * TIME_STEP, 0.0);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
@@ -218,12 +218,12 @@ public class ConservativeAdvancementTest {
 		
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.5);
-		Vector2 dp1 = new Vector2(120.0 * TIME_STEP, 0.0);
+		DynVector2 dp1 = new DynVector2(120.0 * TIME_STEP, 0.0);
 		
 		Convex c2 = Geometry.createSquare(0.2);
 		Transform t2 = new Transform();
 		t2.translate(1.0, 1.25);
-		Vector2 dp2 = new Vector2(0.0, 30.0 * TIME_STEP);
+		DynVector2 dp2 = new DynVector2(0.0, 30.0 * TIME_STEP);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
@@ -254,12 +254,12 @@ public class ConservativeAdvancementTest {
 		
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.0);
-		Vector2 dp1 = new Vector2(120.0 * TIME_STEP, 0.0);
+		DynVector2 dp1 = new DynVector2(120.0 * TIME_STEP, 0.0);
 		
 		Convex c2 = Geometry.createSquare(0.5);
 		Transform t2 = new Transform();
 		t2.translate(0.0, 1.5);
-		Vector2 dp2 = new Vector2(30.0 * TIME_STEP, 0.0);
+		DynVector2 dp2 = new DynVector2(30.0 * TIME_STEP, 0.0);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
@@ -279,12 +279,12 @@ public class ConservativeAdvancementTest {
 		
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.0);
-		Vector2 dp1 = new Vector2(120.0 * TIME_STEP, 0.0);
+		DynVector2 dp1 = new DynVector2(120.0 * TIME_STEP, 0.0);
 		
 		Convex c2 = Geometry.createSquare(0.5);
 		Transform t2 = new Transform();
 		t2.translate(1.6, 1.5);
-		Vector2 dp2 = new Vector2(60.0 * TIME_STEP, 0.0);
+		DynVector2 dp2 = new DynVector2(60.0 * TIME_STEP, 0.0);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
@@ -308,12 +308,12 @@ public class ConservativeAdvancementTest {
 		
 		Transform t1 = new Transform();
 		t1.translate(0.0, 1.0);
-		Vector2 dp1 = new Vector2(120.0 * TIME_STEP, 0.0);
+		DynVector2 dp1 = new DynVector2(120.0 * TIME_STEP, 0.0);
 		
 		Convex c2 = Geometry.createSquare(0.1);
 		Transform t2 = new Transform();
 		t2.translate(1.0, 1.3);
-		Vector2 dp2 = new Vector2(0.0, 60.0 * TIME_STEP);
+		DynVector2 dp2 = new DynVector2(0.0, 60.0 * TIME_STEP);
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
@@ -435,13 +435,13 @@ public class ConservativeAdvancementTest {
 		Transform t1 = new Transform();
 		t1.translate(0.5, 0.0);
 		t1.rotate(Math.toRadians(-40.0), t1.getTranslationX(), t1.getTranslationY());
-		Vector2 dp1 = new Vector2();
+		DynVector2 dp1 = new DynVector2();
 		double da1 = Math.toRadians(80.0) * 60.0 * TIME_STEP;
 		
 		Convex c2 = Geometry.createRectangle(10.0, 0.5);
 		Transform t2 = new Transform();
 		t2.translate(-5.0, 0.0);
-		Vector2 dp2 = new Vector2();
+		DynVector2 dp2 = new DynVector2();
 		
 		// detect the time of impact
 		TimeOfImpact toi = new TimeOfImpact();
@@ -467,14 +467,14 @@ public class ConservativeAdvancementTest {
 		Transform t1 = new Transform();
 		t1.translate(0.5, 0.0);
 		t1.rotate(Math.toRadians(-40.0), t1.getTranslationX(), t1.getTranslationY());
-		Vector2 dp1 = new Vector2();
+		DynVector2 dp1 = new DynVector2();
 		double da1 = Math.toRadians(80.0) * 60.0 * TIME_STEP;
 		
 		Convex c2 = Geometry.createRectangle(10.0, 0.5);
 		Transform t2 = new Transform();
 		t2.translate(-5.0, 0.0);
 		t2.rotate(Math.toRadians(-20.0), t2.getTranslationX(), t2.getTranslationY());
-		Vector2 dp2 = new Vector2();
+		DynVector2 dp2 = new DynVector2();
 		double da2 = Math.toRadians(60.0) * 60.0 * TIME_STEP;
 		
 		// detect the time of impact
@@ -504,14 +504,14 @@ public class ConservativeAdvancementTest {
 		Transform t1 = new Transform();
 		t1.translate(0.5, 0.0);
 		t1.rotate(Math.toRadians(-40.0), t1.getTranslationX(), t1.getTranslationY());
-		Vector2 dp1 = new Vector2();
+		DynVector2 dp1 = new DynVector2();
 		double da1 = Math.toRadians(80.0 * 60.0) * TIME_STEP;
 		
 		Convex c2 = Geometry.createRectangle(10.0, 0.5);
 		Transform t2 = new Transform();
 		t2.translate(-5.0, 0.0);
 		t2.rotate(Math.toRadians(-80.0), t2.getTranslationX(), t2.getTranslationY());
-		Vector2 dp2 = new Vector2();
+		DynVector2 dp2 = new DynVector2();
 		double da2 = Math.toRadians(60.0 * 60.0) * TIME_STEP;
 		
 		// detect the time of impact
@@ -528,13 +528,13 @@ public class ConservativeAdvancementTest {
 	public void equidistantSameVelocityTest() {
 		Convex c1 = Geometry.createSquare(1.0);
 		Transform t1 = new Transform();
-		Vector2 dp1 = new Vector2(1.0, 0.0);
+		DynVector2 dp1 = new DynVector2(1.0, 0.0);
 		double da1 = 0.0;
 		
 		Convex c2 = Geometry.createSquare(1.0);
 		Transform t2 = new Transform();
 		t2.translate(3.0, 0.0);
-		Vector2 dp2 = new Vector2(1.0, 0.0);
+		DynVector2 dp2 = new DynVector2(1.0, 0.0);
 		double da2 = 0.0;
 		
 		// detect the time of impact
@@ -550,13 +550,13 @@ public class ConservativeAdvancementTest {
 	public void separationTooSmall() {
 		Convex c1 = Geometry.createSquare(1.0);
 		Transform t1 = new Transform();
-		Vector2 dp1 = new Vector2(1.0, 0.0);
+		DynVector2 dp1 = new DynVector2(1.0, 0.0);
 		double da1 = 0.0;
 		
 		Convex c2 = Geometry.createSquare(1.0);
 		Transform t2 = new Transform();
 		t2.translate(1.000001, 0.0);
-		Vector2 dp2 = new Vector2(1.0, 0.0);
+		DynVector2 dp2 = new DynVector2(1.0, 0.0);
 		double da2 = 0.0;
 		
 		// detect the time of impact

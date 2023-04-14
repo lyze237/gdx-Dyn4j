@@ -27,7 +27,7 @@ package org.dyn4j.collision.narrowphase;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -44,10 +44,10 @@ public class ExpandingSimplexTest {
 	 */
 	@Test
 	public void createSuccess() {
-		List<Vector2> simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(-1.0, -1.0));
-		simplex.add(new Vector2(2.0, -1.0));
-		simplex.add(new Vector2(0.0, 2.0));
+		List<DynVector2> simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(-1.0, -1.0));
+		simplex.add(new DynVector2(2.0, -1.0));
+		simplex.add(new DynVector2(0.0, 2.0));
 		
 		ExpandingSimplex es = new ExpandingSimplex(simplex);
 		
@@ -72,37 +72,37 @@ public class ExpandingSimplexTest {
 	 */
 	@Test
 	public void getWinding() {
-		List<Vector2> simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(-1.0, -1.0));
-		simplex.add(new Vector2(2.0, -1.0));
-		simplex.add(new Vector2(0.0, 2.0));
+		List<DynVector2> simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(-1.0, -1.0));
+		simplex.add(new DynVector2(2.0, -1.0));
+		simplex.add(new DynVector2(0.0, 2.0));
 		
 		ExpandingSimplex es = new ExpandingSimplex(simplex);
 		
 		TestCase.assertEquals(1, es.getWinding());
 		TestCase.assertEquals(3, es.size());
 		
-		simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(0.0, 2.0));
-		simplex.add(new Vector2(2.0, -1.0));
-		simplex.add(new Vector2(-1.0, -1.0));
+		simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(0.0, 2.0));
+		simplex.add(new DynVector2(2.0, -1.0));
+		simplex.add(new DynVector2(-1.0, -1.0));
 		
 		es = new ExpandingSimplex(simplex);
 		
 		TestCase.assertEquals(-1, es.getWinding());
 		TestCase.assertEquals(3, es.size());
 		
-		simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(0.0, 2.0));
-		simplex.add(new Vector2(2.0, -1.0));
+		simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(0.0, 2.0));
+		simplex.add(new DynVector2(2.0, -1.0));
 		
 		es = new ExpandingSimplex(simplex);
 		
 		TestCase.assertEquals(-1, es.getWinding());
 		
-		simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(2.0, -1.0));
-		simplex.add(new Vector2(0.0, 2.0));
+		simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(2.0, -1.0));
+		simplex.add(new DynVector2(0.0, 2.0));
 		
 		es = new ExpandingSimplex(simplex);
 		
@@ -110,8 +110,8 @@ public class ExpandingSimplexTest {
 		TestCase.assertEquals(2, es.size());
 		
 		// one point
-		simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(2.0, -1.0));
+		simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(2.0, -1.0));
 		
 		es = new ExpandingSimplex(simplex);
 		
@@ -119,9 +119,9 @@ public class ExpandingSimplexTest {
 		TestCase.assertEquals(1, es.size());
 		
 		// same point
-		simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(2.0, -1.0));
-		simplex.add(new Vector2(2.0, -1.0));
+		simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(2.0, -1.0));
+		simplex.add(new DynVector2(2.0, -1.0));
 		
 		es = new ExpandingSimplex(simplex);
 		
@@ -134,10 +134,10 @@ public class ExpandingSimplexTest {
 	 */
 	@Test
 	public void expandAndGetClosest() {
-		List<Vector2> simplex = new ArrayList<Vector2>();
-		simplex.add(new Vector2(-1.0, -1.0));
-		simplex.add(new Vector2(2.0, -1.0));
-		simplex.add(new Vector2(0.0, 2.0));
+		List<DynVector2> simplex = new ArrayList<DynVector2>();
+		simplex.add(new DynVector2(-1.0, -1.0));
+		simplex.add(new DynVector2(2.0, -1.0));
+		simplex.add(new DynVector2(0.0, 2.0));
 		
 		ExpandingSimplex es = new ExpandingSimplex(simplex);
 		
@@ -155,7 +155,7 @@ public class ExpandingSimplexTest {
 		TestCase.assertEquals(-0.948, edge.normal.x, 1e-3);
 		TestCase.assertEquals(0.316, edge.normal.y, 1e-3);
 		
-		es.expand(new Vector2(-1.0, 1.0));
+		es.expand(new DynVector2(-1.0, 1.0));
 		
 		TestCase.assertEquals(4, es.size());
 		
@@ -170,7 +170,7 @@ public class ExpandingSimplexTest {
 		TestCase.assertEquals(0.0, edge.normal.x, 1e-3);
 		TestCase.assertEquals(-1.0, edge.normal.y, 1e-3);
 		
-		es.expand(new Vector2(1.0, -2.0));
+		es.expand(new DynVector2(1.0, -2.0));
 		
 		TestCase.assertEquals(5, es.size());
 		

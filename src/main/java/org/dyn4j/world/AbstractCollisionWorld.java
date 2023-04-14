@@ -76,7 +76,7 @@ import org.dyn4j.geometry.Link;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.listener.BoundsListener;
 import org.dyn4j.world.listener.CollisionListener;
 import org.dyn4j.world.result.ConvexCastResult;
@@ -521,7 +521,7 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// update the broadphase
 		this.broadphaseDetector.shift(shift);
 		
@@ -1039,10 +1039,10 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 	 * @see org.dyn4j.world.CollisionWorld#convexCastClosest(org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, org.dyn4j.collision.CollisionBody, org.dyn4j.world.DetectFilter)
 	 */
 	@Override
-	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, T body, DetectFilter<T, E> filter) {
+	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, T body, DetectFilter<T, E> filter) {
 		ConvexCastResult<T, E> result = null;
 		
-		final Vector2 dp2 = new Vector2();
+		final DynVector2 dp2 = new DynVector2();
 		double t2 = 1.0;
 
 		// find the minimum time of impact for the given convex
@@ -1086,7 +1086,7 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 	 * @see org.dyn4j.world.CollisionWorld#convexCast(org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, org.dyn4j.world.DetectFilter)
 	 */
 	@Override
-	public List<ConvexCastResult<T, E>> convexCast(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
+	public List<ConvexCastResult<T, E>> convexCast(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
 		List<ConvexCastResult<T, E>> results = new ArrayList<ConvexCastResult<T, E>>();
 		
 		Iterator<ConvexCastResult<T, E>> iterator = this.convexCastIterator(convex, transform, deltaPosition, deltaAngle, filter);
@@ -1101,23 +1101,23 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 	 * @see org.dyn4j.world.CollisionWorld#convexCastClosest(org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, org.dyn4j.world.DetectFilter)
 	 */
 	@Override
-	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
+	public ConvexCastResult<T, E> convexCastClosest(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
 		// compute a conservative AABB for the motion of the convex
 		double radius = convex.getRadius();
-		Vector2 startWorldCenter = transform.getTransformed(convex.getCenter());
+		DynVector2 startWorldCenter = transform.getTransformed(convex.getCenter());
 		AABB startAABB = new AABB(startWorldCenter, radius);
 		
 		// linearlly interpolate to get the final transform given the
 		// change in position and angle
 		Transform finalTransform = transform.lerped(deltaPosition, deltaAngle, 1.0);
 		// get the end AABB
-		Vector2 endWorldCenter = finalTransform.getTransformed(convex.getCenter());
+		DynVector2 endWorldCenter = finalTransform.getTransformed(convex.getCenter());
 		AABB endAABB = new AABB(endWorldCenter, radius);
 		// union the AABBs to get the swept AABB
 		AABB aabb = startAABB.getUnion(endAABB);
 		
 		ConvexCastResult<T, E> min = null;
-		final Vector2 dp2 = new Vector2();
+		final DynVector2 dp2 = new DynVector2();
 		double t2 = 1.0;
 		
 		// use the broadphase to filter first
@@ -1165,7 +1165,7 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 	 * @see org.dyn4j.world.CollisionWorld#convexCastIterator(org.dyn4j.geometry.Convex, org.dyn4j.geometry.Transform, org.dyn4j.geometry.Vector2, double, org.dyn4j.world.DetectFilter)
 	 */
 	@Override
-	public Iterator<ConvexCastResult<T, E>> convexCastIterator(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
+	public Iterator<ConvexCastResult<T, E>> convexCastIterator(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
 		return new ConvexCastDetectIterator(convex, transform, deltaPosition, deltaAngle, filter);
 	}
 	
@@ -1901,7 +1901,7 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 	private final class ConvexCastDetectIterator implements Iterator<ConvexCastResult<T, E>> {
 		private final Convex convex;
 		private final Transform transform;
-		private final Vector2 deltaPosition;
+		private final DynVector2 deltaPosition;
 		private final double deltaAngle;
 		private final DetectFilter<T, E> filter;
 		
@@ -1912,7 +1912,7 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 		private final ConvexCastResult<T, E> nextResult;
 		private boolean hasNext;
 		
-		public ConvexCastDetectIterator(Convex convex, Transform transform, Vector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
+		public ConvexCastDetectIterator(Convex convex, Transform transform, DynVector2 deltaPosition, double deltaAngle, DetectFilter<T, E> filter) {
 			this.convex = convex;
 			this.transform = transform;
 			this.deltaPosition = deltaPosition;
@@ -1921,14 +1921,14 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 			
 			// compute a conservative AABB for the motion of the convex
 			double radius = convex.getRadius();
-			Vector2 startWorldCenter = transform.getTransformed(convex.getCenter());
+			DynVector2 startWorldCenter = transform.getTransformed(convex.getCenter());
 			AABB startAABB = new AABB(startWorldCenter, radius);
 			
 			// linearlly interpolate to get the final transform given the
 			// change in position and angle
 			Transform finalTransform = transform.lerped(deltaPosition, deltaAngle, 1.0);
 			// get the end AABB
-			Vector2 endWorldCenter = finalTransform.getTransformed(convex.getCenter());
+			DynVector2 endWorldCenter = finalTransform.getTransformed(convex.getCenter());
 			AABB endAABB = new AABB(endWorldCenter, radius);
 			// union the AABBs to get the swept AABB
 			this.aabb = startAABB.getUnion(endAABB);
@@ -1974,7 +1974,7 @@ public abstract class AbstractCollisionWorld<T extends CollisionBody<E>, E exten
 		 * @return boolean
 		 */
 		private boolean findNext() {
-			final Vector2 dp2 = new Vector2();
+			final DynVector2 dp2 = new DynVector2();
 			
 			// loop over the potential collisions
 			while (this.iterator.hasNext()) {

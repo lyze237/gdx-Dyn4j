@@ -30,7 +30,7 @@ import org.dyn4j.collision.narrowphase.Sat;
 import org.dyn4j.collision.narrowphase.Separation;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,8 +54,8 @@ public class SegmentSegmentTest extends AbstractNarrowphaseShapeTest {
 	 */
 	@Before
 	public void setup() {
-		this.seg1 = new Segment(new Vector2(-0.3, -0.3), new Vector2(0.2, 0.3));
-		this.seg2 = new Segment(new Vector2(-0.5, 0.0), new Vector2(0.5, 0.0));
+		this.seg1 = new Segment(new DynVector2(-0.3, -0.3), new DynVector2(0.2, 0.3));
+		this.seg2 = new Segment(new DynVector2(-0.5, 0.0), new DynVector2(0.5, 0.0));
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public class SegmentSegmentTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n, p1, p2;
+		DynVector2 n, p1, p2;
 		
 		// test overlap
 		TestCase.assertFalse(this.gjk.distance(seg1, t1, seg2, t2, s));

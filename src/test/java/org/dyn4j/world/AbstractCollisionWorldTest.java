@@ -59,7 +59,7 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.listener.BoundsListener;
 import org.dyn4j.world.listener.BoundsListenerAdapter;
 import org.dyn4j.world.listener.CollisionListener;
@@ -804,7 +804,7 @@ public class AbstractCollisionWorldTest {
 		WorldCollisionData<Body> data = w.getCollisionData(b1, b1.getFixture(0), b2, b2.getFixture(0));
 		Manifold m0 = data.getManifold().copy();
 		
-		w.shift(new Vector2(1.0, 1.0));
+		w.shift(new DynVector2(1.0, 1.0));
 		
 		// shift bodies
 		TestCase.assertEquals(1.0, b1.getWorldCenter().x);
@@ -2125,7 +2125,7 @@ public class AbstractCollisionWorldTest {
 				true,
 				null);
 		
-		Ray ray = new Ray(new Vector2(-1, -1),  new Vector2(1, 1));
+		Ray ray = new Ray(new DynVector2(-1, -1),  new DynVector2(1, 1));
 		
 		// test standard detect
 		List<RaycastResult<Body, BodyFixture>> results = w.raycast(ray, Double.MAX_VALUE, filter);
@@ -2181,7 +2181,7 @@ public class AbstractCollisionWorldTest {
 		TestCase.assertEquals(b2.getFixture(0), result.getFixture());
 		
 		// test ray starting in object (it shouldn't detect one of them)
-		ray = new Ray(new Vector2(0, 0),  new Vector2(1, 1));
+		ray = new Ray(new DynVector2(0, 0),  new DynVector2(1, 1));
 		results = w.raycast(ray, -1, filter);
 		TestCase.assertEquals(1, results.size());
 		
@@ -2192,12 +2192,12 @@ public class AbstractCollisionWorldTest {
 		TestCase.assertEquals(b1.getFixture(0), result.getFixture());
 		
 		// test zero results
-		ray = new Ray(new Vector2(0, 0),  new Vector2(-1, -1));
+		ray = new Ray(new DynVector2(0, 0),  new DynVector2(-1, -1));
 		results = w.raycast(ray, length, filter);
 		TestCase.assertEquals(0, results.size());
 
 		// another zero result test
-		ray = new Ray(new Vector2(-1, 1),  new Vector2(-2, 2));
+		ray = new Ray(new DynVector2(-1, 1),  new DynVector2(-2, 2));
 		results = w.raycast(ray, -1, filter);
 		TestCase.assertEquals(0, results.size());
 	}
@@ -2236,7 +2236,7 @@ public class AbstractCollisionWorldTest {
 				true,
 				null);
 		
-		Ray ray = new Ray(new Vector2(-1, -1),  new Vector2(1, 1));
+		Ray ray = new Ray(new DynVector2(-1, -1),  new DynVector2(1, 1));
 		
 		// test standard detect
 		List<RaycastResult<Body, BodyFixture>> results = w.raycast(ray, Double.MAX_VALUE, b1, filter);
@@ -2293,7 +2293,7 @@ public class AbstractCollisionWorldTest {
 		TestCase.assertEquals(1, results.size());
 		
 		// test ray starting in object (it shouldn't detect one of them)
-		ray = new Ray(new Vector2(0, 0),  new Vector2(1, 1));
+		ray = new Ray(new DynVector2(0, 0),  new DynVector2(1, 1));
 		results = w.raycast(ray, Double.MAX_VALUE, b1, filter);
 		TestCase.assertEquals(2, results.size());
 		
@@ -2304,12 +2304,12 @@ public class AbstractCollisionWorldTest {
 		TestCase.assertEquals(b1.getFixture(0), result.getFixture());
 		
 		// test zero results
-		ray = new Ray(new Vector2(0, 0),  new Vector2(-1, -1));
+		ray = new Ray(new DynVector2(0, 0),  new DynVector2(-1, -1));
 		results = w.raycast(ray, length, b1, filter);
 		TestCase.assertEquals(0, results.size());
 
 		// another zero result test (negative - which will mean infinite length)
-		ray = new Ray(new Vector2(-1, 1),  new Vector2(-2, 2));
+		ray = new Ray(new DynVector2(-1, 1),  new DynVector2(-2, 2));
 		results = w.raycast(ray, -1, b1, filter);
 		TestCase.assertEquals(0, results.size());
 	}
@@ -2323,7 +2323,7 @@ public class AbstractCollisionWorldTest {
 	public void raycastIterator() {
 		TestWorld w = new TestWorld();
 		
-		Ray ray = new Ray(new Vector2(-1, -1),  new Vector2(1, 1));
+		Ray ray = new Ray(new DynVector2(-1, -1),  new DynVector2(1, 1));
 		
 		// test getting an iterator for an empty world
 		Iterator<RaycastResult<Body, BodyFixture>> it = w.raycastIterator(ray, Double.MAX_VALUE, null);
@@ -2386,7 +2386,7 @@ public class AbstractCollisionWorldTest {
 		// since the list based methods are built on top of the iterator methods
 		// we only need to test the failure cases for the iterator methods
 		
-		Ray ray = new Ray(new Vector2(-1, -1),  new Vector2(1, 1));
+		Ray ray = new Ray(new DynVector2(-1, -1),  new DynVector2(1, 1));
 		
 		Iterator<RaycastResult<Body, BodyFixture>> it = w.raycastIterator(ray, 0.0, null);
 		
@@ -2478,7 +2478,7 @@ public class AbstractCollisionWorldTest {
 		Convex convex = Geometry.createRectangle(0.5, 0.5);
 		Transform tx = new Transform(); 
 		tx.translate(-1.0, -1.0);
-		Vector2 dp = new Vector2(3, 3);
+		DynVector2 dp = new DynVector2(3, 3);
 		double da = Math.toRadians(45);
 		
 		// test standard detect
@@ -2518,7 +2518,7 @@ public class AbstractCollisionWorldTest {
 				null);
 		
 		// test shorter cast
-		dp = new Vector2(0.5, 0.5);
+		dp = new DynVector2(0.5, 0.5);
 		results = w.convexCast(convex, tx, dp, da, filter);
 		TestCase.assertEquals(1, results.size());
 		
@@ -2529,7 +2529,7 @@ public class AbstractCollisionWorldTest {
 		TestCase.assertEquals(b2.getFixture(0), result.getFixture());
 		
 		// cast closest w/ long length
-		dp = new Vector2(5, 5);
+		dp = new DynVector2(5, 5);
 		result = w.convexCastClosest(convex, tx, dp, da, filter);
 		TestCase.assertNotNull(result);
 		TestCase.assertEquals(b2, result.getBody());
@@ -2547,12 +2547,12 @@ public class AbstractCollisionWorldTest {
 		TestCase.assertEquals(b1.getFixture(0), result.getFixture());
 		
 		// test zero results
-		dp = new Vector2(-5, 5);
+		dp = new DynVector2(-5, 5);
 		results = w.convexCast(convex, tx, dp, da, filter);
 		TestCase.assertEquals(0, results.size());
 
 		// another zero result test
-		dp = new Vector2(0.25, 0.25);
+		dp = new DynVector2(0.25, 0.25);
 		results = w.convexCast(convex, tx, dp, da, filter);
 		TestCase.assertEquals(0, results.size());
 	}
@@ -2596,7 +2596,7 @@ public class AbstractCollisionWorldTest {
 		Convex convex = Geometry.createRectangle(0.5, 0.5);
 		Transform tx = new Transform(); 
 		tx.translate(-1.0, -1.0);
-		Vector2 dp = new Vector2(3, 3);
+		DynVector2 dp = new DynVector2(3, 3);
 		double da = Math.toRadians(45);
 		
 		// test standard detect
@@ -2632,12 +2632,12 @@ public class AbstractCollisionWorldTest {
 				null);
 		
 		// test shorter cast
-		dp = new Vector2(0.5, 0.5);
+		dp = new DynVector2(0.5, 0.5);
 		result = w.convexCastClosest(convex, tx, dp, da, b1, filter);
 		TestCase.assertNull(result);
 		
 		// cast closest w/ long length
-		dp = new Vector2(5, 5);
+		dp = new DynVector2(5, 5);
 		result = w.convexCastClosest(convex, tx, dp, da, b1, filter);
 		TestCase.assertNotNull(result);
 		TestCase.assertEquals(b1, result.getBody());
@@ -2652,12 +2652,12 @@ public class AbstractCollisionWorldTest {
 		TestCase.assertEquals(b1.getFixture(1), result.getFixture());
 		
 		// test zero results
-		dp = new Vector2(-5, 5);
+		dp = new DynVector2(-5, 5);
 		result = w.convexCastClosest(convex, tx, dp, da, b1, filter);
 		TestCase.assertNull(result);
 
 		// another zero result test
-		dp = new Vector2(0.25, 0.25);
+		dp = new DynVector2(0.25, 0.25);
 		result = w.convexCastClosest(convex, tx, dp, da, b1, filter);
 		TestCase.assertNull(result);
 	}
@@ -2674,7 +2674,7 @@ public class AbstractCollisionWorldTest {
 		Convex convex = Geometry.createRectangle(0.5, 0.5);
 		Transform tx = new Transform(); 
 		tx.translate(-1.0, -1.0);
-		Vector2 dp = new Vector2(3, 3);
+		DynVector2 dp = new DynVector2(3, 3);
 		double da = Math.toRadians(45);
 		
 		// test getting an iterator for an empty world
@@ -2731,7 +2731,7 @@ public class AbstractCollisionWorldTest {
 		Convex convex = Geometry.createRectangle(0.5, 0.5);
 		Transform tx = new Transform(); 
 		tx.translate(-1.0, -1.0);
-		Vector2 dp = new Vector2(3, 3);
+		DynVector2 dp = new DynVector2(3, 3);
 		double da = Math.toRadians(45);
 		
 		Iterator<ConvexCastResult<Body, BodyFixture>> it = w.convexCastIterator(convex, tx, dp, da, null);

@@ -30,7 +30,7 @@ import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Separating Axis Theorem (SAT) for collision detection.
@@ -63,23 +63,23 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 			return CircleDetector.detect((Circle) convex1, transform1, (Circle) convex2, transform2, penetration);
 		}
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		double overlap = Double.MAX_VALUE;
 		
 		// get the foci from both shapes, the foci are used to test any
 		// voronoi regions of the other shape
-		Vector2[] foci1 = convex1.getFoci(transform1);
-		Vector2[] foci2 = convex2.getFoci(transform2);
+		DynVector2[] foci1 = convex1.getFoci(transform1);
+		DynVector2[] foci2 = convex2.getFoci(transform2);
 		
 		// get the vector arrays for the separating axes tests
-		Vector2[] axes1 = convex1.getAxes(foci2, transform1);
-		Vector2[] axes2 = convex2.getAxes(foci1, transform2);
+		DynVector2[] axes1 = convex1.getAxes(foci2, transform1);
+		DynVector2[] axes2 = convex2.getAxes(foci1, transform2);
 		
 		// loop through shape1 axes
 		if (axes1 != null) {
 			int size = axes1.length;
 			for (int i = 0; i < size; i++) {
-				Vector2 axis = axes1[i];
+				DynVector2 axis = axes1[i];
 				// check for the zero vector
 				if (!axis.isZero()) {
 					// project both shapes onto the axis
@@ -124,7 +124,7 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 		if (axes2 != null) {
 			int size = axes2.length;
 			for (int i = 0; i < size; i++) {
-				Vector2 axis = axes2[i];
+				DynVector2 axis = axes2[i];
 				// check for the zero vector
 				if (!axis.isZero()) {
 					// project both shapes onto the axis
@@ -165,9 +165,9 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 		}
 		
 		// make sure the vector is pointing from shape1 to shape2
-		Vector2 c1 = transform1.getTransformed(convex1.getCenter());
-		Vector2 c2 = transform2.getTransformed(convex2.getCenter());
-		Vector2 cToc = c1.to(c2);
+		DynVector2 c1 = transform1.getTransformed(convex1.getCenter());
+		DynVector2 c2 = transform2.getTransformed(convex2.getCenter());
+		DynVector2 cToc = c1.to(c2);
 		if (cToc.dot(n) < 0) {
 			// negate the normal if its not
 			n.negate();
@@ -194,18 +194,18 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 
 		// get the foci from both shapes, the foci are used to test any
 		// voronoi regions of the other shape
-		Vector2[] foci1 = convex1.getFoci(transform1);
-		Vector2[] foci2 = convex2.getFoci(transform2);
+		DynVector2[] foci1 = convex1.getFoci(transform1);
+		DynVector2[] foci2 = convex2.getFoci(transform2);
 		
 		// get the vector arrays for the separating axes tests
-		Vector2[] axes1 = convex1.getAxes(foci2, transform1);
-		Vector2[] axes2 = convex2.getAxes(foci1, transform2);
+		DynVector2[] axes1 = convex1.getAxes(foci2, transform1);
+		DynVector2[] axes2 = convex2.getAxes(foci1, transform2);
 
 		// loop through shape1 axes
 		if (axes1 != null) {
 			int size = axes1.length;
 			for (int i = 0; i < size; i++) {
-				Vector2 axis = axes1[i];
+				DynVector2 axis = axes1[i];
 				// check for the zero vector
 				if (!axis.isZero()) {
 					// project both shapes onto the axis
@@ -225,7 +225,7 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 		if (axes2 != null) {
 			int size = axes2.length;
 			for (int i = 0; i < size; i++) {
-				Vector2 axis = axes2[i];
+				DynVector2 axis = axes2[i];
 				// check for the zero vector
 				if (!axis.isZero()) {
 					// project both shapes onto the axis
@@ -264,12 +264,12 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 		
 		// get the foci from both shapes, the foci are used to test any
 		// voronoi regions of the other shape
-		Vector2[] foci1 = convex1.getFoci(transform1);
-		Vector2[] foci2 = convex2.getFoci(transform2);
+		DynVector2[] foci1 = convex1.getFoci(transform1);
+		DynVector2[] foci2 = convex2.getFoci(transform2);
 		
 		// get the vector arrays for the separating axes tests
-		Vector2[] axes1 = convex1.getAxes(foci2, transform1);
-		Vector2[] axes2 = convex2.getAxes(foci1, transform2);
+		DynVector2[] axes1 = convex1.getAxes(foci2, transform1);
+		DynVector2[] axes2 = convex2.getAxes(foci1, transform2);
 		
 		boolean aContainsB = true;
 		boolean bContainsA = true;
@@ -278,7 +278,7 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 		if (axes1 != null) {
 			int size = axes1.length;
 			for (int i = 0; i < size; i++) {
-				Vector2 axis = axes1[i];
+				DynVector2 axis = axes1[i];
 				// check for the zero vector
 				if (!axis.isZero()) {
 					// project both shapes onto the axis
@@ -303,7 +303,7 @@ public class Sat implements NarrowphaseDetector, ContainmentDetector {
 		if (axes2 != null) {
 			int size = axes2.length;
 			for (int i = 0; i < size; i++) {
-				Vector2 axis = axes2[i];
+				DynVector2 axis = axes2[i];
 				// check for the zero vector
 				// check for the zero vector
 				if (!axis.isZero()) {

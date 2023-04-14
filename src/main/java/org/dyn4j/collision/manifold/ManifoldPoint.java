@@ -26,7 +26,7 @@ package org.dyn4j.collision.manifold;
 
 import org.dyn4j.Copyable;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a single contact point in a contact {@link Manifold}.
@@ -43,7 +43,7 @@ public class ManifoldPoint implements Shiftable, Copyable<ManifoldPoint> {
 	protected ManifoldPointId id;
 	
 	/** The point in world coordinates */
-	protected final Vector2 point;
+	protected final DynVector2 point;
 	
 	/** The penetration depth */
 	protected double depth;
@@ -54,7 +54,7 @@ public class ManifoldPoint implements Shiftable, Copyable<ManifoldPoint> {
 	 */
 	public ManifoldPoint(ManifoldPointId id) {
 		this.id = id == null ? ManifoldPointId.DISTANCE : id;
-		this.point = new Vector2();
+		this.point = new DynVector2();
 		this.depth = 0;
 	}
 	
@@ -64,7 +64,7 @@ public class ManifoldPoint implements Shiftable, Copyable<ManifoldPoint> {
 	 * @param point the manifold point in world coordinates
 	 * @param depth the penetration depth
 	 */
-	protected ManifoldPoint(ManifoldPointId id, Vector2 point, double depth) {
+	protected ManifoldPoint(ManifoldPointId id, DynVector2 point, double depth) {
 		this.id = id;
 		this.point = point.copy();
 		this.depth = depth;
@@ -93,9 +93,9 @@ public class ManifoldPoint implements Shiftable, Copyable<ManifoldPoint> {
 
 	/**
 	 * Returns the contact point.
-	 * @return {@link Vector2} the point in world coordinates
+	 * @return {@link DynVector2} the point in world coordinates
 	 */
-	public Vector2 getPoint() {
+	public DynVector2 getPoint() {
 		return this.point;
 	}
 
@@ -104,7 +104,7 @@ public class ManifoldPoint implements Shiftable, Copyable<ManifoldPoint> {
 	 * @param point the point in world coordinates
 	 * @since 3.1.5
 	 */
-	public void setPoint(Vector2 point) {
+	public void setPoint(DynVector2 point) {
 		this.point.x = point.x;
 		this.point.y = point.y;
 	}
@@ -142,7 +142,7 @@ public class ManifoldPoint implements Shiftable, Copyable<ManifoldPoint> {
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		this.point.x += shift.x;
 		this.point.y += shift.y;
 	}

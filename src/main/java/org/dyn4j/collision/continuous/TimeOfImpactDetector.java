@@ -27,7 +27,7 @@ package org.dyn4j.collision.continuous;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Interface representing a time of impact algorithm.
@@ -66,7 +66,7 @@ public interface TimeOfImpactDetector {
 	 * @return boolean true if a collision was detected
 	 * @since 3.1.5
 	 */
-	public boolean getTimeOfImpact(Convex convex1, Transform transform1, Vector2 dp1, double da1, Convex convex2, Transform transform2, Vector2 dp2, double da2, TimeOfImpact toi);
+	public boolean getTimeOfImpact(Convex convex1, Transform transform1, DynVector2 dp1, double da1, Convex convex2, Transform transform2, DynVector2 dp2, double da2, TimeOfImpact toi);
 	
 	/**
 	 * Detects whether the given {@link Convex} {@link Shape}s collide given their current positions and orientation
@@ -95,5 +95,5 @@ public interface TimeOfImpactDetector {
 	 * @return boolean true if a collision was detected
 	 * @since 3.1.5
 	 */
-	public boolean getTimeOfImpact(Convex convex1, Transform transform1, Vector2 dp1, double da1, Convex convex2, Transform transform2, Vector2 dp2, double da2, double t1, double t2, TimeOfImpact toi);
+	public boolean getTimeOfImpact(Convex convex1, Transform transform1, DynVector2 dp1, double da1, Convex convex2, Transform transform2, DynVector2 dp2, double da2, double t1, double t2, TimeOfImpact toi);
 }

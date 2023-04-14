@@ -46,7 +46,7 @@ public class SegmentTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullPoint1() {
-		new Segment(null, new Vector2());
+		new Segment(null, new DynVector2());
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class SegmentTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createNullPoint2() {
-		new Segment(new Vector2(), null);
+		new Segment(new DynVector2(), null);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class SegmentTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createCoincident() {
-		new Segment(new Vector2(), new Vector2());
+		new Segment(new DynVector2(), new DynVector2());
 	}
 	
 	/**
@@ -72,8 +72,8 @@ public class SegmentTest {
 	@Test
 	public void creatSuccess() {
 		Segment s = new Segment(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.0, 2.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.0, 2.0)
 		);
 		
 		TestCase.assertEquals(0.500, s.center.x, 1.0e-3);
@@ -91,8 +91,8 @@ public class SegmentTest {
 	@Test
 	public void getLength() {
 		Segment s = new Segment(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.5, 3.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.5, 3.0)
 		);
 		
 		TestCase.assertEquals(2.500, s.getLength(), 1.0e-3);
@@ -104,31 +104,31 @@ public class SegmentTest {
 	@Test
 	public void getLocation() {
 		// test invalid line
-		double loc = Segment.getLocation(new Vector2(1.0, 1.0), new Vector2(), new Vector2());
+		double loc = Segment.getLocation(new DynVector2(1.0, 1.0), new DynVector2(), new DynVector2());
 		TestCase.assertEquals(0.000, loc, 1.0e-3);
 		
 		// test valid line/on line
-		loc = Segment.getLocation(new Vector2(1.0, 1.0), new Vector2(), new Vector2(2.0, 2.0));
+		loc = Segment.getLocation(new DynVector2(1.0, 1.0), new DynVector2(), new DynVector2(2.0, 2.0));
 		TestCase.assertEquals(0.000, loc, 1.0e-3);
 		
 		// test valid line/left-above line
-		loc = Segment.getLocation(new Vector2(1.0, 1.0), new Vector2(), new Vector2(1.0, 0.5));
+		loc = Segment.getLocation(new DynVector2(1.0, 1.0), new DynVector2(), new DynVector2(1.0, 0.5));
 		TestCase.assertTrue(loc > 0);
 		
 		// test valid line/right-below line
-		loc = Segment.getLocation(new Vector2(1.0, 1.0), new Vector2(), new Vector2(1.0, 2.0));
+		loc = Segment.getLocation(new DynVector2(1.0, 1.0), new DynVector2(), new DynVector2(1.0, 2.0));
 		TestCase.assertTrue(loc < 0);
 		
 		// test vertical line
-		loc = Segment.getLocation(new Vector2(1.0, 1.0), new Vector2(), new Vector2(0.0, 3.0));
+		loc = Segment.getLocation(new DynVector2(1.0, 1.0), new DynVector2(), new DynVector2(0.0, 3.0));
 		TestCase.assertTrue(loc < 0);
-		loc = Segment.getLocation(new Vector2(-1.0, 1.0), new Vector2(), new Vector2(0.0, 3.0));
+		loc = Segment.getLocation(new DynVector2(-1.0, 1.0), new DynVector2(), new DynVector2(0.0, 3.0));
 		TestCase.assertTrue(loc > 0);
 		
 		// test horizontal line
-		loc = Segment.getLocation(new Vector2(1.0, 1.0), new Vector2(0.0, 0.0), new Vector2(1.0, 0.0));
+		loc = Segment.getLocation(new DynVector2(1.0, 1.0), new DynVector2(0.0, 0.0), new DynVector2(1.0, 0.0));
 		TestCase.assertTrue(loc > 0);
-		loc = Segment.getLocation(new Vector2(1.0, -1.0), new Vector2(0.0, 0.0), new Vector2(1.0, 0.0));
+		loc = Segment.getLocation(new DynVector2(1.0, -1.0), new DynVector2(0.0, 0.0), new DynVector2(1.0, 0.0));
 		TestCase.assertTrue(loc < 0);
 	}
 	
@@ -137,53 +137,53 @@ public class SegmentTest {
 	 */
 	@Test
 	public void getPointClosest() {
-		Vector2 pt = new Vector2(1.0, -1.0);
+		DynVector2 pt = new DynVector2(1.0, -1.0);
 		
 		// test invalid line/segment
-		Vector2 p = Segment.getPointOnLineClosestToPoint(pt, new Vector2(1.0, 1.0), new Vector2(1.0, 1.0));
+		DynVector2 p = Segment.getPointOnLineClosestToPoint(pt, new DynVector2(1.0, 1.0), new DynVector2(1.0, 1.0));
 		TestCase.assertEquals(1.000, p.x, 1.0e-3);
 		TestCase.assertEquals(1.000, p.y, 1.0e-3);
 		
-		p = Segment.getPointOnSegmentClosestToPoint(pt, new Vector2(1.0, 1.0), new Vector2(1.0, 1.0));
+		p = Segment.getPointOnSegmentClosestToPoint(pt, new DynVector2(1.0, 1.0), new DynVector2(1.0, 1.0));
 		TestCase.assertEquals(1.000, p.x, 1.0e-3);
 		TestCase.assertEquals(1.000, p.y, 1.0e-3);
 		
 		// test valid line
-		p = Segment.getPointOnLineClosestToPoint(pt, new Vector2(), new Vector2(5.0, 5.0));
+		p = Segment.getPointOnLineClosestToPoint(pt, new DynVector2(), new DynVector2(5.0, 5.0));
 		// since 0,0 is perp to pt
 		TestCase.assertEquals(0.000, p.x, 1.0e-3);
 		TestCase.assertEquals(0.000, p.y, 1.0e-3);
 		
-		p = new Segment(new Vector2(), new Vector2(5.0, 5.0)).getPointOnLineClosestToPoint(pt);
+		p = new Segment(new DynVector2(), new DynVector2(5.0, 5.0)).getPointOnLineClosestToPoint(pt);
 		// since 0,0 is perp to pt
 		TestCase.assertEquals(0.000, p.x, 1.0e-3);
 		TestCase.assertEquals(0.000, p.y, 1.0e-3);
 		
-		p = Segment.getPointOnLineClosestToPoint(pt, new Vector2(), new Vector2(2.5, 5.0));
+		p = Segment.getPointOnLineClosestToPoint(pt, new DynVector2(), new DynVector2(2.5, 5.0));
 		TestCase.assertEquals(-0.200, p.x, 1.0e-3);
 		TestCase.assertEquals(-0.400, p.y, 1.0e-3);
 		
-		p = new Segment(new Vector2(), new Vector2(2.5, 5.0)).getPointOnLineClosestToPoint(pt);
+		p = new Segment(new DynVector2(), new DynVector2(2.5, 5.0)).getPointOnLineClosestToPoint(pt);
 		TestCase.assertEquals(-0.200, p.x, 1.0e-3);
 		TestCase.assertEquals(-0.400, p.y, 1.0e-3);
 		
 		// test valid segment
-		p = Segment.getPointOnSegmentClosestToPoint(pt, new Vector2(-1.0, -1.0), new Vector2(1.0, 1.0));
+		p = Segment.getPointOnSegmentClosestToPoint(pt, new DynVector2(-1.0, -1.0), new DynVector2(1.0, 1.0));
 		// since 0,0 is perp to pt
 		TestCase.assertEquals(0.000, p.x, 1.0e-3);
 		TestCase.assertEquals(0.000, p.y, 1.0e-3);
 		
-		p = new Segment(new Vector2(-1.0, -1.0), new Vector2(1.0, 1.0)).getPointOnSegmentClosestToPoint(pt);
+		p = new Segment(new DynVector2(-1.0, -1.0), new DynVector2(1.0, 1.0)).getPointOnSegmentClosestToPoint(pt);
 		// since 0,0 is perp to pt
 		TestCase.assertEquals(0.000, p.x, 1.0e-3);
 		TestCase.assertEquals(0.000, p.y, 1.0e-3);
 		
 		// test closest is one of the segment points
-		p = Segment.getPointOnSegmentClosestToPoint(pt, new Vector2(), new Vector2(2.5, 5.0));
+		p = Segment.getPointOnSegmentClosestToPoint(pt, new DynVector2(), new DynVector2(2.5, 5.0));
 		TestCase.assertEquals(0.000, p.x, 1.0e-3);
 		TestCase.assertEquals(0.000, p.y, 1.0e-3);
 		
-		p = new Segment(new Vector2(), new Vector2(2.5, 5.0)).getPointOnSegmentClosestToPoint(pt);
+		p = new Segment(new DynVector2(), new DynVector2(2.5, 5.0)).getPointOnSegmentClosestToPoint(pt);
 		TestCase.assertEquals(0.000, p.x, 1.0e-3);
 		TestCase.assertEquals(0.000, p.y, 1.0e-3);
 	}
@@ -194,16 +194,16 @@ public class SegmentTest {
 	@Test
 	public void getAxes() {
 		Segment s = new Segment(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.5, 3.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.5, 3.0)
 		);
 		Transform t = new Transform();
 		
-		Vector2[] axes = s.getAxes(null, t);
+		DynVector2[] axes = s.getAxes(null, t);
 		
 		TestCase.assertEquals(2, axes.length);
 		
-		Vector2 seg = s.vertices[0].to(s.vertices[1]);
+		DynVector2 seg = s.vertices[0].to(s.vertices[1]);
 		// one should be the line itself and the other should be the perp
 		TestCase.assertEquals(0.000, seg.cross(axes[1]), 1.0e-3);
 		TestCase.assertEquals(0.000, seg.dot(axes[0]), 1.0e-3);
@@ -220,14 +220,14 @@ public class SegmentTest {
 		TestCase.assertEquals(0.000, seg.dot(axes[0]), 1.0e-3);
 		
 		// test for some foci
-		Vector2 f = new Vector2(2.0, -2.0);
+		DynVector2 f = new DynVector2(2.0, -2.0);
 		t.identity();
 		
-		axes = s.getAxes(new Vector2[] {f}, t);
+		axes = s.getAxes(new DynVector2[] {f}, t);
 		
 		TestCase.assertEquals(3, axes.length);
 		
-		Vector2 v1 = s.vertices[0].to(f);
+		DynVector2 v1 = s.vertices[0].to(f);
 		v1.normalize();
 		
 		TestCase.assertEquals(v1.x, axes[2].x, 1.0e-3);
@@ -240,12 +240,12 @@ public class SegmentTest {
 	@Test
 	public void getFoci() {
 		Segment s = new Segment(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.5, 3.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.5, 3.0)
 		);
 		Transform t = new Transform();
 		
-		Vector2[] foci = s.getFoci(t);
+		DynVector2[] foci = s.getFoci(t);
 		TestCase.assertNull(foci);
 	}
 	
@@ -255,15 +255,15 @@ public class SegmentTest {
 	@Test
 	public void contains() {
 		Segment s = new Segment(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.5, 3.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.5, 3.0)
 		);
 		Transform t = new Transform();
 		
-		TestCase.assertFalse(s.contains(new Vector2(2.0, 2.0), t));
-		TestCase.assertFalse(s.contains(new Vector2(2.0, 2.0), t, false));
-		TestCase.assertTrue(s.contains(new Vector2(0.75, 2.0), t));
-		TestCase.assertFalse(s.contains(new Vector2(0.75, 2.0), t, false));
+		TestCase.assertFalse(s.contains(new DynVector2(2.0, 2.0), t));
+		TestCase.assertFalse(s.contains(new DynVector2(2.0, 2.0), t, false));
+		TestCase.assertTrue(s.contains(new DynVector2(0.75, 2.0), t));
+		TestCase.assertFalse(s.contains(new DynVector2(0.75, 2.0), t, false));
 	}
 	
 	/**
@@ -272,16 +272,16 @@ public class SegmentTest {
 	@Test
 	public void containsRadius() {
 		Segment s = new Segment(
-				new Vector2(1.0, 1.0),
-				new Vector2(-1.0, -1.0)
+				new DynVector2(1.0, 1.0),
+				new DynVector2(-1.0, -1.0)
 			);
 			Transform t = new Transform();
 			
-			TestCase.assertFalse(s.contains(new Vector2(2.0, 2.0), t, 0.1));
-			TestCase.assertTrue(s.contains(new Vector2(1.05, 1.05), t, 0.1));
-			TestCase.assertFalse(s.contains(new Vector2(1.05, 1.05), t, 0.0));
-			TestCase.assertFalse(s.contains(new Vector2(1.05, 1.05), t, 0.05));
-			TestCase.assertTrue(s.contains(new Vector2(0.505, 0.5), t, 0.1));
+			TestCase.assertFalse(s.contains(new DynVector2(2.0, 2.0), t, 0.1));
+			TestCase.assertTrue(s.contains(new DynVector2(1.05, 1.05), t, 0.1));
+			TestCase.assertFalse(s.contains(new DynVector2(1.05, 1.05), t, 0.0));
+			TestCase.assertFalse(s.contains(new DynVector2(1.05, 1.05), t, 0.05));
+			TestCase.assertTrue(s.contains(new DynVector2(0.505, 0.5), t, 0.1));
 	}
 	
 	/**
@@ -290,11 +290,11 @@ public class SegmentTest {
 	@Test
 	public void project() {
 		Segment s = new Segment(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.5, 3.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.5, 3.0)
 		);
 		Transform t = new Transform();
-		Vector2 n = new Vector2(1.0, 0.0);
+		DynVector2 n = new DynVector2(1.0, 0.0);
 		
 		Interval i = s.project(n, t);
 		
@@ -329,11 +329,11 @@ public class SegmentTest {
 	@Test
 	public void getFarthest() {
 		Segment s = new Segment(
-			new Vector2(0.0, 1.0),
-			new Vector2(1.5, 3.0)
+			new DynVector2(0.0, 1.0),
+			new DynVector2(1.5, 3.0)
 		);
 		Transform t = new Transform();
-		Vector2 n = new Vector2(1.0, 0.0);
+		DynVector2 n = new DynVector2(1.0, 0.0);
 		
 		EdgeFeature f = s.getFarthestFeature(n, t);
 		TestCase.assertEquals(1.500, f.max.point.x, 1.0e-3);
@@ -344,7 +344,7 @@ public class SegmentTest {
 		TestCase.assertEquals(1.500, f.vertex2.point.x, 1.0e-3);
 		TestCase.assertEquals(3.000, f.vertex2.point.y, 1.0e-3);
 		
-		Vector2 p = s.getFarthestPoint(n, t);
+		DynVector2 p = s.getFarthestPoint(n, t);
 		TestCase.assertEquals(1.500, p.x, 1.0e-3);
 		TestCase.assertEquals(3.000, p.y, 1.0e-3);
 		
@@ -363,8 +363,8 @@ public class SegmentTest {
 	@Test
 	public void rotate() {
 		Segment s = new Segment(
-			new Vector2(0.0, 0.0),
-			new Vector2(1.0, 1.0)
+			new DynVector2(0.0, 0.0),
+			new DynVector2(1.0, 1.0)
 		);
 		s.rotate(Math.toRadians(45), 0, 0);
 		
@@ -381,8 +381,8 @@ public class SegmentTest {
 	@Test
 	public void translate() {
 		Segment s = new Segment(
-			new Vector2(0.0, 0.0),
-			new Vector2(1.0, 1.0)
+			new DynVector2(0.0, 0.0),
+			new DynVector2(1.0, 1.0)
 		);
 		s.translate(2.0, -1.0);
 		
@@ -399,8 +399,8 @@ public class SegmentTest {
 	@Test
 	public void createAABB() {
 		Segment s = new Segment(
-			new Vector2(0.0, 0.0),
-			new Vector2(1.0, 1.0)
+			new DynVector2(0.0, 0.0),
+			new DynVector2(1.0, 1.0)
 		);
 		
 		AABB aabb = s.createAABB(IDENTITY);
@@ -433,16 +433,16 @@ public class SegmentTest {
 	@Test
 	public void getLineIntersection() {
 		// normal case
-		Vector2 p = Segment.getLineIntersection(
-				new Vector2(-1.0, -1.0), new Vector2(2.0, 0.0), 
-				new Vector2(-1.0,  0.0), new Vector2(1.0, 0.5));
+		DynVector2 p = Segment.getLineIntersection(
+				new DynVector2(-1.0, -1.0), new DynVector2(2.0, 0.0),
+				new DynVector2(-1.0,  0.0), new DynVector2(1.0, 0.5));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(11.0, p.x);
 		TestCase.assertEquals(3.0, p.y);
 		
-		p = new Segment(new Vector2(-1.0, -1.0), new Vector2(2.0, 0.0)).getLineIntersection(
-				new Segment(new Vector2(-1.0,  0.0), new Vector2(1.0, 0.5)));
+		p = new Segment(new DynVector2(-1.0, -1.0), new DynVector2(2.0, 0.0)).getLineIntersection(
+				new Segment(new DynVector2(-1.0,  0.0), new DynVector2(1.0, 0.5)));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(11.0, p.x);
@@ -450,8 +450,8 @@ public class SegmentTest {
 		
 		// try horizontal line
 		p = Segment.getLineIntersection(
-				new Vector2(-1.0, 1.0), new Vector2(2.0, 1.0), 
-				new Vector2(-1.0, 0.0), new Vector2(1.0, 0.5));
+				new DynVector2(-1.0, 1.0), new DynVector2(2.0, 1.0),
+				new DynVector2(-1.0, 0.0), new DynVector2(1.0, 0.5));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(3.0, p.x);
@@ -459,8 +459,8 @@ public class SegmentTest {
 		
 		// try a vertical line
 		p = Segment.getLineIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 1.0), 
-				new Vector2(-1.0, 0.0), new Vector2(1.0, 0.5));
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 1.0),
+				new DynVector2(-1.0, 0.0), new DynVector2(1.0, 0.5));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(3.0, p.x);
@@ -468,8 +468,8 @@ public class SegmentTest {
 		
 		// try a vertical and horizontal line
 		p = Segment.getLineIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, -2.0), 
-				new Vector2(0.0, 1.0), new Vector2(4.0, 1.0));
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, -2.0),
+				new DynVector2(0.0, 1.0), new DynVector2(4.0, 1.0));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(3.0, p.x);
@@ -477,43 +477,43 @@ public class SegmentTest {
 		
 		// try two parallel lines
 		p = Segment.getLineIntersection(
-				new Vector2(-2.0, -1.0), new Vector2(-1.0, 0.0), 
-				new Vector2(-1.0, -1.0), new Vector2(0.0, 0.0));
+				new DynVector2(-2.0, -1.0), new DynVector2(-1.0, 0.0),
+				new DynVector2(-1.0, -1.0), new DynVector2(0.0, 0.0));
 		
 		TestCase.assertNull(p);
 		
 		// try two vertical lines (parallel)
 		p = Segment.getLineIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 1.0), 
-				new Vector2(2.0, 0.0), new Vector2(2.0, 1.0));
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 1.0),
+				new DynVector2(2.0, 0.0), new DynVector2(2.0, 1.0));
 		
 		TestCase.assertNull(p);
 		
 		// try two horizontal lines (parallel)
 		p = Segment.getLineIntersection(
-				new Vector2(3.0, 1.0), new Vector2(4.0, 1.0), 
-				new Vector2(2.0, 2.0), new Vector2(4.0, 2.0));
+				new DynVector2(3.0, 1.0), new DynVector2(4.0, 1.0),
+				new DynVector2(2.0, 2.0), new DynVector2(4.0, 2.0));
 		
 		TestCase.assertNull(p);
 		
 		// try colinear lines
 		p = Segment.getLineIntersection(
-				new Vector2(-1.0, -1.0), new Vector2(1.0, 1.0), 
-				new Vector2(-2.0, -2.0), new Vector2(-1.5, -1.5));
+				new DynVector2(-1.0, -1.0), new DynVector2(1.0, 1.0),
+				new DynVector2(-2.0, -2.0), new DynVector2(-1.5, -1.5));
 		
 		TestCase.assertNull(p);
 		
 		// try colinear vertical lines
 		p = Segment.getLineIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 1.0), 
-				new Vector2(3.0, 2.0), new Vector2(3.0, 7.0));
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 1.0),
+				new DynVector2(3.0, 2.0), new DynVector2(3.0, 7.0));
 		
 		TestCase.assertNull(p);
 		
 		// try colinear horizontal lines
 		p = Segment.getLineIntersection(
-				new Vector2(4.0, 1.0), new Vector2(5.0, 1.0), 
-				new Vector2(-1.0, 1.0), new Vector2(1.0, 1.0));
+				new DynVector2(4.0, 1.0), new DynVector2(5.0, 1.0),
+				new DynVector2(-1.0, 1.0), new DynVector2(1.0, 1.0));
 		
 		TestCase.assertNull(p);
 	}
@@ -524,17 +524,17 @@ public class SegmentTest {
 	 */
 	@Test
 	public void getSegmentIntersection() {
-		Vector2 p = Segment.getSegmentIntersection(
-				new Vector2(-3.0, -1.0), new Vector2(3.0, 1.0), 
-				new Vector2(-1.0, -2.0), new Vector2(1.0, 2.0));
+		DynVector2 p = Segment.getSegmentIntersection(
+				new DynVector2(-3.0, -1.0), new DynVector2(3.0, 1.0),
+				new DynVector2(-1.0, -2.0), new DynVector2(1.0, 2.0));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(0.0, p.x);
 		TestCase.assertEquals(0.0, p.y);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(-3.0, -1.0), new Vector2(3.0, 1.0), 
-				new Vector2(-1.0, -2.0), new Vector2(1.0, 2.0),
+				new DynVector2(-3.0, -1.0), new DynVector2(3.0, 1.0),
+				new DynVector2(-1.0, -2.0), new DynVector2(1.0, 2.0),
 				false);
 		
 		TestCase.assertNotNull(p);
@@ -543,30 +543,30 @@ public class SegmentTest {
 		
 		// normal case, no intersection
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, -1.0), new Vector2(2.0, 0.0), 
-				new Vector2(-1.0,  0.0), new Vector2(1.0, 0.5));
+				new DynVector2(-1.0, -1.0), new DynVector2(2.0, 0.0),
+				new DynVector2(-1.0,  0.0), new DynVector2(1.0, 0.5));
 		
 		TestCase.assertNull(p);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, -1.0), new Vector2(2.0, 0.0), 
-				new Vector2(-1.0,  0.0), new Vector2(1.0, 0.5),
+				new DynVector2(-1.0, -1.0), new DynVector2(2.0, 0.0),
+				new DynVector2(-1.0,  0.0), new DynVector2(1.0, 0.5),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// try horizontal segment
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, 1.0), new Vector2(2.0, 1.0), 
-				new Vector2(-1.0, 0.0), new Vector2(1.0, 2.0));
+				new DynVector2(-1.0, 1.0), new DynVector2(2.0, 1.0),
+				new DynVector2(-1.0, 0.0), new DynVector2(1.0, 2.0));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(0.0, p.x);
 		TestCase.assertEquals(1.0, p.y);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, 1.0), new Vector2(2.0, 1.0), 
-				new Vector2(-1.0, 0.0), new Vector2(1.0, 2.0),
+				new DynVector2(-1.0, 1.0), new DynVector2(2.0, 1.0),
+				new DynVector2(-1.0, 0.0), new DynVector2(1.0, 2.0),
 				false);
 		
 		TestCase.assertNotNull(p);
@@ -575,16 +575,16 @@ public class SegmentTest {
 		
 		// try a vertical segment
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 3.0), 
-				new Vector2(4.0, 0.0), new Vector2(1.0, 3.0));
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 3.0),
+				new DynVector2(4.0, 0.0), new DynVector2(1.0, 3.0));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(3.0, p.x);
 		TestCase.assertEquals(1.0, p.y);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 3.0), 
-				new Vector2(4.0, 0.0), new Vector2(1.0, 3.0),
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 3.0),
+				new DynVector2(4.0, 0.0), new DynVector2(1.0, 3.0),
 				false);
 		
 		TestCase.assertNotNull(p);
@@ -593,16 +593,16 @@ public class SegmentTest {
 		
 		// try a vertical and horizontal segment
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 2.0), new Vector2(3.0, -2.0), 
-				new Vector2(0.0, 1.0), new Vector2(4.0, 1.0));
+				new DynVector2(3.0, 2.0), new DynVector2(3.0, -2.0),
+				new DynVector2(0.0, 1.0), new DynVector2(4.0, 1.0));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(3.0, p.x);
 		TestCase.assertEquals(1.0, p.y);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 2.0), new Vector2(3.0, -2.0), 
-				new Vector2(0.0, 1.0), new Vector2(4.0, 1.0),
+				new DynVector2(3.0, 2.0), new DynVector2(3.0, -2.0),
+				new DynVector2(0.0, 1.0), new DynVector2(4.0, 1.0),
 				false);
 		
 		TestCase.assertNotNull(p);
@@ -611,107 +611,107 @@ public class SegmentTest {
 		
 		// try two parallel segments
 		p = Segment.getSegmentIntersection(
-				new Vector2(-2.0, -1.0), new Vector2(-1.0, 0.0), 
-				new Vector2(-1.0, -1.0), new Vector2(0.0, 0.0));
+				new DynVector2(-2.0, -1.0), new DynVector2(-1.0, 0.0),
+				new DynVector2(-1.0, -1.0), new DynVector2(0.0, 0.0));
 		
 		TestCase.assertNull(p);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(-2.0, -1.0), new Vector2(-1.0, 0.0), 
-				new Vector2(-1.0, -1.0), new Vector2(0.0, 0.0),
+				new DynVector2(-2.0, -1.0), new DynVector2(-1.0, 0.0),
+				new DynVector2(-1.0, -1.0), new DynVector2(0.0, 0.0),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// try two vertical segments (parallel)
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 1.0), 
-				new Vector2(2.0, 0.0), new Vector2(2.0, 1.0));
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 1.0),
+				new DynVector2(2.0, 0.0), new DynVector2(2.0, 1.0));
 		
 		TestCase.assertNull(p);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 1.0), 
-				new Vector2(2.0, 0.0), new Vector2(2.0, 1.0),
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 1.0),
+				new DynVector2(2.0, 0.0), new DynVector2(2.0, 1.0),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// try two horizontal segments (parallel)
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 1.0), new Vector2(4.0, 1.0), 
-				new Vector2(3.0, 2.0), new Vector2(4.0, 2.0));
+				new DynVector2(3.0, 1.0), new DynVector2(4.0, 1.0),
+				new DynVector2(3.0, 2.0), new DynVector2(4.0, 2.0));
 		
 		TestCase.assertNull(p);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 1.0), new Vector2(4.0, 1.0), 
-				new Vector2(3.0, 2.0), new Vector2(4.0, 2.0),
+				new DynVector2(3.0, 1.0), new DynVector2(4.0, 1.0),
+				new DynVector2(3.0, 2.0), new DynVector2(4.0, 2.0),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// try colinear segments
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, -1.0), new Vector2(1.0, 1.0), 
-				new Vector2(-2.0, -2.0), new Vector2(-1.5, -1.5));
+				new DynVector2(-1.0, -1.0), new DynVector2(1.0, 1.0),
+				new DynVector2(-2.0, -2.0), new DynVector2(-1.5, -1.5));
 		
 		TestCase.assertNull(p);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, -1.0), new Vector2(1.0, 1.0), 
-				new Vector2(-2.0, -2.0), new Vector2(-1.5, -1.5),
+				new DynVector2(-1.0, -1.0), new DynVector2(1.0, 1.0),
+				new DynVector2(-2.0, -2.0), new DynVector2(-1.5, -1.5),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// try colinear vertical segments
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 1.0), 
-				new Vector2(3.0, -1.0), new Vector2(3.0, 7.0));
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 1.0),
+				new DynVector2(3.0, -1.0), new DynVector2(3.0, 7.0));
 		
 		TestCase.assertNull(p);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(3.0, 0.0), new Vector2(3.0, 1.0), 
-				new Vector2(3.0, -1.0), new Vector2(3.0, 7.0),
+				new DynVector2(3.0, 0.0), new DynVector2(3.0, 1.0),
+				new DynVector2(3.0, -1.0), new DynVector2(3.0, 7.0),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// try colinear horizontal segments
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, 1.0), new Vector2(5.0, 1.0), 
-				new Vector2(-1.0, 1.0), new Vector2(1.0, 1.0));
+				new DynVector2(-1.0, 1.0), new DynVector2(5.0, 1.0),
+				new DynVector2(-1.0, 1.0), new DynVector2(1.0, 1.0));
 		
 		TestCase.assertNull(p);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(-1.0, 1.0), new Vector2(5.0, 1.0), 
-				new Vector2(-1.0, 1.0), new Vector2(1.0, 1.0),
+				new DynVector2(-1.0, 1.0), new DynVector2(5.0, 1.0),
+				new DynVector2(-1.0, 1.0), new DynVector2(1.0, 1.0),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// try intersection at end point
 		p = Segment.getSegmentIntersection(
-				new Vector2(1.0, 0.0), new Vector2(3.0, -2.0), 
-				new Vector2(-1.0, -1.0), new Vector2(1.0, 0.0));
+				new DynVector2(1.0, 0.0), new DynVector2(3.0, -2.0),
+				new DynVector2(-1.0, -1.0), new DynVector2(1.0, 0.0));
 		
 		TestCase.assertNotNull(p);
 		TestCase.assertEquals(1.0, p.x);
 		TestCase.assertEquals(0.0, p.y);
 		
 		p = Segment.getSegmentIntersection(
-				new Vector2(1.0, 0.0), new Vector2(3.0, -2.0), 
-				new Vector2(-1.0, -1.0), new Vector2(1.0, 0.0),
+				new DynVector2(1.0, 0.0), new DynVector2(3.0, -2.0),
+				new DynVector2(-1.0, -1.0), new DynVector2(1.0, 0.0),
 				false);
 		
 		TestCase.assertNull(p);
 		
 		// test segment intersection perpendicular
-		Segment s1 = new Segment(new Vector2(-10, 10), new Vector2(10, 10));
-		Segment s2 = new Segment(new Vector2(0, 0), new Vector2(0, 5));
+		Segment s1 = new Segment(new DynVector2(-10, 10), new DynVector2(10, 10));
+		Segment s2 = new Segment(new DynVector2(0, 0), new DynVector2(0, 5));
 		p = s2.getSegmentIntersection(s1);
 		TestCase.assertNull(p);
 	}
@@ -721,7 +721,7 @@ public class SegmentTest {
 	 */
 	@Test
 	public void createMass() {
-		Segment s = new Segment(new Vector2(-1.0, 0.0), new Vector2(1.0, 0.5));
+		Segment s = new Segment(new DynVector2(-1.0, 0.0), new DynVector2(1.0, 0.5));
 		Mass m = s.createMass(1.0);
 		// the mass of a segment should be l * d
 		TestCase.assertEquals(2.061, m.getMass(), 1.0e-3);
@@ -743,7 +743,7 @@ public class SegmentTest {
 	 */
 	@Test
 	public void getArea() {
-		Segment s = new Segment(new Vector2(-1.0, 0.0), new Vector2(1.0, 0.5));
+		Segment s = new Segment(new DynVector2(-1.0, 0.0), new DynVector2(1.0, 0.5));
 		
 		// it's always zero
 		TestCase.assertEquals(0.0, s.getArea(), 1.0e-3);
@@ -755,10 +755,10 @@ public class SegmentTest {
 	@Test
 	public void getNormals() {
 		Segment p = new Segment(
-				new Vector2(0.0, 1.0),
-				new Vector2(-1.0, 0.0));
+				new DynVector2(0.0, 1.0),
+				new DynVector2(-1.0, 0.0));
 		
-		Vector2[] normals = p.getNormals();
+		DynVector2[] normals = p.getNormals();
 		
 		TestCase.assertNotNull(normals);
 		TestCase.assertEquals(2, normals.length);
@@ -767,7 +767,7 @@ public class SegmentTest {
 		TestCase.assertEquals( 0.707, normals[1].x, 1e-3);
 		TestCase.assertEquals(-0.707, normals[1].y, 1e-3);
 		
-		Iterator<Vector2> iterator = p.getNormalIterator();
+		Iterator<DynVector2> iterator = p.getNormalIterator();
 		
 		TestCase.assertNotNull(iterator);
 		TestCase.assertEquals(WoundIterator.class, iterator.getClass());

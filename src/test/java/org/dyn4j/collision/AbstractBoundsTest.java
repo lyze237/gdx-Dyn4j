@@ -26,7 +26,7 @@ package org.dyn4j.collision;
 
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ public class AbstractBoundsTest {
 			super(x, y);
 		}
 
-		public TestBounds(Vector2 translation) {
+		public TestBounds(DynVector2 translation) {
 			super(translation);
 		}
 
@@ -80,7 +80,7 @@ public class AbstractBoundsTest {
 		TestCase.assertEquals(1.0, b.getTranslation().x);
 		TestCase.assertEquals(2.0, b.getTranslation().y);
 		
-		b = new TestBounds(new Vector2(1.0, 2.0));
+		b = new TestBounds(new DynVector2(1.0, 2.0));
 		TestCase.assertEquals(1.0, b.getTranslation().x);
 		TestCase.assertEquals(2.0, b.getTranslation().y);
 	}
@@ -102,7 +102,7 @@ public class AbstractBoundsTest {
 		TestCase.assertEquals(6.0, b.getTranslation().x);
 		TestCase.assertEquals(6.0, b.getTranslation().y);
 		
-		b.translate(new Vector2(-2.0, 1.5));
+		b.translate(new DynVector2(-2.0, 1.5));
 		TestCase.assertEquals(4.0, b.getTranslation().x);
 		TestCase.assertEquals(7.5, b.getTranslation().y);
 	}
@@ -117,7 +117,7 @@ public class AbstractBoundsTest {
 		TestCase.assertEquals(0.0, b.getTranslation().y);
 		
 		// test the shifting which is really just a translation
-		b.shift(new Vector2(1.0, 1.0));
+		b.shift(new DynVector2(1.0, 1.0));
 		TestCase.assertEquals(1.0, b.getTranslation().x);
 		TestCase.assertEquals(1.0, b.getTranslation().y);
 	}

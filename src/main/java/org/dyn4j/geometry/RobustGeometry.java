@@ -111,19 +111,19 @@ public final class RobustGeometry {
 	
 	/**
 	 * Robust side-of-line test.
-	 * Computes the same value with {@link Segment#getLocation(Vector2, Vector2, Vector2)} but with
-	 * enough precision so the sign of the result is correct for any {@link Vector2}s pa, pb, pc.
+	 * Computes the same value with {@link Segment#getLocation(DynVector2, DynVector2, DynVector2)} but with
+	 * enough precision so the sign of the result is correct for any {@link DynVector2}s pa, pb, pc.
 	 * This implementation uses more precision as-needed only for the hardest cases.
 	 * For the majority of inputs this will be only slightly slower than the corresponding call
-	 * to {@link Segment#getLocation(Vector2, Vector2, Vector2)} but in the hard cases can be 5-25 times slower.
+	 * to {@link Segment#getLocation(DynVector2, DynVector2, DynVector2)} but in the hard cases can be 5-25 times slower.
 	 * 
 	 * @param point the point
 	 * @param linePoint1 the first point of the line
 	 * @param linePoint2 the second point of the line
 	 * @return double
-	 * @see Segment#getLocation(Vector2, Vector2, Vector2)
+	 * @see Segment#getLocation(DynVector2, DynVector2, DynVector2)
 	 */
-	public static double getLocation(Vector2 point, Vector2 linePoint1, Vector2 linePoint2) {
+	public static double getLocation(DynVector2 point, DynVector2 linePoint1, DynVector2 linePoint2) {
 		// This code is based on the original code by Jonathan Richard Shewchuk
 		// For more details about the correctness and error bounds check the note
 		// in the AdaptiveDecimal class and the corresponding paper of the author.
@@ -155,9 +155,9 @@ public final class RobustGeometry {
 	 * @param linePoint1 the first point of the line
 	 * @param linePoint2 the second point of the line
 	 * @return double
-	 * @see #getLocation(Vector2, Vector2, Vector2)
+	 * @see #getLocation(DynVector2, DynVector2, DynVector2)
 	 */
-	private static double getLocationAdaptive(Vector2 point, Vector2 linePoint1, Vector2 linePoint2, double detSum) {
+	private static double getLocationAdaptive(DynVector2 point, DynVector2 linePoint1, DynVector2 linePoint2, double detSum) {
 		double acx = point.x - linePoint2.x;
 		double acy = point.y - linePoint2.y;
 		double bcx = linePoint1.x - linePoint2.x;

@@ -24,7 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -41,8 +41,8 @@ public class MinkowskiSumPointTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Vector2 p1 = new Vector2(0.0, 0.0);
-		Vector2 p2 = new Vector2(1.0, 1.0);
+		DynVector2 p1 = new DynVector2(0.0, 0.0);
+		DynVector2 p2 = new DynVector2(1.0, 1.0);
 		
 		MinkowskiSumPoint msp = new MinkowskiSumPoint(p1, p2);
 		

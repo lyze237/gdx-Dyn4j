@@ -29,7 +29,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.joint.DistanceJoint;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.dyn4j.world.World;
 import org.junit.Test;
 
@@ -75,8 +75,8 @@ public class DistanceJointSimulationTest {
 		dj.setRestDistance(10.0);
 		w.addJoint(dj);
 		
-		Vector2 v1 = g.getWorldCenter();
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v1 = g.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(2.0, v1.distance(v2));
 		
 		// the way the distance joint is currently working is that it will immediately try to solve
@@ -136,8 +136,8 @@ public class DistanceJointSimulationTest {
 		dj.setLimitsEnabled(1.0, 5.0);
 		w.addJoint(dj);
 		
-		Vector2 v1 = g.getWorldCenter();
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v1 = g.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(2.0, v1.distance(v2));
 		
 		w.step(1);
@@ -223,8 +223,8 @@ public class DistanceJointSimulationTest {
 		dj.setSpringDampingRatio(0.2);
 		w.addJoint(dj);
 		
-		Vector2 v1 = g.getWorldCenter();
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v1 = g.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(2.0, v1.distance(v2));
 		
 		w.step(10);
@@ -275,8 +275,8 @@ public class DistanceJointSimulationTest {
 		dj.setSpringDampingRatio(0.2);
 		w.addJoint(dj);
 		
-		Vector2 v1 = g.getWorldCenter();
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v1 = g.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(2.0, v1.distance(v2));
 		
 		w.step(10);
@@ -327,8 +327,8 @@ public class DistanceJointSimulationTest {
 		dj.setSpringDampingRatio(0.2);
 		w.addJoint(dj);
 		
-		Vector2 v1 = g.getWorldCenter();
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v1 = g.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(2.0, v1.distance(v2));
 		
 		w.step(30);
@@ -378,8 +378,8 @@ public class DistanceJointSimulationTest {
 		dj.setSpringDampingRatio(0.2);
 		w.addJoint(dj);
 		
-		Vector2 v1 = g.getWorldCenter();
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v1 = g.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(2.0, v1.distance(v2));
 		
 		w.step(30);
@@ -439,8 +439,8 @@ public class DistanceJointSimulationTest {
 		dj.setMaximumSpringForce(200.0);
 		w.addJoint(dj);
 		
-		Vector2 v1 = g.getWorldCenter();
-		Vector2 v2 = b.getWorldCenter();
+		DynVector2 v1 = g.getWorldCenter();
+		DynVector2 v2 = b.getWorldCenter();
 		TestCase.assertEquals(2.0, v1.distance(v2));
 		
 		w.step(1);

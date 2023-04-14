@@ -32,7 +32,7 @@ import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Sweep convex decomposition algorithm for simple polygons.
@@ -57,7 +57,7 @@ public class SweepLine extends AbstractDecomposer implements Decomposer, Triangu
 	 * @see org.dyn4j.geometry.decompose.Decomposer#decompose(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public List<Convex> decompose(Vector2... points) {
+	public List<Convex> decompose(DynVector2... points) {
 		// triangulate
 		DoubleEdgeList dcel = this.createTriangulation(points);
 		
@@ -75,7 +75,7 @@ public class SweepLine extends AbstractDecomposer implements Decomposer, Triangu
 	 * @see org.dyn4j.geometry.decompose.Triangulator#triangulate(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public List<Triangle> triangulate(Vector2... points) {
+	public List<Triangle> triangulate(DynVector2... points) {
 		// triangulate
 		DoubleEdgeList dcel = this.createTriangulation(points);
 		// return the triangulation
@@ -89,7 +89,7 @@ public class SweepLine extends AbstractDecomposer implements Decomposer, Triangu
 	 * @return {@link DoubleEdgeList}
 	 * @since 3.1.9
 	 */
-	final DoubleEdgeList createTriangulation(Vector2... points) {
+	final DoubleEdgeList createTriangulation(DynVector2... points) {
 		// check for a null list
 		if (points == null) 
 			throw new ArgumentNullException("points");

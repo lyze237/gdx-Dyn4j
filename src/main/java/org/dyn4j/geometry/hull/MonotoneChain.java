@@ -31,7 +31,7 @@ import java.util.List;
 import org.dyn4j.exception.ArgumentNullException;
 import org.dyn4j.exception.NullElementException;
 import org.dyn4j.geometry.RobustGeometry;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Andrew's Monotone Chain convex hull algorithm.
@@ -49,7 +49,7 @@ public class MonotoneChain extends AbstractHullGenerator implements HullGenerato
 	 * @see org.dyn4j.geometry.hull.HullGenerator#generate(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public Vector2[] generate(Vector2... points) {
+	public DynVector2[] generate(DynVector2... points) {
 		// check for a null array
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -80,12 +80,12 @@ public class MonotoneChain extends AbstractHullGenerator implements HullGenerato
 		// who has the largest x coordinate
 		for (int i = 1; i < size; i++) {
 			// get the current values
-			Vector2 minxminy = points[minmin];
-			Vector2 minxmaxy = points[minmax];
-			Vector2 maxxminy = points[maxmin];
-			Vector2 maxxmaxy = points[maxmax];
+			DynVector2 minxminy = points[minmin];
+			DynVector2 minxmaxy = points[minmax];
+			DynVector2 maxxminy = points[maxmin];
+			DynVector2 maxxmaxy = points[maxmax];
 			// get the current point
-			Vector2 p = points[i];
+			DynVector2 p = points[i];
 			// check against the minimum x
 			if (p.x < minxminy.x) {
 				// its the new minimum
@@ -117,15 +117,15 @@ public class MonotoneChain extends AbstractHullGenerator implements HullGenerato
 		}
 		
 		// build the lower convex hull
-		List<Vector2> lower = new ArrayList<Vector2>();
-		Vector2 lp1 = points[maxmin];
-		Vector2 lp2 = points[minmin];
+		List<DynVector2> lower = new ArrayList<DynVector2>();
+		DynVector2 lp1 = points[maxmin];
+		DynVector2 lp2 = points[minmin];
 		// push
 		lower.add(points[minmin]);
 		// loop over the points between the min and max
 		for (int i = minmax + 1; i <= maxmin; i++) {
 			// get the current point
-			Vector2 p = points[i];
+			DynVector2 p = points[i];
 			// where is it relative to the dividing line?
 			if (RobustGeometry.getLocation(p, lp1, lp2) >= 0.0) {
 				// if its on or to the left of the dividing line
@@ -133,8 +133,8 @@ public class MonotoneChain extends AbstractHullGenerator implements HullGenerato
 				// in the convex hull
 				int lSize = lower.size(); 
 				while (lSize >= 2) {
-					Vector2 p1 = lower.get(lSize - 1);
-					Vector2 p2 = lower.get(lSize - 2);
+					DynVector2 p1 = lower.get(lSize - 1);
+					DynVector2 p2 = lower.get(lSize - 2);
 					// check if the point is to the left of the
 					// last edge in the current convex hull
 					if (RobustGeometry.getLocation(p, p2, p1) > 0.0) {
@@ -156,15 +156,15 @@ public class MonotoneChain extends AbstractHullGenerator implements HullGenerato
 		}
 		
 		// build the upper convex hull
-		List<Vector2> upper = new ArrayList<Vector2>();
-		Vector2 up1 = points[minmax];
-		Vector2 up2 = points[maxmax];
+		List<DynVector2> upper = new ArrayList<DynVector2>();
+		DynVector2 up1 = points[minmax];
+		DynVector2 up2 = points[maxmax];
 		// push
 		upper.add(points[maxmax]);
 		// loop over the points between the min and max
 		for (int i = maxmax - 1; i >= minmax; i--) {
 			// get the current point
-			Vector2 p = points[i];
+			DynVector2 p = points[i];
 			// where is it relative to the dividing line?
 			if (RobustGeometry.getLocation(p, up1, up2) >= 0.0) {
 				// if its on or to the left of the dividing line
@@ -172,8 +172,8 @@ public class MonotoneChain extends AbstractHullGenerator implements HullGenerato
 				// in the convex hull
 				int uSize = upper.size();
 				while (uSize >= 2) {
-					Vector2 p1 = upper.get(uSize - 1);
-					Vector2 p2 = upper.get(uSize - 2);
+					DynVector2 p1 = upper.get(uSize - 1);
+					DynVector2 p2 = upper.get(uSize - 2);
 					// check if the point is to the left of the
 					// last edge in the current convex hull
 					if (RobustGeometry.getLocation(p, p2, p1) > 0.0) {
@@ -209,7 +209,7 @@ public class MonotoneChain extends AbstractHullGenerator implements HullGenerato
 		lower.addAll(upper);
 		
 		// create and fill an array with the hull points
-		Vector2[] hull = new Vector2[lower.size()];
+		DynVector2[] hull = new DynVector2[lower.size()];
 		lower.toArray(hull);
 		
 		// return the hull

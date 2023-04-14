@@ -91,7 +91,7 @@ public class HalfEllipseTest {
 	public void contains() {
 		HalfEllipse e = new HalfEllipse(2.0, 0.5);
 		Transform t = new Transform();
-		Vector2 p = new Vector2(0.75, 0.35);
+		DynVector2 p = new DynVector2(0.75, 0.35);
 		
 		// shouldn't be in
 		TestCase.assertTrue(!e.contains(p, t));
@@ -141,8 +141,8 @@ public class HalfEllipseTest {
 	public void project() {
 		HalfEllipse e = new HalfEllipse(2.0, 0.5);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, 1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, 1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
@@ -184,13 +184,13 @@ public class HalfEllipseTest {
 	public void getFarthest() {
 		HalfEllipse e = new HalfEllipse(2.0, 0.5);
 		Transform t = new Transform();
-		Vector2 x = new Vector2(1.0, 0.0);
-		Vector2 y = new Vector2(0.0, -1.0);
+		DynVector2 x = new DynVector2(1.0, 0.0);
+		DynVector2 y = new DynVector2(0.0, -1.0);
 		
 		// try some translation
 		t.translate(1.0, 0.5);
 		
-		Vector2 p = e.getFarthestPoint(x, t);
+		DynVector2 p = e.getFarthestPoint(x, t);
 		TestCase.assertEquals( 2.000, p.x, 1.0e-3);
 		TestCase.assertEquals( 0.5, p.y, 1.0e-3);
 		
@@ -222,7 +222,7 @@ public class HalfEllipseTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void getAxes() {
 		HalfEllipse e = new HalfEllipse(1.0, 0.5);
-		e.getAxes(new Vector2[] { new Vector2() }, IDENTITY);
+		e.getAxes(new DynVector2[] { new DynVector2() }, IDENTITY);
 	}
 	
 	/**
@@ -392,27 +392,27 @@ public class HalfEllipseTest {
 		
 		TestCase.assertEquals(0.543, he.getRadius(), 1e-3);
 		
-		TestCase.assertEquals(0.500, he.getRadius(new Vector2(0, 0)), 1e-3);
+		TestCase.assertEquals(0.500, he.getRadius(new DynVector2(0, 0)), 1e-3);
 		
-		TestCase.assertEquals(1.802, he.getRadius(new Vector2(1, 1)), 1e-3);
+		TestCase.assertEquals(1.802, he.getRadius(new DynVector2(1, 1)), 1e-3);
 		
 		he.rotateAboutCenter(Math.toRadians(60));
-		TestCase.assertEquals(1.710, he.getRadius(new Vector2(1, 1)), 1e-3);
+		TestCase.assertEquals(1.710, he.getRadius(new DynVector2(1, 1)), 1e-3);
 		
 		he = new HalfEllipse(0.5, 1.0);
-		TestCase.assertEquals(2.243, he.getRadius(new Vector2(1, -1)), 1e-3);
+		TestCase.assertEquals(2.243, he.getRadius(new DynVector2(1, -1)), 1e-3);
 		
 		// 3 quadrant
-		TestCase.assertEquals(2.243, he.getRadius(new Vector2(-1, -1)), 1e-3);
+		TestCase.assertEquals(2.243, he.getRadius(new DynVector2(-1, -1)), 1e-3);
 		
 		// 2 quadrant
-		TestCase.assertEquals(1.600, he.getRadius(new Vector2(-1, 1)), 1e-3);
+		TestCase.assertEquals(1.600, he.getRadius(new DynVector2(-1, 1)), 1e-3);
 		
 		// below the evolute
-		TestCase.assertEquals(1.286, he.getRadius(new Vector2(1, 0.25)), 1e-3);
+		TestCase.assertEquals(1.286, he.getRadius(new DynVector2(1, 0.25)), 1e-3);
 		
 		// above the evolute
-		TestCase.assertEquals(2.358, he.getRadius(new Vector2(1, 2)), 1e-3);
+		TestCase.assertEquals(2.358, he.getRadius(new DynVector2(1, 2)), 1e-3);
 	}
 
 	/**
@@ -425,7 +425,7 @@ public class HalfEllipseTest {
 		HalfEllipse he = new HalfEllipse(4.0, 4.0);
 		double x = 1;
 		double y = 0.25;
-		double d = he.getRadius(new Vector2(x, y));
+		double d = he.getRadius(new DynVector2(x, y));
 		
 		TestCase.assertEquals(3.927647520827677, d, 1e-3);
 	}

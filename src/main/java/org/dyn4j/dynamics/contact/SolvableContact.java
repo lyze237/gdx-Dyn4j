@@ -26,7 +26,7 @@ package org.dyn4j.dynamics.contact;
 
 import org.dyn4j.collision.manifold.ManifoldPointId;
 import org.dyn4j.dynamics.PhysicsBody;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a contact point between two {@link PhysicsBody} objects that
@@ -40,22 +40,22 @@ final class SolvableContact implements Contact, SolvedContact {
 	final ManifoldPointId id;
 	
 	/** The contact point in world space */
-	final Vector2 p;
+	final DynVector2 p;
 	
 	/** The contact penetration depth */
 	final double depth;
 	
 	/** The contact point in {@link PhysicsBody}1 space */
-	final Vector2 p1;
+	final DynVector2 p1;
 	
 	/** The contact point in {@link PhysicsBody}2 space */
-	final Vector2 p2;
+	final DynVector2 p2;
 	
-	/** The {@link Vector2} from the center of {@link PhysicsBody}1 to the contact point */
-	Vector2 r1;
+	/** The {@link DynVector2} from the center of {@link PhysicsBody}1 to the contact point */
+	DynVector2 r1;
 	
-	/** The {@link Vector2} from the center of {@link PhysicsBody}2 to the contact point */
-	Vector2 r2;
+	/** The {@link DynVector2} from the center of {@link PhysicsBody}2 to the contact point */
+	DynVector2 r2;
 	
 	/** The accumulated normal impulse */
 	double jn;
@@ -89,7 +89,7 @@ final class SolvableContact implements Contact, SolvedContact {
 	 * @param p1 the collision point in {@link PhysicsBody}1's local space
 	 * @param p2 the collision point in {@link PhysicsBody}2's local space
 	 */
-	public SolvableContact(ManifoldPointId id, Vector2 point, double depth, Vector2 p1, Vector2 p2) {
+	public SolvableContact(ManifoldPointId id, DynVector2 point, double depth, DynVector2 p1, DynVector2 p2) {
 		this.id = id;
 		this.p = point;
 		this.depth = depth;
@@ -122,7 +122,7 @@ final class SolvableContact implements Contact, SolvedContact {
 	/* (non-Javadoc)
 	 * @see org.dyn4j.dynamics.contact.Contact#getPoint()
 	 */
-	public Vector2 getPoint() {
+	public DynVector2 getPoint() {
 		return this.p;
 	}
 	

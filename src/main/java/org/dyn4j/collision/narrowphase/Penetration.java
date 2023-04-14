@@ -28,7 +28,7 @@ import org.dyn4j.Copyable;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a {@link Penetration} of one {@link Convex} {@link Shape} into another.
@@ -41,7 +41,7 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Penetration implements Shiftable, Copyable<Penetration> {
 	/** The normalized axis of projection */
-	protected final Vector2 normal;
+	protected final DynVector2 normal;
 	
 	/** The penetration amount on this axis */
 	protected double depth;
@@ -50,7 +50,7 @@ public class Penetration implements Shiftable, Copyable<Penetration> {
 	 * Default constructor.
 	 */
 	public Penetration() {
-		this.normal = new Vector2();
+		this.normal = new DynVector2();
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class Penetration implements Shiftable, Copyable<Penetration> {
 	 * @param normal the penetration normal from {@link Convex}1 to {@link Convex}2
 	 * @param depth the penetration depth
 	 */
-	protected Penetration(Vector2 normal, double depth) {
+	protected Penetration(DynVector2 normal, double depth) {
 		this.normal = normal.copy();
 		this.depth = depth;
 	}
@@ -86,9 +86,9 @@ public class Penetration implements Shiftable, Copyable<Penetration> {
 	
 	/**
 	 * Returns the penetration normal.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getNormal() {
+	public DynVector2 getNormal() {
 		return this.normal;
 	}
 	
@@ -106,7 +106,7 @@ public class Penetration implements Shiftable, Copyable<Penetration> {
 	 * Must be normalized.
 	 * @param normal the penetration normal
 	 */
-	public void setNormal(Vector2 normal) {
+	public void setNormal(DynVector2 normal) {
 		this.normal.x = normal.x;
 		this.normal.y = normal.y;
 	}
@@ -134,7 +134,7 @@ public class Penetration implements Shiftable, Copyable<Penetration> {
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// no-op
 	}
 	

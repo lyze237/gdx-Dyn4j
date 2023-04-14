@@ -300,7 +300,7 @@ public class Matrix33Test {
 		Matrix33 m1 = new Matrix33(0.0, 2.0, 0.0,
 				                   3.0, 1.0, 1.0,
 				                   2.0, 0.0, -1.0);
-		Vector3 v1 = new Vector3(1.0, -1.0, 2.0);
+		DynVector3 v1 = new DynVector3(1.0, -1.0, 2.0);
 		
 		m1.multiply(v1);
 		TestCase.assertEquals(-2.0, v1.x);
@@ -316,9 +316,9 @@ public class Matrix33Test {
 		Matrix33 m1 = new Matrix33(0.0, 2.0, 0.0,
 		                           3.0, 1.0, 1.0,
 		                           2.0, 0.0, -1.0);
-		Vector3 v1 = new Vector3(1.0, -1.0, 2.0);
+		DynVector3 v1 = new DynVector3(1.0, -1.0, 2.0);
 		
-		Vector3 v2 = m1.product(v1);
+		DynVector3 v2 = m1.product(v1);
 		TestCase.assertEquals(-2.0, v2.x);
 		TestCase.assertEquals( 4.0, v2.y);
 		TestCase.assertEquals( 0.0, v2.z);
@@ -334,7 +334,7 @@ public class Matrix33Test {
 		Matrix33 m1 = new Matrix33(0.0, 2.0, 0.0,
 		                           3.0, 1.0, 1.0,
 		                           2.0, 0.0, -1.0);
-		Vector3 v1 = new Vector3(1.0, -1.0, 2.0);
+		DynVector3 v1 = new DynVector3(1.0, -1.0, 2.0);
 		
 		m1.multiplyT(v1);
 		TestCase.assertEquals( 1.0, v1.x);
@@ -350,9 +350,9 @@ public class Matrix33Test {
 		Matrix33 m1 = new Matrix33(0.0, 2.0, 0.0,
                                    3.0, 1.0, 1.0,
                                    2.0, 0.0, -1.0);
-		Vector3 v1 = new Vector3(1.0, -1.0, 2.0);
+		DynVector3 v1 = new DynVector3(1.0, -1.0, 2.0);
 		
-		Vector3 v2 = m1.productT(v1);
+		DynVector3 v2 = m1.productT(v1);
 		TestCase.assertEquals( 1.0, v2.x);
 		TestCase.assertEquals( 1.0, v2.y);
 		TestCase.assertEquals(-3.0, v2.z);
@@ -528,8 +528,8 @@ public class Matrix33Test {
 		Matrix33 A = new Matrix33(3.0, -1.0, 0.0,
                 			     -1.0, -1.0, 0.0,
                 			      0.0,  0.0, 0.0);
-		Vector2 b = new Vector2(2.0, 6.0);
-		Vector2 x = A.solve22(b);
+		DynVector2 b = new DynVector2(2.0, 6.0);
+		DynVector2 x = A.solve22(b);
 		TestCase.assertEquals(-1.0, x.x);
 		TestCase.assertEquals(-5.0, x.y);
 	}
@@ -542,8 +542,8 @@ public class Matrix33Test {
 		Matrix33 A = new Matrix33(1.0, -3.0, 3.0,
                                   2.0, 3.0, -1.0,
                                   4.0, -3.0, -1.0);
-		Vector3 b = new Vector3(-4.0, 15.0, 19.0);
-		Vector3 x = A.solve33(b);
+		DynVector3 b = new DynVector3(-4.0, 15.0, 19.0);
+		DynVector3 x = A.solve33(b);
 		//(5.0, 1.0, -2.0)
 		TestCase.assertEquals( 5.0, x.x);
 		TestCase.assertEquals( 1.0, x.y);

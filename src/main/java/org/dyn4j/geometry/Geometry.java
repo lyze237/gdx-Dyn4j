@@ -69,7 +69,7 @@ public final class Geometry {
 	 * @throws IllegalArgumentException if points contains less than 2 elements
 	 * @since 2.2.0
 	 */
-	public static final double getWinding(List<Vector2> points) {
+	public static final double getWinding(List<DynVector2> points) {
 		// check for a null list
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -85,8 +85,8 @@ public final class Geometry {
 		for (int i = 0; i < size; i++) {
 			int j = i + 1 == size ? 0 : i + 1;
 			// get the current point and the next point
-			Vector2 p1 = points.get(i);
-			Vector2 p2 = points.get(j);
+			DynVector2 p1 = points.get(i);
+			DynVector2 p2 = points.get(j);
 			
 			// check for null
 			if (p1 == null)
@@ -111,7 +111,7 @@ public final class Geometry {
 	 * @throws IllegalArgumentException if points contains less than 2 elements
 	 * @since 2.2.0
 	 */
-	public static final double getWinding(Vector2... points) {
+	public static final double getWinding(DynVector2... points) {
 		// check for a null list
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -128,8 +128,8 @@ public final class Geometry {
 			int j = i + 1 == size ? 0 : i + 1;
 			
 			// get the current point and the next point
-			Vector2 p1 = points[i];
-			Vector2 p2 = points[j];
+			DynVector2 p1 = points[i];
+			DynVector2 p2 = points[j];
 			
 			// check for null
 			if (p1 == null)
@@ -153,7 +153,7 @@ public final class Geometry {
 	 * @throws NullPointerException if points is null
 	 * @since 2.2.0
 	 */
-	public static final void reverseWinding(Vector2... points) {
+	public static final void reverseWinding(DynVector2... points) {
 		// check for a null list
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -165,7 +165,7 @@ public final class Geometry {
 		// otherwise perform the swapping loop
 		int i = 0;
 		int j = size - 1;
-		Vector2 temp = null;
+		DynVector2 temp = null;
 		while (j > i) {
 			// swap
 			temp = points[j];
@@ -185,7 +185,7 @@ public final class Geometry {
 	 * @throws NullPointerException if points is null
 	 * @since 2.2.0
 	 */
-	public static final void reverseWinding(List<Vector2> points) {
+	public static final void reverseWinding(List<DynVector2> points) {
 		// check for a null list
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -199,11 +199,11 @@ public final class Geometry {
 	/**
 	 * Returns the centroid of the given points by performing an average.
 	 * @param points the list of points
-	 * @return {@link Vector2} the centroid
+	 * @return {@link DynVector2} the centroid
 	 * @throws NullPointerException if points is null or an element of points is null
 	 * @throws IllegalArgumentException if points is an empty list
 	 */
-	public static final Vector2 getAverageCenter(List<Vector2> points) {
+	public static final DynVector2 getAverageCenter(List<DynVector2> points) {
 		// check for null list
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -216,7 +216,7 @@ public final class Geometry {
 		int size = points.size();
 		// check for a list of one point
 		if (size == 1) {
-			Vector2 p = points.get(0);
+			DynVector2 p = points.get(0);
 			
 			// make sure its not null
 			if (p == null) 
@@ -227,9 +227,9 @@ public final class Geometry {
 		}
 		
 		// otherwise perform the average
-		Vector2 ac = new Vector2();
+		DynVector2 ac = new DynVector2();
 		for (int i = 0; i < size; i++) {
-			Vector2 point = points.get(i);
+			DynVector2 point = points.get(i);
 			
 			// check for null
 			if (point == null) 
@@ -245,11 +245,11 @@ public final class Geometry {
 	 * Returns the centroid of the given points by performing an average.
 	 * @see #getAverageCenter(List)
 	 * @param points the array of points
-	 * @return {@link Vector2} the centroid
+	 * @return {@link DynVector2} the centroid
 	 * @throws NullPointerException if points is null or an element of points is null
 	 * @throws IllegalArgumentException if points is an empty array
 	 */
-	public static final Vector2 getAverageCenter(Vector2... points) {
+	public static final DynVector2 getAverageCenter(DynVector2... points) {
 		// check for null array
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -262,7 +262,7 @@ public final class Geometry {
 		
 		// check for a list of one point
 		if (size == 1) {
-			Vector2 p = points[0];
+			DynVector2 p = points[0];
 			
 			// check for null
 			if (p == null) 
@@ -272,9 +272,9 @@ public final class Geometry {
 		}
 		
 		// otherwise perform the average
-		Vector2 ac = new Vector2();
+		DynVector2 ac = new DynVector2();
 		for (int i = 0; i < size; i++) {
-			Vector2 point = points[i];
+			DynVector2 point = points[i];
 			
 			// check for null
 			if (point == null) 
@@ -300,24 +300,24 @@ public final class Geometry {
 	 * summation:
 	 * <p style="white-space: pre;"> 1 / (6 * A) * &sum;(p<sub>i</sub> + p<sub>i + 1</sub>) * (x<sub>i</sub> * y<sub>i + 1</sub> - x<sub>i + 1</sub> * y<sub>i</sub>)</p>
 	 * @param points the {@link Polygon} points
-	 * @return {@link Vector2} the area weighted centroid
+	 * @return {@link DynVector2} the area weighted centroid
 	 * @throws NullPointerException if points is null or an element of points is null
 	 * @throws IllegalArgumentException if points is empty
 	 */
-	public static final Vector2 getAreaWeightedCenter(List<Vector2> points) {
+	public static final DynVector2 getAreaWeightedCenter(List<DynVector2> points) {
 		// calculate the average center
 		// note that this also performs the necessary checks and throws any exceptions needed
-		Vector2 ac = Geometry.getAverageCenter(points);
+		DynVector2 ac = Geometry.getAverageCenter(points);
 		int size = points.size();
 		
 		// otherwise perform the computation
-		Vector2 center = new Vector2();
+		DynVector2 center = new DynVector2();
 		double area = 0.0;
 		// loop through the vertices
 		for (int i = 0; i < size; i++) {
 			// get two verticies
-			Vector2 p1 = points.get(i);
-			Vector2 p2 = i + 1 < size ? points.get(i + 1) : points.get(0);
+			DynVector2 p1 = points.get(i);
+			DynVector2 p2 = i + 1 < size ? points.get(i + 1) : points.get(0);
 			p1 = p1.difference(ac);
 			p2 = p2.difference(ac);
 			// perform the cross product (yi * x(i+1) - y(i+1) * xi)
@@ -349,23 +349,23 @@ public final class Geometry {
 	 * Returns the area weighted centroid for the given points.
 	 * @see #getAreaWeightedCenter(List)
 	 * @param points the {@link Polygon} points
-	 * @return {@link Vector2} the area weighted centroid
+	 * @return {@link DynVector2} the area weighted centroid
 	 * @throws NullPointerException if points is null or an element of points is null
 	 * @throws IllegalArgumentException if points is empty
 	 */
-	public static final Vector2 getAreaWeightedCenter(Vector2... points) {
+	public static final DynVector2 getAreaWeightedCenter(DynVector2... points) {
 		// calculate the average center
 		// note that this also performs the necessary checks and throws any exceptions needed
-		Vector2 ac = Geometry.getAverageCenter(points);
+		DynVector2 ac = Geometry.getAverageCenter(points);
 		int size = points.length;
 
-		Vector2 center = new Vector2();
+		DynVector2 center = new DynVector2();
 		double area = 0.0;
 		// loop through the vertices
 		for (int i = 0; i < size; i++) {
 			// get two verticies
-			Vector2 p1 = points[i];
-			Vector2 p2 = i + 1 < size ? points[i + 1] : points[0];
+			DynVector2 p1 = points[i];
+			DynVector2 p2 = i + 1 < size ? points[i + 1] : points[0];
 			p1 = p1.difference(ac);
 			p2 = p2.difference(ac);
 			// perform the cross product (yi * x(i+1) - y(i+1) * xi)
@@ -399,11 +399,11 @@ public final class Geometry {
 	 * If the vertices array is null or empty, zero is returned.
 	 * @param vertices the polygon vertices
 	 * @return double
-	 * @see #getRotationRadius(Vector2, Vector2...)
+	 * @see #getRotationRadius(DynVector2, DynVector2...)
 	 * @since 3.2.0
 	 */
-	public static final double getRotationRadius(Vector2... vertices) {
-		return Geometry.getRotationRadius(new Vector2(), vertices);
+	public static final double getRotationRadius(DynVector2... vertices) {
+		return Geometry.getRotationRadius(new DynVector2(), vertices);
 	}
 	
 	/**
@@ -416,18 +416,18 @@ public final class Geometry {
 	 * @return double
 	 * @since 3.2.0
 	 */
-	public static final double getRotationRadius(Vector2 center, Vector2... vertices) {
+	public static final double getRotationRadius(DynVector2 center, DynVector2... vertices) {
 		// validate the vertices
 		if (vertices == null) return 0.0;
 		// validate the center
-		if (center == null) center = new Vector2();
+		if (center == null) center = new DynVector2();
 		// validate the length
 		int size = vertices.length;
 		if (size == 0) return 0.0;
 		// find the maximum radius from the center
 		double r2 = 0.0;
 		for (int i = 0; i < size; i++) {
-			Vector2 v = vertices[i];
+			DynVector2 v = vertices[i];
 			// validate each vertex
 			if (v != null) {
 				double r2t = center.distanceSquared(v);
@@ -447,23 +447,23 @@ public final class Geometry {
 	 * <p>
 	 * Returns null if the given vertices array is null or empty.
 	 * @param vertices the vertices
-	 * @return {@link Vector2}[]
+	 * @return {@link DynVector2}[]
 	 * @throws NullPointerException if vertices contains a null element
 	 * @since 3.2.0
 	 */
-	public static final Vector2[] getCounterClockwiseEdgeNormals(Vector2... vertices) {
+	public static final DynVector2[] getCounterClockwiseEdgeNormals(DynVector2... vertices) {
 		if (vertices == null) return null;
 		
 		int size = vertices.length;
 		if (size == 0) return null;
 		
-		Vector2[] normals = new Vector2[size];
+		DynVector2[] normals = new DynVector2[size];
 		for (int i = 0; i < size; i++) {
 			// get the edge points
-			Vector2 p1 = vertices[i];
-			Vector2 p2 = (i + 1 == size) ? vertices[0] : vertices[i + 1];
+			DynVector2 p1 = vertices[i];
+			DynVector2 p2 = (i + 1 == size) ? vertices[0] : vertices[i + 1];
 			// create the edge and get its left perpedicular vector
-			Vector2 n = p1.to(p2).left();
+			DynVector2 n = p1.to(p2).left();
 			// normalize it
 			n.normalize();
 			normals[i] = n;
@@ -493,9 +493,9 @@ public final class Geometry {
 	 * @return {@link Polygon}
 	 * @throws NullPointerException if vertices is null or an element of vertices is null
 	 * @throws IllegalArgumentException if vertices contains less than 3 non-null vertices
-	 * @see #createPolygonAtOrigin(Vector2...) to create a new {@link Polygon} that is centered on the origin
+	 * @see #createPolygonAtOrigin(DynVector2...) to create a new {@link Polygon} that is centered on the origin
 	 */
-	public static final Polygon createPolygon(Vector2... vertices) {
+	public static final Polygon createPolygon(DynVector2... vertices) {
 		// check the vertices array
 		if (vertices == null) 
 			throw new ArgumentNullException("vertices");
@@ -503,9 +503,9 @@ public final class Geometry {
 		// loop over the points an copy them
 		int size = vertices.length;
 		// check the size
-		Vector2[] verts = new Vector2[size];
+		DynVector2[] verts = new DynVector2[size];
 		for (int i = 0; i < size; i++) {
-			Vector2 vertex = vertices[i];
+			DynVector2 vertex = vertices[i];
 			// check for null points
 			if (vertex != null) {
 				verts[i] = vertex.copy();
@@ -528,9 +528,9 @@ public final class Geometry {
 	 * @throws NullPointerException if vertices is null or an element of vertices is null
 	 * @throws IllegalArgumentException if vertices contains less than 3 non-null vertices
 	 */
-	public static final Polygon createPolygonAtOrigin(Vector2... vertices) {
+	public static final Polygon createPolygonAtOrigin(DynVector2... vertices) {
 		Polygon polygon = Geometry.createPolygon(vertices);
-		Vector2 center = polygon.getCenter();
+		DynVector2 center = polygon.getCenter();
 		polygon.translate(-center.x, -center.y);
 		return polygon;
 	}
@@ -610,9 +610,9 @@ public final class Geometry {
 	 * @param p3 the third point
 	 * @return {@link Triangle}
 	 * @throws NullPointerException if p1, p2, or p3 is null
-	 * @see #createTriangleAtOrigin(Vector2, Vector2, Vector2) to create a new {@link Triangle} that is centered on the origin
+	 * @see #createTriangleAtOrigin(DynVector2, DynVector2, DynVector2) to create a new {@link Triangle} that is centered on the origin
 	 */
-	public static final Triangle createTriangle(Vector2 p1, Vector2 p2, Vector2 p3) {
+	public static final Triangle createTriangle(DynVector2 p1, DynVector2 p2, DynVector2 p3) {
 		if (p1 == null)
 			throw new ArgumentNullException("p1");
 		
@@ -635,9 +635,9 @@ public final class Geometry {
 	 * @return {@link Triangle}
 	 * @throws NullPointerException if p1, p2, or p3 is null
 	 */
-	public static final Triangle createTriangleAtOrigin(Vector2 p1, Vector2 p2, Vector2 p3) {
+	public static final Triangle createTriangleAtOrigin(DynVector2 p1, DynVector2 p2, DynVector2 p3) {
 		Triangle triangle = Geometry.createTriangle(p1, p2, p3);
-		Vector2 center = triangle.getCenter();
+		DynVector2 center = triangle.getCenter();
 		triangle.translate(-center.x, -center.y);
 		return triangle;
 	}
@@ -670,9 +670,9 @@ public final class Geometry {
 		if (height <= 0.0)
 			throw new ValueOutOfRangeException("height", height, ValueOutOfRangeException.MUST_BE_GREATER_THAN, 0.0);
 		
-		Vector2 top = new Vector2(0.0, height);
-		Vector2 left = new Vector2(0.0, 0.0);
-		Vector2 right = new Vector2(mirror ? -width : width, 0.0);
+		DynVector2 top = new DynVector2(0.0, height);
+		DynVector2 left = new DynVector2(0.0, 0.0);
+		DynVector2 right = new DynVector2(mirror ? -width : width, 0.0);
 		Triangle triangle;
 		if (mirror) {
 			// make sure it has anti-clockwise winding
@@ -680,7 +680,7 @@ public final class Geometry {
 		} else {
 			triangle = new Triangle(top, left, right);
 		}
-		Vector2 center = triangle.getCenter();
+		DynVector2 center = triangle.getCenter();
 		triangle.translate(-center.x, -center.y);
 		return triangle;
 	}
@@ -718,12 +718,12 @@ public final class Geometry {
 		if (height <= 0.0)
 			throw new ValueOutOfRangeException("height", height, ValueOutOfRangeException.MUST_BE_GREATER_THAN, 0.0);
 		
-		Vector2 top = new Vector2(0.0, height);
-		Vector2 left = new Vector2(-width * 0.5, 0.0);
-		Vector2 right = new Vector2(width * 0.5, 0.0);
+		DynVector2 top = new DynVector2(0.0, height);
+		DynVector2 left = new DynVector2(-width * 0.5, 0.0);
+		DynVector2 right = new DynVector2(width * 0.5, 0.0);
 		// create the triangle
 		Triangle triangle = new Triangle(top, left, right);
-		Vector2 center = triangle.getCenter();
+		DynVector2 center = triangle.getCenter();
 		triangle.translate(-center.x, -center.y);
 		return triangle;
 	}
@@ -738,9 +738,9 @@ public final class Geometry {
 	 * @param p2 the second point
 	 * @return {@link Segment}
 	 * @throws NullPointerException if p1 or p2 is null
-	 * @see #createSegmentAtOrigin(Vector2, Vector2) to create a {@link Segment} centered on the origin
+	 * @see #createSegmentAtOrigin(DynVector2, DynVector2) to create a {@link Segment} centered on the origin
 	 */
-	public static final Segment createSegment(Vector2 p1, Vector2 p2) {
+	public static final Segment createSegment(DynVector2 p1, DynVector2 p2) {
 		if (p1 == null)
 			throw new ArgumentNullException("p1");
 		
@@ -761,9 +761,9 @@ public final class Geometry {
 	 * @return {@link Segment}
 	 * @throws NullPointerException if p1 or p2 is null
 	 */
-	public static final Segment createSegmentAtOrigin(Vector2 p1, Vector2 p2) {
+	public static final Segment createSegmentAtOrigin(DynVector2 p1, DynVector2 p2) {
 		Segment segment = Geometry.createSegment(p1, p2);
-		Vector2 center = segment.getCenter();
+		DynVector2 center = segment.getCenter();
 		segment.translate(-center.x, -center.y);
 		return segment;
 	}
@@ -776,8 +776,8 @@ public final class Geometry {
 	 * @return {@link Segment}
 	 * @throws NullPointerException if end is null
 	 */
-	public static final Segment createSegment(Vector2 end) {
-		return Geometry.createSegment(new Vector2(), end);
+	public static final Segment createSegment(DynVector2 end) {
+		return Geometry.createSegment(new DynVector2(), end);
 	}
 	
 	/**
@@ -795,8 +795,8 @@ public final class Geometry {
 		if (length <= 0.0)
 			throw new ValueOutOfRangeException("length", length, ValueOutOfRangeException.MUST_BE_GREATER_THAN, 0.0);
 			
-		Vector2 start = new Vector2(-length * 0.5, 0.0);
-		Vector2 end = new Vector2(length * 0.5, 0.0);
+		DynVector2 start = new DynVector2(-length * 0.5, 0.0);
+		DynVector2 end = new DynVector2(length * 0.5, 0.0);
 		return new Segment(start, end);
 	}
 	
@@ -813,8 +813,8 @@ public final class Geometry {
 		if (length <= 0.0)
 			throw new ValueOutOfRangeException("length", length, ValueOutOfRangeException.MUST_BE_GREATER_THAN, 0.0);
 		
-		Vector2 start = new Vector2(0.0, -length * 0.5);
-		Vector2 end = new Vector2(0.0, length * 0.5);
+		DynVector2 start = new DynVector2(0.0, -length * 0.5);
+		DynVector2 end = new DynVector2(0.0, length * 0.5);
 		return new Segment(start, end);
 	}
 	
@@ -925,7 +925,7 @@ public final class Geometry {
 	 */
 	public static final HalfEllipse createHalfEllipseAtOrigin(double width, double height) {
 		HalfEllipse half = new HalfEllipse(width, height);
-		Vector2 c = half.getCenter();
+		DynVector2 c = half.getCenter();
 		half.translate(-c.x, -c.y);
 		return half;
 	}
@@ -964,7 +964,7 @@ public final class Geometry {
 		// compute the angular increment
 		final double pin = Geometry.TWO_PI / count;
 		// make sure the resulting output is an even number of vertices
-		final Vector2[] vertices = new Vector2[count];
+		final DynVector2[] vertices = new DynVector2[count];
 		
 		final double c = Math.cos(pin);
 		final double s = Math.sin(pin);
@@ -979,7 +979,7 @@ public final class Geometry {
 		}
 		
 		for(int i = 0; i < count; i++) {
-			vertices[i] = new Vector2(x, y);
+			vertices[i] = new DynVector2(x, y);
 
 			//apply the rotation matrix
 			t = x;
@@ -1016,7 +1016,7 @@ public final class Geometry {
 		// compute the angular increment
 		final double pin = theta / (count + 1);
 		// make sure the resulting output is an even number of vertices
-		final Vector2[] vertices = new Vector2[count + 3];
+		final DynVector2[] vertices = new DynVector2[count + 3];
 		
 		final double c = Math.cos(pin);
 		final double s = Math.sin(pin);
@@ -1027,8 +1027,8 @@ public final class Geometry {
 		double y = radius * Math.sin(-theta * 0.5);
 		
 		// set the first and last points of the arc
-		vertices[0] = new Vector2(x, y);
-		vertices[count + 1] = new Vector2(x, -y);
+		vertices[0] = new DynVector2(x, y);
+		vertices[count + 1] = new DynVector2(x, -y);
 		
 		for(int i = 1; i < count + 1; i++) {
 			//apply the rotation matrix
@@ -1036,11 +1036,11 @@ public final class Geometry {
 			x = c * x - s * y;
 			y = s * t + c * y;
 			// add a point
-			vertices[i] = new Vector2(x, y);
+			vertices[i] = new DynVector2(x, y);
 		}
 		
 		// finish off by adding the origin
-		vertices[count + 2] = new Vector2();
+		vertices[count + 2] = new DynVector2();
 		
 		return new Polygon(vertices);
 	}
@@ -1058,7 +1058,7 @@ public final class Geometry {
 	 */
 	public static final Polygon createPolygonalSliceAtOrigin(int count, double radius, double theta) {
 		Polygon polygon = Geometry.createPolygonalSlice(count, radius, theta);
-		Vector2 center = polygon.getCenter();
+		DynVector2 center = polygon.getCenter();
 		polygon.translate(-center.x, -center.y);
 		return polygon;
 	}
@@ -1096,7 +1096,7 @@ public final class Geometry {
 		// compute the angular increment
 		final double pin2 = Math.PI / n2;
 		// make sure the resulting output is an even number of vertices
-		final Vector2[] vertices = new Vector2[n2 * 2];
+		final DynVector2[] vertices = new DynVector2[n2 * 2];
 		
 		// use the parametric equations:
 		// x = a * cos(t)
@@ -1111,9 +1111,9 @@ public final class Geometry {
 			final double x = a * Math.cos(t);
 			final double y = b * Math.sin(t);
 			if (i > 0) {
-				vertices[vertices.length - j] = new Vector2(x, -y);
+				vertices[vertices.length - j] = new DynVector2(x, -y);
 			}
-			vertices[j++] = new Vector2(x, y);
+			vertices[j++] = new DynVector2(x, y);
 		}
 		
 		return new Polygon(vertices);
@@ -1152,11 +1152,11 @@ public final class Geometry {
 		// compute the angular increment
 		final double inc = Math.PI / (count + 1);
 		// make sure the resulting output is an even number of vertices
-		final Vector2[] vertices = new Vector2[count + 2];
+		final DynVector2[] vertices = new DynVector2[count + 2];
 		
 		// set the start and end vertices
-		vertices[0] = new Vector2(a, 0);
-		vertices[count + 1] = new Vector2(-a, 0);
+		vertices[0] = new DynVector2(a, 0);
+		vertices[count + 1] = new DynVector2(-a, 0);
 		
 		// use the parametric equations:
 		// x = a * cos(t)
@@ -1169,7 +1169,7 @@ public final class Geometry {
 			// some time by creating the under side at the same time
 			final double x = a * Math.cos(t);
 			final double y = b * Math.sin(t);
-			vertices[i] = new Vector2(x, y);
+			vertices[i] = new DynVector2(x, y);
 		}
 		
 		return new Polygon(vertices);
@@ -1191,7 +1191,7 @@ public final class Geometry {
 	 */
 	public static final Polygon createPolygonalHalfEllipseAtOrigin(int count, double width, double height) {
 		Polygon polygon = Geometry.createPolygonalHalfEllipse(count, width, height);
-		Vector2 center = polygon.getCenter();
+		DynVector2 center = polygon.getCenter();
 		polygon.translate(-center.x, -center.y);
 		return polygon;
 	}
@@ -1228,7 +1228,7 @@ public final class Geometry {
 		// compute the angular increment
 		final double pin = Math.PI / (count + 1);
 		// 4 rect verts plus 2 * circle half verts
-		final Vector2[] vertices = new Vector2[4 + 2 * count];
+		final DynVector2[] vertices = new DynVector2[4 + 2 * count];
 		
 		final double c = Math.cos(pin);
 		final double s = Math.sin(pin);
@@ -1266,7 +1266,7 @@ public final class Geometry {
 		double x = radius * Math.cos(pin - ao);
 		double y = radius * Math.sin(pin - ao);
 		for(int i = 0; i < count; i++) {
-			vertices[n++] = new Vector2(x + ox, y + oy);
+			vertices[n++] = new DynVector2(x + ox, y + oy);
 
 			//apply the rotation matrix
 			t = x;
@@ -1276,11 +1276,11 @@ public final class Geometry {
 		
 		// add in top/left vertices
 		if (vertical) {
-			vertices[n++] = new Vector2(-radius,  oy);
-			vertices[n++] = new Vector2(-radius, -oy);
+			vertices[n++] = new DynVector2(-radius,  oy);
+			vertices[n++] = new DynVector2(-radius, -oy);
 		} else {
-			vertices[n++] = new Vector2( ox, radius);
-			vertices[n++] = new Vector2(-ox, radius);
+			vertices[n++] = new DynVector2( ox, radius);
+			vertices[n++] = new DynVector2(-ox, radius);
 		}
 		
 		// left cap
@@ -1288,7 +1288,7 @@ public final class Geometry {
 		x = radius * Math.cos(pin + ao);
 		y = radius * Math.sin(pin + ao);
 		for(int i = 0; i < count; i++) {
-			vertices[n++] = new Vector2(x - ox, y - oy);
+			vertices[n++] = new DynVector2(x - ox, y - oy);
 
 			//apply the rotation matrix
 			t = x;
@@ -1298,11 +1298,11 @@ public final class Geometry {
 		
 		// add in bottom/right vertices
 		if (vertical) {
-			vertices[n++] = new Vector2(radius, -oy);
-			vertices[n++] = new Vector2(radius,  oy);
+			vertices[n++] = new DynVector2(radius, -oy);
+			vertices[n++] = new DynVector2(radius,  oy);
 		} else {
-			vertices[n++] = new Vector2(-ox, -radius);
-			vertices[n++] = new Vector2( ox, -radius);
+			vertices[n++] = new DynVector2(-ox, -radius);
+			vertices[n++] = new DynVector2( ox, -radius);
 		}
 		
 		return new Polygon(vertices);
@@ -1315,10 +1315,10 @@ public final class Geometry {
 	 * <p>
 	 * If the given list is empty, the list is returned.
 	 * @param points the list polygon points
-	 * @return List&lt;{@link Vector2}&gt;
+	 * @return List&lt;{@link DynVector2}&gt;
 	 * @throws NullPointerException if points is null or if points contains null elements
 	 */
-	public static final List<Vector2> cleanse(List<Vector2> points) {
+	public static final List<DynVector2> cleanse(List<DynVector2> points) {
 		// check for null list
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -1328,20 +1328,20 @@ public final class Geometry {
 		// check the size
 		if (size == 0) return points;
 		// create a result list
-		List<Vector2> result = new ArrayList<Vector2>(size);
+		List<DynVector2> result = new ArrayList<DynVector2>(size);
 		
 		double winding = 0.0;
 		
 		// loop over the points
 		for (int i = 0; i < size; i++) {
 			// get the current point
-			Vector2 point = points.get(i);
+			DynVector2 point = points.get(i);
 			
 			// get the adjacent points
 			int n = i - 1 < 0 ? size - 1 : i - 1;
 			int m = i + 1 == size ? 0 : i + 1;
-			Vector2 prev = points.get(n);
-			Vector2 next = points.get(m);
+			DynVector2 prev = points.get(n);
+			DynVector2 next = points.get(m);
 			
 			// check for null
 			if (point == null) 
@@ -1354,15 +1354,15 @@ public final class Geometry {
 				throw new NullElementException("points", m);
 			
 			// is this point equal to the next?
-			Vector2 diff = point.difference(next);
+			DynVector2 diff = point.difference(next);
 			if (diff.isZero()) {
 				// then skip this point
 				continue;
 			}
 			
 			// create the edge vectors
-			Vector2 prevToPoint = prev.to(point);
-			Vector2 pointToNext = point.to(next);
+			DynVector2 prevToPoint = prev.to(point);
+			DynVector2 pointToNext = point.to(next);
 			
 			// check if the previous point is equal to this point
 			
@@ -1399,20 +1399,20 @@ public final class Geometry {
 	 * <p>
 	 * This method ensures the polygon has CCW winding, removes colinear vertices, and removes coincident vertices.
 	 * @param points the list polygon points
-	 * @return {@link Vector2}[]
+	 * @return {@link DynVector2}[]
 	 * @throws NullPointerException if points is null or points contains null elements
 	 */
-	public static final Vector2[] cleanse(Vector2... points) {
+	public static final DynVector2[] cleanse(DynVector2... points) {
 		// check for null
 		if (points == null) 
 			throw new ArgumentNullException("points");
 		
 		// create a list from the array
-		List<Vector2> pointList = Arrays.asList(points);
+		List<DynVector2> pointList = Arrays.asList(points);
 		// cleanse the list
-		List<Vector2> resultList = Geometry.cleanse(pointList);
+		List<DynVector2> resultList = Geometry.cleanse(pointList);
 		// convert it back to an array
-		Vector2[] result = new Vector2[resultList.size()];
+		DynVector2[] result = new DynVector2[resultList.size()];
 		resultList.toArray(result);
 		// return the result
 		return result;
@@ -1426,12 +1426,12 @@ public final class Geometry {
 	 * @param polygon the polygon to flip
 	 * @return {@link Polygon}
 	 * @throws NullPointerException if the given polygon is null
-	 * @see #flip(Polygon, Vector2)
-	 * @see #flip(Polygon, Vector2, Vector2)
+	 * @see #flip(Polygon, DynVector2)
+	 * @see #flip(Polygon, DynVector2, DynVector2)
 	 * @since 3.1.4
 	 */
 	public static final Polygon flipAlongTheXAxis(Polygon polygon) {
-		return Geometry.flip(polygon, Vector2.X_AXIS, null);
+		return Geometry.flip(polygon, DynVector2.X_AXIS, null);
 	}
 	
 	/**
@@ -1442,12 +1442,12 @@ public final class Geometry {
 	 * @param polygon the polygon to flip
 	 * @return {@link Polygon}
 	 * @throws NullPointerException if the given polygon is null
-	 * @see #flip(Polygon, Vector2)
-	 * @see #flip(Polygon, Vector2, Vector2)
+	 * @see #flip(Polygon, DynVector2)
+	 * @see #flip(Polygon, DynVector2, DynVector2)
 	 * @since 3.1.4
 	 */
 	public static final Polygon flipAlongTheYAxis(Polygon polygon) {
-		return Geometry.flip(polygon, Vector2.Y_AXIS, null);
+		return Geometry.flip(polygon, DynVector2.Y_AXIS, null);
 	}
 	
 	/**
@@ -1457,12 +1457,12 @@ public final class Geometry {
 	 * @param point the point to flip about
 	 * @return {@link Polygon}
 	 * @throws NullPointerException if the given polygon is null
-	 * @see #flip(Polygon, Vector2)
-	 * @see #flip(Polygon, Vector2, Vector2)
+	 * @see #flip(Polygon, DynVector2)
+	 * @see #flip(Polygon, DynVector2, DynVector2)
 	 * @since 3.1.4
 	 */
-	public static final Polygon flipAlongTheXAxis(Polygon polygon, Vector2 point) {
-		return Geometry.flip(polygon, Vector2.X_AXIS, point);
+	public static final Polygon flipAlongTheXAxis(Polygon polygon, DynVector2 point) {
+		return Geometry.flip(polygon, DynVector2.X_AXIS, point);
 	}
 	
 	/**
@@ -1472,12 +1472,12 @@ public final class Geometry {
 	 * @param point the point to flip about
 	 * @return {@link Polygon}
 	 * @throws NullPointerException if the given polygon is null
-	 * @see #flip(Polygon, Vector2)
-	 * @see #flip(Polygon, Vector2, Vector2)
+	 * @see #flip(Polygon, DynVector2)
+	 * @see #flip(Polygon, DynVector2, DynVector2)
 	 * @since 3.1.4
 	 */
-	public static final Polygon flipAlongTheYAxis(Polygon polygon, Vector2 point) {
-		return Geometry.flip(polygon, Vector2.Y_AXIS, point);
+	public static final Polygon flipAlongTheYAxis(Polygon polygon, DynVector2 point) {
+		return Geometry.flip(polygon, DynVector2.Y_AXIS, point);
 	}
 	
 	/**
@@ -1490,10 +1490,10 @@ public final class Geometry {
 	 * @return {@link Polygon}
 	 * @throws NullPointerException if the given polygon or axis is null
 	 * @throws IllegalArgumentException if the given axis is the zero vector
-	 * @see #flip(Polygon, Vector2, Vector2)
+	 * @see #flip(Polygon, DynVector2, DynVector2)
 	 * @since 3.1.4
 	 */
-	public static final Polygon flip(Polygon polygon, Vector2 axis) {
+	public static final Polygon flip(Polygon polygon, DynVector2 axis) {
 		return Geometry.flip(polygon, axis, null);
 	}
 	
@@ -1508,7 +1508,7 @@ public final class Geometry {
 	 * @throws IllegalArgumentException if the given axis is the zero vector
 	 * @since 3.1.4
 	 */
-	public static final Polygon flip(Polygon polygon, Vector2 axis, Vector2 point) {
+	public static final Polygon flip(Polygon polygon, DynVector2 axis, DynVector2 point) {
 		// check for valid input
 		if (polygon == null) 
 			throw new ArgumentNullException("polygon");
@@ -1524,18 +1524,18 @@ public final class Geometry {
 		// flip about the axis and point
 		// make sure the axis is normalized
 		axis.normalize();
-		Vector2[] pv = polygon.getVertices();
-		Vector2[] nv = new Vector2[pv.length];
+		DynVector2[] pv = polygon.getVertices();
+		DynVector2[] nv = new DynVector2[pv.length];
 		for (int i = 0; i < pv.length; i++) {
-			Vector2 v0 = pv[i];
+			DynVector2 v0 = pv[i];
 			// center on the origin
-			Vector2 v1 = v0.difference(point);
+			DynVector2 v1 = v0.difference(point);
 			// get the projection of the point onto the axis
 			double proj = v1.dot(axis);
 			// get the point on the axis
-			Vector2 vp = axis.product(proj);
+			DynVector2 vp = axis.product(proj);
 			// get the point past the projection
-			Vector2 rv = vp.add(vp.x - v1.x, vp.y - v1.y);
+			DynVector2 rv = vp.add(vp.x - v1.x, vp.y - v1.y);
 			nv[i] = rv.add(point);
 		}
 		// check the winding
@@ -1580,14 +1580,14 @@ public final class Geometry {
 		if (convex2 == null) 
 			throw new ArgumentNullException("convex2");
 		
-		Vector2[] p1v = convex1.getVertices();
-		Vector2[] p2v = convex2.getVertices();
+		DynVector2[] p1v = convex1.getVertices();
+		DynVector2[] p2v = convex2.getVertices();
 		
 		// check for two segments
 		if (convex1 instanceof Segment && convex2 instanceof Segment) {
 			// check if they are colinear
-			Vector2 s1 = p1v[0].to(p1v[1]);
-			Vector2 s2 = p2v[0].to(p2v[1]);
+			DynVector2 s1 = p1v[0].to(p1v[1]);
+			DynVector2 s2 = p2v[0].to(p2v[1]);
 			if (s1.cross(s2) <= Epsilon.E) {
 				throw new IllegalArgumentException("Two segments were given and they are colinear");
 			}
@@ -1599,9 +1599,9 @@ public final class Geometry {
 		// find the minimum y-coordinate vertex in the first polygon
 		// (in the case of a tie, use the minimum x-coordinate vertex)
 		int i = 0, j = 0;
-		Vector2 min = new Vector2(Double.MAX_VALUE, Double.MAX_VALUE);
+		DynVector2 min = new DynVector2(Double.MAX_VALUE, Double.MAX_VALUE);
 		for (int k = 0; k < c1; k++) {
-			Vector2 v = p1v[k];
+			DynVector2 v = p1v[k];
 			if (v.y < min.y) {
 				min.set(v);
 				i = k;
@@ -1616,7 +1616,7 @@ public final class Geometry {
 		// (in the case of a tie, use the minimum x-coordinate vertex)
 		min.set(Double.MAX_VALUE, Double.MAX_VALUE);
 		for (int k = 0; k < c2; k++) {
-			Vector2 v = p2v[k];
+			DynVector2 v = p2v[k];
 			if (v.y < min.y) {
 				min.set(v);
 				j = k;
@@ -1632,14 +1632,14 @@ public final class Geometry {
 		int n1 = c1 + i;
 		int n2 = c2 + j;
 		// the maximum number of vertices for the output shape is m + n
-		List<Vector2> sum = new ArrayList<Vector2>(c1 + c2);
+		List<DynVector2> sum = new ArrayList<DynVector2>(c1 + c2);
 		for (; i < n1 || j < n2;) {
 			// get the current edges
-			Vector2 v1s = p1v[i % c1];
-			Vector2 v1e = p1v[(i + 1) % c1];
+			DynVector2 v1s = p1v[i % c1];
+			DynVector2 v1e = p1v[(i + 1) % c1];
 			
-			Vector2 v2s = p2v[j % c2];
-			Vector2 v2e = p2v[(j + 1) % c2];
+			DynVector2 v2s = p2v[j % c2];
+			DynVector2 v2e = p2v[(j + 1) % c2];
 			
 			// add the vertex to the final output
 			
@@ -1649,12 +1649,12 @@ public final class Geometry {
 			// on subsequent interations we can assume this is a correct
 			// one since the angle condition was used to increment the
 			// vertex index
-			Vector2 v = v1s.sum(v2s);
+			DynVector2 v = v1s.sum(v2s);
 			sum.add(v);
 			
 			// compute the edge vectors
-			Vector2 e1 = v1s.to(v1e);
-			Vector2 e2 = v2s.to(v2e);
+			DynVector2 e1 = v1s.to(v1e);
+			DynVector2 e2 = v2s.to(v2e);
 			
 			// compare the polar angles between the edges
 			double a3 = e1.cross(e2);
@@ -1675,7 +1675,7 @@ public final class Geometry {
 			}
 		}
 		
-		return new Polygon(sum.toArray(new Vector2[0]));
+		return new Polygon(sum.toArray(new DynVector2[0]));
 	}
 	
 	/**
@@ -1754,32 +1754,32 @@ public final class Geometry {
 		if (count <= 0) 
 			throw new ValueOutOfRangeException("count", count, ValueOutOfRangeException.MUST_BE_GREATER_THAN, 0.0);
 		
-		Vector2[] vertices = polygon.vertices;
-		Vector2[] normals = polygon.normals;
+		DynVector2[] vertices = polygon.vertices;
+		DynVector2[] normals = polygon.normals;
 		int size = vertices.length;
 		
-		Vector2[] nVerts = new Vector2[size * 2 + size * count];
+		DynVector2[] nVerts = new DynVector2[size * 2 + size * count];
 		// perform the expansion
 		int j = 0;
 		for (int i = 0; i < size; i++) {
-			Vector2 v1 = vertices[i];
-			Vector2 v2 = vertices[i + 1 == size ? 0 : i + 1];
-			Vector2 normal = normals[i];
-			Vector2 nv1 = normal.product(radius).add(v1); 
-			Vector2 nv2 = normal.product(radius).add(v2);
+			DynVector2 v1 = vertices[i];
+			DynVector2 v2 = vertices[i + 1 == size ? 0 : i + 1];
+			DynVector2 normal = normals[i];
+			DynVector2 nv1 = normal.product(radius).add(v1);
+			DynVector2 nv2 = normal.product(radius).add(v2);
 			
 			// generate the previous polygonal arc with count vertices
 			// compute (circular) angle between the edges
-			Vector2 cv1 = null;
+			DynVector2 cv1 = null;
 			if (i == 0) {
 				// if its the first iteration, then we need to compute the
 				// last vertex's new position
-				Vector2 tn = normals[size - 1];
+				DynVector2 tn = normals[size - 1];
 				cv1 = v1.to(tn.product(radius).add(v1));
 			} else {
 				cv1 = v1.to(nVerts[j - 1]);
 			}
-			Vector2 cv2 = v1.to(nv1);
+			DynVector2 cv2 = v1.to(nv1);
 			final double theta = cv1.getAngleBetween(cv2);
 			// compute the angular increment
 			final double pin = theta / (count + 1);
@@ -1789,7 +1789,7 @@ public final class Geometry {
 			double t = 0;
 
 			// compute the start theta
-			double sTheta = Vector2.X_AXIS.getAngleBetween(normals[i - 1 < 0 ? size - 1 : i - 1]);
+			double sTheta = DynVector2.X_AXIS.getAngleBetween(normals[i - 1 < 0 ? size - 1 : i - 1]);
 			if (sTheta < 0) {
 				sTheta += Geometry.TWO_PI;
 			}
@@ -1804,7 +1804,7 @@ public final class Geometry {
 				x = c * x - s * y;
 				y = s * t + c * y;
 				// add a point
-				nVerts[j++] = new Vector2(x, y).add(v1);
+				nVerts[j++] = new DynVector2(x, y).add(v1);
 			}
 			
 			nVerts[j++] = nv1;
@@ -1925,11 +1925,11 @@ public final class Geometry {
 		if (scale <= 0) 
 			throw new ValueOutOfRangeException("scale", scale, ValueOutOfRangeException.MUST_BE_GREATER_THAN, 0.0);
 		
-		Vector2[] oVertices = polygon.vertices;
+		DynVector2[] oVertices = polygon.vertices;
 		int size = oVertices.length;
 		
-		Vector2[] vertices = new Vector2[size];
-		Vector2 center = polygon.center;
+		DynVector2[] vertices = new DynVector2[size];
+		DynVector2 center = polygon.center;
 		for (int i = 0; i < size; i++) {
 			vertices[i] = center.to(oVertices[i]).multiply(scale).add(center);
 		}
@@ -1954,7 +1954,7 @@ public final class Geometry {
 			throw new ValueOutOfRangeException("scale", scale, ValueOutOfRangeException.MUST_BE_GREATER_THAN, 0.0);
 		
 		final double length = segment.getLength() * scale * 0.5;
-		Vector2 n = segment.vertices[0].to(segment.vertices[1]);
+		DynVector2 n = segment.vertices[0].to(segment.vertices[1]);
 		n.normalize();
 		n.multiply(length);
 		return new Segment(segment.center.sum(n.x, n.y), segment.center.difference(n.x, n.y));
@@ -1972,8 +1972,8 @@ public final class Geometry {
 	 * @throws IllegalArgumentException if the list of vertices doesn't contain 2 or more elements
 	 * @since 3.2.2
 	 */
-	public static final List<Link> createLinks(List<Vector2> vertices, boolean closed) {
-		return Geometry.createLinks(vertices.toArray(new Vector2[0]), closed);
+	public static final List<Link> createLinks(List<DynVector2> vertices, boolean closed) {
+		return Geometry.createLinks(vertices.toArray(new DynVector2[0]), closed);
 	}
 	
 	/**
@@ -1988,7 +1988,7 @@ public final class Geometry {
 	 * @throws IllegalArgumentException if the array of vertices doesn't contain 2 or more elements
 	 * @since 3.2.2
 	 */
-	public static final List<Link> createLinks(Vector2[] vertices, boolean closed) {
+	public static final List<Link> createLinks(DynVector2[] vertices, boolean closed) {
 		// check the vertex array
 		if (vertices == null) 
 			throw new ArgumentNullException("vertices");
@@ -2002,8 +2002,8 @@ public final class Geometry {
 		// generate the links
 		List<Link> links = new ArrayList<Link>();
 		for (int i = 0; i < size - 1; i++) {
-			Vector2 p1 = vertices[i];
-			Vector2 p2 = vertices[i + 1];
+			DynVector2 p1 = vertices[i];
+			DynVector2 p2 = vertices[i + 1];
 			// check for null segment vertices
 			if (p1 == null)
 				throw new NullElementException("points", i);
@@ -2023,8 +2023,8 @@ public final class Geometry {
 		
 		if (closed) {
 			// create a link to span the first and last vertex
-			Vector2 p1 = vertices[0].copy();
-			Vector2 p2 = vertices[size - 1].copy();
+			DynVector2 p1 = vertices[0].copy();
+			DynVector2 p2 = vertices[size - 1].copy();
 			Link link = new Link(p2, p1);
 			// wire it up
 			Link prev = links.get(links.size() - 1);
@@ -2062,7 +2062,7 @@ public final class Geometry {
 		int firstIntersectionP = -1;
 		int firstIntersectionQ = -1;
 		
-		List<Vector2> result = new ArrayList<Vector2>();
+		List<DynVector2> result = new ArrayList<DynVector2>();
 		
 		final int pn = p1.vertices.length;
 		final int qn = p2.vertices.length;
@@ -2070,15 +2070,15 @@ public final class Geometry {
 		int pi = 0;
 		int qi = 0;
 		
-		Vector2 p = tx1.getTransformed(p1.vertices[0]);
-		Vector2 q = tx2.getTransformed(p2.vertices[0]);
+		DynVector2 p = tx1.getTransformed(p1.vertices[0]);
+		DynVector2 q = tx2.getTransformed(p2.vertices[0]);
 		
 		// get the previous point
-		Vector2 p0 = tx1.getTransformed(p1.vertices[p1.vertices.length - 1]);
-		Vector2 q0 = tx2.getTransformed(p2.vertices[p2.vertices.length - 1]);
+		DynVector2 p0 = tx1.getTransformed(p1.vertices[p1.vertices.length - 1]);
+		DynVector2 q0 = tx2.getTransformed(p2.vertices[p2.vertices.length - 1]);
 		
-		Vector2 pv = p0.to(p);
-		Vector2 qv = q0.to(q);
+		DynVector2 pv = p0.to(p);
+		DynVector2 qv = q0.to(q);
 		
 		boolean insideP = false;
 		boolean insideQ = false;
@@ -2087,7 +2087,7 @@ public final class Geometry {
 		for (int i = 0; i < n; i++) {
 			// step 1: check for intersection of the two current edges
 			
-			Vector2 intersection = Segment.getSegmentIntersection(p0, p, q0, q, false);
+			DynVector2 intersection = Segment.getSegmentIntersection(p0, p, q0, q, false);
 			if (intersection != null) {
 				
 				// check if this intersection is the same intersection as the first
@@ -2100,7 +2100,7 @@ public final class Geometry {
 					qi == firstIntersectionQ && 
 					(i - 1) != firstIntersectionI) {
 					// then we're done, result should contain the intersection polygon
-					return new Polygon(result.toArray(new Vector2[0]));
+					return new Polygon(result.toArray(new DynVector2[0]));
 				}
 				
 				// record the first intersection

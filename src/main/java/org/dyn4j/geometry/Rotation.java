@@ -77,11 +77,11 @@ public class Rotation implements Copyable<Rotation> {
 	
 	/**
 	 * Static method to create a {@link Rotation} object from the direction
-	 * of a given {@link Vector2}.
-	 * @param direction The {@link Vector2} describing a direction
+	 * of a given {@link DynVector2}.
+	 * @param direction The {@link DynVector2} describing a direction
 	 * @return A {@link Rotation} with the same direction
 	 */
-	public static Rotation of(Vector2 direction) {
+	public static Rotation of(DynVector2 direction) {
 		// Normalize the vector
 		double magnitude = Math.sqrt(direction.x * direction.x + direction.y * direction.y);
 		
@@ -402,19 +402,19 @@ public class Rotation implements Copyable<Rotation> {
 	
 	/**
 	 * Returns this {@link Rotation} as a unit length direction vector.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 toVector() {
-		return new Vector2(this.cost, this.sint);
+	public DynVector2 toVector() {
+		return new DynVector2(this.cost, this.sint);
 	}
 	
 	/**
 	 * Returns this {@link Rotation} as a direction vector with the given magnitude.
 	 * @param magnitude the magnitude
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 toVector(double magnitude) {
-		return new Vector2(this.cost * magnitude, this.sint * magnitude);
+	public DynVector2 toVector(double magnitude) {
+		return new DynVector2(this.cost * magnitude, this.sint * magnitude);
 	}
 	
 	/**
@@ -698,22 +698,22 @@ public class Rotation implements Copyable<Rotation> {
 	}
 	
 	/**
-	 * Returns the dot product of the this {@link Rotation} and the given {@link Vector2}.
+	 * Returns the dot product of the this {@link Rotation} and the given {@link DynVector2}.
 	 * For internal use.
-	 * @param vector the {@link Vector2}
+	 * @param vector the {@link DynVector2}
 	 * @return double
 	 */
-	double dot(Vector2 vector) {
+	double dot(DynVector2 vector) {
 		return this.cost * vector.x + this.sint * vector.y;
 	}
 	
 	/**
-	 * Returns the cross product of the this {@link Rotation} and the given {@link Vector2}.
+	 * Returns the cross product of the this {@link Rotation} and the given {@link DynVector2}.
 	 * For internal use.
-	 * @param vector the {@link Vector2}
+	 * @param vector the {@link DynVector2}
 	 * @return double
 	 */
-	double cross(Vector2 vector) {
+	double cross(DynVector2 vector) {
 		return this.cost * vector.y - this.sint * vector.x;
 	}
 
@@ -738,12 +738,12 @@ public class Rotation implements Copyable<Rotation> {
 	}
 	
 	/**
-	 * Compares this {@link Rotation} with a {@link Vector2}, based on the angle between them (The one with -&pi; &le; &theta; &le; &pi;)
+	 * Compares this {@link Rotation} with a {@link DynVector2}, based on the angle between them (The one with -&pi; &le; &theta; &le; &pi;)
 	 * Returns 1 if &theta; &gt; 0, -1 if &theta; &lt; 0 and 0 otherwise
-	 * @param other the {@link Vector2} to compare to
+	 * @param other the {@link DynVector2} to compare to
 	 * @return int 
 	 */
-	public int compare(Vector2 other) {
+	public int compare(DynVector2 other) {
 		// cmp = |v| * sin(&thetasym;) where &thetasym; is the angle between this rotation and the other
 		// |v| is always positive and does not affect the result so we can decide what to return based just on the sign of cmp
 		double cmp = this.cross(other);
@@ -769,11 +769,11 @@ public class Rotation implements Copyable<Rotation> {
 	
 	/**
 	 * Returns the angle between this {@link Rotation} and the
-	 * given {@link Vector2} represented as a new {@link Rotation}.
-	 * @param vector the {@link Vector2}
+	 * given {@link DynVector2} represented as a new {@link Rotation}.
+	 * @param vector the {@link DynVector2}
 	 * @return {@link Rotation}
 	 */
-	public Rotation getRotationBetween(Vector2 vector) {
+	public Rotation getRotationBetween(DynVector2 vector) {
 		return this.getRotationBetween(Rotation.of(vector));
 	}
 	

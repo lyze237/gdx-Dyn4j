@@ -30,7 +30,7 @@ import java.util.Set;
 import org.dyn4j.exception.ArgumentNullException;
 import org.dyn4j.exception.NullElementException;
 import org.dyn4j.geometry.RobustGeometry;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Gift Wrapping convex hull algorithm.
@@ -49,7 +49,7 @@ public class GiftWrap extends AbstractHullGenerator implements HullGenerator {
 	 * @see org.dyn4j.geometry.hull.HullGenerator#generate(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public Vector2[] generate(Vector2... points) {
+	public DynVector2[] generate(DynVector2... points) {
 		// check for null array
 		if (points == null) 
 			throw new ArgumentNullException("points");
@@ -62,9 +62,9 @@ public class GiftWrap extends AbstractHullGenerator implements HullGenerator {
 		// find the left most point
 		double x = Double.MAX_VALUE;
 		double y = Double.MAX_VALUE;
-		Vector2 leftMost = null;
+		DynVector2 leftMost = null;
 		for (int i = 0; i < size; i++) {
-			Vector2 p = points[i];
+			DynVector2 p = points[i];
 			
 			// check for null points
 			if (p == null) 
@@ -82,19 +82,19 @@ public class GiftWrap extends AbstractHullGenerator implements HullGenerator {
 			}
 		}
 		
-		Vector2 current = leftMost;
+		DynVector2 current = leftMost;
 		
 		// use a linked hash set to maintain insertion order
 		// but also to have the set property of no duplicates
-		Set<Vector2> hull = new LinkedHashSet<Vector2>();
+		Set<DynVector2> hull = new LinkedHashSet<DynVector2>();
 		do {
 			hull.add(current);
 			// check all the points to see if anything is more left than the next point
-			Vector2 next = points[0];
+			DynVector2 next = points[0];
 			if (current == next) next = points[1];
 			// loop over the points to find a more left point than the current
 			for (int j = 1; j < size; j++) {
-				Vector2 test = points[j];
+				DynVector2 test = points[j];
 				if (test == current) continue;
 				if (test == next) continue;
 				// check the point relative to the current line
@@ -116,8 +116,8 @@ public class GiftWrap extends AbstractHullGenerator implements HullGenerator {
 						next = test;
 					} else {
 						// if it's not farther, compute the winding
-						Vector2 l1 = current.to(next);
-						Vector2 l2 = next.to(test);
+						DynVector2 l1 = current.to(next);
+						DynVector2 l2 = next.to(test);
 						double cross = l1.cross(l2);
 						
 						// if the winding is anti-clockwise but the location test
@@ -136,7 +136,7 @@ public class GiftWrap extends AbstractHullGenerator implements HullGenerator {
 		} while (leftMost != current);
 		
 		// copy the list into an array
-		Vector2[] hullPoints = new Vector2[hull.size()];
+		DynVector2[] hullPoints = new DynVector2[hull.size()];
 		hull.toArray(hullPoints);
 
 		// return the array

@@ -37,7 +37,7 @@ import org.dyn4j.geometry.Ray;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of the Gilbert-Johnson-Keerthi (GJK) algorithm for collision detection.
@@ -107,7 +107,7 @@ import org.dyn4j.geometry.Vector2;
  * The last method to discuss is the check method.  This method can be implemented in
  * any fashion, however, if the simplex points are stored in a way that we always know what point
  * was added last, many optimizations can be done.  For these optimizations please refer
- * to the source documentation on {@link Gjk#checkSimplex(List, Vector2)}.
+ * to the source documentation on {@link Gjk#checkSimplex(List, DynVector2)}.
  * <p>
  * Once {@link Gjk} has found that the two {@link CollisionBody}s are penetrating it will exit 
  * and hand off the resulting simplex to a {@link MinkowskiPenetrationSolver} to find the
@@ -127,7 +127,7 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetector {
 	/** The origin point */
-	private static final Vector2 ORIGIN = new Vector2();
+	private static final DynVector2 ORIGIN = new DynVector2();
 	
 	// defaults
 	
@@ -195,13 +195,13 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		}
 		
 		// define the simplex
-		List<Vector2> simplex = new ArrayList<Vector2>(3);
+		List<DynVector2> simplex = new ArrayList<DynVector2>(3);
 		
 		// create a Minkowski sum
 		MinkowskiSum ms = new MinkowskiSum(convex1, transform1, convex2, transform2);
 		
 		// choose some search direction
-		Vector2 d = this.getInitialDirection(convex1, transform1, convex2, transform2);
+		DynVector2 d = this.getInitialDirection(convex1, transform1, convex2, transform2);
 		
 		// perform the detection
 		if (this.detect(ms, simplex, d)) {
@@ -224,13 +224,13 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		}
 		
 		// define the simplex
-		List<Vector2> simplex = new ArrayList<Vector2>(3);
+		List<DynVector2> simplex = new ArrayList<DynVector2>(3);
 		
 		// create a Minkowski sum
 		MinkowskiSum ms = new MinkowskiSum(convex1, transform1, convex2, transform2);
 		
 		// choose some search direction
-		Vector2 d = this.getInitialDirection(convex1, transform1, convex2, transform2);
+		DynVector2 d = this.getInitialDirection(convex1, transform1, convex2, transform2);
 		
 		// perform the detection
 		return detect(ms, simplex, d);
@@ -246,10 +246,10 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 	 * @param transform2 the second convex's transform
 	 * @return Vector2
 	 */
-	protected Vector2 getInitialDirection(Convex convex1, Transform transform1, Convex convex2, Transform transform2) {
+	protected DynVector2 getInitialDirection(Convex convex1, Transform transform1, Convex convex2, Transform transform2) {
 		// transform into world space if transform is not null
-		Vector2 c1 = transform1.getTransformed(convex1.getCenter());
-		Vector2 c2 = transform2.getTransformed(convex2.getCenter());
+		DynVector2 c1 = transform1.getTransformed(convex1.getCenter());
+		DynVector2 c2 = transform2.getTransformed(convex2.getCenter());
 		// choose some search direction
 		return c2.subtract(c1);
 	}
@@ -267,7 +267,7 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 	 * @param d the initial direction
 	 * @return boolean
 	 */
-	protected boolean detect(MinkowskiSum ms, List<Vector2> simplex, Vector2 d) {
+	protected boolean detect(MinkowskiSum ms, List<DynVector2> simplex, DynVector2 d) {
 		// check for a zero direction vector
 		if (d.isZero()) d.set(1.0, 0.0);
 		// add the first point
@@ -281,7 +281,7 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		// start the loop
 		for (int i = 0; i < this.maxDetectIterations; i++) {
 			// always add another point to the simplex at the beginning of the loop
-			Vector2 supportPoint = ms.getSupportPoint(d);
+			DynVector2 supportPoint = ms.getSupportPoint(d);
 			simplex.add(supportPoint);
 			
 			// make sure that the last point we added was past the origin
@@ -311,7 +311,7 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 	 * <p>
 	 * This method only handles the line segment and triangle simplex cases, however, these two cases
 	 * should be the only ones needed for 2 dimensional {@link Gjk}.  The single point case is handled
-	 * in {@link #detect(MinkowskiSum, List, Vector2)}.
+	 * in {@link #detect(MinkowskiSum, List, DynVector2)}.
 	 * <p>
 	 * This method also assumes that the last point in the simplex is the most recently added point.
 	 * This matters because optimizations are available when you know this information.
@@ -319,26 +319,26 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 	 * @param direction the search direction
 	 * @return boolean true if the simplex contains the origin
 	 */
-	protected boolean checkSimplex(List<Vector2> simplex, Vector2 direction) {
+	protected boolean checkSimplex(List<DynVector2> simplex, DynVector2 direction) {
 		// this method should never be supplied anything other than 2 or 3 points for the simplex
 		// get the last point added (a)
-		Vector2 a = simplex.get(simplex.size() - 1);
+		DynVector2 a = simplex.get(simplex.size() - 1);
 		// this is the same as a.to(ORIGIN);
-		Vector2 ao = a.getNegative();
+		DynVector2 ao = a.getNegative();
 		// check to see what type of simplex we have
 		if (simplex.size() == 3) {
 			// then we have a triangle
-			Vector2 b = simplex.get(1);
-			Vector2 c = simplex.get(0);
+			DynVector2 b = simplex.get(1);
+			DynVector2 c = simplex.get(0);
 			// get the edges
-			Vector2 ab = a.to(b);
-			Vector2 ac = a.to(c);
+			DynVector2 ab = a.to(b);
+			DynVector2 ac = a.to(c);
 			// get the edge normal
 			
 			// inline Vector2.tripleProduct(ab, ac, ac) so we can use the
 			// immidiate calculations for Vector2.tripleProduct(ac, ab, ab) too
 			
-			Vector2 acPerp = new Vector2();
+			DynVector2 acPerp = new DynVector2();
 			double dot = ab.x * ac.y - ac.x * ab.y;
 			acPerp.x = -ac.y * dot;
 			acPerp.y = ac.x * dot;
@@ -360,7 +360,7 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 				// inlined Vector2.tripleProduct(ac, ab, ab) because
 				// it can use dot from the tripleProduct(ab, ab, ac) above
 				// see Vector2.tripleProduct implementation
-				Vector2 abPerp = new Vector2();
+				DynVector2 abPerp = new DynVector2();
 				abPerp.x = ab.y * dot;
 				abPerp.y = -ab.x * dot;
 				
@@ -383,13 +383,13 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 			}
 		} else {
 			// get the b point
-			Vector2 b = simplex.get(0);
-			Vector2 ab = a.to(b);
+			DynVector2 b = simplex.get(0);
+			DynVector2 ab = a.to(b);
 			// otherwise we have 2 points (line segment)
 			// because of the condition for the gjk loop to continue the origin 
 			// must lie in between A and B, so keep both points in the simplex and
 			// set the direction to the perp of the line segment towards the origin
-			direction.set(Vector2.tripleProduct(ab, ao, ab));
+			direction.set(DynVector2.tripleProduct(ab, ao, ab));
 			// check for degenerate cases where the origin lies on the segment
 			// created by a -> b which will yield a zero edge normal
 			if (direction.getMagnitudeSquared() <= Epsilon.E) {
@@ -417,10 +417,10 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		MinkowskiSumPoint b = null;
 		MinkowskiSumPoint c = null;
 		// transform into world space if transform is not null
-		Vector2 c1 = transform1.getTransformed(convex1.getCenter());
-		Vector2 c2 = transform2.getTransformed(convex2.getCenter());
+		DynVector2 c1 = transform1.getTransformed(convex1.getCenter());
+		DynVector2 c2 = transform2.getTransformed(convex2.getCenter());
 		// choose some search direction
-		Vector2 d = c1.to(c2);
+		DynVector2 d = c1.to(c2);
 		// check for a zero direction vector
 		// a zero direction vector indicates that the center's are coincident
 		// which guarantees that the convex shapes are overlapping
@@ -467,8 +467,8 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 			}
 			
 			// get the closest point on each segment to the origin
-			Vector2 p1 = Segment.getPointOnSegmentClosestToPoint(ORIGIN, a.point, c.point);
-			Vector2 p2 = Segment.getPointOnSegmentClosestToPoint(ORIGIN, c.point, b.point);
+			DynVector2 p1 = Segment.getPointOnSegmentClosestToPoint(ORIGIN, a.point, c.point);
+			DynVector2 p2 = Segment.getPointOnSegmentClosestToPoint(ORIGIN, c.point, b.point);
 			
 			// get the distance to the origin
 			double p1Mag = p1.getMagnitudeSquared();
@@ -522,11 +522,11 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 	 * @see <a href="http://www.dyn4j.org/2010/04/gjk-distance-closest-points/" target="_blank">GJK - Distance &amp; Closest Points</a>
 	 */
 	protected void findClosestPoints(MinkowskiSumPoint a, MinkowskiSumPoint b, Separation separation) {
-		Vector2 p1 = new Vector2();
-		Vector2 p2 = new Vector2();
+		DynVector2 p1 = new DynVector2();
+		DynVector2 p2 = new DynVector2();
 		
 		// find lambda1 and lambda2
-		Vector2 l = a.point.to(b.point);
+		DynVector2 l = a.point.to(b.point);
 		
 		// check if a and b are the same point
 		if (l.isZero()) {
@@ -570,7 +570,7 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		separation.point2.y = p2.y;
 		
 		// compute the normal and distance from the closest points
-		Vector2 n = p1.to(p2);
+		DynVector2 n = p1.to(p2);
 		double d = n.normalize();
 		separation.normal.x = n.x;
 		separation.normal.y = n.y;
@@ -584,7 +584,7 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 	 * If the origin lies on the same side of all the points then we
 	 * know that the origin is in the triangle.
 	 * <pre> sign(location(origin, a, b)) == sign(location(origin, b, c)) == sign(location(origin, c, a))</pre>
-	 * The {@link Segment#getLocation(Vector2, Vector2, Vector2)} method 
+	 * The {@link Segment#getLocation(DynVector2, DynVector2, DynVector2)} method
 	 * can be simplified because we are using the origin as the search point:
 	 * <pre> = (b.x - a.x) * (origin.y - a.y) - (origin.x - a.x) * (b.y - a.y)
 	 * = (b.x - a.x) * (-a.y) - (-a.x) * (b.y - a.y)
@@ -597,7 +597,7 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 	 * @param c the third point
 	 * @return boolean
 	 */
-	protected boolean containsOrigin(Vector2 a, Vector2 b, Vector2 c) {
+	protected boolean containsOrigin(DynVector2 a, DynVector2 b, DynVector2 c) {
 		double sa = a.cross(b);
 		double sb = b.cross(c);
 		double sc = c.cross(a);
@@ -628,17 +628,17 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		boolean lengthCheck = maxLength > 0;
 		
 		// create the holders for the simplex
-		Vector2 a = null;
-		Vector2 b = null;
+		DynVector2 a = null;
+		DynVector2 b = null;
 		
 		// get the start point of the ray
-		Vector2 start = ray.getStart();
+		DynVector2 start = ray.getStart();
 		// x is the current closest point on the ray
-		Vector2 x = start;
+		DynVector2 x = start;
 		// r is the ray direction
-		Vector2 r = ray.getDirectionVector();
+		DynVector2 r = ray.getDirectionVector();
 		// n is the normal at the hit point
-		Vector2 n = new Vector2();
+		DynVector2 n = new DynVector2();
 		
 		// is the start point contained in the convex?
 		if (convex.contains(start, transform)) {
@@ -648,9 +648,9 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		
 		// get an arbitrary point within the convex shape
 		// we can use the center point
-		Vector2 c = transform.getTransformed(convex.getCenter());
+		DynVector2 c = transform.getTransformed(convex.getCenter());
 		// the center to the start point
-		Vector2 d = c.to(x);
+		DynVector2 d = c.to(x);
 		
 		// define an epsilon to compare the distance with
 		double distanceSqrd = Double.MAX_VALUE;
@@ -658,9 +658,9 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 		// loop until we have found the correct distance
 		while (distanceSqrd > this.raycastEpsilon) {
 			// get a point on the edge of the convex in the direction of d
-			Vector2 p = convex.getFarthestPoint(d, transform);
+			DynVector2 p = convex.getFarthestPoint(d, transform);
 			// get the vector from the current closest point to the edge point
-			Vector2 w = p.to(x);
+			DynVector2 w = p.to(x);
 			// is the current point on the ray to the new point
 			// in the same direction as d?
 			double dDotW = d.dot(w);
@@ -692,8 +692,8 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 				if (b != null) {
 					// reduce the set to two points
 					// get the closest point on each segment to the origin
-					Vector2 p1 = Segment.getPointOnSegmentClosestToPoint(x, a, p);
-					Vector2 p2 = Segment.getPointOnSegmentClosestToPoint(x, p, b);
+					DynVector2 p1 = Segment.getPointOnSegmentClosestToPoint(x, a, p);
+					DynVector2 p2 = Segment.getPointOnSegmentClosestToPoint(x, p, b);
 					
 					// test which point is closer and replace the one that is farthest
 					// with the new point p and set the new search direction
@@ -709,16 +709,16 @@ public class Gjk implements NarrowphaseDetector, DistanceDetector, RaycastDetect
 						distanceSqrd = p2.distanceSquared(x);
 					}
 					// get the new search direction
-					Vector2 ab = a.to(b);
-					Vector2 ax = a.to(x);
-					d = Vector2.tripleProduct(ab, ax, ab);
+					DynVector2 ab = a.to(b);
+					DynVector2 ax = a.to(x);
+					d = DynVector2.tripleProduct(ab, ax, ab);
 				} else {
 					// b is null so just set b
 					b = p;
 					// get the new search direction
-					Vector2 ab = a.to(b);
-					Vector2 ax = a.to(x);
-					d = Vector2.tripleProduct(ab, ax, ab);
+					DynVector2 ab = a.to(b);
+					DynVector2 ax = a.to(x);
+					d = DynVector2.tripleProduct(ab, ax, ab);
 				}
 			} else {
 				// both a and b are null so just set a and use -d as the

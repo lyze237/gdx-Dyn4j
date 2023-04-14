@@ -28,7 +28,7 @@ import org.dyn4j.Copyable;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Shape;
 import org.dyn4j.geometry.Shiftable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a {@link Separation} of one {@link Convex} {@link Shape} between another.
@@ -40,25 +40,25 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Separation implements Shiftable, Copyable<Separation> {
 	/** The normalized axis of separation */
-	protected final Vector2 normal;
+	protected final DynVector2 normal;
 	
 	/** The separating distance along the axis */
 	protected double distance;
 	
 	/** The closest point on the first {@link Convex} {@link Shape} to the second */
-	protected final Vector2 point1;
+	protected final DynVector2 point1;
 	
 	/** The closest point on the second {@link Convex} {@link Shape} to the first */
-	protected final Vector2 point2;
+	protected final DynVector2 point2;
 	
 	/**
 	 * Default constructor.
 	 */
 	public Separation() {
-		this.normal = new Vector2();
+		this.normal = new DynVector2();
 		this.distance = 0;
-		this.point1 = new Vector2();
-		this.point2 = new Vector2();
+		this.point1 = new DynVector2();
+		this.point2 = new DynVector2();
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class Separation implements Shiftable, Copyable<Separation> {
 	 * @param point1 the closest point on the first {@link Convex} {@link Shape} to the second
 	 * @param point2 the closest point on the second {@link Convex} {@link Shape} to the first
 	 */
-	protected Separation(Vector2 normal, double distance, Vector2 point1, Vector2 point2) {
+	protected Separation(DynVector2 normal, double distance, DynVector2 point1, DynVector2 point2) {
 		this.normal = normal.copy();
 		this.distance = distance;
 		this.point1 = point1.copy();
@@ -101,9 +101,9 @@ public class Separation implements Shiftable, Copyable<Separation> {
 	
 	/**
 	 * Returns the separation normal.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getNormal() {
+	public DynVector2 getNormal() {
 		return this.normal;
 	}
 	
@@ -117,17 +117,17 @@ public class Separation implements Shiftable, Copyable<Separation> {
 	
 	/**
 	 * Returns the closest point on the first {@link Convex} {@link Shape}.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPoint1() {
+	public DynVector2 getPoint1() {
 		return this.point1;
 	}
 	
 	/**
 	 * Returns the closest point on the second {@link Convex} {@link Shape}.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPoint2() {
+	public DynVector2 getPoint2() {
 		return this.point2;
 	}
 	
@@ -137,7 +137,7 @@ public class Separation implements Shiftable, Copyable<Separation> {
 	 * Must be normalized.
 	 * @param normal the separation normal
 	 */
-	public void setNormal(Vector2 normal) {
+	public void setNormal(DynVector2 normal) {
 		this.normal.x = normal.x;
 		this.normal.y = normal.y;
 	}
@@ -154,7 +154,7 @@ public class Separation implements Shiftable, Copyable<Separation> {
 	 * Sets the closest point on the first {@link Convex} {@link Shape}.
 	 * @param point1 the closest point on the first {@link Convex} {@link Shape}
 	 */
-	public void setPoint1(Vector2 point1) {
+	public void setPoint1(DynVector2 point1) {
 		this.point1.x = point1.x;
 		this.point1.y = point1.y;
 	}
@@ -163,7 +163,7 @@ public class Separation implements Shiftable, Copyable<Separation> {
 	 * Sets the closest point on the second {@link Convex} {@link Shape}.
 	 * @param point2 the closest point on the second {@link Convex} {@link Shape}
 	 */
-	public void setPoint2(Vector2 point2) {
+	public void setPoint2(DynVector2 point2) {
 		this.point2.x = point2.x;
 		this.point2.y = point2.y;
 	}
@@ -187,7 +187,7 @@ public class Separation implements Shiftable, Copyable<Separation> {
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		this.point1.x += shift.x;
 		this.point1.y += shift.y;
 		this.point2.x += shift.x;

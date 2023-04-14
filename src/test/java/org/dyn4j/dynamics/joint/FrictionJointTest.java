@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -42,7 +42,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void createWithTwoDifferentBodies() {
-		Vector2 p = new Vector2(1.0, 2.0);
+		DynVector2 p = new DynVector2(1.0, 2.0);
 		
 		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, p);
 		
@@ -71,7 +71,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody1() {
-		new FrictionJoint<Body>(null, b2, new Vector2());
+		new FrictionJoint<Body>(null, b2, new DynVector2());
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody2() {
-		new FrictionJoint<Body>(b1, null, new Vector2());
+		new FrictionJoint<Body>(b1, null, new DynVector2());
 	}
 	
 	/**
@@ -95,7 +95,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createWithSameBody() {
-		new FrictionJoint<Body>(b1, b1, new Vector2());
+		new FrictionJoint<Body>(b1, b1, new DynVector2());
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMaximumTorque() {
-		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new Vector2());
+		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new DynVector2());
 		
 		fj.setMaximumTorque(0.0);
 		TestCase.assertEquals(0.0, fj.getMaximumTorque());
@@ -120,7 +120,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeMaximumTorque() {
-		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new Vector2());
+		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new DynVector2());
 		fj.setMaximumTorque(-2.0);
 	}
 	
@@ -129,7 +129,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMaximumForce() {
-		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new Vector2());
+		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new DynVector2());
 		
 		fj.setMaximumForce(0.0);
 		TestCase.assertEquals(0.0, fj.getMaximumForce());
@@ -146,7 +146,7 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeMaximumForce() {
-		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new Vector2());
+		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new DynVector2());
 		fj.setMaximumForce(-2.0);
 	}
 
@@ -155,14 +155,14 @@ public class FrictionJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void shift() {
-		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new Vector2(1.0, 2.0));
+		FrictionJoint<Body> fj = new FrictionJoint<Body>(b1, b2, new DynVector2(1.0, 2.0));
 		
 		TestCase.assertEquals(1.0, fj.getAnchor1().x);
 		TestCase.assertEquals(2.0, fj.getAnchor1().y);
 		TestCase.assertEquals(1.0, fj.getAnchor2().x);
 		TestCase.assertEquals(2.0, fj.getAnchor2().y);
 		
-		fj.shift(new Vector2(1.0, 3.0));
+		fj.shift(new DynVector2(1.0, 3.0));
 		
 		// nothing should have changed
 		TestCase.assertEquals(1.0, fj.getAnchor1().x);

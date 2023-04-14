@@ -26,7 +26,7 @@ package org.dyn4j.geometry.hull;
 
 import java.util.Comparator;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a comparator that sorts points by their x coordinate
@@ -35,12 +35,12 @@ import org.dyn4j.geometry.Vector2;
  * @version 3.4.0
  * @since 2.2.0
  */
-final class MinXYPointComparator implements Comparator<Vector2> {
+final class MinXYPointComparator implements Comparator<DynVector2> {
 	/* (non-Javadoc)
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public int compare(Vector2 p1, Vector2 p2) {
+	public int compare(DynVector2 p1, DynVector2 p2) {
 		// first sort on the x coordinate
 		double diff = p1.x - p2.x;
 		if (diff == 0.0) {

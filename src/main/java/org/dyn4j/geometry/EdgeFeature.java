@@ -42,11 +42,11 @@ public final class EdgeFeature extends Feature {
 	/** The second vertex of the edge */
 	final PointFeature vertex2;
 	
-	/** The vertex of maximum projection along a {@link Vector2} */
+	/** The vertex of maximum projection along a {@link DynVector2} */
 	final PointFeature max;
 
 	/** The edge vector */
-	final Vector2 edge;
+	final DynVector2 edge;
 	
 	/**
 	 * Creates an edge feature.
@@ -56,7 +56,7 @@ public final class EdgeFeature extends Feature {
 	 * @param edge the vector representing the edge
 	 * @param index the index of the edge
 	 */
-	public EdgeFeature(PointFeature vertex1, PointFeature vertex2, PointFeature max, Vector2 edge, int index) {
+	public EdgeFeature(PointFeature vertex1, PointFeature vertex2, PointFeature max, DynVector2 edge, int index) {
 		super(index);
 		this.vertex1 = vertex1;
 		this.vertex2 = vertex2;
@@ -98,9 +98,9 @@ public final class EdgeFeature extends Feature {
 	/**
 	 * Returns the vector representing this edge in
 	 * counter-clockwise winding.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getEdge() {
+	public DynVector2 getEdge() {
 		return this.edge;
 	}
 	

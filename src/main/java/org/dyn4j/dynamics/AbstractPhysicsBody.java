@@ -43,7 +43,7 @@ import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Transformable;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Abstract implementation of the {@link PhysicsBody} interface.
@@ -56,7 +56,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	protected Mass mass;
 	
 	/** The current linear velocity */
-	protected final Vector2 linearVelocity;
+	protected final DynVector2 linearVelocity;
 
 	/** The current angular velocity */
 	protected double angularVelocity;
@@ -87,7 +87,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	// last iteration accumulated force/torque
 
 	/** The current force */
-	protected final Vector2 force;
+	protected final DynVector2 force;
 	
 	/** The current torque */
 	protected double torque;
@@ -122,9 +122,9 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 		super(fixtureCount);
 		this.radius = 0.0;
 		this.mass = new Mass();
-		this.linearVelocity = new Vector2();
+		this.linearVelocity = new DynVector2();
 		this.angularVelocity = 0.0;
-		this.force = new Vector2();
+		this.force = new DynVector2();
 		this.torque = 0.0;
 		// its common to apply a force or two to a body during a timestep
 		// so 5 is a good trade off
@@ -309,7 +309,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#applyForce(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public AbstractPhysicsBody applyForce(Vector2 force) {
+	public AbstractPhysicsBody applyForce(DynVector2 force) {
 		// check for null
 		if (force == null) 
 			throw new ArgumentNullException("force");
@@ -397,7 +397,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#applyForce(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public AbstractPhysicsBody applyForce(Vector2 force, Vector2 point) {
+	public AbstractPhysicsBody applyForce(DynVector2 force, DynVector2 point) {
 		// check for null
 		if (force == null) 
 			throw new ArgumentNullException("force");
@@ -415,7 +415,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 		// check the angular mass of the body
 		if (this.mass.getInertia() != 0.0) {
 			// compute the moment r
-			Vector2 r = this.getWorldCenter().to(point);
+			DynVector2 r = this.getWorldCenter().to(point);
 			// check for the zero vector
 			if (!r.isZero()) {
 				// find the torque about the given point
@@ -438,7 +438,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#applyImpulse(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public AbstractPhysicsBody applyImpulse(Vector2 impulse) {
+	public AbstractPhysicsBody applyImpulse(DynVector2 impulse) {
 		// check for null
 		if (impulse == null) 
 			throw new ArgumentNullException("impulse");
@@ -483,7 +483,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#applyImpulse(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public AbstractPhysicsBody applyImpulse(Vector2 impulse, Vector2 point) {
+	public AbstractPhysicsBody applyImpulse(DynVector2 impulse, DynVector2 point) {
 		// check for null
 		if (impulse == null) 
 			throw new ArgumentNullException("impulse");
@@ -503,7 +503,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 		}
 		if (invI != 0.0) {
 			// apply the impulse immediately
-			Vector2 r = this.getWorldCenter().to(point);
+			DynVector2 r = this.getWorldCenter().to(point);
 			this.angularVelocity += invI * r.cross(impulse);
 			awaken = true;
 		}
@@ -593,7 +593,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#integrateVelocity(org.dyn4j.geometry.Vector2, org.dyn4j.dynamics.TimeStep, org.dyn4j.dynamics.Settings)
 	 */
 	@Override
-	public void integrateVelocity(Vector2 gravity, TimeStep timestep, Settings settings) {
+	public void integrateVelocity(DynVector2 gravity, TimeStep timestep, Settings settings) {
 		// only integrate dynamic bodies
 		if (this.mass.getType() == MassType.INFINITE) {
 			return;
@@ -865,9 +865,9 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 		}
 		
 		// get the initial transform's world center
-		Vector2 iCenter = initialTransform.getTransformed(this.getLocalCenter());
+		DynVector2 iCenter = initialTransform.getTransformed(this.getLocalCenter());
 		// get the final transform's world center
-		Vector2 fCenter = finalTransform.getTransformed(this.getLocalCenter());
+		DynVector2 fCenter = finalTransform.getTransformed(this.getLocalCenter());
 		
 		// there are few ways to think about swept AABBs and its all about
 		// trade-offs.  On one hand having the most tight fitting AABB would
@@ -926,7 +926,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#getChangeInPosition()
 	 */
 	@Override
-	public Vector2 getChangeInPosition() {
+	public DynVector2 getChangeInPosition() {
 		return this.transform.getTranslation().subtract(this.transform0.getTranslation());
 	}
 	
@@ -972,7 +972,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#getLocalCenter()
 	 */
 	@Override
-	public Vector2 getLocalCenter() {
+	public DynVector2 getLocalCenter() {
 		return this.mass.getCenter();
 	}
 	
@@ -980,7 +980,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#getWorldCenter()
 	 */
 	@Override
-	public Vector2 getWorldCenter() {
+	public DynVector2 getWorldCenter() {
 		return this.transform.getTransformed(this.mass.getCenter());
 	}
 	
@@ -988,7 +988,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#getLinearVelocity()
 	 */
 	@Override
-	public Vector2 getLinearVelocity() {
+	public DynVector2 getLinearVelocity() {
 		return this.linearVelocity;
 	}
 	
@@ -996,11 +996,11 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#getLinearVelocity(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public Vector2 getLinearVelocity(Vector2 point) {
+	public DynVector2 getLinearVelocity(DynVector2 point) {
 		// get the world space center point
-		Vector2 c = this.getWorldCenter();
+		DynVector2 c = this.getWorldCenter();
 		// compute the r vector from the center of mass to the point
-		Vector2 r = c.to(point);
+		DynVector2 r = c.to(point);
 		// compute the velocity
 		return r.cross(this.angularVelocity).add(this.linearVelocity);
 	}
@@ -1009,7 +1009,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#setLinearVelocity(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void setLinearVelocity(Vector2 velocity) {
+	public void setLinearVelocity(DynVector2 velocity) {
 		if (velocity == null) 
 			throw new ArgumentNullException("velocity");
 		
@@ -1045,7 +1045,7 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#getForce()
 	 */
 	@Override
-	public Vector2 getForce() {
+	public DynVector2 getForce() {
 		return this.force.copy();
 	}
 	
@@ -1053,11 +1053,11 @@ public abstract class AbstractPhysicsBody extends AbstractCollisionBody<BodyFixt
 	 * @see org.dyn4j.dynamics.PhysicsBody#getAccumulatedForce()
 	 */
 	@Override
-	public Vector2 getAccumulatedForce() {
+	public DynVector2 getAccumulatedForce() {
 		int fSize = this.forces.size();
-		Vector2 force = new Vector2();
+		DynVector2 force = new DynVector2();
 		for (int i = 0; i < fSize; i++) {
-			Vector2 tf = this.forces.get(i).force;
+			DynVector2 tf = this.forces.get(i).force;
 			force.add(tf);
 		}
 		return force;

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dyn4j.exception.ValueOutOfRangeException;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Simple polygon (without holes) simplifier that reduces the number of vertices by 
@@ -83,7 +83,7 @@ public final class DouglasPeucker extends VertexClusterReduction implements Simp
 	/* (non-Javadoc)
 	 * @see org.dyn4j.geometry.simplify.VertexClusterReduction#simplify(java.util.List)
 	 */
-	public List<Vector2> simplify(List<Vector2> vertices) {
+	public List<DynVector2> simplify(List<DynVector2> vertices) {
 		if (vertices == null) {
 			return vertices;
 		}
@@ -110,11 +110,11 @@ public final class DouglasPeucker extends VertexClusterReduction implements Simp
 		int endIndex = this.getFartherestVertexFromVertex(startIndex, vertices);
 		
 		// 2. split into two polylines to simplify
-		List<Vector2> aReduced = this.douglasPeucker(verts.subList(startIndex, endIndex + 1), tree);
-		List<Vector2> bReduced = this.douglasPeucker(verts.subList(endIndex, vertices.size()), tree);
+		List<DynVector2> aReduced = this.douglasPeucker(verts.subList(startIndex, endIndex + 1), tree);
+		List<DynVector2> bReduced = this.douglasPeucker(verts.subList(endIndex, vertices.size()), tree);
 		
 		// 3. merge the two polylines back together
-		List<Vector2> result = new ArrayList<Vector2>();
+		List<DynVector2> result = new ArrayList<DynVector2>();
 		result.addAll(aReduced.subList(0, aReduced.size() - 1));
 		result.addAll(bReduced);
 		
@@ -127,11 +127,11 @@ public final class DouglasPeucker extends VertexClusterReduction implements Simp
 	 * O(mn) in worst case, O(n log m) in best case, where n is the number of vertices in the
 	 * original polyline and m is the number of vertices in the reduced polyline.
 	 * @param polyline
-	 * @return List&lt;{@link Vector2}&gt;
+	 * @return List&lt;{@link DynVector2}&gt;
 	 */
-	private final List<Vector2> douglasPeucker(List<SimplePolygonVertex> polyline, SegmentTree tree) {
+	private final List<DynVector2> douglasPeucker(List<SimplePolygonVertex> polyline, SegmentTree tree) {
 		int size = polyline.size();
-		List<Vector2> result = new ArrayList<Vector2>();
+		List<DynVector2> result = new ArrayList<DynVector2>();
 		
 		// can't do anything with 1 or 2 points - we just have to keep them
 		if (size < 3) {
@@ -154,8 +154,8 @@ public final class DouglasPeucker extends VertexClusterReduction implements Simp
 		// reduce here (we might be able to reduce elsewhere)
 		if (fv.distance >= epsilon) {
 			// sub-divide and run the algo on each half
-			List<Vector2> aReduced = this.douglasPeucker(polyline.subList(0, fv.index + 1), tree);
-			List<Vector2> bReduced = this.douglasPeucker(polyline.subList(fv.index, size), tree);
+			List<DynVector2> aReduced = this.douglasPeucker(polyline.subList(0, fv.index + 1), tree);
+			List<DynVector2> bReduced = this.douglasPeucker(polyline.subList(fv.index, size), tree);
 			
 			// recombine the reduced polylines
 			result.addAll(aReduced.subList(0, aReduced.size() - 1));
@@ -169,8 +169,8 @@ public final class DouglasPeucker extends VertexClusterReduction implements Simp
 				// those sub-polylines
 				
 				// sub-divide and run the algo on each half
-				List<Vector2> aReduced = this.douglasPeucker(polyline.subList(0, fv.index + 1), tree);
-				List<Vector2> bReduced = this.douglasPeucker(polyline.subList(fv.index, size), tree);
+				List<DynVector2> aReduced = this.douglasPeucker(polyline.subList(0, fv.index + 1), tree);
+				List<DynVector2> bReduced = this.douglasPeucker(polyline.subList(fv.index, size), tree);
 				
 				// recombine the reduced polylines
 				result.addAll(aReduced.subList(0, aReduced.size() - 1));
@@ -215,13 +215,13 @@ public final class DouglasPeucker extends VertexClusterReduction implements Simp
 	 * @param polygon the entire polygon
 	 * @return int
 	 */
-	private final int getFartherestVertexFromVertex(int index, List<Vector2> polygon) {
+	private final int getFartherestVertexFromVertex(int index, List<DynVector2> polygon) {
 		double dist2 = 0.0;
 		int max = -1;
 		int size = polygon.size();
-		Vector2 vertex = polygon.get(index);
+		DynVector2 vertex = polygon.get(index);
 		for (int i = 0; i < size; i++) {
-			Vector2 vert = polygon.get(i);
+			DynVector2 vert = polygon.get(i);
 			double test = vertex.distanceSquared(vert);
 			if (test > dist2) {
 				dist2 = test;
@@ -245,17 +245,17 @@ public final class DouglasPeucker extends VertexClusterReduction implements Simp
 		int index = -1;
 		double distance = 0.0;
 		
-		Vector2 lp1 = lineVertex1.point;
-		Vector2 lp2 = lineVertex2.point;
+		DynVector2 lp1 = lineVertex1.point;
+		DynVector2 lp2 = lineVertex2.point;
 		
 		// find the vertex on the polyline that's farthest from the line created
 		// by lineVertex1 and lineVertex2
 		int size = polyline.size();
-		Vector2 line = lp1.to(lp2);
-		Vector2 lineNormal = line.getLeftHandOrthogonalVector();
+		DynVector2 line = lp1.to(lp2);
+		DynVector2 lineNormal = line.getLeftHandOrthogonalVector();
 		lineNormal.normalize();
 		for (int i = 0; i < size; i++) {
-			Vector2 vert = polyline.get(i).point;
+			DynVector2 vert = polyline.get(i).point;
 			double test = Math.abs(lp1.to(vert).dot(lineNormal));
 			if (test > distance) {
 				distance = test;

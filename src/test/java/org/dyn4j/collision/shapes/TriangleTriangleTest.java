@@ -33,7 +33,7 @@ import org.dyn4j.collision.narrowphase.Sat;
 import org.dyn4j.collision.narrowphase.Separation;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,13 +58,13 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 	@Before
 	public void setup() {
 		this.tri1 = new Triangle(
-						new Vector2(1.29, 0.25),
-						new Vector2(-0.71, 0.65),
-						new Vector2(-0.59, -0.85));
+						new DynVector2(1.29, 0.25),
+						new DynVector2(-0.71, 0.65),
+						new DynVector2(-0.59, -0.85));
 		this.tri2 = new Triangle(
-						new Vector2(0.45, -0.12),
-						new Vector2(-0.45, 0.38),
-						new Vector2(-0.15, -0.22));
+						new DynVector2(0.45, -0.12),
+						new DynVector2(-0.45, 0.38),
+						new DynVector2(-0.15, -0.22));
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.sat.detect(tri1, t1, tri2, t2, p));
@@ -146,7 +146,7 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n = null;
+		DynVector2 n = null;
 		
 		// test containment
 		TestCase.assertTrue(this.gjk.detect(tri1, t1, tri2, t2, p));
@@ -217,7 +217,7 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 n, p1, p2;
+		DynVector2 n, p1, p2;
 		
 		// test containment
 		TestCase.assertFalse(this.gjk.distance(tri1, t1, tri2, t2, s));
@@ -306,7 +306,7 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t2 = new Transform();
 		
 		ManifoldPoint mp1, mp2;
-		Vector2 p1, p2;
+		DynVector2 p1, p2;
 		
 		// test containment gjk
 		this.gjk.detect(tri1, t1, tri2, t2, p);
@@ -415,7 +415,7 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		Transform t1 = new Transform();
 		Transform t2 = new Transform();
 		
-		Vector2 p1, p2;
+		DynVector2 p1, p2;
 		
 		t2.translate(1.578125, 0.6875);
 		
@@ -439,13 +439,13 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 	public void falsePenetration1() {
 		// this config would generate a penetration object with zero depth
 		Triangle t1 = new Triangle(
-				new Vector2(-0.5877852522924732, -0.8090169943749473),
-				new Vector2(-0.30901699437494756, -0.9510565162951535),
-				new Vector2(3.592757177872429E-17, -2.470020559787295E-17));
+				new DynVector2(-0.5877852522924732, -0.8090169943749473),
+				new DynVector2(-0.30901699437494756, -0.9510565162951535),
+				new DynVector2(3.592757177872429E-17, -2.470020559787295E-17));
 		Triangle t2 = new Triangle(
-				new Vector2(-0.9510565162951536, -0.3090169943749473),
-				new Vector2(-0.8090169943749475, -0.587785252292473),
-				new Vector2(3.592757177872429E-17, -2.470020559787295E-17));
+				new DynVector2(-0.9510565162951536, -0.3090169943749473),
+				new DynVector2(-0.8090169943749475, -0.587785252292473),
+				new DynVector2(3.592757177872429E-17, -2.470020559787295E-17));
 		Penetration p = new Penetration();
 		Transform tx = new Transform();
 		tx.translate(-2.5, -2.5752222222222203);
@@ -453,13 +453,13 @@ public class TriangleTriangleTest extends AbstractNarrowphaseShapeTest {
 		TestCase.assertFalse(collided);
 		
 		Triangle t3 = new Triangle(
-				new Vector2(-0.30901699437494756, -0.9510565162951535),
-				new Vector2(-1.8369701987210297E-16, -1.0),
-				new Vector2(3.592757177872429E-17, -2.470020559787295E-17));
+				new DynVector2(-0.30901699437494756, -0.9510565162951535),
+				new DynVector2(-1.8369701987210297E-16, -1.0),
+				new DynVector2(3.592757177872429E-17, -2.470020559787295E-17));
 		Triangle t4 = new Triangle(
-				new Vector2(-1.8369701987210297E-16, -1.0),
-				new Vector2(0.30901699437494723, -0.9510565162951536),
-				new Vector2(3.592757177872429E-17, -2.470020559787295E-17));
+				new DynVector2(-1.8369701987210297E-16, -1.0),
+				new DynVector2(0.30901699437494723, -0.9510565162951536),
+				new DynVector2(3.592757177872429E-17, -2.470020559787295E-17));
 		
 		collided = this.gjk.detect(t3, tx, t4, tx, p);
 		TestCase.assertFalse(collided);

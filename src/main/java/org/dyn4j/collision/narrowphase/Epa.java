@@ -31,7 +31,7 @@ import org.dyn4j.exception.ValueOutOfRangeException;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Shape;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * {@link Epa}, or Expanding Polytope Algorithm, is used to find the 
@@ -83,11 +83,11 @@ public class Epa implements MinkowskiPenetrationSolver {
 	/* (non-Javadoc)
 	 * @see org.dyn4j.collision.narrowphase.MinkowskiPenetrationSolver#getPenetration(java.util.List, org.dyn4j.collision.narrowphase.MinkowskiSum, org.dyn4j.collision.narrowphase.Penetration)
 	 */
-	public void getPenetration(List<Vector2> simplex, MinkowskiSum minkowskiSum, Penetration penetration) {
+	public void getPenetration(List<DynVector2> simplex, MinkowskiSum minkowskiSum, Penetration penetration) {
 		// create an expandable simplex
 		ExpandingSimplex smplx = new ExpandingSimplex(simplex);
 		ExpandingSimplexEdge edge = null;
-		Vector2 point = null;
+		DynVector2 point = null;
 		for (int i = 0; i < this.maxIterations; i++) {
 			// get the closest edge to the origin
 			edge = smplx.getClosestEdge();

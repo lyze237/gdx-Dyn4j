@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dyn4j.exception.ValueOutOfRangeException;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Simple polygon (without holes) simplifier that reduces the number of vertices by 
@@ -75,7 +75,7 @@ public class VertexClusterReduction extends AbstractSimplifier implements Simpli
 	/* (non-Javadoc)
 	 * @see org.dyn4j.geometry.simplify.Simplifier#simplify(java.util.List)
 	 */
-	public List<Vector2> simplify(List<Vector2> vertices) {
+	public List<DynVector2> simplify(List<DynVector2> vertices) {
 		// check for null vertices list
 		if (vertices == null) return vertices;
 		
@@ -84,7 +84,7 @@ public class VertexClusterReduction extends AbstractSimplifier implements Simpli
 		// check for 0 vertices
 		if (size == 0) return vertices;
 
-		List<Vector2> reduced = new ArrayList<Vector2>();
+		List<DynVector2> reduced = new ArrayList<DynVector2>();
 		List<SimplePolygonVertex> all = this.buildVertexList(vertices);
 		
 		// check the size again
@@ -140,7 +140,7 @@ public class VertexClusterReduction extends AbstractSimplifier implements Simpli
 	 * @param polygon the polygon vertices
 	 * @return List&lt;{@link SimplePolygonVertex}&gt;
 	 */
-	protected final List<SimplePolygonVertex> buildVertexList(List<Vector2> polygon) {
+	protected final List<SimplePolygonVertex> buildVertexList(List<DynVector2> polygon) {
 		int size = polygon.size();
 		List<SimplePolygonVertex> list = new ArrayList<SimplePolygonVertex>();
 		
@@ -148,12 +148,12 @@ public class VertexClusterReduction extends AbstractSimplifier implements Simpli
 		SimplePolygonVertex first = null;
 		SimplePolygonVertex prev = null;
 		for (int i = 0; i < size; i++) {
-			Vector2 v1 = polygon.get(i);
+			DynVector2 v1 = polygon.get(i);
 			if (v1 == null) {
 				continue;
 			}
 			
-			Vector2 v2 = null;
+			DynVector2 v2 = null;
 			for (int j = i + 1; j <= size; j++) {
 				v2 = polygon.get(j == size ? 0 : j);
 				if (v2 != null) {
@@ -203,8 +203,8 @@ public class VertexClusterReduction extends AbstractSimplifier implements Simpli
 	 * @param tree the segment tree to remove the vertex from
 	 */
 	private final void removeVertex(SimplePolygonVertex v, SegmentTree tree) {
-		Vector2 v1 = null;
-		Vector2 v2 = null;
+		DynVector2 v1 = null;
+		DynVector2 v2 = null;
 		
 		SimplePolygonVertex tprev = v.prev;
 		SimplePolygonVertex tnext = v.next;

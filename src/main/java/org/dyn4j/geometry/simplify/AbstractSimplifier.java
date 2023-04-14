@@ -32,7 +32,7 @@ import java.util.List;
 import org.dyn4j.Epsilon;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Interval;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Abstract simplifier providing some shared logic for all simplifiers.
@@ -45,12 +45,12 @@ public abstract class AbstractSimplifier implements Simplifier {
 	 * @see org.dyn4j.geometry.simplify.Simplifier#simplify(org.dyn4j.geometry.Vector2[])
 	 */
 	@Override
-	public Vector2[] simplify(Vector2... vertices) {
+	public DynVector2[] simplify(DynVector2... vertices) {
 		if (vertices == null) return vertices;
 		
-		List<Vector2> verts = Arrays.asList(vertices);
+		List<DynVector2> verts = Arrays.asList(vertices);
 		verts = this.simplify(verts);
-		return verts.toArray(new Vector2[verts.size()]);
+		return verts.toArray(new DynVector2[verts.size()]);
 	}
 
 	/**
@@ -73,10 +73,10 @@ public abstract class AbstractSimplifier implements Simplifier {
 	/**
 	 * Builds a polygon from the remaining vertices in the queue.
 	 * @param start the vertex to begin building the result from
-	 * @return List&lt;{@link Vector2}&gt;
+	 * @return List&lt;{@link DynVector2}&gt;
 	 */
-	protected final List<Vector2> buildResult(SimplePolygonVertex start) { 
-		List<Vector2> result = new ArrayList<Vector2>();
+	protected final List<DynVector2> buildResult(SimplePolygonVertex start) {
+		List<DynVector2> result = new ArrayList<DynVector2>();
 		// use the linked list of vertices
 		// to build the simplified polygon
 		result.add(start.point);
@@ -96,8 +96,8 @@ public abstract class AbstractSimplifier implements Simplifier {
 	 * @return boolean
 	 */
 	protected final boolean isSelfIntersectionProduced(SimplePolygonVertex vertex, SegmentTree tree) {
-		Vector2 v1 = vertex.prev.point;
-		Vector2 v2 = vertex.next.point;
+		DynVector2 v1 = vertex.prev.point;
+		DynVector2 v2 = vertex.next.point;
 		
 		// get all segments that this segment may itersect with
 		AABB aabb = AABB.createFromPoints(v1, v2);
@@ -137,8 +137,8 @@ public abstract class AbstractSimplifier implements Simplifier {
 	 * @return boolean
 	 */
 	protected final boolean isSelfIntersectionProduced(SimplePolygonVertex vertex1, SimplePolygonVertex vertex2, SegmentTree tree) {
-		Vector2 v1 = vertex1.point;
-		Vector2 v2 = vertex2.point;
+		DynVector2 v1 = vertex1.point;
+		DynVector2 v2 = vertex2.point;
 
 		int min = vertex1.index < vertex2.index ? vertex1.index : vertex2.index;
 		int max = vertex1.index > vertex2.index ? vertex1.index : vertex2.index;
@@ -170,9 +170,9 @@ public abstract class AbstractSimplifier implements Simplifier {
 	 * @param b2 the second point of the second segment
 	 * @return boolean
 	 */
-	protected final boolean intersects(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2) {
-		Vector2 A = a1.to(a2);
-		Vector2 B = b1.to(b2);
+	protected final boolean intersects(DynVector2 a1, DynVector2 a2, DynVector2 b1, DynVector2 b2) {
+		DynVector2 A = a1.to(a2);
+		DynVector2 B = b1.to(b2);
 
 		// compute the bottom
 		double BxA = B.cross(A);
@@ -217,7 +217,7 @@ public abstract class AbstractSimplifier implements Simplifier {
 		}
 		
 		// compute the intersection point
-		Vector2 ip = B.product(tb).add(b1);
+		DynVector2 ip = B.product(tb).add(b1);
 		
 		// since both are segments we need to verify that
 		// ta is also valid.

@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -42,7 +42,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void createSuccess() {
-		Vector2 p = new Vector2(1.0, 2.0);
+		DynVector2 p = new DynVector2(1.0, 2.0);
 		
 		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, p);
 		
@@ -79,7 +79,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody1() {
-		new RevoluteJoint<Body>(null, b2, new Vector2());
+		new RevoluteJoint<Body>(null, b2, new DynVector2());
 	}
 	
 	/**
@@ -87,7 +87,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody2() {
-		new RevoluteJoint<Body>(b1, null, new Vector2());
+		new RevoluteJoint<Body>(b1, null, new DynVector2());
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createWithSameBody() {
-		new RevoluteJoint<Body>(b1, b1, new Vector2());
+		new RevoluteJoint<Body>(b1, b1, new DynVector2());
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMaximumMotorTorque() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		rj.setMaximumMotorTorque(0.0);
 		TestCase.assertEquals(0.0, rj.getMaximumMotorTorque());
@@ -128,7 +128,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setMaximumMotorTorqueNegative() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setMaximumMotorTorque(-2.0);
 	}
 
@@ -137,7 +137,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMaximumMotorTorqueSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertFalse(rj.isMotorEnabled());
 		TestCase.assertEquals(1000.0, rj.getMaximumMotorTorque());
@@ -179,7 +179,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMaximumMotorTorqueEnabledSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertFalse(rj.isMotorEnabled());
 		TestCase.assertEquals(1000.0, rj.getMaximumMotorTorque());
@@ -223,7 +223,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorEnabled() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertFalse(rj.isMotorEnabled());
 		
@@ -239,7 +239,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorEnabledSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertFalse(rj.isMotorEnabled());
 		TestCase.assertFalse(b1.isAtRest());
@@ -280,7 +280,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorSpeed() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertEquals(0.0, rj.getMotorSpeed());
 		
@@ -299,7 +299,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setMotorSpeedSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertFalse(rj.isMotorEnabled());
 		TestCase.assertEquals(0.0, rj.getMotorSpeed());
@@ -341,7 +341,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSuccess() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setUpperLimit(Math.toRadians(10));
 		
 		TestCase.assertEquals(Math.toRadians(10), rj.getUpperLimit(), 1e-6);
@@ -352,7 +352,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperLimitInvalid() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setUpperLimit(Math.toRadians(-10));
 	}
 	
@@ -361,7 +361,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimit() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setLowerLimit(Math.toRadians(-10));
 		
 		TestCase.assertEquals(Math.toRadians(-10), rj.getLowerLimit(), 1e-6);
@@ -372,7 +372,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setLowerLimitInvalid() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setLowerLimit(Math.toRadians(10));
 	}
 	
@@ -381,7 +381,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperAndLowerLimits() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setLimits(Math.toRadians(-30), Math.toRadians(20));
 		
 		TestCase.assertEquals(Math.toRadians(-30), rj.getLowerLimit(), 1e-6);
@@ -393,7 +393,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsInvalid() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setLimits(Math.toRadians(30), Math.toRadians(20));
 	}
 	
@@ -402,7 +402,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperAndLowerLimitsToSameValue() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		rj.setLimits(Math.toRadians(30));
 		
 		TestCase.assertEquals(Math.toRadians(30), rj.getLowerLimit(), 1e-6);
@@ -414,7 +414,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsReferenceAngle() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		TestCase.assertEquals(0.0, rj.getLimitsReferenceAngle());
 	
@@ -428,7 +428,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsReferenceAngleSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -461,7 +461,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitEnabledSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -509,7 +509,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsSameSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -590,7 +590,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsDifferentSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -671,7 +671,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimitSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -724,7 +724,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -777,7 +777,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSameSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -833,7 +833,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledDifferentSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is enabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -914,7 +914,7 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSleep() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		
 		// by default the limit is disabled
 		TestCase.assertFalse(rj.isLimitsEnabled());
@@ -964,14 +964,14 @@ public class RevoluteJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void shift() {
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2(-3.0, 0.5));
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(-3.0, rj.getAnchor1().x);
 		TestCase.assertEquals(0.5, rj.getAnchor1().y);
 		TestCase.assertEquals(-3.0, rj.getAnchor2().x);
 		TestCase.assertEquals(0.5, rj.getAnchor2().y);
 		
-		rj.shift(new Vector2(1.0, 3.0));
+		rj.shift(new DynVector2(1.0, 3.0));
 		
 		// nothing should have changed
 		TestCase.assertEquals(-3.0, rj.getAnchor1().x);

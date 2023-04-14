@@ -27,7 +27,7 @@ package org.dyn4j.collision.narrowphase;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -231,8 +231,8 @@ public class SatTest {
 		Transform tx2 = new Transform();
 		
 		// exact overlap
-		Convex p1 = Geometry.createSegment(new Vector2(1.0, 1.0));
-		Convex p2 = Geometry.createSegment(new Vector2(1.0, 1.0));
+		Convex p1 = Geometry.createSegment(new DynVector2(1.0, 1.0));
+		Convex p2 = Geometry.createSegment(new DynVector2(1.0, 1.0));
 		
 		boolean result = sat.contains(p1, tx1, p2, tx2, c);
 		TestCase.assertFalse(result);
@@ -240,8 +240,8 @@ public class SatTest {
 		result = sat.contains(p2, tx2, p1, tx1, c);
 		TestCase.assertFalse(result);
 		
-		p1 = Geometry.createSegment(new Vector2(1.0, 1.0));
-		p2 = Geometry.createSegment(new Vector2(-1.0, 1.0));
+		p1 = Geometry.createSegment(new DynVector2(1.0, 1.0));
+		p2 = Geometry.createSegment(new DynVector2(-1.0, 1.0));
 		
 		result = sat.contains(p1, tx1, p2, tx2, c);
 		TestCase.assertFalse(result);
@@ -307,7 +307,7 @@ public class SatTest {
 		Transform tx1 = new Transform();
 		Transform tx2 = new Transform();
 		
-		Convex c1 = Geometry.createSegment(new Vector2(0.0, 0.4));
+		Convex c1 = Geometry.createSegment(new DynVector2(0.0, 0.4));
 		Convex c2 = Geometry.createCircle(0.6);
 		
 		boolean result = sat.contains(c1, tx1, c2, tx2, c);

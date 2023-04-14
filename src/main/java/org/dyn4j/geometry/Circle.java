@@ -75,7 +75,7 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	 * @see org.dyn4j.geometry.Shape#getRadius(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public double getRadius(Vector2 center) {
+	public double getRadius(DynVector2 center) {
 		return this.radius + center.distance(this.center);
 	}
 	
@@ -94,9 +94,9 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	 * @see org.dyn4j.geometry.Shape#contains(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform, boolean)
 	 */
 	@Override
-	public boolean contains(Vector2 point, Transform transform, boolean inclusive) {
+	public boolean contains(DynVector2 point, Transform transform, boolean inclusive) {
 		// transform the center
-		Vector2 v = transform.getTransformed(this.center);
+		DynVector2 v = transform.getTransformed(this.center);
 		// get the transformed radius squared
 		double radiusSquared = this.radius * this.radius;
 		// create a vector from the center to the given point
@@ -109,9 +109,9 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	 * @see org.dyn4j.geometry.Shape#project(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Interval project(Vector2 vector, Transform transform) {
+	public Interval project(DynVector2 vector, Transform transform) {
 		// if the transform is not null then transform the center
-		Vector2 center = transform.getTransformed(this.center);
+		DynVector2 center = transform.getTransformed(this.center);
 		// project the center onto the given axis
 		double c = center.dot(vector);
 		// the interval is defined by the radius
@@ -124,9 +124,9 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	 * For a {@link Circle} this will always return a {@link PointFeature}.
 	 */
 	@Override
-	public PointFeature getFarthestFeature(Vector2 vector, Transform transform) {
+	public PointFeature getFarthestFeature(DynVector2 vector, Transform transform) {
 		// obtain the farthest point along the given vector
-		Vector2 farthest = this.getFarthestPoint(vector, transform);
+		DynVector2 farthest = this.getFarthestPoint(vector, transform);
 		// for a circle the farthest feature along a vector will always be a vertex
 		return new PointFeature(farthest);
 	}
@@ -135,11 +135,11 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	 * @see org.dyn4j.geometry.Convex#getFarthestPoint(org.dyn4j.geometry.Vector2, org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2 getFarthestPoint(Vector2 vector, Transform transform) {
+	public DynVector2 getFarthestPoint(DynVector2 vector, Transform transform) {
 		// make sure the axis is normalized
-		Vector2 nAxis = vector.getNormalized();
+		DynVector2 nAxis = vector.getNormalized();
 		// get the transformed center
-		Vector2 center = transform.getTransformed(this.center);
+		DynVector2 center = transform.getTransformed(this.center);
 		// add the radius along the vector to the center to get the farthest point
 		center.x += this.radius * nAxis.x;
 		center.y += this.radius * nAxis.y;
@@ -156,7 +156,7 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	 * @return null
 	 */
 	@Override
-	public Vector2[] getAxes(Vector2[] foci, Transform transform) {
+	public DynVector2[] getAxes(DynVector2[] foci, Transform transform) {
 		// a circle has infinite separating axes and zero voronoi regions
 		// therefore we return null
 		return null;
@@ -166,8 +166,8 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	 * @see org.dyn4j.geometry.Convex#getFoci(org.dyn4j.geometry.Transform)
 	 */
 	@Override
-	public Vector2[] getFoci(Transform transform) {
-		Vector2[] foci = new Vector2[1];
+	public DynVector2[] getFoci(Transform transform) {
+		DynVector2[] foci = new DynVector2[1];
 		// a circle only has one focus
 		foci[0] = transform.getTransformed(this.center);
 		return foci;
@@ -203,7 +203,7 @@ public class Circle extends AbstractShape implements Convex, Shape, Transformabl
 	@Override
 	public void computeAABB(Transform transform, AABB aabb) {
 		// if the transform is not null then transform the center
-		Vector2 center = transform.getTransformed(this.center);
+		DynVector2 center = transform.getTransformed(this.center);
 		aabb.minX = center.x - this.radius;
 		aabb.minY = center.y - this.radius;
 		aabb.maxX = center.x + this.radius;

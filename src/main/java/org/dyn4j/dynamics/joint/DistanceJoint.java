@@ -36,7 +36,7 @@ import org.dyn4j.geometry.Interval;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a fixed length distance joint with optional, spring-damper
@@ -89,10 +89,10 @@ import org.dyn4j.geometry.Vector2;
  */
 public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements LinearLimitsJoint, LinearSpringJoint, PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The local anchor point on the first {@link PhysicsBody} */
-	protected final Vector2 localAnchor1;
+	protected final DynVector2 localAnchor1;
 	
 	/** The local anchor point on the second {@link PhysicsBody} */
-	protected final Vector2 localAnchor2;
+	protected final DynVector2 localAnchor2;
 	
 	// distance constraint
 	
@@ -148,7 +148,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	private double damping;
 
 	/** The normal */
-	private Vector2 n;
+	private DynVector2 n;
 	
 	/** The damping portion of the constraint */
 	private double gamma;
@@ -186,7 +186,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @throws NullPointerException if body1, body2, anchor1, or anchor2 is null
 	 * @throws IllegalArgumentException if body1 == body2
 	 */
-	public DistanceJoint(T body1, T body2, Vector2 anchor1, Vector2 anchor2) {
+	public DistanceJoint(T body1, T body2, DynVector2 anchor1, DynVector2 anchor2) {
 		super(body1, body2);
 		
 		// verify the anchor points are not null
@@ -265,8 +265,8 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		double invI2 = m2.getInverseInertia();
 		
 		// compute the normal
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		this.n = r1.sum(this.body1.getWorldCenter()).subtract(r2.sum(this.body2.getWorldCenter()));
 		
 		// get the current length
@@ -337,7 +337,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 			this.upperLimitImpulse *= step.getDeltaTimeRatio();
 			this.lowerLimitImpulse *= step.getDeltaTimeRatio();
 			
-			Vector2 J = this.n.product(this.impulse + this.lowerLimitImpulse - this.upperLimitImpulse);
+			DynVector2 J = this.n.product(this.impulse + this.lowerLimitImpulse - this.upperLimitImpulse);
 			this.body1.getLinearVelocity().add(J.product(invM1));
 			this.body1.setAngularVelocity(this.body1.getAngularVelocity() + invI1 * r1.cross(J));
 			this.body2.getLinearVelocity().subtract(J.product(invM2));
@@ -365,12 +365,12 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		double invI2 = m2.getInverseInertia();
 		
 		// compute r1 and r2
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
 		// compute the relative velocity
-		Vector2 v1 = this.body1.getLinearVelocity().sum(r1.cross(this.body1.getAngularVelocity()));
-		Vector2 v2 = this.body2.getLinearVelocity().sum(r2.cross(this.body2.getAngularVelocity()));
+		DynVector2 v1 = this.body1.getLinearVelocity().sum(r1.cross(this.body1.getAngularVelocity()));
+		DynVector2 v2 = this.body2.getLinearVelocity().sum(r2.cross(this.body2.getAngularVelocity()));
 
 		double invdt = step.getInverseDeltaTime();		
 		if (this.lowerLimit < this.upperLimit) {
@@ -395,7 +395,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 				}
 				
 				// apply the impulse
-				Vector2 J = this.n.product(stepImpulse);
+				DynVector2 J = this.n.product(stepImpulse);
 				this.body1.getLinearVelocity().add(J.product(invM1));
 				this.body1.setAngularVelocity(this.body1.getAngularVelocity() + invI1 * r1.cross(J));
 				this.body2.getLinearVelocity().subtract(J.product(invM2));
@@ -414,7 +414,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 				stepImpulse = this.lowerLimitImpulse - currentAccumulatedImpulse;
 				
 				// apply the impulse
-				Vector2 J = this.n.product(stepImpulse);
+				DynVector2 J = this.n.product(stepImpulse);
 				this.body1.getLinearVelocity().add(J.product(invM1));
 				this.body1.setAngularVelocity(this.body1.getAngularVelocity() + invI1 * r1.cross(J));
 				this.body2.getLinearVelocity().subtract(J.product(invM2));
@@ -433,7 +433,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 				stepImpulse = this.upperLimitImpulse - currentAccumulatedImpulse;
 				
 				// apply the impulse
-				Vector2 J = this.n.product(stepImpulse);
+				DynVector2 J = this.n.product(stepImpulse);
 				this.body1.getLinearVelocity().subtract(J.product(invM1));
 				this.body1.setAngularVelocity(this.body1.getAngularVelocity() - invI1 * r1.cross(J));
 				this.body2.getLinearVelocity().add(J.product(invM2));
@@ -460,7 +460,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 			}
 			
 			// apply the impulse
-			Vector2 J = this.n.product(stepImpulse);
+			DynVector2 J = this.n.product(stepImpulse);
 			this.body1.getLinearVelocity().add(J.product(invM1));
 			this.body1.setAngularVelocity(this.body1.getAngularVelocity() + invI1 * r1.cross(J));
 			this.body2.getLinearVelocity().subtract(J.product(invM2));
@@ -485,12 +485,12 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		double invI1 = m1.getInverseInertia();
 		double invI2 = m2.getInverseInertia();
 		
-		Vector2 c1 = this.body1.getWorldCenter();
-		Vector2 c2 = this.body2.getWorldCenter();
+		DynVector2 c1 = this.body1.getWorldCenter();
+		DynVector2 c2 = this.body2.getWorldCenter();
 		
 		// recompute n since it may have changed after integration
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		this.n = r1.sum(this.body1.getWorldCenter()).subtract(r2.sum(this.body2.getWorldCenter()));
 		
 		double l = this.n.normalize();
@@ -516,7 +516,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 
 		double impulse = -this.mass * C;
 		
-		Vector2 J = this.n.product(impulse);
+		DynVector2 J = this.n.product(impulse);
 		
 		// translate and rotate the objects
 		this.body1.translate(J.product(invM1));
@@ -557,17 +557,17 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	
 	/**
 	 * Returns the world-space anchor point on the first body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor1() {
+	public DynVector2 getAnchor1() {
 		return body1.getWorldPoint(this.localAnchor1);
 	}
 	
 	/**
 	 * Returns the world-space anchor point on the second body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor2() {
+	public DynVector2 getAnchor2() {
 		return body2.getWorldPoint(this.localAnchor2);
 	}
 	
@@ -575,7 +575,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
+	public DynVector2 getReactionForce(double invdt) {
 		return this.n.product((this.impulse + this.lowerLimitImpulse - this.upperLimitImpulse) * invdt);
 	}
 	
@@ -593,7 +593,7 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to translate here since the anchor points are in local coordinates
 		// they will move with the bodies
 	}
@@ -635,8 +635,8 @@ public class DistanceJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	public double getCurrentDistance() {
 		Transform t1 = this.body1.getTransform();
 		Transform t2 = this.body2.getTransform();
-		Vector2 p1 = t1.getTransformed(this.localAnchor1);
-		Vector2 p2 = t2.getTransformed(this.localAnchor2);
+		DynVector2 p1 = t1.getTransformed(this.localAnchor1);
+		DynVector2 p2 = t2.getTransformed(this.localAnchor2);
 		return p1.distance(p2);
 	}
 

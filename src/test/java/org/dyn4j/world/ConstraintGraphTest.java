@@ -50,7 +50,7 @@ import org.dyn4j.dynamics.joint.RevoluteJoint;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -733,7 +733,7 @@ public class ConstraintGraphTest {
 		// test no connections
 		TestCase.assertFalse(g.isJoined(b1, b2));
 				
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		
 		g.addJoint(j);
 		
@@ -760,7 +760,7 @@ public class ConstraintGraphTest {
 		g.addBody(b1);
 		g.addBody(b2);
 		
-		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new Vector2());
+		RevoluteJoint<Body> rj = new RevoluteJoint<Body>(b1, b2, new DynVector2());
 		AngleJoint<Body> aj = new AngleJoint<Body>(b1, b2);
 		
 		g.addJoint(rj);
@@ -803,7 +803,7 @@ public class ConstraintGraphTest {
 		TestCase.assertNotNull(bodies);
 		TestCase.assertTrue(bodies.isEmpty());
 		
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		
 		g.addJoint(j);
 		
@@ -830,7 +830,7 @@ public class ConstraintGraphTest {
 		TestCase.assertNotNull(joints);
 		TestCase.assertTrue(joints.isEmpty());
 		
-		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2());
+		Joint<Body> j = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2());
 		
 		g.addJoint(j);
 		
@@ -1045,7 +1045,7 @@ public class ConstraintGraphTest {
 	private final class TestBody extends Body {
 		boolean integrated = false;
 		@Override
-		public void integrateVelocity(Vector2 gravity, TimeStep timestep, Settings settings) {
+		public void integrateVelocity(DynVector2 gravity, TimeStep timestep, Settings settings) {
 			if (this.integrated) throw new IllegalStateException();
 			super.integrateVelocity(gravity, timestep, settings);
 			this.integrated = true;
@@ -1115,7 +1115,7 @@ public class ConstraintGraphTest {
 		
 		Settings settings = new Settings();
 		TimeStep step = new TimeStep(settings.getStepFrequency());
-		Vector2 gravity = new Vector2();
+		DynVector2 gravity = new DynVector2();
 		ContactConstraintSolver<Body> solver = new SequentialImpulses<Body>();
 		
 		g.solve(solver, gravity, step, settings);
@@ -1159,11 +1159,11 @@ public class ConstraintGraphTest {
 		@Override
 		public boolean solvePositionConstraints(TimeStep step, Settings settings) { return false; }
 		@Override
-		public Vector2 getReactionForce(double invdt) { return null; }
+		public DynVector2 getReactionForce(double invdt) { return null; }
 		@Override
 		public double getReactionTorque(double invdt) { return 0; }
 		@Override
-		public void shift(Vector2 shift) {}
+		public void shift(DynVector2 shift) {}
 	}
 	
 	/**

@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.contact;
 
 import org.dyn4j.collision.manifold.ManifoldPointId;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a contact of a {@link ContactConstraint}.
@@ -45,9 +45,9 @@ public interface Contact {
 	
 	/**
 	 * Returns the world space collision point.
-	 * @return {@link Vector2} the collision point in world space
+	 * @return {@link DynVector2} the collision point in world space
 	 */
-	public Vector2 getPoint();
+	public DynVector2 getPoint();
 	
 	/**
 	 * Returns the penetration depth of this point.

@@ -38,7 +38,7 @@ import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Matrix22;
 import org.dyn4j.geometry.Shiftable;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Implementation of a pivot joint.
@@ -84,10 +84,10 @@ import org.dyn4j.geometry.Vector2;
  */
 public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoint<T> implements AngularLimitsJoint, AngularMotorJoint, PairedBodyJoint<T>, Joint<T>, Shiftable, DataContainer, Ownable {
 	/** The local anchor point on the first {@link PhysicsBody} */
-	protected final Vector2 localAnchor1;
+	protected final DynVector2 localAnchor1;
 	
 	/** The local anchor point on the second {@link PhysicsBody} */
-	protected final Vector2 localAnchor2;
+	protected final DynVector2 localAnchor2;
 
 	// limits
 	
@@ -129,10 +129,10 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	private boolean fixedRotation;
 	
 	/** The world space vector from b1's COM to the pivot point */
-	private Vector2 r1;
+	private DynVector2 r1;
 	
 	/** The world space vector from b2's COM to the pivot point */
-	private Vector2 r2;
+	private DynVector2 r2;
 
 	/** The pivot mass; K = J * Minv * Jtrans */
 	private final Matrix22 K;
@@ -140,7 +140,7 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	// output
 
 	/** The linear impulse applied by the point-to-point constraint */
-	private Vector2 impulse;
+	private DynVector2 impulse;
 		
 	/** The impulse applied by the motor */
 	private double motorImpulse;
@@ -159,7 +159,7 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @throws NullPointerException if body1, body2 or anchor is null
 	 * @throws IllegalArgumentException if body1 == body2
 	 */
-	public RevoluteJoint(T body1, T body2, Vector2 anchor) {
+	public RevoluteJoint(T body1, T body2, DynVector2 anchor) {
 		// default to no collision allowed between the bodies
 		super(body1, body2);
 		
@@ -191,7 +191,7 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		this.r2 = null;
 		this.angle = 0.0;
 		
-		this.impulse = new Vector2();
+		this.impulse = new DynVector2();
 		this.lowerLimitImpulse = 0.0;
 		this.upperLimitImpulse = 0.0;
 		this.motorImpulse = 0.0;
@@ -285,7 +285,7 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 			double axialImpulse = this.motorImpulse + this.lowerLimitImpulse - this.upperLimitImpulse;
 			
 			// warm start
-			Vector2 impulse = new Vector2(this.impulse.x, this.impulse.y);
+			DynVector2 impulse = new DynVector2(this.impulse.x, this.impulse.y);
 			this.body1.getLinearVelocity().add(impulse.product(invM1));
 			this.body1.setAngularVelocity(this.body1.getAngularVelocity() + invI1 * (this.r1.cross(impulse) + axialImpulse));
 			this.body2.getLinearVelocity().subtract(impulse.product(invM2));
@@ -369,13 +369,13 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		}
 
 		// finally solve the point-to-point constraint
-		Vector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
-		Vector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
+		DynVector2 v1 = this.body1.getLinearVelocity().sum(this.r1.cross(this.body1.getAngularVelocity()));
+		DynVector2 v2 = this.body2.getLinearVelocity().sum(this.r2.cross(this.body2.getAngularVelocity()));
 		// the 2x2 version of Jv + b
-		Vector2 Jvb2 = v1.subtract(v2);
+		DynVector2 Jvb2 = v1.subtract(v2);
 		
 		// solve the point-to-point constraint
-		Vector2 impulse = this.K.solve(Jvb2.negate());
+		DynVector2 impulse = this.K.solve(Jvb2.negate());
 		this.impulse.x += impulse.x;
 		this.impulse.y += impulse.y;
 		
@@ -428,12 +428,12 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		}
 
 		// always solve the point-to-point constraint
-		Vector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
-		Vector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
+		DynVector2 r1 = t1.getTransformedR(this.body1.getLocalCenter().to(this.localAnchor1));
+		DynVector2 r2 = t2.getTransformedR(this.body2.getLocalCenter().to(this.localAnchor2));
 		
-		Vector2 p1 = this.body1.getWorldCenter().add(r1);
-		Vector2 p2 = this.body2.getWorldCenter().add(r2);
-		Vector2 p = p1.difference(p2);
+		DynVector2 p1 = this.body1.getWorldCenter().add(r1);
+		DynVector2 p2 = this.body2.getWorldCenter().add(r2);
+		DynVector2 p = p1.difference(p2);
 		linearError = p.getMagnitude();
 
 		// compute the K matrix
@@ -444,7 +444,7 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 		K.m11 = invM1 + invM2 + r1.x * r1.x * invI1 + r2.x * r2.x * invI2;
 		
 		// solve for the impulse
-		Vector2 J = K.solve(p.negate());
+		DynVector2 J = K.solve(p.negate());
 
 		// translate and rotate the objects
 		this.body1.translate(J.product(invM1));
@@ -469,17 +469,17 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	
 	/**
 	 * The anchor point in world space on the first body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor1() {
+	public DynVector2 getAnchor1() {
 		return this.body1.getWorldPoint(this.localAnchor1);
 	}
 	
 	/**
 	 * The anchor point in world space on the second body.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getAnchor2() {
+	public DynVector2 getAnchor2() {
 		return this.body2.getWorldPoint(this.localAnchor2);
 	}
 	
@@ -487,8 +487,8 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @see org.dyn4j.dynamics.joint.Joint#getReactionForce(double)
 	 */
 	@Override
-	public Vector2 getReactionForce(double invdt) {
-		return new Vector2(this.impulse.x * invdt, this.impulse.y * invdt);
+	public DynVector2 getReactionForce(double invdt) {
+		return new DynVector2(this.impulse.x * invdt, this.impulse.y * invdt);
 	}
 	
 	/* (non-Javadoc)
@@ -503,7 +503,7 @@ public class RevoluteJoint<T extends PhysicsBody> extends AbstractPairedBodyJoin
 	 * @see org.dyn4j.geometry.Shiftable#shift(org.dyn4j.geometry.Vector2)
 	 */
 	@Override
-	public void shift(Vector2 shift) {
+	public void shift(DynVector2 shift) {
 		// nothing to translate here since the anchor points are in local coordinates
 		// they will move with the bodies
 	}

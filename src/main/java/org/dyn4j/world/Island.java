@@ -34,7 +34,7 @@ import org.dyn4j.dynamics.TimeStep;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.dynamics.contact.ContactConstraintSolver;
 import org.dyn4j.dynamics.joint.Joint;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Used to solve the contact constraints and joints for a group of interconnected bodies.
@@ -121,7 +121,7 @@ public final class Island<T extends PhysicsBody> {
 	 * @param step the time step information
 	 * @param settings the current world settings
 	 */
-	public void solve(ContactConstraintSolver<T> solver, Vector2 gravity, TimeStep step, Settings settings) {
+	public void solve(ContactConstraintSolver<T> solver, DynVector2 gravity, TimeStep step, Settings settings) {
 		// the number of solver iterations
 		final int velocitySolverIterations = settings.getVelocityConstraintSolverIterations();
 		final int positionSolverIterations = settings.getPositionConstraintSolverIterations();

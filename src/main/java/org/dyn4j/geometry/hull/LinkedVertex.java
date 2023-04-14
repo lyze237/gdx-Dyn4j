@@ -24,7 +24,7 @@
  */
 package org.dyn4j.geometry.hull;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents a vertex that is linked to its next and previous vertices.
@@ -34,7 +34,7 @@ import org.dyn4j.geometry.Vector2;
  */
 final class LinkedVertex {
 	/** The vertex point */
-	final Vector2 point;
+	final DynVector2 point;
 	
 	/** The next vertex */
 	LinkedVertex next;
@@ -46,7 +46,7 @@ final class LinkedVertex {
 	 * Minimal constructor.
 	 * @param point the point
 	 */
-	public LinkedVertex(Vector2 point) {
+	public LinkedVertex(DynVector2 point) {
 		this.point = point;
 	}
 	

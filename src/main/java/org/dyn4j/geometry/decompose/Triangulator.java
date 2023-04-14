@@ -27,7 +27,7 @@ package org.dyn4j.geometry.decompose;
 import java.util.List;
 
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * Represents an algorithm to triangulate a given polygon (as a list of points) into {@link Triangle}s.
@@ -43,5 +43,5 @@ public interface Triangulator {
 	 * @throws NullPointerException if points is null or contains null points
 	 * @throws IllegalArgumentException if points contains less than 4 points
 	 */
-	public List<Triangle> triangulate(Vector2... points);
+	public List<Triangle> triangulate(DynVector2... points);
 }

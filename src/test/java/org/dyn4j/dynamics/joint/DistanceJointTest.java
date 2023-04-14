@@ -25,7 +25,7 @@
 package org.dyn4j.dynamics.joint;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -42,8 +42,8 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void createWithTwoDifferentBodies() {
-		Vector2 p1 = new Vector2(1.0, 2.0);
-		Vector2 p2 = new Vector2(-2.0, 5.0);
+		DynVector2 p1 = new DynVector2(1.0, 2.0);
+		DynVector2 p2 = new DynVector2(-2.0, 5.0);
 		double d = p1.distance(p2);
 		
 		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, p1, p2);
@@ -87,7 +87,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody1() {
-		new DistanceJoint<Body>(null, b2, new Vector2(), new Vector2());
+		new DistanceJoint<Body>(null, b2, new DynVector2(), new DynVector2());
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullBody2() {
-		new DistanceJoint<Body>(b1, null, new Vector2(), new Vector2());
+		new DistanceJoint<Body>(b1, null, new DynVector2(), new DynVector2());
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullAnchor1Point() {
-		new DistanceJoint<Body>(b1, b2, null, new Vector2());
+		new DistanceJoint<Body>(b1, b2, null, new DynVector2());
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void createWithNullAnchor2Point() {
-		new DistanceJoint<Body>(b1, b2, new Vector2(), null);
+		new DistanceJoint<Body>(b1, b2, new DynVector2(), null);
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void createWithSameBody() {
-		new DistanceJoint<Body>(b1, b1, new Vector2(), new Vector2());
+		new DistanceJoint<Body>(b1, b1, new DynVector2(), new DynVector2());
 	}
 	
 	/**
@@ -127,14 +127,14 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void shift() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		TestCase.assertEquals(1.0, dj.getAnchor1().x);
 		TestCase.assertEquals(2.0, dj.getAnchor1().y);
 		TestCase.assertEquals(-3.0, dj.getAnchor2().x);
 		TestCase.assertEquals(0.5, dj.getAnchor2().y);
 		
-		dj.shift(new Vector2(1.0, 3.0));
+		dj.shift(new DynVector2(1.0, 3.0));
 		
 		// nothing should have changed
 		TestCase.assertEquals(1.0, dj.getAnchor1().x);
@@ -148,7 +148,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringEnabled() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		TestCase.assertFalse(dj.isSpringEnabled());
 		
 		dj.setSpringFrequency(1.0);
@@ -169,7 +169,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void isSpringDamperEnabled() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		TestCase.assertFalse(dj.isSpringDamperEnabled());
 		
 		dj.setSpringFrequency(1.0);
@@ -202,7 +202,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setPositiveRestDistance() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		dj.setRestDistance(0.0);
 		TestCase.assertEquals(0.0, dj.getRestDistance());
@@ -216,7 +216,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeRestDistance() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		dj.setRestDistance(-2.0);
 	}
 
@@ -225,7 +225,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringDampingRatio() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		dj.setSpringDampingRatio(0.0);
 		TestCase.assertEquals(0.0, dj.getSpringDampingRatio());
@@ -273,7 +273,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setNegativeDampingRatio() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		dj.setSpringDampingRatio(-1.0);
 	}
 	
@@ -282,7 +282,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setDampingRatioGreaterThan1() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		dj.setSpringDampingRatio(2.0);
 	}
 	
@@ -291,7 +291,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringFrequency() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		dj.setSpringFrequency(0.0);
 		TestCase.assertEquals(0.0, dj.getSpringFrequency());
@@ -349,7 +349,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMode() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		// test mode swapping
 		TestCase.assertEquals(AbstractJoint.SPRING_MODE_FREQUENCY, dj.getSpringMode());
 		dj.setSpringStiffness(0.3);
@@ -363,7 +363,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringStiffnessNegative() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		dj.setSpringStiffness(-0.3);
 	}
 
@@ -372,7 +372,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringStiffness() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		dj.setSpringStiffness(0.0);
 		TestCase.assertEquals(0.0, dj.getSpringStiffness());
@@ -429,7 +429,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringFrequencyNegative() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		dj.setSpringFrequency(-0.3);
 	}
 
@@ -438,7 +438,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSpringMaximumForceNegative() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		dj.setMaximumSpringForce(-1.0);
 	}
 	
@@ -447,7 +447,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSpringMaximumForce() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		dj.setMaximumSpringForce(0.0);
 		TestCase.assertEquals(0.0, dj.getMaximumSpringForce());
@@ -503,7 +503,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void computeSpringStiffnessFrequency() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		dj.setSpringEnabled(true);
 		dj.setSpringDamperEnabled(true);
 		dj.setSpringFrequency(8.0);
@@ -530,7 +530,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setDistanceAtRest() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(1.0, 2.0), new Vector2(-3.0, 0.5));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(1.0, 2.0), new DynVector2(-3.0, 0.5));
 		
 		double distance = dj.getRestDistance();
 		
@@ -560,7 +560,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSuccess() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
 		
@@ -574,7 +574,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperLimitNegative() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
 		
@@ -586,7 +586,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperLimitInvalid() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
 		
@@ -598,7 +598,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimit() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		
@@ -612,7 +612,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setLowerLimitNegative() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		
@@ -624,7 +624,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setLowerLimitInvalid() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		
@@ -636,7 +636,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperAndLowerLimits() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
@@ -659,7 +659,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsInvalid() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
@@ -672,7 +672,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsNegative() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
@@ -685,7 +685,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setUpperAndLowerLimitsNegative2() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
@@ -698,7 +698,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void setSameLimitNegative() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
@@ -711,7 +711,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setSameLimitValid() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		TestCase.assertEquals(1.0, dj.getLowerLimit());
 		TestCase.assertEquals(1.0, dj.getUpperLimit());
@@ -727,7 +727,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSleep() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		dj.setLowerLimitEnabled(true);
 		dj.setUpperLimitEnabled(true);
@@ -786,7 +786,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsSameSleep() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		dj.setLowerLimitEnabled(true);
 		dj.setUpperLimitEnabled(true);
@@ -875,7 +875,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsDifferentSleep() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		dj.setLowerLimitEnabled(true);
 		dj.setUpperLimitEnabled(true);
@@ -964,7 +964,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLowerLimitSleep() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		dj.setLowerLimitEnabled(true);
 		dj.setUpperLimitEnabled(true);
@@ -1019,7 +1019,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setUpperLimitSleep() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		dj.setLowerLimitEnabled(true);
 		dj.setUpperLimitEnabled(true);
@@ -1074,7 +1074,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledSameSleep() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		dj.setLowerLimitEnabled(true);
 		dj.setUpperLimitEnabled(true);
@@ -1136,7 +1136,7 @@ public class DistanceJointTest extends BaseJointTest {
 	 */
 	@Test
 	public void setLimitsEnabledDifferentSleep() {
-		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new Vector2(), new Vector2(0.0, 1.0));
+		DistanceJoint<Body> dj = new DistanceJoint<Body>(b1, b2, new DynVector2(), new DynVector2(0.0, 1.0));
 		
 		dj.setLowerLimitEnabled(true);
 		dj.setUpperLimitEnabled(true);

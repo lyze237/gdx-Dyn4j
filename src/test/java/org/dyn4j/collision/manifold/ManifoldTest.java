@@ -27,7 +27,7 @@ package org.dyn4j.collision.manifold;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -74,7 +74,7 @@ public class ManifoldTest {
 		Manifold m = new Manifold();
 		m.getNormal().x = 1;
 		m.getNormal().y = 1;
-		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new Vector2(1, 1),  1));
+		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new DynVector2(1, 1),  1));
 		
 		m.clear();
 		
@@ -95,7 +95,7 @@ public class ManifoldTest {
 		Manifold m = new Manifold();
 		m.getNormal().x = 1.0;
 		m.getNormal().y = 1.0;
-		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new Vector2(1.0, 1.0),  1.0));
+		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new DynVector2(1.0, 1.0),  1.0));
 		
 		Manifold m2 = m.copy();
 		
@@ -144,7 +144,7 @@ public class ManifoldTest {
 		TestCase.assertEquals(0.0, m.getNormal().x);
 		TestCase.assertEquals(0.0, m.getNormal().y);
 		
-		Vector2 v = new Vector2(1.0, 2.0);
+		DynVector2 v = new DynVector2(1.0, 2.0);
 		m.setNormal(v);
 		
 		TestCase.assertNotNull(m.getNormal());
@@ -164,7 +164,7 @@ public class ManifoldTest {
 		TestCase.assertEquals(0, m.points.size());
 		
 		List<ManifoldPoint> pts = new ArrayList<ManifoldPoint>();
-		pts.add(new ManifoldPoint(ManifoldPointId.DISTANCE, new Vector2(2.0, 3.0), 5.0));
+		pts.add(new ManifoldPoint(ManifoldPointId.DISTANCE, new DynVector2(2.0, 3.0), 5.0));
 		m.setPoints(pts);
 		
 		TestCase.assertNotNull(m.getPoints());
@@ -191,8 +191,8 @@ public class ManifoldTest {
 		// test with some points
 		m.getNormal().x = 1.0;
 		m.getNormal().y = 1.0;
-		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new Vector2(1.0, 1.0),  1.0));
-		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new Vector2(2.0, 3.0),  0.5));
+		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new DynVector2(1.0, 1.0),  1.0));
+		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new DynVector2(2.0, 3.0),  0.5));
 		
 		TestCase.assertNotNull(m.toString());
 	}
@@ -205,7 +205,7 @@ public class ManifoldTest {
 		Manifold m = new Manifold();
 		m.getNormal().x = 1.0;
 		m.getNormal().y = 1.0;
-		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new Vector2(1.0, 1.0),  1.0));
+		m.getPoints().add(new ManifoldPoint(ManifoldPointId.DISTANCE, new DynVector2(1.0, 1.0),  1.0));
 		
 		TestCase.assertNotNull(m.normal);
 		TestCase.assertNotNull(m.points);
@@ -218,7 +218,7 @@ public class ManifoldTest {
 		
 		// only the points should change
 		
-		m.shift(new Vector2(2.0, -1.0));
+		m.shift(new DynVector2(2.0, -1.0));
 		
 		TestCase.assertNotNull(m.normal);
 		TestCase.assertNotNull(m.points);

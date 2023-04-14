@@ -38,7 +38,7 @@ package org.dyn4j.geometry;
  */
 public final class PointFeature extends Feature {
 	/** The vertex or point */
-	final Vector2 point;
+	final DynVector2 point;
 	
 	/**
 	 * Optional constructor.
@@ -46,7 +46,7 @@ public final class PointFeature extends Feature {
 	 * Assumes the given point is not indexed.
 	 * @param point the vertex point
 	 */
-	public PointFeature(Vector2 point) {
+	public PointFeature(DynVector2 point) {
 		this(point, Feature.NOT_INDEXED);
 	}
 	
@@ -55,7 +55,7 @@ public final class PointFeature extends Feature {
 	 * @param point the vertex point
 	 * @param index the index 
 	 */
-	public PointFeature(Vector2 point, int index) {
+	public PointFeature(DynVector2 point, int index) {
 		super(index);
 		this.point = point;
 	}
@@ -74,9 +74,9 @@ public final class PointFeature extends Feature {
 	
 	/**
 	 * Returns the point.
-	 * @return {@link Vector2}
+	 * @return {@link DynVector2}
 	 */
-	public Vector2 getPoint() {
+	public DynVector2 getPoint() {
 		return this.point;
 	}
 }

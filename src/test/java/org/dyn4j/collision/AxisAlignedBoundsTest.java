@@ -32,7 +32,7 @@ import org.dyn4j.geometry.Polygon;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Segment;
 import org.dyn4j.geometry.Triangle;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -298,9 +298,9 @@ public class AxisAlignedBoundsTest {
 		
 		// create some shapes
 		Triangle t = new Triangle(
-				new Vector2( 0.0,  0.5),
-				new Vector2(-0.5, -0.5),
-				new Vector2( 0.5, -0.5)
+				new DynVector2( 0.0,  0.5),
+				new DynVector2(-0.5, -0.5),
+				new DynVector2( 0.5, -0.5)
 			);
 		TestCollisionBody ct = new TestCollisionBody(t);
 		
@@ -343,7 +343,7 @@ public class AxisAlignedBoundsTest {
 		AxisAlignedBounds bounds = new AxisAlignedBounds(20.0, 20.0);
 		
 		// create some shapes
-		Segment s = new Segment(new Vector2(0.5, -0.5), new Vector2(-0.5, 0.5));
+		Segment s = new Segment(new DynVector2(0.5, -0.5), new DynVector2(-0.5, 0.5));
 		TestCollisionBody ct = new TestCollisionBody(s);
 		
 		// should be in

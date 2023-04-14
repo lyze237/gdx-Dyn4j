@@ -27,7 +27,7 @@ package org.dyn4j.collision.narrowphase;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Link;
 import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
+import org.dyn4j.geometry.DynVector2;
 
 /**
  * A {@link NarrowphasePostProcessor} specifically for the {@link Link} class to solve the 
@@ -74,9 +74,9 @@ public final class LinkPostProcessor implements NarrowphasePostProcessor {
 			return;
 		}
 		
-		Vector2 normal = penetration.getNormal().copy();
-		Vector2 edge = link.getEdgeVector();
-		Vector2 edgeNormal = edge.getLeftHandOrthogonalVector();
+		DynVector2 normal = penetration.getNormal().copy();
+		DynVector2 edge = link.getEdgeVector();
+		DynVector2 edgeNormal = edge.getLeftHandOrthogonalVector();
 		
 		// what "side" is the normal pointing towards?
 		double side = normal.dot(edge);
@@ -92,7 +92,7 @@ public final class LinkPostProcessor implements NarrowphasePostProcessor {
 				return;
 			}
 			
-			Vector2 prevEdge = prev.getEdgeVector();
+			DynVector2 prevEdge = prev.getEdgeVector();
 			prevEdge.normalize();
 			
 			// does the previous edge and this edge form a convex feature?
@@ -112,7 +112,7 @@ public final class LinkPostProcessor implements NarrowphasePostProcessor {
 			} else {
 				// the previous edge and this edge form a concave feature
 				// for this case, it's always the edge normal
-				Vector2 norm = edgeNormal;
+				DynVector2 norm = edgeNormal;
 				penetration.normal.x = norm.x;
 				penetration.normal.y = norm.y;
 			}
@@ -124,7 +124,7 @@ public final class LinkPostProcessor implements NarrowphasePostProcessor {
 				return;
 			}
 			
-			Vector2 nextEdge = next.getEdgeVector();
+			DynVector2 nextEdge = next.getEdgeVector();
 			nextEdge.normalize();
 			
 			// does this edge and the next edge form a convex feature?
@@ -144,7 +144,7 @@ public final class LinkPostProcessor implements NarrowphasePostProcessor {
 			} else {
 				// this edge and the next edge form a concave feature
 				// for this case, it's always the edge normal
-				Vector2 norm = edgeNormal;
+				DynVector2 norm = edgeNormal;
 				penetration.normal.x = norm.x;
 				penetration.normal.y = norm.y;
 			}
