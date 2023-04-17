@@ -24,6 +24,7 @@
  */
 package org.dyn4j.geometry;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.Epsilon;
 import org.dyn4j.exception.ArgumentNullException;
@@ -114,13 +115,13 @@ public class Matrix22 implements Copyable<Matrix22> {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(m00);
+		temp = NumberUtils.doubleToLongBits(m00);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m01);
+		temp = NumberUtils.doubleToLongBits(m01);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m10);
+		temp = NumberUtils.doubleToLongBits(m10);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m11);
+		temp = NumberUtils.doubleToLongBits(m11);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}

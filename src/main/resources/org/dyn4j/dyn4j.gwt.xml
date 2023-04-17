@@ -3,4 +3,6 @@
 <module>
     <source path="" />
     <inherits name="formic" />
+    <extend-configuration-property name="gdx.reflect.include" value="org.dyn4j.collision" />
+    <extend-configuration-property name="gdx.reflect.include" value="org.dyn4j.geometry" />
 </module>

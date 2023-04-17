@@ -24,6 +24,7 @@
  */
 package org.dyn4j.geometry;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.exception.ValueOutOfRangeException;
 
@@ -266,13 +267,13 @@ public class AABB implements Translatable, Copyable<AABB> {
 		int result = 1;
 		long temp;
 		// have to do this because Double.hashcode is Java 8
-		temp = Double.doubleToLongBits(this.maxX);
+		temp = NumberUtils.doubleToLongBits(this.maxX);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.maxY);
+		temp = NumberUtils.doubleToLongBits(this.maxY);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.minX);
+		temp = NumberUtils.doubleToLongBits(this.minX);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.minY);
+		temp = NumberUtils.doubleToLongBits(this.minY);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}

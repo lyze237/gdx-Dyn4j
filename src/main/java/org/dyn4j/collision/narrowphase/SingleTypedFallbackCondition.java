@@ -24,6 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import org.dyn4j.geometry.Convex;
 
 /**
@@ -105,7 +106,8 @@ public class SingleTypedFallbackCondition extends TypedFallbackCondition impleme
 			return this.type == type1 || this.type == type2;
 		}
 		// otherwise it must be assignable to type
-		return this.type.isAssignableFrom(type1) || this.type.isAssignableFrom(type2);
+		return ClassReflection.isAssignableFrom(this.type, type1) ||
+				ClassReflection.isAssignableFrom(this.type, type2);
 	}
 	
 	/**

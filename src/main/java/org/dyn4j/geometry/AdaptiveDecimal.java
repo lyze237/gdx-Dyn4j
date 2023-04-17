@@ -26,6 +26,7 @@ package org.dyn4j.geometry;
 
 import java.util.Arrays;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.exception.InvalidIndexException;
 import org.dyn4j.exception.ValueOutOfRangeException;
@@ -223,38 +224,41 @@ class AdaptiveDecimal implements Copyable<AdaptiveDecimal> {
 				//         ^^ overlap
 				// They would also overlap if b's exponent was -2 (for a single bit)
 				// only if b's exponent where less than -2 then there would be no overlap
-				
+
+				long bits1 = NumberUtils.doubleToLongBits(lastValue);
+				long bits2 = NumberUtils.doubleToLongBits(currentValue);
+
 				// get the value of the exponents
-				int exp1 = Math.getExponent(lastValue);
-				int exp2 = Math.getExponent(currentValue);
+				int exp1 = ((int)(bits1 >>> 52) & 0x7FF) - 0x3FF;
+				int exp2 = ((int)(bits2 >>> 52) & 0x7FF) - 0x3FF;
 				
-				// get the significants (the binary representation of the mantissa part)
+				// get the significands (the binary representation of the mantissa part)
 				// The first, always 1 bit is not actually stored, so we'll add it ourselves
-				long mantissa1 = (Double.doubleToLongBits(lastValue) & SIGNIF_BIT_MASK) | IMPLICIT_MANTISSA_BIT;
-				long mantissa2 = (Double.doubleToLongBits(currentValue) & SIGNIF_BIT_MASK) | IMPLICIT_MANTISSA_BIT;
+				long mantissa1 = (bits1 & SIGNIF_BIT_MASK) | IMPLICIT_MANTISSA_BIT;
+				long mantissa2 = (bits2 & SIGNIF_BIT_MASK) | IMPLICIT_MANTISSA_BIT;
 				
 				// We want to find the logical location of the most significant bit in the smallest component
-				// and of the least significant bit in the largest component, accounting for the exponents as well
+				// and of the least significant bit in the largest component, accounting for the exponents as well.
 				// In the following convention bit numbering is done from the higher to the lowest bit.
 				// Note that the first bit of the double representation won't be the first in the long below.
 				// This is logical since the mantissa is fewer bits wide than a long, but it's not a problem
 				// since both the msd and lsd will have the same difference.
-				int msd1 = Long.numberOfLeadingZeros(mantissa1);
+				int msd1 = Long.numberOfLeadingZeros(mantissa1); // QUESTION: Is this always 11?
 				int lsd2 = Long.SIZE - Long.numberOfTrailingZeros(mantissa2) - 1;
 				
-				// Apply the exponents
-				// The exponents are essentially shifts in the bit positions
+				// Apply the exponents.
+				// The exponents are essentially shifts in the bit positions.
 				msd1 -= exp1;
 				lsd2 -= exp2;
 				
-				// Finally check for the non-overlapping property
+				// Finally check for the non-overlapping property.
 				// We want the lower bit of the currentValue's representation to be higher than
-				// lastValue's higher bit
+				// lastValue's higher bit.
 				if (!(lsd2 < msd1)) {
 					return false;
 				}
 				
-				// Update the last non-zero value
+				// Update the last non-zero value.
 				lastValue = currentValue;
 			}
 		}

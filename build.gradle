@@ -14,18 +14,17 @@ plugins {
 
 apply from: 'utils.gradle'
 group 'org.dyn4j'
-version '1.0.' + getGitHash()
+version "1.0.${getGitHash()}"
 apply from: 'publishing.gradle'
 
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     api "com.github.tommyettinger:formic:$formicVersion"
-
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
     testImplementation "junit:junit:$junitVersion"
 }
 

@@ -24,6 +24,7 @@
  */
 package org.dyn4j.collision.narrowphase;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import org.dyn4j.geometry.Convex;
 
 /**
@@ -159,18 +160,18 @@ public class PairwiseTypedFallbackCondition extends TypedFallbackCondition imple
 					   (this.type1 == type2 && this.type2 == type1);
 			} else {
 				// only type1 is strict
-				return (this.type1 == type1 && this.type2.isAssignableFrom(type2)) || 
-					   (this.type1 == type2 && this.type2.isAssignableFrom(type1));
+				return (this.type1 == type1 && ClassReflection.isAssignableFrom(this.type2, type2)) ||
+					   (this.type1 == type2 && ClassReflection.isAssignableFrom(this.type2, type1));
 			}
 		} else {
 			if (this.strict2) {
 				// only type 2 is strict
-				return (this.type1.isAssignableFrom(type1) && this.type2 == type2) || 
-					   (this.type1.isAssignableFrom(type2) && this.type2 == type1);
+				return (ClassReflection.isAssignableFrom(this.type1, type1) && this.type2 == type2) ||
+					   (ClassReflection.isAssignableFrom(this.type1, type2) && this.type2 == type1);
 			} else {
 				// allow subclass matching on both types
-				return (this.type1.isAssignableFrom(type1) && this.type2.isAssignableFrom(type2)) ||
-					   (this.type1.isAssignableFrom(type2) && this.type2.isAssignableFrom(type1));
+				return (ClassReflection.isAssignableFrom(this.type1, type1) && ClassReflection.isAssignableFrom(this.type2, type2)) ||
+					   (ClassReflection.isAssignableFrom(this.type1, type2) && ClassReflection.isAssignableFrom(this.type2, type1));
 			}
 		}
 	}

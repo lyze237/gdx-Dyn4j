@@ -24,6 +24,7 @@
  */
 package org.dyn4j.geometry;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.Epsilon;
 
@@ -200,11 +201,11 @@ public class DynVector3 implements Copyable<DynVector3> {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(x);
+		temp = NumberUtils.doubleToLongBits(x);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
+		temp = NumberUtils.doubleToLongBits(y);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(z);
+		temp = NumberUtils.doubleToLongBits(z);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
