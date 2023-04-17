@@ -24,6 +24,7 @@
  */
 package org.dyn4j.geometry;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.Epsilon;
 
@@ -245,9 +246,9 @@ public class Rotation implements Copyable<Rotation> {
 		final int prime = 31;
 		int result = 3;
 		long temp;
-		temp = Double.doubleToLongBits(this.cost);
+		temp = NumberUtils.doubleToLongBits(this.cost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.sint);
+		temp = NumberUtils.doubleToLongBits(this.sint);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}

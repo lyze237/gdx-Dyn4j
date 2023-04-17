@@ -24,6 +24,7 @@
  */
 package org.dyn4j.geometry;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.Epsilon;
 import org.dyn4j.exception.ArgumentNullException;
@@ -147,23 +148,23 @@ public class Matrix33 implements Copyable<Matrix33> {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(m00);
+		temp = NumberUtils.doubleToLongBits(m00);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m01);
+		temp = NumberUtils.doubleToLongBits(m01);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m02);
+		temp = NumberUtils.doubleToLongBits(m02);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m10);
+		temp = NumberUtils.doubleToLongBits(m10);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m11);
+		temp = NumberUtils.doubleToLongBits(m11);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m12);
+		temp = NumberUtils.doubleToLongBits(m12);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m20);
+		temp = NumberUtils.doubleToLongBits(m20);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m21);
+		temp = NumberUtils.doubleToLongBits(m21);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(m22);
+		temp = NumberUtils.doubleToLongBits(m22);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}

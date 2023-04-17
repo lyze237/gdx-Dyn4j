@@ -26,6 +26,7 @@ package org.dyn4j.geometry;
 
 import java.util.List;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.Epsilon;
 import org.dyn4j.exception.ArgumentNullException;
@@ -181,13 +182,13 @@ public class Mass implements Copyable<Mass> {
 		int result = 1;
 		result = prime * result + ((this.center == null) ? 0 : this.center.hashCode());
 		long temp;
-		temp = Double.doubleToLongBits(this.inertia);
+		temp = NumberUtils.doubleToLongBits(this.inertia);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.invInertia);
+		temp = NumberUtils.doubleToLongBits(this.invInertia);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.invMass);
+		temp = NumberUtils.doubleToLongBits(this.invMass);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.mass);
+		temp = NumberUtils.doubleToLongBits(this.mass);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
 		return result;

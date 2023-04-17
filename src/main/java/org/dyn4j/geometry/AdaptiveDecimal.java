@@ -26,6 +26,7 @@ package org.dyn4j.geometry;
 
 import java.util.Arrays;
 
+import com.badlogic.gdx.utils.NumberUtils;
 import org.dyn4j.Copyable;
 import org.dyn4j.exception.InvalidIndexException;
 import org.dyn4j.exception.ValueOutOfRangeException;
@@ -224,9 +225,8 @@ class AdaptiveDecimal implements Copyable<AdaptiveDecimal> {
 				// They would also overlap if b's exponent was -2 (for a single bit)
 				// only if b's exponent where less than -2 then there would be no overlap
 
-				// TODO: Change the next two lines to use NumberUtils from libGDX (or BitConversion from digital).
-				long bits1 = Double.doubleToLongBits(lastValue);
-				long bits2 = Double.doubleToLongBits(currentValue);
+				long bits1 = NumberUtils.doubleToLongBits(lastValue);
+				long bits2 = NumberUtils.doubleToLongBits(currentValue);
 
 				// get the value of the exponents
 				int exp1 = ((int)(bits1 >>> 52) & 0x7FF) - 0x3FF;
