@@ -24,6 +24,8 @@
  */
 package org.dyn4j.collision;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+
 /**
  * A base implementation of a class hierarchy {@link Fixture} {@link Filter}.
  * <p>
@@ -99,12 +101,11 @@ public abstract class TypeFilter implements Filter {
 			// TypeFilter, but should return the type of the class that extends TypeFilter
 			
 			// then check the types
-			if (this.getClass().isInstance(filter) || filter.getClass().isInstance(this)) {
-				// if they are the same type then return true
-				// if the given filter is a descendant type of this filter type then return true
-				// if this type is a descendant of the given filter's type then return true
-				return true;
-			}
+			// if they are the same type then return true
+			// if the given filter is a descendant type of this filter type then return true
+			// if this type is a descendant of the given filter's type then return true
+			return ClassReflection.isInstance(this.getClass(), filter) ||
+					ClassReflection.isInstance(filter.getClass(), this);
 		}
 		// otherwise return false
 		return false;
