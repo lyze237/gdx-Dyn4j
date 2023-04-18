@@ -6,6 +6,14 @@ java {
     withJavadocJar()
 }
 
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+    from('src/main/resources') {
+        include '**/*'
+    }
+}
+
 publishing {
     publications {
         gdxDyn4j(MavenPublication) {
@@ -21,6 +29,8 @@ publishing {
                 }
             }
             from components.java
+
+            artifact sourceJar
         }
     }
 }
